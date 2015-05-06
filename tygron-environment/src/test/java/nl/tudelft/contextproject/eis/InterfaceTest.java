@@ -9,11 +9,11 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class InterfaceTest {
-  private static Interface envinterface;
+  private static TygronInterface envinterface;
 
   @BeforeClass
   public static void initObject() {
-    envinterface = new Interface();
+    envinterface = new TygronInterface();
   }
 
   @Test
