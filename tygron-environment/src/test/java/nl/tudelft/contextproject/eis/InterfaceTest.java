@@ -17,15 +17,15 @@ public class InterfaceTest {
   }
 
   @Test
-  public void testEnvironmentSupport() {
+  public void test_environmentSupport() {
     assertNotNull(envinterface);
-    Action action = new Action("TestAction");
+    Action action = new Action("testAction");
     assertFalse(envinterface.isSupportedByEnvironment(action));
   }
 
   @Test
   public void testTypeSupport() {
-    Action action = new Action("TestAction");
-    assertFalse(envinterface.isSupportedByType(action, "TestType"));
+    Action action = new Action("testAction");
+    assertFalse(envinterface.isSupportedByType(action, "testType"));
   }
 }
