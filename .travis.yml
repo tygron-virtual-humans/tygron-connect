@@ -1,4 +1,8 @@
+before_install: cd tygron-environment
+
 language: java
+jdk:
+  - oraclejdk7
 
 
 #Octopull configuration
