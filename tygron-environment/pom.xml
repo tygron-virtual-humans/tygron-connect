@@ -7,13 +7,13 @@
 	<version>1.0-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
-	<name>eis_pong</name>
+	<name>tygron_environment</name>
 	<url>http://maven.apache.org</url>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<environmentname>pong</environmentname>
-		<mainclass>nl.tudelft.contextproject.eis.PongInterface</mainclass>
+		<environmentname>tygron_environment</environmentname>
+		<mainclass>nl.tudelft.contextproject.eis.Interface</mainclass>
 	</properties>
 
 	<repositories>
