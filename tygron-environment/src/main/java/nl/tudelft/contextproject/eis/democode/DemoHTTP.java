@@ -64,4 +64,8 @@ public class DemoHTTP {
 		response = httpclient.execute(httppost);
 		return response;
 	}
+    
+    public void doNothing() {
+        
+    }
 }
