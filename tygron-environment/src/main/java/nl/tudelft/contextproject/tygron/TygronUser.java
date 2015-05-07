@@ -6,7 +6,7 @@ public class TygronUser {
 
 	private static TygronHTTP http;
 	
-	private boolean ACCOUNT_STATUS = false;
+	private boolean ACCOUNT_ACTIVE = false;
 	private String ACCOUNT_DOMAIN = "";
 	private String ACCOUNT_USERNAME = "";
 	
