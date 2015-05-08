@@ -6,17 +6,17 @@ public class TygronUser {
 
   private static TygronConnection http;
 
-  private boolean active = false;
-  private String domain = "";
-  private String userName = "";
-  private String firstName = "";
-  private String lastName = "";
-  private String nickName = "";
+  private boolean active;
+  private String domain;
+  private String userName;
+  private String firstName;
+  private String lastName;
+  private String nickName;
   
   
-  private int id = 0;
-  private long lastLogin = 0;
-  private String maxOption = "";
+  private int id;
+  private long lastLogin;
+  private String maxOption;
 
   public TygronUser(TygronConnection localhttp) {
     http = localhttp;
