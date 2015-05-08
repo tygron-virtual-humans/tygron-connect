@@ -4,14 +4,20 @@ public class TygronSettings {
 
   private String username = "";
   private String password = "";
+
   /**
    * Set the username and password.
    */
   public TygronSettings() {
-    TygronSettingsLoader settingsLoader = new TygronSettingsLoader(
-        "configuration.cfg");
-    this.username = settingsLoader.getUsername();
-    this.password = settingsLoader.getPassword();
+    try {
+      TygronSettingsLoader settingsLoader = new TygronSettingsLoader(
+          "configuration.cfg");
+      this.username = settingsLoader.getUsername();
+      this.password = settingsLoader.getPassword();
+    } catch (Exception e) {
+      username = "fallbackusername";
+      password = "fallbackpassword";
+    }
   }
 
   /**

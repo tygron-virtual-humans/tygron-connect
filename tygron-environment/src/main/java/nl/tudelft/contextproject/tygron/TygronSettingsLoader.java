@@ -15,18 +15,17 @@ public class TygronSettingsLoader {
    * Groups can individually decide what username they will fall back on if the
    * loading or reading of the cfg file fails.
    */
-  public TygronSettingsLoader(String path) {
-    try {
-      readConfig(path);
-    } catch (Exception e) {
-      username = "fallbackusername";
-      password = "fallbackpassword";
-    }
+  public TygronSettingsLoader(String path) throws Exception {
+    readConfig(path);
   }
+
   /**
    * Read in the file from filepath and assign values to variables.
-   * @param path File Path to configuration file.
-   * @throws Exception Exception for when read fails or if file is not found.
+   * 
+   * @param path
+   *          File Path to configuration file.
+   * @throws Exception
+   *           Exception for when read fails or if file is not found.
    */
   private void readConfig(String path) throws Exception {
     input = new FileInputStream(path);
@@ -36,15 +35,19 @@ public class TygronSettingsLoader {
     username = config.getProperty("username");
     password = config.getProperty("password");
   }
+
   /**
    * Return Tygron Username.
+   * 
    * @return Tygron Username.
    */
   public String getUsername() {
     return username;
   }
+
   /**
    * Return Tygron Password.
+   * 
    * @return Tygron Password.
    */
   public String getPassword() {
