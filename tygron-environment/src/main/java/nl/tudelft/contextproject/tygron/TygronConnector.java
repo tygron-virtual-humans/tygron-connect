@@ -1,5 +1,8 @@
 package nl.tudelft.contextproject.tygron;
 
+/**
+ * The TygronConnector is the bridge between the Tygron API and JAVA.
+ */
 public class TygronConnector {
 
   private TygronSettings settings;
@@ -7,6 +10,9 @@ public class TygronConnector {
   private TygronSession session;
   private static TygronHttpConnection http;
 
+  /**
+   * Create a new TygronConnector.
+   */
   public TygronConnector() {
     // Load settings first
     settings = new TygronSettings();
@@ -18,6 +24,8 @@ public class TygronConnector {
     user = new TygronUser(http);
 
     // Now load session, it depends on user
-    session = new TygronSession();
+    session = new TygronSession(http);
+    
+    System.out.println(session.getJoinableSessions());
   }
 }
