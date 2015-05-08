@@ -14,10 +14,10 @@ public class TygronDummyConnection extends TygronConnection {
   String response;
   
   /**
-   * Constructor that provides a file with a response.
+   * Method that provides a file with a response.
    * @param inputFile file to be read
    */
-  public TygronDummyConnection(File inputFile) {
+  public void setFile(File inputFile) {
     try {
       response = new String(Files.readAllBytes(inputFile.toPath()), StandardCharsets.UTF_8);
     } catch (IOException e) {
@@ -34,5 +34,4 @@ public class TygronDummyConnection extends TygronConnection {
   public String callPostEvent(String eventName, Map<String, String> parameters) {
     return response;
   }
-
 }
