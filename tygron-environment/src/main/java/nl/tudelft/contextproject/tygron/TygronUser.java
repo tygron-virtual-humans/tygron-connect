@@ -4,13 +4,13 @@ import org.json.JSONObject;
 
 public class TygronUser {
 
-  private static TygronHttp http;
+  private static TygronHttpConnection http;
 
   private boolean ACCOUNT_ACTIVE = false;
   private String ACCOUNT_DOMAIN = "";
   private String ACCOUNT_USERNAME = "";
 
-  public TygronUser(TygronHttp localhttp) {
+  public TygronUser(TygronHttpConnection localhttp) {
     http = localhttp;
   }
 
