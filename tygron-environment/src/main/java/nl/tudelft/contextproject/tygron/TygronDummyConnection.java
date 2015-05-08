@@ -1,12 +1,12 @@
 package nl.tudelft.contextproject.tygron;
 
+import org.json.JSONObject;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.Map;
-
-import org.json.JSONObject;
 
 /**
  * A connection that reads from a file and only returns that response.
