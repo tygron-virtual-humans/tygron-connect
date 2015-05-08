@@ -31,13 +31,9 @@ public class TygronUser {
       JSONObject userObj = http.callGetEvent("services/myuser/");
       
       active = userObj.getBoolean("active");
-      System.out.println(active);
       domain = userObj.getString("domain");
-      System.out.println(domain);
       userName = userObj.getString("userName");
-      System.out.println(userName);
       firstName = userObj.getString("firstName");
-      System.out.println(firstName);
       lastName = userObj.getString("lastName");
       nickName = userObj.getString("nickName");
       
