@@ -68,8 +68,8 @@ public class TygronHttp {
     } catch (IOException e) {
       // TODO Auto-generated catch block
       e.printStackTrace();
+      throw new RuntimeException(e);
     }
-    return null;
   }
 
   /**
@@ -110,8 +110,8 @@ public class TygronHttp {
     } catch (IOException e) {
       // TODO Auto-generated catch block
       e.printStackTrace();
+      throw new RuntimeException(e);
     }
-    return null;
   }
 
   /**
