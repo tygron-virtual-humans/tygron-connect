@@ -4,5 +4,7 @@
 # Eclipse project files
 .classpath
 .project
+configuration.cfg
+
 
 .settings/*

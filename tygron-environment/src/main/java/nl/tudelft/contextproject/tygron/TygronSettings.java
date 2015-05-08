@@ -2,26 +2,33 @@ package nl.tudelft.contextproject.tygron;
 
 public class TygronSettings {
 
-	private final String USERNAME = "";
-	private final String PASSWORD = "";
-	
-	public TygronSettings(){
-		
-	}
-	
-	/**
-	 * Return the Tygron username.
-	 * @return
-	 */
-	public String getUserName(){
-		return this.USERNAME;
-	}
-	
-	/**
-	 * Return the Tygon password.
-	 * @return
-	 */
-	public String getPassword(){
-		return this.PASSWORD;
-	}
+  private String username = "";
+  private String password = "";
+  /**
+   * Set the username and password.
+   */
+  public TygronSettings() {
+    TygronSettingsLoader settingsLoader = new TygronSettingsLoader(
+        "configuration.cfg");
+    this.username = settingsLoader.getUsername();
+    this.password = settingsLoader.getPassword();
+  }
+
+  /**
+   * Return the Tygron username.
+   * 
+   * @return Tygron username.
+   */
+  public String getUserName() {
+    return this.username;
+  }
+
+  /**
+   * Return the Tygon password.
+   * 
+   * @return Tygron password.
+   */
+  public String getPassword() {
+    return this.password;
+  }
 }
