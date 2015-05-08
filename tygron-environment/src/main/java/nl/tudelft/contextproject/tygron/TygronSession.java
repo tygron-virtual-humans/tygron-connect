@@ -2,7 +2,10 @@ package nl.tudelft.contextproject.tygron;
 
 public class TygronSession {
 
-	public TygronSession(){
-		
-	}
+  /**
+   * Tygron Session Object.
+   */
+  public TygronSession() {
+
+  }
 }
