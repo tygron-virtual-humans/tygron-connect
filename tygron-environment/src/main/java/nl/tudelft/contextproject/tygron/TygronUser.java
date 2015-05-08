@@ -7,17 +7,17 @@ public class TygronUser {
 
   private static TygronHttp http;
 
-  private boolean active = false;
-  private String domain = "";
-  private String userName = "";
-  private String firstName = "";
-  private String lastName = "";
-  private String nickName = "";
+  private boolean ACTIVE = false;
+  private String DOMAIN = "";
+  private String USERNAME = "";
+  private String FIRSTNAME = "";
+  private String LASTNAME = "";
+  private String NICKNAME = "";
   
   
-  private int id = 0;
-  private long lastLogin = 0;
-  private String maxOption = "";
+  private int ID = 0;
+  private long LASTLOGIN = 0;
+  private String MAXOPTION = "";
 
   public TygronUser(TygronHttp localhttp) {
     http = localhttp;
@@ -32,54 +32,18 @@ public class TygronUser {
       HttpResponse response = http.requestGet("services/myuser/");
       JSONObject userObj = http.getJsonFromResponse(response);
       
-      active = userObj.getBoolean("active");
-      domain = userObj.getString("domain");
-      userName = userObj.getString("userName");
-      firstName = userObj.getString("firstName");
-      lastName = userObj.getString("lastName");
-      nickName = userObj.getString("nickName");
+      ACTIVE = Boolean.getBoolean(userObj.getString("active"));
+      DOMAIN = userObj.get("domain").toString();
+      USERNAME = userObj.getString("userName");
+      FIRSTNAME = userObj.getString("firstName");
+      LASTNAME = userObj.getString("lastName");
+      NICKNAME = userObj.getString("nickName");
       
       
-      id = userObj.getInt("id");
-      lastLogin = userObj.getLong("lastLogin");
-      maxOption = userObj.getString("maxOption");
+      ID = Integer.parseInt(userObj.getString("id"));
+      LASTLOGIN = Long.parseLong(userObj.getString("lastLogin"));
+      MAXOPTION = userObj.getString("maxOption");
     }
   }
-
-public boolean isActive() {
-	return active;
-}
-
-public String getDomain() {
-	return domain;
-}
-
-public String getUserName() {
-	return userName;
-}
-
-public String getFirstName() {
-	return firstName;
-}
-
-public String getLastName() {
-	return lastName;
-}
-
-public String getNickName() {
-	return nickName;
-}
-
-public int getId() {
-	return id;
-}
-
-public long getLastLogin() {
-	return lastLogin;
-}
-
-public String getMaxOption() {
-	return maxOption;
-}
 
 }
