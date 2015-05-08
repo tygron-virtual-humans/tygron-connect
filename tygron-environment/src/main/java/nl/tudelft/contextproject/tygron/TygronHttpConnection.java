@@ -11,6 +11,7 @@ import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.IOException;
@@ -19,7 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class TygronHttpConnection implements TygronConnection {
+public class TygronHttpConnection extends TygronConnection {
 
   private TygronSettings settings;
   private HttpClient client;
@@ -48,33 +49,25 @@ public class TygronHttpConnection implements TygronConnection {
     request.setHeader("Accept", "application/json");
     request.setHeader("Authorization", "Basic " + authString);
   }
-
-  /**
-   * Executes a GET request without parameters.
-   * 
-   * @param eventName
-   *          The event that needs to be called
-   * @return a JSONObject, containing the server response
-   */
-  @Override
-  public JSONObject callGetEvent(String eventName) {
-    HttpGet request = new HttpGet(getApiUrl(eventName));
-    addDefaultHeaders(request);
-    try {
-      HttpResponse response = client.execute(request);
-      String responseString = new BasicResponseHandler().handleResponse(response);
-      return new JSONObject(responseString);
-    } catch (IOException e) {
-      throw new RuntimeException(e);
-    }
-  }
   
   private String getApiUrl(String eventName) {
     return API_URL_BASE + eventName + API_JSON_SUFFIX;
   }
 
   @Override
-  public JSONObject callPostEvent(String eventName, Map<String, String> parameters) {
+  public String callGetEvent(String eventName) {
+    HttpGet request = new HttpGet(getApiUrl(eventName));
+    addDefaultHeaders(request);
+    try {
+      HttpResponse response = client.execute(request);
+      return new BasicResponseHandler().handleResponse(response);
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
+  @Override
+  public String callPostEvent(String eventName, Map<String, String> parameters) {
     HttpPost request = new HttpPost(getApiUrl(eventName));
     addDefaultHeaders(request);
 
@@ -94,10 +87,10 @@ public class TygronHttpConnection implements TygronConnection {
 
     try {
       HttpResponse response = client.execute(request);
-      String responseString = new BasicResponseHandler().handleResponse(response);
-      return new JSONObject(responseString);
+      return new BasicResponseHandler().handleResponse(response);
     } catch (IOException e) {
       throw new RuntimeException(e);
     }
   }
+
 }

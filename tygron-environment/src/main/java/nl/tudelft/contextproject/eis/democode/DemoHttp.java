@@ -18,11 +18,11 @@ public class DemoHttp {
     TygronConnection http = new TygronHttpConnection(settings);
 
     // Example GET request
-    JSONObject getDemoResponse = http.callGetEvent("services/myuser/");
+    JSONObject getDemoResponse = http.callGetEventObject("services/myuser/");
     System.out.println(getDemoResponse.get("active"));
     
     // Example POST request
-    JSONObject postDemoResponse = http.callPostEvent("services/myuser/", null);
+    JSONObject postDemoResponse = http.callPostEventObject("services/myuser/", null);
     System.out.println(postDemoResponse);
   }
 
