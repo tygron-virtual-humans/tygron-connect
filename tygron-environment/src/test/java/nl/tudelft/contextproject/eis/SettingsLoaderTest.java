@@ -1,7 +1,7 @@
 package nl.tudelft.contextproject.eis;
 
 import static org.junit.Assert.assertTrue;
-
+import static org.junit.Assert.fail;
 import nl.tudelft.contextproject.tygron.TygronSettingsLoader;
 
 import org.junit.Test;
@@ -15,6 +15,7 @@ public class SettingsLoaderTest {
       assertTrue(settingsLoader.getUsername().equals("demousername"));
     } catch (Exception e) {
       e.printStackTrace();
+      fail("File not found or could not be read");
     }
   }
 
@@ -26,6 +27,7 @@ public class SettingsLoaderTest {
       assertTrue(settingsLoader.getPassword().equals("demopassword"));
     } catch (Exception e) {
       e.printStackTrace();
+      fail("File not found or could not be read");
     }
   }
 }
