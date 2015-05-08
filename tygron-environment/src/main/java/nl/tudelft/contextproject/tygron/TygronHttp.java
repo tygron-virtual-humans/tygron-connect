@@ -8,8 +8,10 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpRequestBase;
+import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -17,7 +19,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-
 
 public class TygronHttp {
 
@@ -110,6 +111,26 @@ public class TygronHttp {
       // TODO Auto-generated catch block
       e.printStackTrace();
     }
+    return null;
+  }
+
+  /**
+   * Returns a JSON Object extracted from a HttpReponse.
+   * 
+   * @param response
+   *          HtppClient Transform
+   * @return JSON Object response
+   */
+  public JSONObject getJsonFromResponse(HttpResponse response) {
+    try {
+      String responseString = new BasicResponseHandler()
+          .handleResponse(response);
+      return new JSONObject(responseString);
+    } catch (IOException e) {
+      System.out.println("Failed to get JSON Object from HttpResponse.");
+      e.printStackTrace();
+    }
+
     return null;
   }
 }
