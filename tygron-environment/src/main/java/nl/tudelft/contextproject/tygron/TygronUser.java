@@ -6,7 +6,7 @@ public class TygronUser {
 
 	private static TygronConnection http;
 
-	private boolean active = false;
+	private boolean active;
 	private String domain;
 	private String userName;
 	private String firstName;
