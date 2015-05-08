@@ -11,7 +11,7 @@ public class SettingsLoaderTest {
   public void test_username() {
     TygronSettingsLoader settingsLoader;
     try {
-      settingsLoader = new TygronSettingsLoader("configuration.cfg.dist");
+      settingsLoader = new TygronSettingsLoader("src/main/resources/testconfiguration.cfg");
       assertTrue(settingsLoader.getUsername().equals("demousername"));
     } catch (Exception e) {
       e.printStackTrace();
@@ -22,7 +22,7 @@ public class SettingsLoaderTest {
   public void test_password() {
     TygronSettingsLoader settingsLoader;
     try {
-      settingsLoader = new TygronSettingsLoader("configuration.cfg.dist");
+      settingsLoader = new TygronSettingsLoader("src/main/resources/testconfiguration.cfg");
       assertTrue(settingsLoader.getPassword().equals("demopassword"));
     } catch (Exception e) {
       e.printStackTrace();
