@@ -129,8 +129,7 @@ public class TygronHttp {
     } catch (IOException e) {
       System.out.println("Failed to get JSON Object from HttpResponse.");
       e.printStackTrace();
+      throw new RuntimeException(e);
     }
-
-    return null;
   }
 }
