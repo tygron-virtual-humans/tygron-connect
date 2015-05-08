@@ -28,7 +28,7 @@ public class TygronUser {
   public void loadSettings() {
     if (http != null) {
       // Request user info
-      JSONObject userObj = http.callGetEvent("services/myuser/");
+      JSONObject userObj = http.callGetEventObject("services/myuser/");
       
       active = userObj.getBoolean("active");
       domain = userObj.getString("domain");
