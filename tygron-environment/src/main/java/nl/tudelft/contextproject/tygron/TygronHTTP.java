@@ -36,9 +36,8 @@ public class TygronHTTP {
 	 */
 	public void setup(){
 		client = HttpClients.custom().build();
-	    String headerValue = settings.getUserName() + ":" + settings.getPassword();
-	    authString = Base64.encodeBase64String(headerValue.getBytes());      	
-
+		String headerValue = settings.getUserName() + ":" + settings.getPassword();
+		authString = Base64.encodeBase64String(headerValue.getBytes());
 	}
 	
 	/**
@@ -47,7 +46,7 @@ public class TygronHTTP {
 	 */
 	public void addDefaultHeaders(HttpRequestBase request){
 		request.setHeader("Accept","application/json");
-	    request.setHeader("Authorization", "Basic " + authString);
+		request.setHeader("Authorization", "Basic " + authString);
 	}
 	
 	/**
