@@ -4,80 +4,78 @@ import org.json.JSONObject;
 
 public class TygronUser {
 
-  private static TygronConnection http;
+	private static TygronConnection http;
 
-  private boolean active = false;
-  private String domain = "";
-  private String userName = "";
-  private String firstName = "";
-  private String lastName = "";
-  private String nickName = "";
-  
-  
-  private int id = 0;
-  private long lastLogin = 0;
-  private String maxOption = "";
+	private boolean active = false;
+	private String domain;
+	private String userName;
+	private String firstName;
+	private String lastName;
+	private String nickName;
 
-  public TygronUser(TygronConnection localhttp) {
-    http = localhttp;
-  }
+	private int id;
+	private long lastLogin;
+	private String maxOption;
 
-  /**
-   * Load user settings from API.
-   */
-  public void loadSettings() {
-    if (http != null) {
-      // Request user info
-      JSONObject userObj = http.callGetEventObject("services/myuser/");
-      
-      active = userObj.getBoolean("active");
-      domain = userObj.getString("domain");
-      userName = userObj.getString("userName");
-      firstName = userObj.getString("firstName");
-      lastName = userObj.getString("lastName");
-      nickName = userObj.getString("nickName");
-      
-      
-      id = userObj.getInt("id");
-      lastLogin = userObj.getLong("lastLogin");
-      maxOption = userObj.getString("maxOption");
-    }
-  }
+	public TygronUser(TygronConnection localhttp) {
+		http = localhttp;
+	}
 
-public boolean isActive() {
-	return active;
-}
+	/**
+	 * Load user settings from API.
+	 */
+	public void loadSettings() {
+		if (http != null) {
+			// Request user info
+			JSONObject userObj = http.callGetEventObject("services/myuser/");
 
-public String getDomain() {
-	return domain;
-}
+			active = userObj.getBoolean("active");
+			domain = userObj.getString("domain");
+			userName = userObj.getString("userName");
+			firstName = userObj.getString("firstName");
+			lastName = userObj.getString("lastName");
+			nickName = userObj.getString("nickName");
 
-public String getUserName() {
-	return userName;
-}
+			id = userObj.getInt("id");
+			lastLogin = userObj.getLong("lastLogin");
+			maxOption = userObj.getString("maxOption");
+		}
+	}
 
-public String getFirstName() {
-	return firstName;
-}
+	public boolean isActive() {
+		return active;
+	}
 
-public String getLastName() {
-	return lastName;
-}
+	public String getDomain() {
+		return domain;
+	}
 
-public String getNickName() {
-	return nickName;
-}
+	public String getUserName() {
+		return userName;
+	}
 
-public int getId() {
-	return id;
-}
+	public String getFirstName() {
+		return firstName;
+	}
 
-public long getLastLogin() {
-	return lastLogin;
-}
+	public String getLastName() {
+		return lastName;
+	}
 
-public String getMaxOption() {
-	return maxOption;
-}
+	public String getNickName() {
+		return nickName;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public long getLastLogin() {
+		return lastLogin;
+	}
+
+	public String getMaxOption() {
+		return maxOption;
+	}
 
 }
