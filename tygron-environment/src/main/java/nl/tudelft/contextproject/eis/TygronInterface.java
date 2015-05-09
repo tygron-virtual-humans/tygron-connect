@@ -1,5 +1,6 @@
 package nl.tudelft.contextproject.eis;
 
+import eis.exceptions.EntityException;
 import eis.exceptions.ManagementException;
 import eis.iilang.Action;
 import eis.iilang.EnvironmentState;
@@ -42,11 +43,11 @@ public class TygronInterface extends AbstractEnvironment {
     reset(parameters);
 
     // Try creating and registering an entity.
-//    try {
-//      registerEntity("Entity", new Entity(controller));
-//    } catch (EntityException e) {
-//      throw new ManagementException("Could not create an entity", e);
-//    }
+    try {
+      registerEntity("Entity", new TygronEntity());
+    } catch (EntityException e) {
+      throw new ManagementException("Could not create an entity", e);
+    }
   }
 
   /* (non-Javadoc)
