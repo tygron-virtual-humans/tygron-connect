@@ -1,0 +1,10 @@
+environment{
+	env = "tygron_environment-1.0-SNAPSHOT-jar-with-dependencies.jar".
+}
+agentfiles{
+	"TygronAgent.goal".
+}
+
+launchpolicy{
+	when entity@env do launch TygronAgent.
+}
