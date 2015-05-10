@@ -2,6 +2,7 @@ package nl.tudelft.contextproject.eis;
 
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
+
 import nl.tudelft.contextproject.tygron.TygronSettingsLoader;
 
 import org.junit.Test;
