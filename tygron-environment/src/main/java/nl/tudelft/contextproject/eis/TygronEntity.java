@@ -9,7 +9,7 @@ import java.util.List;
 public class TygronEntity {
 
   public TygronEntity() {
-
+    //USED FOR TESTING
   }
 
   //SEND ONCE PERCEPTS
