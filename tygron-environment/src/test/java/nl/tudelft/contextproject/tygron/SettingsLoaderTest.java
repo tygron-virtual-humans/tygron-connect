@@ -1,4 +1,4 @@
-package nl.tudelft.contextproject.eis;
+package nl.tudelft.contextproject.tygron;
 
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
