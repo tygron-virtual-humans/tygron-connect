@@ -8,6 +8,7 @@ public class TygronConnector {
   private TygronSettings settings;
   private TygronUser user;
   private TygronSession session;
+  private TygronSessionManager sessionManager;
   private static TygronHttpConnection http;
 
   /**
@@ -24,8 +25,8 @@ public class TygronConnector {
     user = new TygronUser(http);
 
     // Now load session, it depends on user
-    session = new TygronSession(http);
+    sessionManager = new TygronSessionManager(http);
     
-    System.out.println(session.getJoinableSessions());
+    session = sessionManager.createOrJoinSession("testmap");
   }
 }
