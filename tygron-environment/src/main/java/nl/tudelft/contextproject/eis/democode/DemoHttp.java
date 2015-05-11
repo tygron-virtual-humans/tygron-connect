@@ -22,7 +22,7 @@ public class DemoHttp {
     System.out.println(getDemoResponse.get("active"));
     
     // Example POST request
-    JSONObject postDemoResponse = http.callPostEventObject("services/myuser/", null);
+    JSONObject postDemoResponse = http.callPostEventObject("services/event/UserServicesEventType/GET_MY_USER/", null);
     System.out.println(postDemoResponse);
   }
 
