@@ -48,7 +48,7 @@ public class TygronSession {
   /**
    * Set a new session type.
    * 
-   * @param newName
+   * @param newType
    *          The new session type.
    */
   public void setType(String newType) {
@@ -58,7 +58,7 @@ public class TygronSession {
   /**
    * Set a new session language.
    * 
-   * @param newName
+   * @param newLanguage
    *          The new session language.
    */
   public void setLanguage(String newLanguage) {
@@ -68,7 +68,7 @@ public class TygronSession {
   /**
    * Set a new session id.
    * 
-   * @param newName
+   * @param session id
    *          The new session id.
    */
   public void setSessionId(int newId) {
@@ -108,7 +108,7 @@ public class TygronSession {
   /**
    * Join a Tygron session and reply whether it was a success or not. 
    * Data is loaded into memory.
-   * @return whether the join was succesfull or not.
+   * @return whether the join was succesful or not.
    */
   public boolean joinSession(int slotId) {
     HashMap<String,String> dataMap = new HashMap<String,String>();
