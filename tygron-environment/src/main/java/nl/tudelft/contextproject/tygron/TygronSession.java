@@ -15,7 +15,6 @@ import java.util.List;
  *  You can now join a session with JOIN_SESSION.
  *  You can either close your own session with CLOSE_SESSION or 
  *  kill the session with KILL_SESSION.
- * @author Paul
  *
  */
 public class TygronSession {
