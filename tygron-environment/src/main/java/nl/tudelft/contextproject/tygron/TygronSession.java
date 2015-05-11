@@ -21,11 +21,11 @@ import java.util.List;
 public class TygronSession {
 
   private static TygronConnection apiConnection;
-  private String sessionName = "";
+  private String sessionName;
   private String sessionType;
   private String sessionLanguage;
-  private String sessionClientToken = "";
-  private String sessionServerToken = "";
+  private String sessionClientToken;
+  private String sessionServerToken;
   private int sessionId;
 
   /**
@@ -33,6 +33,9 @@ public class TygronSession {
    */
   public TygronSession(TygronConnection localApiConnection) {
     apiConnection = localApiConnection;
+    setName(""); 
+    sessionClientToken = "";
+    sessionServerToken = "";
   }
 
   /**
