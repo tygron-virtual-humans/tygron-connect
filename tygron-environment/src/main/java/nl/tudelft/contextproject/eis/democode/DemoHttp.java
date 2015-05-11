@@ -1,9 +1,13 @@
 package nl.tudelft.contextproject.eis.democode;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import nl.tudelft.contextproject.tygron.TygronConnection;
 import nl.tudelft.contextproject.tygron.TygronHttpConnection;
 import nl.tudelft.contextproject.tygron.TygronSettings;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class DemoHttp {
@@ -22,7 +26,7 @@ public class DemoHttp {
     System.out.println(getDemoResponse.get("active"));
     
     // Example POST request
-    JSONObject postDemoResponse = http.callPostEventObject("services/myuser/", null);
+    JSONObject postDemoResponse = http.callPostEventObject("services/event/UserServicesEventType/GET_MY_USER/", null);
     System.out.println(postDemoResponse);
   }
 
