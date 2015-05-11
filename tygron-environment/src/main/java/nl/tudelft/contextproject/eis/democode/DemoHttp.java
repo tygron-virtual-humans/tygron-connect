@@ -1,13 +1,9 @@
 package nl.tudelft.contextproject.eis.democode;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import nl.tudelft.contextproject.tygron.TygronConnection;
 import nl.tudelft.contextproject.tygron.TygronHttpConnection;
 import nl.tudelft.contextproject.tygron.TygronSettings;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class DemoHttp {
