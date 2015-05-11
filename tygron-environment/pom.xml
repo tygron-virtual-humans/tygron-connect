@@ -13,7 +13,7 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<environmentname>tygron_environment</environmentname>
-		<mainclass>nl.tudelft.contextproject.eis.TygronInterface</mainclass>
+		<mainclass>nl.tudelft.contextproject.eis.TygronInterfaceImpl</mainclass>
 	</properties>
 
 	<repositories>
