@@ -8,12 +8,12 @@ import eis.iilang.Action;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-public class InterfaceTest {
-  private static TygronInterface envinterface;
+public class InterfaceImplTest {
+  private static TygronInterfaceImpl envinterface;
 
   @BeforeClass
   public static void initObject() {
-    envinterface = new TygronInterface();
+    envinterface = new TygronInterfaceImpl();
   }
 
   @Test
