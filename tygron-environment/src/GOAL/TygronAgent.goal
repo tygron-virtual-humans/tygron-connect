@@ -1,0 +1,37 @@
+init module {
+	knowledge {
+		
+	}
+	beliefs {
+		
+	}
+	program {
+		if bel(percept(initIndicator(ID,Value,Target))) then insert(initIndicator(ID,Value,Target)).
+		
+		forall bel(percept(progressIndicator(ID, Value))) do insert(progressIndicator(ID, Value)).
+		
+		forall bel(percept(target(ID, Type))) do insert(target(ID, Type)).
+		
+		if bel(percept(stakeholder(ID, Type))) then insert(stakeholder(ID, Type)).
+		
+		forall bel(percept(otherStakeholders(ID, Type))) do insert(otherStakeholders(ID, Type)).
+		
+		forall bel(percept(groundpercept(ID, Value))) do insert(groundpercept(ID, Value)).
+		
+		if bel(percept(budget(Value))) then insert(budget(Value)).
+		
+		forall bel(percept(permit(StakeholderId, Id, State, Job))) do insert(permit(StakeholderId, Id, State, Job)).
+	}
+}
+
+main module {
+	program {
+		
+	}
+}
+
+event module {
+	program {
+ 		
+	}
+}
