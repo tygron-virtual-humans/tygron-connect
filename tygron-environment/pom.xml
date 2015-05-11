@@ -224,6 +224,11 @@
 			<version>1.10</version>
 		</dependency>
 
-
+		<dependency>
+  			<groupId>com.esri.geometry</groupId>
+  			<artifactId>esri-geometry-api</artifactId>
+  			<version>1.2</version>
+		</dependency>
+		
 	</dependencies>
 </project>
