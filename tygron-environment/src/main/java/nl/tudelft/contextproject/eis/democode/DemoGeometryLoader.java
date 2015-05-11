@@ -31,6 +31,9 @@ public class DemoGeometryLoader {
       e.printStackTrace();
     }
   }
+  
+  public DemoGeometryLoader(){
+  }
 
   /**
    * Returns if polygon1 contains polygon2.
@@ -41,17 +44,23 @@ public class DemoGeometryLoader {
    *          The containee.
    * @return Boolean that shows whether polygon1 contains polygon2.
    */
-  public static Boolean contains(Polygon polygon1, Polygon polygon2) {
+  public static boolean contains(Polygon polygon1, Polygon polygon2) {
     SpatialReference sr = SpatialReference.create(1);
 
     return OperatorContains.local().execute(polygon1, polygon2, sr, null);
   }
+
   /**
    * Returns a polygon from the Well-known text format.
-   * @param wktString A string in the Well-known text format containing polygon information.
+   * 
+   * @param wktString
+   *          A string in the Well-known text format containing polygon
+   *          information.
    * @return Polygon created from the wkt data.
-   * @throws JsonParseException Exception thrown if JSON is not in right format.
-   * @throws IOException Exception thrown if other IOException is encountered.
+   * @throws JsonParseException
+   *           Exception thrown if JSON is not in right format.
+   * @throws IOException
+   *           Exception thrown if other IOException is encountered.
    */
   public static Polygon createPolygonFromWkt(String wktString)
       throws JsonParseException, IOException {
