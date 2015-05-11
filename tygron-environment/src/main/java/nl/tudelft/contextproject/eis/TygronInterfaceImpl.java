@@ -11,9 +11,9 @@ import eis.eis2java.environment.AbstractEnvironment;
 import java.util.Map;
 
 @SuppressWarnings("serial")
-public class TygronInterface extends AbstractEnvironment {
+public class TygronInterfaceImpl extends AbstractEnvironment {
 
-  public TygronInterface() {
+  public TygronInterfaceImpl() {
     //Used for testing.
   }
   
