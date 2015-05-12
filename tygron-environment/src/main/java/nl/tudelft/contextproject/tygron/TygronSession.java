@@ -41,6 +41,15 @@ public class TygronSession {
   public void setName(String newName) {
     this.sessionName = newName;
   }
+  
+  /**
+   * Get the session name.
+   * 
+   * @return The new session name.
+   */
+  public String getName() {
+    return this.sessionName;
+  }
 
   /**
    * Set a new session type.

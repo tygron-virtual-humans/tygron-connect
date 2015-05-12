@@ -29,4 +29,11 @@ public class TygronConnector {
     
     session = sessionManager.createOrJoinSession("testmap");
   }
+  
+  /**
+   * Return the session manager.
+   */
+  public TygronSessionManager getSessionManager(){
+    return sessionManager;
+  }
 }

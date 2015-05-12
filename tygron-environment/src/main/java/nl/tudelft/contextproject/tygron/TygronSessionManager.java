@@ -67,12 +67,39 @@ public class TygronSessionManager {
   }
   
   /**
+   * Return a joinable loaded session.
+   * If it does not exist yet, start a session and return it.
    * 
+   * @param mapName The mapname you are trying to join.
    */
   public TygronSession createOrJoinSession(String mapName){
     List<TygronSession> availableList = getJoinableSessions();
+    for(int i = 0;i<availableList.size();i++){
+      if(mapName.equals(availableList.get(i).getName())){
+        return availableList.get(i);
+      }
+    }
     
-    return new TygronSession(this.apiConnection);
+    // TODO: Create a new session
+    
+    return new TygronSession(apiConnection);
+  }
+  
+  public int createSession(String mapName){
+    
+    HashMap<String,String> dataMap = new HashMap<String,String>();
+    dataMap.put("0", "MULTI_PLAYER");   // SessionType: SessionType: SINGLE_PLAYER, MULTI_PLAYER, EDITOR
+    dataMap.put("1", mapName);          // String: Project file name
+    dataMap.put("2", "EN");             // TLanguage: Language: NL, EN (optional)
+    dataMap.put("3", "");               // empty
+    dataMap.put("4", "");               // empty
+    
+    JSONObject data = apiConnection.callPostEventObject(
+        "services/event/IOServicesEventType/START_NEW_SESSION/", dataMap); 
+    
+    System.out.println(data);
+    
+    return -1;
   }
   
   /**
