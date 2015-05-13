@@ -92,12 +92,10 @@ public class SessionManager {
     dataArray.put("MULTI_PLAYER");
     dataArray.put(mapName);
     
-    JSONObject data = apiConnection.callPostEventObject(
+    int retValue = apiConnection.callPostEventInt(
         "services/event/IOServicesEventType/START_NEW_SESSION/", dataArray); 
-    
-    System.out.println(data);
-    
-    return -1;
+
+    return retValue;
   }
   
   /**
@@ -109,12 +107,8 @@ public class SessionManager {
     JSONArray dataArray = new JSONArray();
     dataArray.put(slotId);
     
-    JSONObject data = apiConnection.callPostEventObject(
+    return apiConnection.callPostEventBoolean(
         "services/event/IOServicesEventType/KILL_SESSION/", dataArray);
-    
-    System.out.println(data);
-    
-    return true;
   }
 
 }
