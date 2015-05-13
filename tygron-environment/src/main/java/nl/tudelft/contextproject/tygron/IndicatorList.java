@@ -5,7 +5,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class TygronIndicatorList extends ArrayList<TygronIndicator> {
+public class IndicatorList extends ArrayList<Indicator> {
 
   /**
    * Serial version.
@@ -16,7 +16,7 @@ public class TygronIndicatorList extends ArrayList<TygronIndicator> {
    * Constructs a TygronIndicatorList from a server response.
    * @param input The server response
    */
-  public TygronIndicatorList(JSONArray input) {
+  public IndicatorList(JSONArray input) {
     for (int i = 0; i < input.length(); i++) {
       JSONObject indicatorWrapper = input.getJSONObject(i);
       JSONObject indicatorObj = null;
@@ -31,13 +31,13 @@ public class TygronIndicatorList extends ArrayList<TygronIndicator> {
       switch (type) {
         case "PARKING":
         case "GREEN":
-          this.add(new TygronIndicatorParking(indicatorObj));
+          this.add(new IndicatorParking(indicatorObj));
           break;
         case "HOUSING":
-          this.add(new TygronIndicatorHousing(indicatorObj));
+          this.add(new IndicatorHousing(indicatorObj));
           break;
         case "FINANCE":
-          this.add(new TygronIndicatorFinance(indicatorObj));
+          this.add(new IndicatorFinance(indicatorObj));
           break;
         default:
           throw new RuntimeException("Unknown type " + type);

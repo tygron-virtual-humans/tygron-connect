@@ -6,7 +6,7 @@ import org.json.JSONObject;
  * TygronIndicatorFinance indicates the budget.
  *
  */
-public class TygronIndicatorFinance extends TygronIndicator {
+public class IndicatorFinance extends Indicator {
   private double target;
   private double currentBudget;
   
@@ -14,7 +14,7 @@ public class TygronIndicatorFinance extends TygronIndicator {
    * Constructs a TygronIndicatorFinance from a JSONObject.
    * @param input the input object
    */
-  public TygronIndicatorFinance(JSONObject input) {
+  public IndicatorFinance(JSONObject input) {
     super(input);
     target = input.getJSONObject("targets").getJSONArray("0").getDouble(0);
     currentBudget = input.getJSONObject("exactActorValues").getDouble("CURRENT");

@@ -6,7 +6,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TygronZone {
+public class Zone {
 
   private int allowedFloors;
   private List<Object> allowedFunctions;
@@ -31,7 +31,7 @@ public class TygronZone {
   /**
    * Extract zone settings from zone
    */
-  public TygronZone(JSONObject object) {
+  public Zone(JSONObject object) {
 	  JSONObject zone = object.getJSONObject("Zone");
 	  allowedFloors = zone.getInt("allowedFloors");
 	  

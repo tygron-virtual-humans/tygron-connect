@@ -18,9 +18,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class TygronHttpConnection extends TygronConnection {
+public class HttpConnection extends Connection {
 
-  private TygronSettings settings;
+  private Settings settings;
   private HttpClient client;
   private String authString;
   private static final String API_URL_BASE = "https://server2.tygron.com:3022/api/";
@@ -30,7 +30,7 @@ public class TygronHttpConnection extends TygronConnection {
    * Creates a Tygron connection using some settings. 
    * @param tygronSettings the settings that should be used.
    */
-  public TygronHttpConnection(TygronSettings tygronSettings) {
+  public HttpConnection(Settings tygronSettings) {
     settings = tygronSettings;
     client = HttpClients.custom().build();
     String headerValue = settings.getUserName() + ":" + settings.getPassword();

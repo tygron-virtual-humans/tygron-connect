@@ -3,7 +3,7 @@ package nl.tudelft.contextproject.tygron;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-public class TygronIndicatorHousing extends TygronIndicator {
+public class IndicatorHousing extends Indicator {
   double[] start;
   double[] current;
   double[] desired;
@@ -12,7 +12,7 @@ public class TygronIndicatorHousing extends TygronIndicator {
    * Constructs a TygronIndicatorHousing from a JSONObject.
    * @param input the input object
    */
-  public TygronIndicatorHousing(JSONObject input) {
+  public IndicatorHousing(JSONObject input) {
     super(input);
 
     JSONObject targetsObj = input.getJSONObject("targets");

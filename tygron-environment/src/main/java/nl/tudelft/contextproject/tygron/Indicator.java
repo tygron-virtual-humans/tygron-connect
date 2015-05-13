@@ -6,7 +6,7 @@ import org.json.JSONObject;
  * TygronIndicator is a class that contains indicator data.
  *
  */
-public abstract class TygronIndicator {
+public abstract class Indicator {
   private String name;
   private String shortName;
   private String type;
@@ -17,7 +17,7 @@ public abstract class TygronIndicator {
    * Constructs a TygronIndicator.
    * @param input Server response
    */
-  public TygronIndicator(JSONObject input) {
+  public Indicator(JSONObject input) {
     name = input.getString("name");
     shortName = input.getString("shortName");
     type = input.getString("type");

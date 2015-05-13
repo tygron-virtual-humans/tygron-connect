@@ -7,11 +7,11 @@ import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-public class TygronSessionManager {
+public class SessionManager {
 
-  private static TygronConnection apiConnection;
+  private static Connection apiConnection;
   
-  public TygronSessionManager(TygronConnection localApiConnection){
+  public SessionManager(Connection localApiConnection){
     apiConnection = localApiConnection;
   }
   
@@ -20,8 +20,8 @@ public class TygronSessionManager {
    * 
    * @return A list of joinable tygron sessions.
    */
-  public List<TygronSession> getJoinableSessions() {
-    List<TygronSession> returnList = new ArrayList<TygronSession>();
+  public List<Session> getJoinableSessions() {
+    List<Session> returnList = new ArrayList<Session>();
 
     JSONArray data = apiConnection.callPostEventArray(
         "services/event/IOServicesEventType/GET_JOINABLE_SESSIONS/", null);
@@ -30,7 +30,7 @@ public class TygronSessionManager {
       JSONObject row = data.getJSONObject(i);
 
       // Create new session
-      TygronSession localSession = new TygronSession(apiConnection);
+      Session localSession = new Session(apiConnection);
 
       // Set data here
       localSession.setName(row.getString("name"));
@@ -50,7 +50,7 @@ public class TygronSessionManager {
    * Data is loaded into memory.
    * @return whether the join was successful or not.
    */
-  public boolean joinSession(TygronSession session, int slotId) {
+  public boolean joinSession(Session session, int slotId) {
     HashMap<String,String> dataMap = new HashMap<String,String>();
     dataMap.put("0", slotId + "");          // Param: Integer: Server slot ID
     dataMap.put("1", "VIEWER"); // Param: AppType: My application type: EDITOR, VIEWER, ADMIN, BEAM 
@@ -72,8 +72,8 @@ public class TygronSessionManager {
    * 
    * @param mapName The mapname you are trying to join.
    */
-  public TygronSession createOrJoinSession(String mapName){
-    List<TygronSession> availableList = getJoinableSessions();
+  public Session createOrJoinSession(String mapName){
+    List<Session> availableList = getJoinableSessions();
     for(int i = 0;i<availableList.size();i++){
       if(mapName.equals(availableList.get(i).getName())){
         return availableList.get(i);
@@ -82,7 +82,7 @@ public class TygronSessionManager {
     
     // TODO: Create a new session
     
-    return new TygronSession(apiConnection);
+    return new Session(apiConnection);
   }
   
   public int createSession(String mapName){

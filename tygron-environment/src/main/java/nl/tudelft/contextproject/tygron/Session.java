@@ -12,9 +12,9 @@ import org.json.JSONObject;
  *  kill the session with KILL_SESSION.
  *
  */
-public class TygronSession {
+public class Session {
 
-  private static TygronConnection apiConnection;
+  private static Connection apiConnection;
   private String sessionName;
   private String sessionType;
   private String sessionLanguage;
@@ -25,7 +25,7 @@ public class TygronSession {
   /**
    * Tygron Session Object.
    */
-  public TygronSession(TygronConnection localApiConnection) {
+  public Session(Connection localApiConnection) {
     apiConnection = localApiConnection;
     setName(""); 
     sessionClientToken = "";

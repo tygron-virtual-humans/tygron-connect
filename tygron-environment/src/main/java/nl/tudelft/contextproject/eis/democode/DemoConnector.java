@@ -1,7 +1,7 @@
 package nl.tudelft.contextproject.eis.democode;
 
-import nl.tudelft.contextproject.tygron.TygronConnector;
-import nl.tudelft.contextproject.tygron.TygronSessionManager;
+import nl.tudelft.contextproject.tygron.Connector;
+import nl.tudelft.contextproject.tygron.SessionManager;
 
 public class DemoConnector {
 
@@ -11,10 +11,10 @@ public class DemoConnector {
    */
   public static void main(String[] args) {
     // General setup for http
-    TygronConnector con = new TygronConnector();
+    Connector con = new Connector();
     
     // Session Manager
-    TygronSessionManager sesM = con.getSessionManager();
+    SessionManager sesM = con.getSessionManager();
     
     sesM.createSession("testmap");
   }
