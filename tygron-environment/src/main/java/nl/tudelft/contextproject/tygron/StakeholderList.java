@@ -5,7 +5,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class TygronStakeholderList extends ArrayList<TygronStakeholder> {
+public class StakeholderList extends ArrayList<Stakeholder> {
   /**
    * Serial ID.
    */
@@ -16,11 +16,11 @@ public class TygronStakeholderList extends ArrayList<TygronStakeholder> {
    * @param input
    * input response
    */
-  public TygronStakeholderList(JSONArray input) {
+  public StakeholderList(JSONArray input) {
     for (int i = 0; i < input.length(); i++) {
       JSONObject stakeholderWrapper = input.getJSONObject(i);
       JSONObject stakeholderObj = stakeholderWrapper.getJSONObject("Stakeholder");
-      TygronStakeholder stakeholder = new TygronStakeholder(stakeholderObj);
+      Stakeholder stakeholder = new Stakeholder(stakeholderObj);
       this.add(stakeholder);
     }
   }

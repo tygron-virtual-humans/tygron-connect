@@ -3,29 +3,29 @@ package nl.tudelft.contextproject.tygron;
 /**
  * The TygronConnector is the bridge between the Tygron API and JAVA.
  */
-public class TygronConnector {
+public class Connector {
 
-  private TygronSettings settings;
-  private TygronUser user;
-  private TygronSession session;
-  private TygronSessionManager sessionManager;
-  private static TygronHttpConnection http;
+  private Settings settings;
+  private User user;
+  private Session session;
+  private SessionManager sessionManager;
+  private static HttpConnection http;
 
   /**
    * Create a new TygronConnector.
    */
-  public TygronConnector() {
+  public Connector() {
     // Load settings first
-    settings = new TygronSettings();
+    settings = new Settings();
 
     // Now load our HTTP Object, it depends on settings
-    http = new TygronHttpConnection(settings);
+    http = new HttpConnection(settings);
 
     // Now load user, it depends on http
-    user = new TygronUser(http);
+    user = new User(http);
 
     // Now load session, it depends on user
-    sessionManager = new TygronSessionManager(http);
+    sessionManager = new SessionManager(http);
     
     session = sessionManager.createOrJoinSession("testmap");
   }
@@ -33,7 +33,7 @@ public class TygronConnector {
   /**
    * Return the session manager.
    */
-  public TygronSessionManager getSessionManager(){
+  public SessionManager getSessionManager(){
     return sessionManager;
   }
 }

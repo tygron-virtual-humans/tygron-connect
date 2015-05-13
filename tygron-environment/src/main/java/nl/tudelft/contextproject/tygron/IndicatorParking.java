@@ -7,7 +7,7 @@ import org.json.JSONObject;
  * TygronIndicatorParking indicates what the ratio between parking and living space is.
  *
  */
-public class TygronIndicatorParking extends TygronIndicator {
+public class IndicatorParking extends Indicator {
   double targetParking;
   double currentParking;
 
@@ -15,7 +15,7 @@ public class TygronIndicatorParking extends TygronIndicator {
    * Constructs a TygronIndicatorParking from a JSONObject.
    * @param input the input object
    */
-  public TygronIndicatorParking(JSONObject input) {
+  public IndicatorParking(JSONObject input) {
     super(input);
 
     JSONArray maquetteDeltaScores = input.getJSONArray("maquetteDeltaScores");

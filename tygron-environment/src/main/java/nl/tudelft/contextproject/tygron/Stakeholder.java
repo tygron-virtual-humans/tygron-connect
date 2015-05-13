@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class TygronStakeholder {
+public class Stakeholder {
   private int id;
   private String name;
   private String shortName;
@@ -23,7 +23,7 @@ public class TygronStakeholder {
    * @param input
    *            A response retrieved from Tygron
    */
-  public TygronStakeholder(JSONObject input) {
+  public Stakeholder(JSONObject input) {
     id = input.getInt("id");
     name = input.getString("name");
     shortName = input.getString("shortName");

@@ -4,7 +4,7 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.Properties;
 
-public class TygronSettingsLoader {
+public class SettingsLoader {
   Properties config;
   InputStream input = null;
 
@@ -15,7 +15,7 @@ public class TygronSettingsLoader {
    * Groups can individually decide what username they will fall back on if the
    * loading or reading of the cfg file fails.
    */
-  public TygronSettingsLoader(String path) throws Exception {
+  public SettingsLoader(String path) throws Exception {
     readConfig(path);
   }
 

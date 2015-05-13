@@ -1,6 +1,6 @@
 package nl.tudelft.contextproject.tygron;
 
-public class TygronSettings {
+public class Settings {
 
   private String username = "";
   private String password = "";
@@ -8,9 +8,9 @@ public class TygronSettings {
   /**
    * Set the username and password.
    */
-  public TygronSettings() {
+  public Settings() {
     try {
-      TygronSettingsLoader settingsLoader = new TygronSettingsLoader(
+      SettingsLoader settingsLoader = new SettingsLoader(
           "configuration.cfg");
       this.username = settingsLoader.getUsername();
       this.password = settingsLoader.getPassword();

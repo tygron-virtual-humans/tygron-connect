@@ -14,7 +14,7 @@ import java.util.Map;
  * A connection that reads from a file and only returns that response.
  * 
  */
-public class TygronDummyConnection extends TygronConnection {
+public class DummyConnection extends Connection {
   String response;
 
   /**

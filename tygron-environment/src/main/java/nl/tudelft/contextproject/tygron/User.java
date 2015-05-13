@@ -2,9 +2,9 @@ package nl.tudelft.contextproject.tygron;
 
 import org.json.JSONObject;
 
-public class TygronUser {
+public class User {
 
-  private static TygronConnection http;
+  private static Connection http;
 
   private boolean active;
   private String domain;
@@ -17,7 +17,7 @@ public class TygronUser {
   private long lastLogin;
   private String maxOption;
 
-  public TygronUser(TygronConnection localhttp) {
+  public User(Connection localhttp) {
     http = localhttp;
   }
 

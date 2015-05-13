@@ -5,7 +5,7 @@ import org.json.JSONObject;
 
 import java.util.Map;
 
-public abstract class TygronConnection {
+public abstract class Connection {
   public abstract String callGetEvent(String eventName);
   
   public JSONObject callGetEventObject(String eventName) {

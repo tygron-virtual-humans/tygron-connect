@@ -11,18 +11,18 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class IndicatorTest {
-  TygronDummyConnection connection;
+  DummyConnection connection;
   
   @Before
   public void setupConnection() {
-    connection = new TygronDummyConnection();
+    connection = new DummyConnection();
   }
   
   @Test
   public void indicatorTest() {
     connection.setFile("/serverResponses/testmap/lists/indicators.json");
     JSONArray result = connection.callGetEventArray("");
-    TygronIndicatorList indicatorList = new TygronIndicatorList(result);
+    IndicatorList indicatorList = new IndicatorList(result);
     
     assertEquals("Budget Municipality", indicatorList.get(0).getName());
     

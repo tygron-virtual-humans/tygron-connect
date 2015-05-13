@@ -3,16 +3,16 @@ package nl.tudelft.contextproject.tygron;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
-import nl.tudelft.contextproject.tygron.TygronSettingsLoader;
+import nl.tudelft.contextproject.tygron.SettingsLoader;
 
 import org.junit.Test;
 
 public class SettingsLoaderTest {
   @Test
   public void test_username() {
-    TygronSettingsLoader settingsLoader;
+    SettingsLoader settingsLoader;
     try {
-      settingsLoader = new TygronSettingsLoader("src/main/resources/testconfiguration.cfg");
+      settingsLoader = new SettingsLoader("src/main/resources/testconfiguration.cfg");
       assertTrue(settingsLoader.getUsername().equals("demousername"));
     } catch (Exception e) {
       e.printStackTrace();
@@ -22,9 +22,9 @@ public class SettingsLoaderTest {
 
   @Test
   public void test_password() {
-    TygronSettingsLoader settingsLoader;
+    SettingsLoader settingsLoader;
     try {
-      settingsLoader = new TygronSettingsLoader("src/main/resources/testconfiguration.cfg");
+      settingsLoader = new SettingsLoader("src/main/resources/testconfiguration.cfg");
       assertTrue(settingsLoader.getPassword().equals("demopassword"));
     } catch (Exception e) {
       e.printStackTrace();
