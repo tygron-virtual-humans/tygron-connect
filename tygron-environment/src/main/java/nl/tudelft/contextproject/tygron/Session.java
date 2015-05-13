@@ -45,10 +45,19 @@ public class Session {
   /**
    * Get the session name.
    * 
-   * @return The new session name.
+   * @return The session name.
    */
   public String getName() {
     return this.sessionName;
+  }
+  
+  /**
+   * Get the session id.
+   * 
+   * @return The session id.
+   */
+  public int getSessionId() {
+    return this.sessionId;
   }
 
   /**

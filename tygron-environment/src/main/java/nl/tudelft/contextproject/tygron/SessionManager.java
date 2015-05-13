@@ -50,10 +50,10 @@ public class SessionManager {
    * Data is loaded into memory.
    * @return whether the join was successful or not.
    */
-  public boolean joinSession(Session session, int slotId) {
+  public boolean joinSession(Session session) {
     HashMap<String,String> dataMap = new HashMap<String,String>();
-    dataMap.put("0", slotId + "");          // Param: Integer: Server slot ID
-    dataMap.put("1", "VIEWER"); // Param: AppType: My application type: EDITOR, VIEWER, ADMIN, BEAM 
+    dataMap.put("0", Integer.toString(session.getSessionId()));   // Param: Integer: Server slot ID
+    dataMap.put("1", "VIEWER"); 			// Param: AppType: My application type: EDITOR, VIEWER, ADMIN, BEAM 
     dataMap.put("2", "");                   // Param: String: My client address (optional)
     dataMap.put("3", "Tygron-API-Agent");   // Param: String: My client computer name (optional)
     dataMap.put("4", "");                   // Param: UUID: My client token for rejoining (optional)
