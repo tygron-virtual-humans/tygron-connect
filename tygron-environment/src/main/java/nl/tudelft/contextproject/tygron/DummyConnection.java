@@ -8,7 +8,8 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Map;
+
+import org.json.JSONArray;
 
 /**
  * A connection that reads from a file and only returns that response.
@@ -53,7 +54,7 @@ public class DummyConnection extends Connection {
   }
 
   @Override
-  public String callPostEvent(String eventName, Map<String, String> parameters) {
+  public String callPostEvent(String eventName, JSONArray parameters) {
     return response;
   }
 }
