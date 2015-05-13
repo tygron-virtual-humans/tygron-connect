@@ -2,8 +2,8 @@ package nl.tudelft.contextproject.tygron;
 
 public class Settings {
 
-  private String username = "";
-  private String password = "";
+  private String username;
+  private String password;
 
   /**
    * Set the username and password.
