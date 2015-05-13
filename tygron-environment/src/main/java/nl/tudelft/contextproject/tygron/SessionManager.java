@@ -52,11 +52,11 @@ public class SessionManager {
   public boolean joinSession(Session session, int slotId) {
 
     JSONArray dataArray = new JSONArray();
-    dataArray.put(slotId);
-    dataArray.put("VIEWER");
-    dataArray.put("");
-    dataArray.put("Tygron-API-Agent");
-    dataArray.put("");
+    dataArray.put(slotId);      // Server slot ID
+    dataArray.put("VIEWER");    // My application type: EDITOR, VIEWER, ADMIN, BEAM 
+    dataArray.put("");          // My client address (optional)
+    dataArray.put("Tygron-API-Agent"); //  My client computer name (optional)
+    dataArray.put("");          // My client token for rejoining (optional)
     
     JSONObject data = apiConnection.callPostEventObject(
         "services/event/IOServicesEventType/JOIN_SESSION/", dataArray);
@@ -99,8 +99,8 @@ public class SessionManager {
   public int createSession(String mapName){
     
     JSONArray dataArray = new JSONArray();
-    dataArray.put("MULTI_PLAYER");
-    dataArray.put(mapName);
+    dataArray.put("MULTI_PLAYER");  // SessionType: SINGLE_PLAYER, MULTI_PLAYER, EDITOR
+    dataArray.put(mapName);         // Project file name
     
     int retValue = apiConnection.callPostEventInt(
         "services/event/IOServicesEventType/START_NEW_SESSION/", dataArray); 
@@ -115,7 +115,7 @@ public class SessionManager {
   public boolean killSession(int slotId) {
     
     JSONArray dataArray = new JSONArray();
-    dataArray.put(slotId);
+    dataArray.put(slotId);  // Server slot ID
     
     return apiConnection.callPostEventBoolean(
         "services/event/IOServicesEventType/KILL_SESSION/", dataArray);
