@@ -2,21 +2,17 @@ package nl.tudelft.contextproject.tygron;
 
 import org.apache.commons.codec.binary.Base64;
 import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpRequestBase;
+import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.HttpClients;
-import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONArray;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 
 public class HttpConnection extends Connection {
 
@@ -45,6 +41,7 @@ public class HttpConnection extends Connection {
    */
   public void addDefaultHeaders(HttpRequestBase request) {
     request.setHeader("Accept", "application/json");
+    request.setHeader("Content-Type", "application/json");
     request.setHeader("Authorization", "Basic " + authString);
   }
   
@@ -65,19 +62,14 @@ public class HttpConnection extends Connection {
   }
 
   @Override
-  public String callPostEvent(String eventName, Map<String, String> parameters) {
+  public String callPostEvent(String eventName, JSONArray parameters) {
     HttpPost request = new HttpPost(getApiUrl(eventName));
     addDefaultHeaders(request);
 
     // adds parameters
     if (parameters != null) {
-      List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(parameters.size());
-      for (Map.Entry<String, String> entry : parameters.entrySet()) {
-        nameValuePairs.add(new BasicNameValuePair(entry.getKey(), entry.getValue()));
-      }
-
       try {
-        request.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+        request.setEntity(new StringEntity(parameters.toString()));
       } catch (UnsupportedEncodingException e) {
         throw new RuntimeException(e);
       }

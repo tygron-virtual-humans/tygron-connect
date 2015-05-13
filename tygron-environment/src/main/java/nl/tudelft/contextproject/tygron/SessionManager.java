@@ -1,7 +1,6 @@
 package nl.tudelft.contextproject.tygron;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import org.json.JSONArray;
@@ -51,14 +50,16 @@ public class SessionManager {
    * @return whether the join was successful or not.
    */
   public boolean joinSession(Session session, int slotId) {
-    HashMap<String,String> dataMap = new HashMap<String,String>();
-    dataMap.put("0", slotId + "");          // Param: Integer: Server slot ID
-    dataMap.put("1", "VIEWER"); // Param: AppType: My application type: EDITOR, VIEWER, ADMIN, BEAM 
-    dataMap.put("2", "");                   // Param: String: My client address (optional)
-    dataMap.put("3", "Tygron-API-Agent");   // Param: String: My client computer name (optional)
-    dataMap.put("4", "");                   // Param: UUID: My client token for rejoining (optional)
+
+    JSONArray dataArray = new JSONArray();
+    dataArray.put(slotId);
+    dataArray.put("VIEWER");
+    dataArray.put("");
+    dataArray.put("Tygron-API-Agent");
+    dataArray.put("");
+    
     JSONObject data = apiConnection.callPostEventObject(
-        "services/event/IOServicesEventType/JOIN_SESSION/", dataMap);
+        "services/event/IOServicesEventType/JOIN_SESSION/", dataArray);
     
     session.setClientToken(data.getString("sessionClientToken"));
     session.setServerToken(data.getString("serverToken"));
@@ -87,15 +88,12 @@ public class SessionManager {
   
   public int createSession(String mapName){
     
-    HashMap<String,String> dataMap = new HashMap<String,String>();
-    dataMap.put("0", "MULTI_PLAYER");   // SessionType: SessionType: SINGLE_PLAYER, MULTI_PLAYER, EDITOR
-    dataMap.put("1", mapName);          // String: Project file name
-    dataMap.put("2", "EN");             // TLanguage: Language: NL, EN (optional)
-    dataMap.put("3", "");               // empty
-    dataMap.put("4", "");               // empty
+    JSONArray dataArray = new JSONArray();
+    dataArray.put("MULTI_PLAYER");
+    dataArray.put(mapName);
     
     JSONObject data = apiConnection.callPostEventObject(
-        "services/event/IOServicesEventType/START_NEW_SESSION/", dataMap); 
+        "services/event/IOServicesEventType/START_NEW_SESSION/", dataArray); 
     
     System.out.println(data);
     
@@ -107,11 +105,12 @@ public class SessionManager {
    * @return whether the kill was successful or not.
    */
   public boolean killSession(int slotId) {
-    HashMap<String,String> dataMap = new HashMap<String,String>();
-    dataMap.put("0", slotId + "");          // Param: Integer: Server slot ID
+    
+    JSONArray dataArray = new JSONArray();
+    dataArray.put(slotId);
     
     JSONObject data = apiConnection.callPostEventObject(
-        "services/event/IOServicesEventType/KILL_SESSION/", dataMap);
+        "services/event/IOServicesEventType/KILL_SESSION/", dataArray);
     
     System.out.println(data);
     
