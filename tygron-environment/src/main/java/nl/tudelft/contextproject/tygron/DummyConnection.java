@@ -1,5 +1,7 @@
 package nl.tudelft.contextproject.tygron;
 
+import org.json.JSONArray;
+
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -8,8 +10,6 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-
-import org.json.JSONArray;
 
 /**
  * A connection that reads from a file and only returns that response.

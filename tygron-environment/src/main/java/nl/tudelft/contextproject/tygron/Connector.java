@@ -33,7 +33,7 @@ public class Connector {
   /**
    * Return the session manager.
    */
-  public SessionManager getSessionManager(){
+  public SessionManager getSessionManager() {
     return sessionManager;
   }
 }
