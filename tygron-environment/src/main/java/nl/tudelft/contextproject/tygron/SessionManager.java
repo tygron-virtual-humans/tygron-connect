@@ -1,16 +1,16 @@
 package nl.tudelft.contextproject.tygron;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class SessionManager {
 
   private static Connection apiConnection;
   
-  public SessionManager(Connection localApiConnection){
+  public SessionManager(Connection localApiConnection) {
     apiConnection = localApiConnection;
   }
   
@@ -61,7 +61,7 @@ public class SessionManager {
     JSONObject data = apiConnection.callPostEventObject(
         "services/event/IOServicesEventType/JOIN_SESSION/", dataArray);
     
-    session.setClientToken(data.getString("sessionClientToken"));
+    session.setClientToken(data.getJSONObject("client").getString("clientToken"));
     session.setServerToken(data.getString("serverToken"));
     
     return true;
@@ -73,15 +73,15 @@ public class SessionManager {
    * 
    * @param mapName The mapname you are trying to join.
    */
-  public Session createOrFindSessionAndJoin(String mapName){
+  public Session createOrFindSessionAndJoin(String mapName) {
     
     // Set default slot
     int slot = -1;
     
     // Try to find a session with the name if it already exists
     List<Session> availableList = getJoinableSessions();
-    for(int i = 0;i<availableList.size();i++){
-      if(mapName.equals(availableList.get(i).getName())){
+    for (int i = 0;i < availableList.size();i++) {
+      if (mapName.equals(availableList.get(i).getName())) {
         slot = availableList.get(i).getSessionId();
       }
     }
@@ -96,7 +96,12 @@ public class SessionManager {
     return sess;
   }
   
-  public int createSession(String mapName){
+  /**
+   * Create a new session with the given mapname.
+   * @param mapName the mapname.
+   * @return The return value (slot id) of the new session.
+   */
+  public int createSession(String mapName) {
     
     JSONArray dataArray = new JSONArray();
     dataArray.put("MULTI_PLAYER");  // SessionType: SINGLE_PLAYER, MULTI_PLAYER, EDITOR
