@@ -82,6 +82,16 @@ public class Session {
   }
   
   /**
+   * Get the session id.
+   * 
+   * @param session id
+   *          Get session id.
+   */
+  public int getSessionId() {
+    return this.sessionId;
+  }  
+  
+  /**
    * Set a new server token.
    * @param serverToken The server token.
    */

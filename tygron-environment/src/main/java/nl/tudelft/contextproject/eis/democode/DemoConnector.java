@@ -16,6 +16,9 @@ public class DemoConnector {
     // Session Manager
     SessionManager sesM = con.getSessionManager();
     
-    sesM.createSession("testmap");
+    int sessionSlot = sesM.createSession("testmap");
+    System.out.println("Creating session in slot " + sessionSlot);
+    boolean sessionKill = sesM.killSession(sessionSlot);
+    System.out.println("Killing session, result: " + sessionKill);
   }
 }

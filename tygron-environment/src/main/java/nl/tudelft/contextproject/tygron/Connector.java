@@ -27,7 +27,7 @@ public class Connector {
     // Now load session, it depends on user
     sessionManager = new SessionManager(http);
     
-    session = sessionManager.createOrJoinSession("testmap");
+    session = sessionManager.createOrFindSessionAndJoin("testmap");
   }
   
   /**

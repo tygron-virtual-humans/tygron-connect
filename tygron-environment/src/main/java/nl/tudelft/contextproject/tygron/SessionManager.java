@@ -1,16 +1,16 @@
 package nl.tudelft.contextproject.tygron;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class SessionManager {
 
   private static Connection apiConnection;
   
-  public SessionManager(Connection localApiConnection){
+  public SessionManager(Connection localApiConnection) {
     apiConnection = localApiConnection;
   }
   
@@ -52,16 +52,16 @@ public class SessionManager {
   public boolean joinSession(Session session, int slotId) {
 
     JSONArray dataArray = new JSONArray();
-    dataArray.put(slotId);
-    dataArray.put("VIEWER");
-    dataArray.put("");
-    dataArray.put("Tygron-API-Agent");
-    dataArray.put("");
+    dataArray.put(slotId);      // Server slot ID
+    dataArray.put("VIEWER");    // My application type: EDITOR, VIEWER, ADMIN, BEAM 
+    dataArray.put("");          // My client address (optional)
+    dataArray.put("Tygron-API-Agent"); //  My client computer name (optional)
+    dataArray.put("");          // My client token for rejoining (optional)
     
     JSONObject data = apiConnection.callPostEventObject(
         "services/event/IOServicesEventType/JOIN_SESSION/", dataArray);
     
-    session.setClientToken(data.getString("sessionClientToken"));
+    session.setClientToken(data.getJSONObject("client").getString("clientToken"));
     session.setServerToken(data.getString("serverToken"));
     
     return true;
@@ -73,31 +73,44 @@ public class SessionManager {
    * 
    * @param mapName The mapname you are trying to join.
    */
-  public Session createOrJoinSession(String mapName){
+  public Session createOrFindSessionAndJoin(String mapName) {
+    
+    // Set default slot
+    int slot = -1;
+    
+    // Try to find a session with the name if it already exists
     List<Session> availableList = getJoinableSessions();
-    for(int i = 0;i<availableList.size();i++){
-      if(mapName.equals(availableList.get(i).getName())){
-        return availableList.get(i);
+    for (int i = 0;i < availableList.size();i++) {
+      if (mapName.equals(availableList.get(i).getName())) {
+        slot = availableList.get(i).getSessionId();
       }
     }
     
-    // TODO: Create a new session
+    // else create a new session
+    slot = createSession(mapName);
     
-    return new Session(apiConnection);
+    // Create a new session
+    Session sess = new Session(apiConnection);
+    joinSession(sess,slot);
+    
+    return sess;
   }
   
-  public int createSession(String mapName){
+  /**
+   * Create a new session with the given mapname.
+   * @param mapName the mapname.
+   * @return The return value (slot id) of the new session.
+   */
+  public int createSession(String mapName) {
     
     JSONArray dataArray = new JSONArray();
-    dataArray.put("MULTI_PLAYER");
-    dataArray.put(mapName);
+    dataArray.put("MULTI_PLAYER");  // SessionType: SINGLE_PLAYER, MULTI_PLAYER, EDITOR
+    dataArray.put(mapName);         // Project file name
     
-    JSONObject data = apiConnection.callPostEventObject(
+    int retValue = apiConnection.callPostEventInt(
         "services/event/IOServicesEventType/START_NEW_SESSION/", dataArray); 
-    
-    System.out.println(data);
-    
-    return -1;
+
+    return retValue;
   }
   
   /**
@@ -107,14 +120,10 @@ public class SessionManager {
   public boolean killSession(int slotId) {
     
     JSONArray dataArray = new JSONArray();
-    dataArray.put(slotId);
+    dataArray.put(slotId);  // Server slot ID
     
-    JSONObject data = apiConnection.callPostEventObject(
+    return apiConnection.callPostEventBoolean(
         "services/event/IOServicesEventType/KILL_SESSION/", dataArray);
-    
-    System.out.println(data);
-    
-    return true;
   }
 
 }
