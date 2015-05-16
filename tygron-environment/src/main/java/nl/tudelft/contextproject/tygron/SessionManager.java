@@ -51,7 +51,7 @@ public class SessionManager {
    */
   public boolean joinSession(Session session, int slotId) {
 
-	JSONArray dataArray = new JSONArray();
+    JSONArray dataArray = new JSONArray();
     dataArray.put(slotId);      // Server slot ID
     dataArray.put("VIEWER");    // My application type: EDITOR, VIEWER, ADMIN, BEAM 
     dataArray.put("");          // My client address (optional)
