@@ -35,7 +35,7 @@ public class SessionManager {
       localSession.setName(row.getString("name"));
       localSession.setType(row.getString("sessionType"));
       localSession.setLanguage(row.getString("sessionType"));
-      localSession.setSessionId(row.getInt("id"));
+      localSession.setId(row.getInt("id"));
 
       // Add to datalist
       returnList.add(localSession);
@@ -82,7 +82,7 @@ public class SessionManager {
     List<Session> availableList = getJoinableSessions();
     for (int i = 0;i < availableList.size();i++) {
       if (mapName.equals(availableList.get(i).getName())) {
-        slot = availableList.get(i).getSessionId();
+        slot = availableList.get(i).getId();
       }
     }
     
