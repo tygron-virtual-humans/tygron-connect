@@ -15,12 +15,12 @@ import org.json.JSONObject;
 public class Session {
 
   private static Connection apiConnection;
-  private String sessionName;
-  private String sessionType;
-  private String sessionLanguage;
-  private String sessionClientToken;
-  private String sessionServerToken;
-  private int sessionId;
+  private String name;
+  private String type;
+  private String language;
+  private String clientToken;
+  private String serverToken;
+  private int id;
 
   /**
    * Tygron Session Object.
@@ -28,8 +28,8 @@ public class Session {
   public Session(Connection localApiConnection) {
     apiConnection = localApiConnection;
     setName(""); 
-    sessionClientToken = "";
-    sessionServerToken = "";
+    clientToken = "";
+    serverToken = "";
   }
 
   /**
@@ -39,16 +39,16 @@ public class Session {
    *          The new session name.
    */
   public void setName(String newName) {
-    this.sessionName = newName;
+    this.name = newName;
   }
   
   /**
    * Get the session name.
    * 
-   * @return The new session name.
+   * @return The session name.
    */
   public String getName() {
-    return this.sessionName;
+    return this.name;
   }
 
   /**
@@ -58,7 +58,7 @@ public class Session {
    *          The new session type.
    */
   public void setType(String newType) {
-    this.sessionType = newType;
+    this.type = newType;
   }
 
   /**
@@ -68,7 +68,7 @@ public class Session {
    *          The new session language.
    */
   public void setLanguage(String newLanguage) {
-    this.sessionLanguage = newLanguage;
+    this.language = newLanguage;
   }
 
   /**
@@ -77,34 +77,46 @@ public class Session {
    * @param session id
    *          The new session id.
    */
-  public void setSessionId(int newId) {
-    this.sessionId = newId;
+  public void setId(int newId) {
+    this.id = newId;
   }
   
   /**
    * Get the session id.
    * 
-   * @param session id
-   *          Get session id.
+   * @return The session id.
    */
-  public int getSessionId() {
-    return this.sessionId;
+  public int getId() {
+    return this.id;
   }  
   
   /**
    * Set a new server token.
-   * @param serverToken The server token.
+   * 
+   * @param serverToken
+   * 		The server token.
    */
   public void setServerToken(String serverToken){
-    this.sessionServerToken = serverToken;
+    this.serverToken = serverToken;
+  }
+  
+  /**
+   * Get the server token.
+   *
+   * @return The server token.
+   */
+  public String getServerToken(){
+    return this.serverToken;
   }
   
   /**
    * Set a client token.
-   * @param clientToken The client token.
+   * 
+   * @param clientToken
+   * 		The client token.
    */
   public void setClientToken(String clientToken){
-    this.sessionClientToken = clientToken;
+    this.clientToken = clientToken;
   }
 
   /**
@@ -112,10 +124,10 @@ public class Session {
    */
   public String toString() {
     JSONObject str = new JSONObject();
-    str.put("name", this.sessionName);
-    str.put("sessionType", this.sessionType);
-    str.put("language", this.sessionLanguage);
-    str.put("id", this.sessionId);
+    str.put("name", this.name);
+    str.put("sessionType", this.type);
+    str.put("language", this.language);
+    str.put("id", this.id);
     return str.toString();
   }
 }
