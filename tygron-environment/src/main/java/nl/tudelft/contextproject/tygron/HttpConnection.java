@@ -20,12 +20,8 @@ public class HttpConnection extends Connection {
   private HttpClient client;
   private String authString;
   private static final String API_URL_BASE = "https://server2.tygron.com:3022/api/";
-  private static final String API_SLOTS = "slots/";
-  private static final String API_TOKEN_SUFFIX = "&token=";
   private static final String API_JSON_SUFFIX = "?f=JSON";
-  
-  // API_URL_BASE + API_SLOTS + session.getId() + "/" + "lists/actionmenus/" + API_JSON_SUFFIX + API_TOKEN_SUFFIX + session.getServerToken();
-  
+
   /**
    * Creates a Tygron connection using some settings. 
    * @param tygronSettings the settings that should be used.
