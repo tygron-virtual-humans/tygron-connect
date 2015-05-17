@@ -14,7 +14,10 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<environmentname>tygron_environment</environmentname>
 		<mainclass>nl.tudelft.contextproject.eis.TygronInterfaceImpl</mainclass>
-		<cobertura.version>2.7</cobertura.version>
+		<checkstyle.version>2.15</checkstyle.version>
+		<cobertura.version>2.6</cobertura.version>
+		<findbugs.version>3.0.1</findbugs.version>
+		<pmd.version>3.4</pmd.version>
 	</properties>
 
 	<repositories>
@@ -154,7 +157,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-checkstyle-plugin</artifactId>
-				<version>2.15</version>
+				<version>${checkstyle.version}</version>
 				<reportSets>
 					<reportSet>
 						<reports>
@@ -171,7 +174,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-pmd-plugin</artifactId>
-				<version>3.4</version>
+				<version>${pmd.version}</version>
 				<configuration>
 					<format>xml</format>
 				</configuration>
@@ -179,7 +182,7 @@
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>findbugs-maven-plugin</artifactId>
-				<version>3.0.1</version>
+				<version>${findbugs.version}</version>
 				<configuration>
 					<failOnError>false</failOnError>
 				</configuration>
