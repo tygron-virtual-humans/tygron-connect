@@ -35,4 +35,6 @@ public abstract class Connection {
   public JSONArray callPostEventArray(String eventName, JSONArray parameters) {
     return new JSONArray(callPostEvent(eventName, parameters));
   }
+  
+  public abstract void setServerToken(String serverToken) ;
 }

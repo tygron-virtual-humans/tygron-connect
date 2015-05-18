@@ -16,7 +16,9 @@ import java.nio.file.Paths;
  * 
  */
 public class DummyConnection extends Connection {
+  
   String response;
+  private String serverToken;
 
   /**
    * Method that provides a file with a response.
@@ -30,6 +32,10 @@ public class DummyConnection extends Connection {
     } catch (IOException e) {
       throw new RuntimeException(e);
     }
+  }
+  
+  public void setServerToken(String serverToken) {
+    this.serverToken = serverToken;
   }
 
   /**
