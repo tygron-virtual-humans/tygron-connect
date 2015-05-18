@@ -94,9 +94,9 @@ public class Session {
    * Set a new server token.
    * 
    * @param serverToken
-   * 		The server token.
+   *  The server token.
    */
-  public void setServerToken(String serverToken){
+  public void setServerToken(String serverToken) {
     this.serverToken = serverToken;
   }
   
@@ -105,7 +105,7 @@ public class Session {
    *
    * @return The server token.
    */
-  public String getServerToken(){
+  public String getServerToken() {
     return this.serverToken;
   }
   
