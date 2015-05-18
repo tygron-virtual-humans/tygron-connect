@@ -118,6 +118,15 @@ public class Session {
   public void setClientToken(String clientToken){
     this.clientToken = clientToken;
   }
+  
+  /**
+   * Get the client token.
+   *
+   * @return The client token.
+   */
+  public String getClientToken(){
+    return this.clientToken;
+  }
 
   /**
    * Return a string interpretation of this object.

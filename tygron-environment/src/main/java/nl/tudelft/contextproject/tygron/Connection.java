@@ -35,4 +35,14 @@ public abstract class Connection {
   public JSONArray callPostEventArray(String eventName, JSONArray parameters) {
     return new JSONArray(callPostEvent(eventName, parameters));
   }
+
+  public abstract String callSessionPostEvent(String eventName, Session session, JSONArray parameters);
+  
+  public JSONObject callSessionPostEventObject(String eventName, Session session, JSONArray parameters) {
+	String res = callSessionPostEvent(eventName, session, parameters);
+	if(res != null)
+	  return new JSONObject(callSessionPostEvent(eventName, session, parameters));
+	else
+	  return null;
+  }
 }

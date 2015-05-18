@@ -60,6 +60,29 @@ public class HttpConnection extends Connection {
       throw new RuntimeException(e);
     }
   }
+  
+  @Override
+  public String callSessionPostEvent(String eventName, Session session, JSONArray parameters) {
+	  HttpPost request = new HttpPost(getApiUrl(eventName));
+	  addDefaultHeaders(request);
+	  request.setHeader("serverToken", session.getServerToken());
+	  
+	  // adds parameters
+	  if (parameters != null) {
+	    try {
+	      request.setEntity(new StringEntity(parameters.toString()));
+	    } catch (UnsupportedEncodingException e) {
+	      throw new RuntimeException(e);
+	    }
+	  }
+	  
+	  try {
+	    HttpResponse response = client.execute(request);
+	    return new BasicResponseHandler().handleResponse(response);
+	  } catch (IOException e) {
+	    throw new RuntimeException(e);
+	  }
+  }
 
   @Override
   public String callPostEvent(String eventName, JSONArray parameters) {
