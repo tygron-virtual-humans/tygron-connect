@@ -36,13 +36,19 @@ public abstract class Connection {
     return new JSONArray(callPostEvent(eventName, parameters));
   }
 
-  public abstract String callSessionPostEvent(String eventName, Session session, JSONArray parameters);
+  public abstract String callSessionGetEvent(String eventName);
   
-  public JSONObject callSessionPostEventObject(String eventName, Session session, JSONArray parameters) {
-	String res = callSessionPostEvent(eventName, session, parameters);
-	if(res != null)
-	  return new JSONObject(callSessionPostEvent(eventName, session, parameters));
-	else
-	  return null;
+  public abstract String callSessionPostEvent(String eventName, JSONArray parameters);
+  
+  public JSONObject callSessionGetEventObject(String eventName) {
+    return new JSONObject(callSessionGetEvent(eventName));
   }
+  
+  public JSONObject callSessionPostEventObject(String eventName, JSONArray parameters) {
+	return new JSONObject(callSessionPostEvent(eventName, parameters));
+  }
+
+  public abstract void setServerToken(String serverToken);
+
+  public abstract void setSessionId(int sessionId);
 }

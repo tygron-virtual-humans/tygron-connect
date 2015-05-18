@@ -19,8 +19,12 @@ public class HttpConnection extends Connection {
   private Settings settings;
   private HttpClient client;
   private String authString;
+  private String serverToken;
+  private int sessionId;
   private static final String API_URL_BASE = "https://server2.tygron.com:3022/api/";
   private static final String API_JSON_SUFFIX = "?f=JSON";
+  private static final String API_DELIMITER = "/";
+  private static final String API_SLOTS = "slots/";
 
   /**
    * Creates a Tygron connection using some settings. 
@@ -31,6 +35,14 @@ public class HttpConnection extends Connection {
     client = HttpClients.custom().build();
     String headerValue = settings.getUserName() + ":" + settings.getPassword();
     authString = Base64.encodeBase64String(headerValue.getBytes());
+  }
+  
+  public void setServerToken(String serverToken) {
+	  this.serverToken = serverToken;
+  }
+  
+  public void setSessionId(int sessionId) {
+	  this.sessionId = sessionId;
   }
 
   /**
@@ -43,10 +55,16 @@ public class HttpConnection extends Connection {
     request.setHeader("Accept", "application/json");
     request.setHeader("Content-Type", "application/json");
     request.setHeader("Authorization", "Basic " + authString);
+    if(serverToken != null)
+      request.setHeader("serverToken", serverToken);
   }
   
   private String getApiUrl(String eventName) {
     return API_URL_BASE + eventName + API_JSON_SUFFIX;
+  }
+  
+  private String getApiSessionUrl(String eventName) {
+	return API_URL_BASE + API_SLOTS + sessionId + API_DELIMITER + eventName + API_JSON_SUFFIX;
   }
 
   @Override
@@ -60,50 +78,57 @@ public class HttpConnection extends Connection {
       throw new RuntimeException(e);
     }
   }
-  
-  @Override
-  public String callSessionPostEvent(String eventName, Session session, JSONArray parameters) {
-	  HttpPost request = new HttpPost(getApiUrl(eventName));
-	  addDefaultHeaders(request);
-	  request.setHeader("serverToken", session.getServerToken());
-	  
-	  // adds parameters
-	  if (parameters != null) {
-	    try {
-	      request.setEntity(new StringEntity(parameters.toString()));
-	    } catch (UnsupportedEncodingException e) {
-	      throw new RuntimeException(e);
-	    }
-	  }
-	  
-	  try {
-	    HttpResponse response = client.execute(request);
-	    return new BasicResponseHandler().handleResponse(response);
-	  } catch (IOException e) {
-	    throw new RuntimeException(e);
-	  }
-  }
 
   @Override
   public String callPostEvent(String eventName, JSONArray parameters) {
     HttpPost request = new HttpPost(getApiUrl(eventName));
-    addDefaultHeaders(request);
+    
+    return postEvent(request, parameters);
+  }
+  
+  @Override
+  public String callSessionGetEvent(String eventName) {
+	HttpPost request = new HttpPost(getApiSessionUrl(eventName));
+	  
+	return getEvent(request);
+  }
+  
+  @Override
+  public String callSessionPostEvent(String eventName, JSONArray parameters) {
+	HttpPost request = new HttpPost(getApiSessionUrl(eventName));
+	  
+	return postEvent(request, parameters);
+  }
 
-    // adds parameters
-    if (parameters != null) {
-      try {
-        request.setEntity(new StringEntity(parameters.toString()));
-      } catch (UnsupportedEncodingException e) {
-        throw new RuntimeException(e);
-      }
-    }
-
+  public String getEvent(HttpPost request) {
+	addDefaultHeaders(request);
+	
     try {
-      HttpResponse response = client.execute(request);
-      return new BasicResponseHandler().handleResponse(response);
-    } catch (IOException e) {
-      throw new RuntimeException(e);
-    }
+	  HttpResponse response = client.execute(request);
+	  return new BasicResponseHandler().handleResponse(response);
+	} catch (IOException e) {
+	  throw new RuntimeException(e);
+	}
+  }
+  
+  public String postEvent(HttpPost request, JSONArray parameters) {
+	addDefaultHeaders(request); 
+	
+	// adds parameters
+	if (parameters != null) {
+	  try {
+	    request.setEntity(new StringEntity(parameters.toString()));
+	  } catch (UnsupportedEncodingException e) {
+	    throw new RuntimeException(e);
+	  }
+	}
+
+	try {
+	  HttpResponse response = client.execute(request);
+	  return new BasicResponseHandler().handleResponse(response);
+	} catch (IOException e) {
+	  throw new RuntimeException(e);
+	}
   }
 
 }

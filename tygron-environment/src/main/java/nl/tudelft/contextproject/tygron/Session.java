@@ -79,6 +79,7 @@ public class Session {
    */
   public void setId(int newId) {
     this.id = newId;
+    apiConnection.setSessionId(newId);
   }
   
   /**
@@ -98,6 +99,7 @@ public class Session {
    */
   public void setServerToken(String serverToken){
     this.serverToken = serverToken;
+    apiConnection.setServerToken(serverToken);
   }
   
   /**
