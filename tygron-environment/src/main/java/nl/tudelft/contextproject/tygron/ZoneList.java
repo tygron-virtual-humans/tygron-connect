@@ -19,8 +19,7 @@ public class ZoneList extends ArrayList<Zone> {
   public ZoneList(JSONArray input) {
     for (int i = 0; i < input.length(); i++) {
       JSONObject zoneWrapper = input.getJSONObject(i);
-      JSONObject zoneObj = zoneWrapper.getJSONObject("Zone");
-      Zone zone = new Zone(zoneObj);
+      Zone zone = new Zone(zoneWrapper);
       this.add(zone);
     }
   }

@@ -210,7 +210,7 @@ public class Session {
     return this.indicatorList;
   }  
 
-
+   /**
    * Load the zones into this session.
    * 
    * @return
