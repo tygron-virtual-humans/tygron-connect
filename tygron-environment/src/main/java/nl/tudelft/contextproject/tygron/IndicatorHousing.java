@@ -47,7 +47,7 @@ public class IndicatorHousing {
   public Collection<? extends Indicator> extractIndicators() {
     List<Indicator> indicators = new ArrayList<Indicator>();
     for (int i = 0; i < start.length; i++) {
-      if (start[i] > 0 || desired[i] > 0) {
+      if (desired[i] > 0) {
         indicators.add(new SubIndicatorHousing(jsonInput, 
             desired[i], current[i]));
       }

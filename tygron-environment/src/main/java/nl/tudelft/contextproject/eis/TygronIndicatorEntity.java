@@ -5,6 +5,8 @@ import nl.tudelft.contextproject.tygron.IndicatorList;
 
 import eis.eis2java.annotation.AsPercept;
 import eis.eis2java.translation.Filter;
+
+import java.util.ArrayList;
 import java.util.List;
 
 public class TygronIndicatorEntity {
@@ -24,7 +26,15 @@ public class TygronIndicatorEntity {
    */
   @AsPercept(name = "indicator", multiplePercepts = true, 
       multipleArguments = true, filter = Filter.Type.ON_CHANGE)
-  public List<Indicator> progressIndicator() {    
-    return indicatorList;
+  public List<TygronPercept> progressIndicator() {  
+    List<TygronPercept> result = new ArrayList<>();
+    
+    for (int i = 0; i < indicatorList.size(); i++) {
+      Indicator ind = indicatorList.get(i);
+      result.add(new TygronPercept(ind.getType().toLowerCase(),
+          ind.getName().toLowerCase(), ind.getProgress()));
+    }
+    
+    return result;
   }
 }
