@@ -34,7 +34,8 @@ public class IndicatorList extends ArrayList<Indicator> {
           this.add(new IndicatorParking(indicatorObj));
           break;
         case "HOUSING":
-          this.add(new IndicatorHousing(indicatorObj));
+          IndicatorHousing houseIndicator = new IndicatorHousing(indicatorObj);
+          this.addAll(houseIndicator.extractIndicators());
           break;
         case "FINANCE":
           this.add(new IndicatorFinance(indicatorObj));
