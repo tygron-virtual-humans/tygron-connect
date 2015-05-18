@@ -5,8 +5,6 @@ import org.json.JSONObject;
 
 public abstract class Connection {
   
-  protected String serverToken;
-  
   public abstract String callGetEvent(String eventName);
   
   public JSONObject callGetEventObject(String eventName) {
@@ -34,12 +32,24 @@ public abstract class Connection {
   public JSONObject callPostEventObject(String eventName, JSONArray parameters) {
     return new JSONObject(callPostEvent(eventName, parameters));
   }
-  
+
   public JSONArray callPostEventArray(String eventName, JSONArray parameters) {
     return new JSONArray(callPostEvent(eventName, parameters));
   }
-  
-  public void setServerToken(String serverToken) {
-    this.serverToken = serverToken;
+
+  public abstract String callSessionGetEvent(String eventName);
+
+  public abstract String callSessionPostEvent(String eventName, JSONArray parameters);
+
+  public JSONObject callSessionGetEventObject(String eventName) {
+    return new JSONObject(callSessionGetEvent(eventName));
   }
+
+  public JSONObject callSessionPostEventObject(String eventName, JSONArray parameters) {
+    return new JSONObject(callSessionPostEvent(eventName, parameters));
+  }
+
+  public abstract void setServerToken(String serverToken);
+
+  public abstract void setSessionId(int sessionId);
 }
