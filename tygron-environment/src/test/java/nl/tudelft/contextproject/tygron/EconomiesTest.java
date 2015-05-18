@@ -19,7 +19,7 @@ public class EconomiesTest {
   public void indicatorTest() {
     connection.setFile("/serverResponses/testmap/lists/economies.json");
     JSONObject result = connection.callGetEventObject("");
-    Economies economies = new Economies(result);
+    Economy economies = new Economy(result);
 
     assertEquals("SOCIAL", economies.getCategory());
     assertEquals("GOOD", economies.getState());

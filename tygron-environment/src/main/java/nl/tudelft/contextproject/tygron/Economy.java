@@ -6,7 +6,9 @@ import org.json.JSONObject;
  * State of economies.
  *
  */
-public class Economies {
+public class Economy {
+  
+  private int id;
   private String category;
   private String state;
   
@@ -14,9 +16,10 @@ public class Economies {
    * Constructs a Economies from a JSONObject.
    * @param input the input object
    */
-  public Economies(JSONObject input) {
+  public Economy(JSONObject input) {    
+    id = input.getInt("id");
     category = input.getString("category");
-    state = input.getString("state");
+    state = input.getString("state"); 
   }
   
   public String getCategory() {
@@ -26,4 +29,14 @@ public class Economies {
   public String getState() {
     return state;
   }
+  
+  @Override
+  public String toString(){
+    JSONObject str = new JSONObject();
+    str.put("id", this.id);
+    str.put("category", this.category);
+    str.put("state", this.state);
+    
+    return str.toString();
+  }  
 }
