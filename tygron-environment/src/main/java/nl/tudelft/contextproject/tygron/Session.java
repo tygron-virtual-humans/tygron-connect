@@ -30,6 +30,7 @@ public class Session {
   // Session data oriented
   private StakeholderList stakeholderList;
   private IndicatorList indicatorList;
+  private ZoneList zoneList;
 
   /**
    * Tygron Session Object.
@@ -208,6 +209,29 @@ public class Session {
   public IndicatorList getIndicators() {
     return this.indicatorList;
   }  
+
+   /**
+   * Load the zones into this session.
+   * 
+   * @return
+   */
+  public ZoneList loadZones() {
+    JSONArray data = apiConnection.callGetEventArray("slots/" + this.id
+        + "/lists/zones/");
+
+    this.zoneList = new ZoneList(data);
+
+    return this.zoneList;
+  }
+
+  /**
+   * Return the zone list
+   * 
+   * @return
+   */
+  public ZoneList getZones() {
+    return this.zoneList;
+  }
 
   /**
    * Return a string interpretation of this object.
