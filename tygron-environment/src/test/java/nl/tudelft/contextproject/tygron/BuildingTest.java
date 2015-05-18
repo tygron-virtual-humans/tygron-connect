@@ -1,19 +1,20 @@
 package nl.tudelft.contextproject.tygron;
 
+import com.esri.core.geometry.Polygon;
+
+import nl.tudelft.contextproject.util.PolygonUtil;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
-import java.io.IOException;
-
-import nl.tudelft.contextproject.util.PolygonUtil;
-
 import org.codehaus.jackson.JsonParseException;
+
 import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.esri.core.geometry.Polygon;
+import java.io.IOException;
 
 public class BuildingTest {
   DummyConnection connection;
