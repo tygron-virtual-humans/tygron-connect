@@ -4,6 +4,8 @@
 \usepackage{graphicx}
 \usepackage{datatool}
 
+\usepackage[space]{grffile}
+
 \title{Emergent Architecture Design}
 \author{Joe Harrison \and Harm Griffioen \and Dereck Bridie \and Paul van der Knaap \and Natasa Radenovic}
 \date{\today}
@@ -16,20 +18,44 @@
 In this document we will go over the details of how the system is going to be built and how our group will design the software architecture of the connector part of our context project. 
 
 \section{Design goals}
-Throughout the project, the contributors will keep these design goals in mind when creating code for our project.
+Throughout the project, the contributors will keep certain design goals in mind when creating code for our project.
 
 \subsection{Extensibility}
-Keeping in mind that the Tygron Engine is not final and may be extended, we will design our Connector in such a way that features can easily be added or modified if the Tygron Engine changes.
+Keeping in mind that the Tygron Engine is not final and may be changed by Tygron in the future, we will design our Connector in such a way that features can easily be added, removed or modified when the Tygron Engine changes.
+
+%TODO how will we achieve this goal? 
 
 \subsection{Performance}
-The Connector should have low latency, so that agents can ask for environment information and be able to process this information without the interface being the bottleneck.
+The Connector should have low latency, so that agents can ask for environment information and be able to process this information without our Connector being the bottleneck. 
+
+%TODO how will we achieve this goal? 
 
 \subsection{Code quality}
-Our connector’s code will be of high-quality, which means that code will be dynamically and statically tested.To ensure high quality we will be using JUnit tests, running CheckStyle, PMD, and FindBugs static testing and be using Travis integration. We will also be working on a pull-request based system where every addition or change to the code will be manually reviewed and discussed before being allowed to be pulled to the master branch.
+The Connector's code will be of high-quality, which means that code will be dynamically and statically tested. To check the quality of our code we will be using various tools which give indications of code quality. 
+
+Our code repository is split up into multiple branches. One branch, \textbf{master}, is the main branch in which code will be stored that is working. Every change to the code in the master branch must be manually reviewed and approved by a majority of us before being allowed to be pulled to the master branch.
+
+\textbf{CheckStyle} is a development tool that helps programmers write Java code that adheres to a coding standard. This will help us create code that has uniform code styling, keeping into account white space, method length, documentation, and so on.
+
+\textbf{PMD} and \textbf{FindBugs} are source code analyzers which finds common programming flaws and reports them.
+
+\textbf{JUnit} is a testing framework which allows programmers to write repeatable tests. In conjunction with \textbf{Cobertura}, this can be used to  check the percentage of code accessed by tests.
+
+\textbf{Javadoc} will be used to generate documentation which will be used to describe code. %needs more
+
+All of these tools will be run together using \textbf{Travis} and \textbf{Jenkins} Continuous Integration. These tools will automatically generate reports based on latest versions of code.
+
+\clearpage
 
 \section{Software architecture views}
 \subsection{Subsystem decomposition}
 This part describes our Connector and how it is divided into subsystems.
+
+\begin{figure}[h!]
+  \caption{Components diagram}
+  \centering
+    \includegraphics[width=1.0\textwidth]{components diagram.png}
+\end{figure}
 
 \subsubsection{Tygron Interface}
 The Tygron Interface is a subsystem that will communicate with Tygron’s REST endpoint. This interface’s responsibility is to translate functions to REST requests, and to translate REST responses back to Java objects.
