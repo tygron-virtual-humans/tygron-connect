@@ -3,18 +3,23 @@ package nl.tudelft.contextproject.tygron;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-public class IndicatorHousing extends Indicator {
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
+public class IndicatorHousing {
   double[] start;
   double[] current;
   double[] desired;
+  JSONObject jsonInput;
 
   /**
-   * Constructs a TygronIndicatorHousing from a JSONObject.
+   * Constructs a IndicatorHousing from a JSONObject.
    * @param input the input object
    */
   public IndicatorHousing(JSONObject input) {
-    super(input);
-
+    jsonInput = input;
+    
     JSONObject targetsObj = input.getJSONObject("targets");
     assert targetsObj.keySet().size() == 1;
     JSONArray target = targetsObj.getJSONArray("0");
@@ -33,6 +38,21 @@ public class IndicatorHousing extends Indicator {
       current[i] = progress.getDouble(i * 2);
       desired[i] = target.getDouble(i);
     }
+  }
+
+  /**
+   * Extracts the individual indicators from housing.
+   * @return a list of indicators
+   */
+  public Collection<? extends Indicator> extractIndicators() {
+    List<Indicator> indicators = new ArrayList<Indicator>();
+    for (int i = 0; i < start.length; i++) {
+      if (start[i] > 0 || desired[i] > 0) {
+        indicators.add(new SubIndicatorHousing(jsonInput, 
+            desired[i], current[i]));
+      }
+    }
+    return indicators;
   }
 
 }
