@@ -16,12 +16,10 @@ public class Economy {
    * Constructs a Economies from a JSONObject.
    * @param input the input object
    */
-  public Economy(JSONObject input) {
-    JSONObject object = input.getJSONObject("Economy");
-    
-    id = object.getInt("id");
-    category = object.getString("category");
-    state = object.getString("state"); 
+  public Economy(JSONObject input) {    
+    id = input.getInt("id");
+    category = input.getString("category");
+    state = input.getString("state"); 
   }
   
   public String getCategory() {

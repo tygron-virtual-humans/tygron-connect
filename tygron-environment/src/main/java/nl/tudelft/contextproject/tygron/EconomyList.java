@@ -19,7 +19,8 @@ public class EconomyList extends ArrayList<Economy> {
   public EconomyList(JSONArray input) {
     for (int i = 0; i < input.length(); i++) {
       JSONObject economyWrapper = input.getJSONObject(i);
-      Economy economy = new Economy(economyWrapper);
+      JSONObject economyObj = economyWrapper.getJSONObject("Economy");
+      Economy economy = new Economy(economyObj);
       this.add(economy);
     }
   }
