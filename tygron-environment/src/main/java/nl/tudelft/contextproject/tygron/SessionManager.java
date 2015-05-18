@@ -60,10 +60,9 @@ public class SessionManager {
     
     JSONObject data = apiConnection.callPostEventObject(
         "services/event/IOServicesEventType/JOIN_SESSION/", dataArray);
-    
-    session.setId(slotId);
-    session.setClientToken(data.getJSONObject("client").getString("clientToken"));
-    session.setServerToken(data.getString("serverToken"));
+        
+    session.setId(slotId); 
+    session.loadFromJson(data);
     
     return true;
   }
