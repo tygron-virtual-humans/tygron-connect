@@ -33,6 +33,9 @@ public class DemoConnector {
     
     System.out.println("Loading indicators:");
     System.out.println(sess.loadIndicators());
+    
+    System.out.println("Loading economies:");
+    System.out.println(sess.loadEconomies());   
    
     boolean sessionKill = sesM.killSession(sessionSlot);
     System.out.println("Killing session, result: " + sessionKill);
