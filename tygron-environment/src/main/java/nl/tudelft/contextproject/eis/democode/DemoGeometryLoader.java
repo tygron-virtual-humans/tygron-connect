@@ -1,6 +1,7 @@
 package nl.tudelft.contextproject.eis.democode;
 
 import com.esri.core.geometry.Geometry;
+
 import com.esri.core.geometry.OperatorContains;
 import com.esri.core.geometry.OperatorImportFromWkt;
 import com.esri.core.geometry.Polygon;
