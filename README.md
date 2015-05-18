@@ -10,4 +10,9 @@ The project deliverable is a connector between GOAL and Tygron's interface. This
 
 ##Install instructions
 
-TODO
+1. Download or build a `tygron-connect` environment.
+  * **Jenkins CI build**  
+    Jenkins provides automatic building for this project. Download [the latest jar with dependencies](http://jenkins.buildwise.eu/job/tygron-connect/lastBuild/tygron_connect$tygron_environment/).
+  * **Manual build**  
+    To build tygron-connect manually, run `mvn deploy`.
+2. This jar should be used as the environment in your GOAL `mas2g` file ([example](https://github.com/tygron-virtual-humans/tygron-connect/blob/master/tygron-environment/src/GOAL/GoalTestTygron.mas2g)).
