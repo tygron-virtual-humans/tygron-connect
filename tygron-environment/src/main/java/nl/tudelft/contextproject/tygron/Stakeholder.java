@@ -67,5 +67,14 @@ public class Stakeholder {
     return indicatorWeights;
   }
   
+  @Override
+  public String toString(){
+    JSONObject str = new JSONObject();
+    str.put("name", this.name);
+    str.put("shortName", this.shortName);
+    str.put("description", this.description);
+    str.put("id", this.id);
+    return str.toString();
+  }
   
 }

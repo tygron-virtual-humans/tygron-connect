@@ -4,6 +4,9 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 public abstract class Connection {
+  
+  protected String serverToken;
+  
   public abstract String callGetEvent(String eventName);
   
   public JSONObject callGetEventObject(String eventName) {
@@ -34,5 +37,9 @@ public abstract class Connection {
   
   public JSONArray callPostEventArray(String eventName, JSONArray parameters) {
     return new JSONArray(callPostEvent(eventName, parameters));
+  }
+  
+  public void setServerToken(String serverToken) {
+    this.serverToken = serverToken;
   }
 }

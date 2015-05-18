@@ -9,7 +9,7 @@ public class Connector {
   private User user;
   private Session session;
   private SessionManager sessionManager;
-  private static HttpConnection http;
+  private static HttpConnection connection;
 
   /**
    * Create a new TygronConnector.
@@ -19,13 +19,13 @@ public class Connector {
     settings = new Settings();
 
     // Now load our HTTP Object, it depends on settings
-    http = new HttpConnection(settings);
+    connection = new HttpConnection(settings);
 
     // Now load user, it depends on http
-    user = new User(http);
+    user = new User(connection);
 
     // Now load session, it depends on user
-    sessionManager = new SessionManager(http);
+    sessionManager = new SessionManager(connection);
     
     session = sessionManager.createOrFindSessionAndJoin("testmap");
   }
@@ -35,5 +35,12 @@ public class Connector {
    */
   public SessionManager getSessionManager() {
     return sessionManager;
+  }
+  
+  /**
+   * Return the connection manager.
+   */
+  public Connection getConnectionManager() {
+    return connection;
   }
 }

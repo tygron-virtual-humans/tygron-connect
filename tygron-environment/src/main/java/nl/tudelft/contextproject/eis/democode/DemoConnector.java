@@ -1,7 +1,9 @@
 package nl.tudelft.contextproject.eis.democode;
 
 import nl.tudelft.contextproject.tygron.Connector;
+import nl.tudelft.contextproject.tygron.Session;
 import nl.tudelft.contextproject.tygron.SessionManager;
+import nl.tudelft.contextproject.tygron.StakeholderList;
 
 public class DemoConnector {
 
@@ -15,9 +17,23 @@ public class DemoConnector {
     
     // Session Manager
     SessionManager sesM = con.getSessionManager();
-    
     int sessionSlot = sesM.createSession("testmap");
     System.out.println("Creating session in slot " + sessionSlot);
+    
+    System.out.println("Joining session...");
+    Session sess = new Session(con.getConnectionManager());
+    sesM.joinSession(sess, sessionSlot);
+    
+   
+    System.out.println("Compatible API Data/Functions:");
+    System.out.println(sess.getCompatibleOperations());
+    
+    System.out.println("Loading stake holders:");
+    System.out.println(sess.loadStakeHolders());
+    
+    System.out.println("Loading indicators:");
+    System.out.println(sess.loadIndicators());
+   
     boolean sessionKill = sesM.killSession(sessionSlot);
     System.out.println("Killing session, result: " + sessionKill);
   }
