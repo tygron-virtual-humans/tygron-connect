@@ -58,4 +58,26 @@ public class DummyConnection extends Connection {
   public String callPostEvent(String eventName, JSONArray parameters) {
     return response;
   }
+
+  @Override
+  public String callSessionGetEvent(String eventName) {
+	// TODO Auto-generated method stub
+	return null;
+  }
+
+  @Override
+  public String callSessionPostEvent(String eventName, JSONArray parameters) {
+	// TODO Auto-generated method stub
+    return null;
+  }
+
+  @Override
+  public void setServerToken(String serverToken) {
+	// TODO Auto-generated method stub
+  }
+
+  @Override
+  public void setSessionId(int sessionId) {
+	// TODO Auto-generated method stub
+  }
 }

@@ -113,6 +113,7 @@ public class Session {
    */
   public void setId(int newId) {
     this.id = newId;
+    apiConnection.setSessionId(newId);
   }
 
   /**
@@ -152,6 +153,15 @@ public class Session {
    */
   public void setClientToken(String clientToken) {
     this.clientToken = clientToken;
+  }
+  
+  /**
+  * Get the client token.
+  *
+  * @return The client token.
+  */
+  public String getClientToken(){
+    return this.clientToken;
   }
 
   /**
