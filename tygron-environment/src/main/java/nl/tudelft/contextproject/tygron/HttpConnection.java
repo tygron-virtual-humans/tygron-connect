@@ -19,7 +19,7 @@ public class HttpConnection extends Connection {
   private Settings settings;
   private HttpClient client;
   private String authString;
-  private String serverToken;
+ 
   private static final String API_URL_BASE = "https://server2.tygron.com:3022/api/";
   private static final String API_JSON_SUFFIX = "?f=JSON";
 
@@ -50,10 +50,6 @@ public class HttpConnection extends Connection {
     if(serverToken != null){
       request.setHeader("serverToken", serverToken);
     }
-  }
-
-  public void setServerToken(String serverToken) {
-    this.serverToken = serverToken;
   }
 
   private String getApiUrl(String eventName) {
