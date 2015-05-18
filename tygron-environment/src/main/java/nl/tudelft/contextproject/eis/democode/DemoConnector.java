@@ -30,6 +30,9 @@ public class DemoConnector {
     
     System.out.println("Loading stake holders:");
     System.out.println(sess.loadStakeHolders());
+    
+    System.out.println("Loading indicators:");
+    System.out.println(sess.loadIndicators());
    
     boolean sessionKill = sesM.killSession(sessionSlot);
     System.out.println("Killing session, result: " + sessionKill);

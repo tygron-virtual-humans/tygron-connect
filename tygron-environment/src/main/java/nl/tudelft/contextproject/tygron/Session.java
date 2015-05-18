@@ -29,6 +29,7 @@ public class Session {
 
   // Session data oriented
   private StakeholderList stakeholderList;
+  private IndicatorList indicatorList;
 
   /**
    * Tygron Session Object.
@@ -184,6 +185,29 @@ public class Session {
   public StakeholderList getStakeHolders() {
     return this.stakeholderList;
   }
+  
+  /**
+   * Load the indicatorso into this session.
+   * 
+   * @return
+   */
+  public IndicatorList loadIndicators() {
+    JSONArray data = apiConnection.callGetEventArray("slots/" + this.id
+        + "/lists/indicators/");
+
+    this.indicatorList = new IndicatorList(data);
+
+    return this.indicatorList;
+  }
+
+  /**
+   * Return the indicator list
+   * 
+   * @return
+   */
+  public IndicatorList getIndicators() {
+    return this.indicatorList;
+  }  
 
   /**
    * Return a string interpretation of this object.
