@@ -19,12 +19,15 @@ public class HttpConnection extends Connection {
   private Settings settings;
   private HttpClient client;
   private String authString;
+ 
   private static final String API_URL_BASE = "https://server2.tygron.com:3022/api/";
   private static final String API_JSON_SUFFIX = "?f=JSON";
 
   /**
-   * Creates a Tygron connection using some settings. 
-   * @param tygronSettings the settings that should be used.
+   * Creates a Tygron connection using some settings.
+   * 
+   * @param tygronSettings
+   *          the settings that should be used.
    */
   public HttpConnection(Settings tygronSettings) {
     settings = tygronSettings;
@@ -43,8 +46,12 @@ public class HttpConnection extends Connection {
     request.setHeader("Accept", "application/json");
     request.setHeader("Content-Type", "application/json");
     request.setHeader("Authorization", "Basic " + authString);
+    
+    if(serverToken != null){
+      request.setHeader("serverToken", serverToken);
+    }
   }
-  
+
   private String getApiUrl(String eventName) {
     return API_URL_BASE + eventName + API_JSON_SUFFIX;
   }

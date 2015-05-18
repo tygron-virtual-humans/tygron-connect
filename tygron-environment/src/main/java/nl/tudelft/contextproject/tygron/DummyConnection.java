@@ -16,6 +16,7 @@ import java.nio.file.Paths;
  * 
  */
 public class DummyConnection extends Connection {
+  
   String response;
 
   /**

@@ -15,6 +15,7 @@ import org.json.JSONObject;
  */
 public class Session {
 
+  // Session oriented
   private static Connection apiConnection;
   private String name;
   private String platform;
@@ -25,6 +26,9 @@ public class Session {
   private String serverToken;
   private ArrayList<String> compatibleOperations;
   private int id;
+
+  // Session data oriented
+  private StakeholderList stakeholderList;
 
   /**
    * Tygron Session Object.
@@ -46,7 +50,7 @@ public class Session {
     this.setClientToken(object.getJSONObject("client").getString("clientToken"));
     this.setServerToken(object.getString("serverToken"));
     this.name = object.getString("project");
-   // this.type = object.getString("type");
+    // this.type = object.getString("type");
     this.platform = object.getString("platform");
     this.state = object.getJSONObject("client").getString("connectionState");
 
@@ -126,6 +130,7 @@ public class Session {
    */
   public void setServerToken(String serverToken) {
     this.serverToken = serverToken;
+    apiConnection.setServerToken(serverToken);
   }
 
   /**
@@ -146,13 +151,38 @@ public class Session {
   public void setClientToken(String clientToken) {
     this.clientToken = clientToken;
   }
-  
+
   /**
-   * Return a (string) array with all the possible operations/data that can be loaded from the API.
-   * @return 
+   * Return a (string) array with all the possible operations/data that can be
+   * loaded from the API.
+   * 
+   * @return
    */
-  public ArrayList<String> getCompatibleOperations(){
+  public ArrayList<String> getCompatibleOperations() {
     return this.compatibleOperations;
+  }
+
+  /**
+   * Load the stake holders into this session.
+   * 
+   * @return
+   */
+  public StakeholderList loadStakeHolders() {
+    JSONArray data = apiConnection.callGetEventArray("slots/" + this.id
+        + "/lists/stakeholders/");
+
+    this.stakeholderList = new StakeholderList(data);
+
+    return this.stakeholderList;
+  }
+
+  /**
+   * Return the stake holder list
+   * 
+   * @return
+   */
+  public StakeholderList getStakeHolders() {
+    return this.stakeholderList;
   }
 
   /**
