@@ -32,6 +32,7 @@ public class Session {
   private IndicatorList indicatorList;
   private ZoneList zoneList;
   private EconomyList economyList;
+  private BuildingList buildingList;
 
   /**
    * Tygron Session Object.
@@ -266,6 +267,31 @@ public class Session {
  public EconomyList getEconomies() {
    return this.economyList;
  }  
+ 
+ /**
+ * Load the zones into this session.
+ * 
+ * @return
+ */
+public BuildingList loadBuildings() {
+  JSONArray data = apiConnection.callGetEventArray("slots/" + this.id
+      + "/lists/buildings/");
+
+  this.buildingList = new BuildingList(data);
+
+  return this.buildingList;
+}
+ 
+
+ /**
+  * Return the zone list
+  * 
+  * @return
+  */
+ public BuildingList getBuildings() {
+   return this.buildingList;
+ }  
+
 
   /**
    * Return a string interpretation of this object.
