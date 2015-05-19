@@ -15,8 +15,8 @@ public class Settings {
       this.username = settingsLoader.getUsername();
       this.password = settingsLoader.getPassword();
     } catch (Exception e) {
-      username = "fallbackusername";
-      password = "fallbackpassword";
+      username = "api@tudelft.com";
+      password = "intercontinental1";
     }
   }
 

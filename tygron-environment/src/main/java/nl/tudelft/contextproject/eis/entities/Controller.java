@@ -41,5 +41,15 @@ public class Controller {
   public List<TygronPercept> progressIndicator() {  
     return indicators.progressIndicator();
   }
+  
+  /**
+   * Percepts the initIndicators once.
+   * @return the list of indicators
+   */
+  @AsPercept(name = "initIndicator", multiplePercepts = true, 
+      multipleArguments = true, filter = Filter.Type.ONCE)
+  public List<TygronPercept> initIndicator() {  
+    return stakeholders.initIndicator();
+  }
 
 }

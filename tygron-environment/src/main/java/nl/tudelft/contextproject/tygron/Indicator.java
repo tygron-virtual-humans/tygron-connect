@@ -7,6 +7,7 @@ import org.json.JSONObject;
  *
  */
 public abstract class Indicator {
+  private int id;
   private String name;
   private String shortName;
   private String type;
@@ -18,11 +19,16 @@ public abstract class Indicator {
    * @param input Server response
    */
   public Indicator(JSONObject input) {
+    id = input.getInt("id");
     name = input.getString("name");
     shortName = input.getString("shortName");
     type = input.getString("type");
     descriptionHtml = input.getString("description");
     explanationHtml = input.getString("explanation");
+  }
+  
+  public int getId() {
+    return id;
   }
   
   public String getName() {
