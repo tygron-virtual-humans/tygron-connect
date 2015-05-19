@@ -1,4 +1,4 @@
-package nl.tudelft.contextproject.eis;
+package nl.tudelft.contextproject.democode;
 
 import static org.junit.Assert.assertFalse;
 

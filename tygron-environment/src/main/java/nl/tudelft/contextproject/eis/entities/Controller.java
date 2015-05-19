@@ -11,6 +11,7 @@ import java.util.List;
 public class Controller {
   private IndicatorEntity indicators;
   private StakeholderEntity stakeholders;
+  private EconomyEntity economies;
   
   /**
    * Controller constructor.
@@ -19,6 +20,7 @@ public class Controller {
   public Controller(Session controller) {
     indicators = new IndicatorEntity(controller.loadIndicators());
     stakeholders = new StakeholderEntity(controller.loadStakeHolders());
+    economies = new EconomyEntity(controller.loadEconomies());
   }
   
 
@@ -41,5 +43,25 @@ public class Controller {
   public List<TygronPercept> progressIndicator() {  
     return indicators.progressIndicator();
   }
+  
+  /**
+   * Percepts the initIndicators once.
+   * @return the list of indicators
+   */
+  @AsPercept(name = "initIndicator", multiplePercepts = true, 
+      multipleArguments = true, filter = Filter.Type.ONCE)
+  public List<TygronPercept> initIndicator() {  
+    return stakeholders.initIndicator();
+  }
 
+  /**
+   * Percepts the initIndicators on change.
+   * @return the list of indicators
+   */
+  @AsPercept(name = "economy", multiplePercepts = true, 
+      multipleArguments = true, filter = Filter.Type.ON_CHANGE)
+  public List<TygronPercept> economies() {  
+    return economies.economies();
+  }
+  
 }
