@@ -16,9 +16,11 @@ public class Building {
   
   final Logger logger = LoggerFactory.getLogger(Building.class);
   
+  private int id;
   private String name;
   private Polygon polygon;
   private int floors;
+  
   /**
    * Constructs Buildings from a JSONObject.
    * @param input A JSONObject containing building information.
@@ -26,6 +28,8 @@ public class Building {
   public Building(JSONObject input) {
     PolygonUtil polyUtil = new PolygonUtil();
     name = input.getString("name");
+    id = input.getInt("id");
+    
     try {
       polygon = polyUtil.createPolygonFromWkt(input.getString("polygons"));
     } catch (JsonParseException e) {
@@ -40,6 +44,14 @@ public class Building {
     }
     floors = input.getInt("floors");
   }
+
+  /**
+   * Get the buildings id.
+   * @return Building id.
+   */
+  public int getId() {
+    return id;
+  } 
   
   /**
    * Get the buildings name.
@@ -63,5 +75,13 @@ public class Building {
    */
   public int getFloors() {
     return floors;
+  }
+  
+  @Override
+  public String toString() {
+    JSONObject str = new JSONObject();
+    str.put("id", this.id);
+    str.put("name", this.name);
+    return str.toString();
   }
 }
