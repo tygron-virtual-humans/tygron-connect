@@ -87,8 +87,9 @@ public class SessionManager {
     }
     
     // else create a new session
-    slot = createSession(mapName);
-    
+    if (slot < 0) {
+      slot = createSession(mapName);
+    }
     // Create a new session
     Session sess = new Session(apiConnection);
     joinSession(sess,slot);
