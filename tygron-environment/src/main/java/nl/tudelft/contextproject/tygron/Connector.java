@@ -43,4 +43,11 @@ public class Connector {
   public Connection getConnectionManager() {
     return connection;
   }
+  
+  /**
+   * Return the session.
+   */
+  public Session getSession() {
+    return session;
+  }
 }

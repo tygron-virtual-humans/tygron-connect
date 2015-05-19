@@ -44,4 +44,10 @@ public abstract class Indicator {
   public String getExplanationHtml() {
     return explanationHtml;
   }
+
+  public abstract double getProgress();
+  
+  public abstract double getTarget();
+  
+  public abstract double getCurrent();
 }
