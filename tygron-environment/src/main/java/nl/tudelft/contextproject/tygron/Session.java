@@ -67,6 +67,26 @@ public class Session {
       }
     }
   }
+  
+  /**
+   * Close a session (instead of killing it).
+   * 
+   * @param keepAlive
+   *          In keepAlive is true and you are the last one in the session,
+   *          should it be killed? False indicated it should. True indicated it
+   *          should be kept alive.
+   * @return Whether the operations succeeded.
+   */
+  public boolean closeSession(boolean keepAlive) {
+
+    JSONArray dataArray = new JSONArray();
+    dataArray.put(this.id); // Server slot ID
+    dataArray.put(this.clientToken); // Client session token
+    dataArray.put(keepAlive); // Keep alive?
+
+    return apiConnection.callPostEventBoolean(
+        "services/event/IOServicesEventType/CLOSE_SESSION/", dataArray);
+  }
 
   /**
    * Set a new session name.
