@@ -24,6 +24,9 @@ public class SessionManager {
    * @return A list of joinable tygron sessions.
    */
   public List<Session> getJoinableSessions() {
+    
+    logger.info("Fetching joinable sessions."); 
+    
     List<Session> returnList = new ArrayList<Session>();
 
     JSONArray data = apiConnection.callPostEventArray(
@@ -44,6 +47,8 @@ public class SessionManager {
       // Add to datalist
       returnList.add(localSession);
     }
+    
+    logger.info(data.length() + " sessions available.");
 
     return returnList;
   }
@@ -81,6 +86,8 @@ public class SessionManager {
    */
   public Session createOrFindSessionAndJoin(String mapName) {
     
+    logger.info("Create or find a session with name: " + mapName);
+    
     // Set default slot
     int slot = -1;
     
@@ -96,6 +103,7 @@ public class SessionManager {
     if (slot < 0) {
       slot = createSession(mapName);
     }
+    
     // Create a new session
     Session sess = new Session(apiConnection);
     joinSession(sess,slot);
@@ -132,8 +140,12 @@ public class SessionManager {
     JSONArray dataArray = new JSONArray();
     dataArray.put(slotId);  // Server slot ID
     
-    return apiConnection.callPostEventBoolean(
+    boolean apiCallResult = apiConnection.callPostEventBoolean(
         "services/event/IOServicesEventType/KILL_SESSION/", dataArray);
+    
+    logger.info("Killing session #" + slotId + " result: " + apiCallResult);
+    
+    return apiCallResult;
   }
 
 }

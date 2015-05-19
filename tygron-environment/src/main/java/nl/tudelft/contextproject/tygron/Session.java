@@ -164,6 +164,7 @@ public class Session {
    *          The server token.
    */
   public void setServerToken(String serverToken) {
+    logger.debug("Session serverToken=" + serverToken);
     this.serverToken = serverToken;
     apiConnection.setServerToken(serverToken);
   }
@@ -184,6 +185,7 @@ public class Session {
    *          The client token.
    */
   public void setClientToken(String clientToken) {
+    logger.debug("Session clientToken=" + clientToken);
     this.clientToken = clientToken;
   }
 
@@ -212,6 +214,9 @@ public class Session {
    * @return the list of stakeholders.
    */
   public StakeholderList loadStakeHolders() {
+    
+    logger.debug("Loading stakeholders"); 
+    
     JSONArray data = apiConnection.callGetEventArray("slots/" + this.id
         + "/lists/stakeholders/");
 
@@ -235,6 +240,9 @@ public class Session {
    * @return the list of indicators.
    */
   public IndicatorList loadIndicators() {
+    
+    logger.debug("Loading indicators"); 
+    
     JSONArray data = apiConnection.callGetEventArray("slots/" + this.id
         + "/lists/indicators/");
 
@@ -258,6 +266,9 @@ public class Session {
    * @return the list of zones.
    */
   public ZoneList loadZones() {
+    
+    logger.debug("Loading zones"); 
+    
     JSONArray data = apiConnection.callGetEventArray("slots/" + this.id
         + "/lists/zones/");
 
@@ -281,6 +292,9 @@ public class Session {
    * @return the list of economics.
    */
   public EconomyList loadEconomies() {
+    
+    logger.debug("Loading economies");  
+    
     JSONArray data = apiConnection.callGetEventArray("slots/" + this.id
         + "/lists/economies/");
 
@@ -304,6 +318,9 @@ public class Session {
    * @return the list of buildings.
    */
   public BuildingList loadBuildings() {
+    
+    logger.debug("Loading buildings"); 
+    
     JSONArray data = apiConnection.callGetEventArray("slots/" + this.id
         + "/lists/buildings/");
 
