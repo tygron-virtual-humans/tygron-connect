@@ -26,4 +26,19 @@ public class IndicatorParking extends Indicator {
     targetParking = maquetteDeltaScores.getDouble(targetParkingIndex);
     currentParking = maquetteDeltaScores.getDouble(currentParkingIndex);
   }
+
+  @Override
+  public double getProgress() {
+    return currentParking / targetParking;
+  }
+
+  @Override
+  public double getTarget() {
+    return targetParking;
+  }
+
+  @Override
+  public double getCurrent() {
+    return currentParking;
+  }
 }

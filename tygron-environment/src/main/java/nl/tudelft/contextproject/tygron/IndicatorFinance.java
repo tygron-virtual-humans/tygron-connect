@@ -20,11 +20,18 @@ public class IndicatorFinance extends Indicator {
     currentBudget = input.getJSONObject("exactActorValues").getDouble("CURRENT");
   }
 
+  @Override
   public double getTarget() {
     return target;
   }
 
-  public double getCurrentBudget() {
+  @Override
+  public double getProgress() {
+    return currentBudget / target;
+  }
+
+  @Override
+  public double getCurrent() {
     return currentBudget;
   }
 }
