@@ -1,9 +1,9 @@
 package nl.tudelft.contextproject.tygron;
 
-import java.util.ArrayList;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 /**
  * TygronSession. General session handling to Tygron. A brief overview: First
@@ -66,6 +66,26 @@ public class Session {
         compatibleOperations.add(jsonArray.get(i).toString());
       }
     }
+  }
+
+  /**
+   * Close a session (instead of killing it).
+   * 
+   * @param keepAlive
+   *          In keepAlive is true and you are the last one in the session,
+   *          should it be killed? False indicated it should. True indicated it
+   *          should be kept alive.
+   * @return Whether the operations succeeded.
+   */
+  public boolean closeSession(boolean keepAlive) {
+
+    JSONArray dataArray = new JSONArray();
+    dataArray.put(this.id); // Server slot ID
+    dataArray.put(this.clientToken); // Client session token
+    dataArray.put(keepAlive); // Keep alive?
+
+    return apiConnection.callPostEventBoolean(
+        "services/event/IOServicesEventType/CLOSE_SESSION/", dataArray);
   }
 
   /**
@@ -156,13 +176,13 @@ public class Session {
   public void setClientToken(String clientToken) {
     this.clientToken = clientToken;
   }
-  
+
   /**
-  * Get the client token.
-  *
-  * @return The client token.
-  */
-  public String getClientToken(){
+   * Get the client token.
+   *
+   * @return The client token.
+   */
+  public String getClientToken() {
     return this.clientToken;
   }
 
@@ -170,7 +190,7 @@ public class Session {
    * Return a (string) array with all the possible operations/data that can be
    * loaded from the API.
    * 
-   * @return
+   * @return The compatible operations for this session.
    */
   public ArrayList<String> getCompatibleOperations() {
     return this.compatibleOperations;
@@ -179,7 +199,7 @@ public class Session {
   /**
    * Load the stake holders into this session.
    * 
-   * @return
+   * @return the list of stakeholders.
    */
   public StakeholderList loadStakeHolders() {
     JSONArray data = apiConnection.callGetEventArray("slots/" + this.id
@@ -193,16 +213,16 @@ public class Session {
   /**
    * Return the stake holder list
    * 
-   * @return
+   * @return the list of stakeholders.
    */
   public StakeholderList getStakeHolders() {
     return this.stakeholderList;
   }
-  
+
   /**
-   * Load the indicatorso into this session.
+   * Load the indicators into this session.
    * 
-   * @return
+   * @return the list of indicators.
    */
   public IndicatorList loadIndicators() {
     JSONArray data = apiConnection.callGetEventArray("slots/" + this.id
@@ -216,16 +236,16 @@ public class Session {
   /**
    * Return the indicator list
    * 
-   * @return
+   * @return the list of indicators.
    */
   public IndicatorList getIndicators() {
     return this.indicatorList;
-  }  
+  }
 
-   /**
+  /**
    * Load the zones into this session.
    * 
-   * @return
+   * @return the list of zones.
    */
   public ZoneList loadZones() {
     JSONArray data = apiConnection.callGetEventArray("slots/" + this.id
@@ -239,59 +259,57 @@ public class Session {
   /**
    * Return the zone list
    * 
-   * @return
+   * @return the list of zones.
    */
   public ZoneList getZones() {
     return this.zoneList;
   }
-  
+
   /**
-  * Load the zones into this session.
-  * 
-  * @return
-  */
- public EconomyList loadEconomies() {
-   JSONArray data = apiConnection.callGetEventArray("slots/" + this.id
-       + "/lists/economies/");
+   * Load the economies into this session.
+   * 
+   * @return the list of economics.
+   */
+  public EconomyList loadEconomies() {
+    JSONArray data = apiConnection.callGetEventArray("slots/" + this.id
+        + "/lists/economies/");
 
-   this.economyList = new EconomyList(data);
+    this.economyList = new EconomyList(data);
 
-   return this.economyList;
- }
+    return this.economyList;
+  }
 
- /**
-  * Return the zone list
-  * 
-  * @return
-  */
- public EconomyList getEconomies() {
-   return this.economyList;
- }  
- 
- /**
- * Load the zones into this session.
- * 
- * @return
- */
-public BuildingList loadBuildings() {
-  JSONArray data = apiConnection.callGetEventArray("slots/" + this.id
-      + "/lists/buildings/");
+  /**
+   * Return the economies list
+   * 
+   * @return the list of economics.
+   */
+  public EconomyList getEconomies() {
+    return this.economyList;
+  }
 
-  this.buildingList = new BuildingList(data);
+  /**
+   * Load the buildings into this session.
+   * 
+   * @return the list of buildings.
+   */
+  public BuildingList loadBuildings() {
+    JSONArray data = apiConnection.callGetEventArray("slots/" + this.id
+        + "/lists/buildings/");
 
-  return this.buildingList;
-}
- 
+    this.buildingList = new BuildingList(data);
 
- /**
-  * Return the zone list
-  * 
-  * @return
-  */
- public BuildingList getBuildings() {
-   return this.buildingList;
- }  
+    return this.buildingList;
+  }
 
+  /**
+   * Return the buildings list
+   * 
+   * @return the list of buildings.
+   */
+  public BuildingList getBuildings() {
+    return this.buildingList;
+  }
 
   /**
    * Return a string interpretation of this object.

@@ -40,7 +40,7 @@ public class DemoConnector {
     System.out.println("Loading buildings:");
     System.out.println(sess.loadBuildings());       
    
-    boolean sessionKill = sesM.killSession(sessionSlot);
-    System.out.println("Killing session, result: " + sessionKill);
+    boolean sessionKill = sess.closeSession(false);
+    System.out.println("Closing session, result: " + sessionKill);
   }
 }
