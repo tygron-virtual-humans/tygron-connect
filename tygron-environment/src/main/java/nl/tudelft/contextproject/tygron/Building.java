@@ -44,6 +44,14 @@ public class Building {
     }
     floors = input.getInt("floors");
   }
+
+  /**
+   * Get the buildings id.
+   * @return Building id.
+   */
+  public int getId() {
+    return id;
+  } 
   
   /**
    * Get the buildings name.
@@ -69,6 +77,7 @@ public class Building {
     return floors;
   }
   
+  @Override
   public String toString() {
     JSONObject str = new JSONObject();
     str.put("id", this.id);
