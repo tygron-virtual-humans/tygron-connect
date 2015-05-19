@@ -1,4 +1,4 @@
-package nl.tudelft.contextproject.entities;
+package nl.tudelft.contextproject.eis.entities;
 
 import nl.tudelft.contextproject.eis.TygronPercept;
 import nl.tudelft.contextproject.tygron.Session;

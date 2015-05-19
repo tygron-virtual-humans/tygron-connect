@@ -5,12 +5,10 @@ import eis.exceptions.ManagementException;
 import eis.iilang.Action;
 import eis.iilang.EnvironmentState;
 import eis.iilang.Parameter;
-
-import nl.tudelft.contextproject.entities.Controller;
+import nl.tudelft.contextproject.eis.entities.Controller;
 import nl.tudelft.contextproject.translators.TygronIndicatorTranslator;
 import nl.tudelft.contextproject.tygron.Connector;
 import nl.tudelft.contextproject.tygron.Session;
-
 import eis.eis2java.environment.AbstractEnvironment;
 import eis.eis2java.translation.Translator;
 
