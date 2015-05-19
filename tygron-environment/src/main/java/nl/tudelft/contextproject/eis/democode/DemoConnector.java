@@ -18,12 +18,9 @@ public class DemoConnector {
     // Session Manager
     SessionManager sesM = con.getSessionManager();
     int sessionSlot = sesM.createSession("testmap");
-    System.out.println("Creating session in slot " + sessionSlot);
     
-    System.out.println("Joining session...");
     Session sess = new Session(con.getConnectionManager());
     sesM.joinSession(sess, sessionSlot);
-    
    
     System.out.println("Compatible API Data/Functions:");
     System.out.println(sess.getCompatibleOperations());
@@ -40,7 +37,6 @@ public class DemoConnector {
     System.out.println("Loading buildings:");
     System.out.println(sess.loadBuildings());       
    
-    boolean sessionKill = sess.closeSession(false);
-    System.out.println("Closing session, result: " + sessionKill);
+    sess.closeSession(false);
   }
 }

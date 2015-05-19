@@ -2,6 +2,8 @@ package nl.tudelft.contextproject.tygron;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 
@@ -15,6 +17,8 @@ import java.util.ArrayList;
  */
 public class Session {
 
+  final Logger logger = LoggerFactory.getLogger(Session.class);
+  
   // Session oriented
   private static Connection apiConnection;
   private String name;
@@ -79,13 +83,19 @@ public class Session {
    */
   public boolean closeSession(boolean keepAlive) {
 
+    logger.info("Closing session #" + this.id + " with clientToken " + this.clientToken + " (keepalive: " + keepAlive + ")");
+    
     JSONArray dataArray = new JSONArray();
     dataArray.put(this.id); // Server slot ID
     dataArray.put(this.clientToken); // Client session token
     dataArray.put(keepAlive); // Keep alive?
 
-    return apiConnection.callPostEventBoolean(
-        "services/event/IOServicesEventType/CLOSE_SESSION/", dataArray);
+    boolean apiReturnValue = apiConnection.callPostEventBoolean(
+        "services/event/IOServicesEventType/CLOSE_SESSION/", dataArray); 
+    
+    logger.info("Closing session result: " + apiReturnValue);
+    
+    return apiReturnValue;
   }
 
   /**
@@ -154,6 +164,7 @@ public class Session {
    *          The server token.
    */
   public void setServerToken(String serverToken) {
+    logger.debug("Session serverToken=" + serverToken);
     this.serverToken = serverToken;
     apiConnection.setServerToken(serverToken);
   }
@@ -174,6 +185,7 @@ public class Session {
    *          The client token.
    */
   public void setClientToken(String clientToken) {
+    logger.debug("Session clientToken=" + clientToken);
     this.clientToken = clientToken;
   }
 
@@ -202,6 +214,9 @@ public class Session {
    * @return the list of stakeholders.
    */
   public StakeholderList loadStakeHolders() {
+    
+    logger.debug("Loading stakeholders"); 
+    
     JSONArray data = apiConnection.callGetEventArray("slots/" + this.id
         + "/lists/stakeholders/");
 
@@ -225,6 +240,9 @@ public class Session {
    * @return the list of indicators.
    */
   public IndicatorList loadIndicators() {
+    
+    logger.debug("Loading indicators"); 
+    
     JSONArray data = apiConnection.callGetEventArray("slots/" + this.id
         + "/lists/indicators/");
 
@@ -248,6 +266,9 @@ public class Session {
    * @return the list of zones.
    */
   public ZoneList loadZones() {
+    
+    logger.debug("Loading zones"); 
+    
     JSONArray data = apiConnection.callGetEventArray("slots/" + this.id
         + "/lists/zones/");
 
@@ -271,6 +292,9 @@ public class Session {
    * @return the list of economics.
    */
   public EconomyList loadEconomies() {
+    
+    logger.debug("Loading economies");  
+    
     JSONArray data = apiConnection.callGetEventArray("slots/" + this.id
         + "/lists/economies/");
 
@@ -294,6 +318,9 @@ public class Session {
    * @return the list of buildings.
    */
   public BuildingList loadBuildings() {
+    
+    logger.debug("Loading buildings"); 
+    
     JSONArray data = apiConnection.callGetEventArray("slots/" + this.id
         + "/lists/buildings/");
 

@@ -21,25 +21,31 @@ public class Connector {
   public Connector() {
     this(new HttpConnection(new Settings()));
   }
-  
+
   /**
    * Create a new TygronConnector with a given connection.
-   * @param connection the connection to use.
+   * 
+   * @param connection
+   *          the connection to use.
    */
   public Connector(Connection connection) {
-    
+
     logger.info("Connector loading.");
-    
+
     this.connection = connection;
-    
+
     // Now load user, it depends on http
     user = new User(connection);
+    user.loadSettings();
+
+    logger.info("Using user #" + user.getId() + " " + user.getUserName() + " "
+        + user.getFirstName() + " " + user.getLastName());
 
     // Now load session, it depends on user
     sessionManager = new SessionManager(connection);
 
     session = sessionManager.createOrFindSessionAndJoin("testmap");
-    
+
     logger.info("Connector loading complete.");
   }
 
@@ -56,7 +62,7 @@ public class Connector {
   public Connection getConnectionManager() {
     return connection;
   }
-  
+
   /**
    * Return the session.
    */

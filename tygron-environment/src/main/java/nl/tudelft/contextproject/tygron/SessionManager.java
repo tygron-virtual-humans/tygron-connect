@@ -2,12 +2,16 @@ package nl.tudelft.contextproject.tygron;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class SessionManager {
 
+  final Logger logger = LoggerFactory.getLogger(SessionManager.class);
+  
   private static Connection apiConnection;
   
   public SessionManager(Connection localApiConnection) {
@@ -20,6 +24,9 @@ public class SessionManager {
    * @return A list of joinable tygron sessions.
    */
   public List<Session> getJoinableSessions() {
+    
+    logger.info("Fetching joinable sessions."); 
+    
     List<Session> returnList = new ArrayList<Session>();
 
     JSONArray data = apiConnection.callPostEventArray(
@@ -40,6 +47,8 @@ public class SessionManager {
       // Add to datalist
       returnList.add(localSession);
     }
+    
+    logger.info(data.length() + " sessions available.");
 
     return returnList;
   }
@@ -51,6 +60,8 @@ public class SessionManager {
    */
   public boolean joinSession(Session session, int slotId) {
 
+    logger.info("Joining session in slot " + slotId);
+    
     JSONArray dataArray = new JSONArray();
     dataArray.put(slotId);      // Server slot ID
     dataArray.put("VIEWER");    // My application type: EDITOR, VIEWER, ADMIN, BEAM 
@@ -75,6 +86,8 @@ public class SessionManager {
    */
   public Session createOrFindSessionAndJoin(String mapName) {
     
+    logger.info("Create or find a session with name: " + mapName);
+    
     // Set default slot
     int slot = -1;
     
@@ -90,6 +103,7 @@ public class SessionManager {
     if (slot < 0) {
       slot = createSession(mapName);
     }
+    
     // Create a new session
     Session sess = new Session(apiConnection);
     joinSession(sess,slot);
@@ -104,14 +118,17 @@ public class SessionManager {
    */
   public int createSession(String mapName) {
     
+    logger.info("Creating session with name: " + mapName);
     JSONArray dataArray = new JSONArray();
     dataArray.put("MULTI_PLAYER");  // SessionType: SINGLE_PLAYER, MULTI_PLAYER, EDITOR
     dataArray.put(mapName);         // Project file name
     
-    int retValue = apiConnection.callPostEventInt(
+    int slotNumber = apiConnection.callPostEventInt(
         "services/event/IOServicesEventType/START_NEW_SESSION/", dataArray); 
+    
+    logger.info("Session created in slot: " + slotNumber);
 
-    return retValue;
+    return slotNumber;
   }
   
   /**
@@ -123,8 +140,12 @@ public class SessionManager {
     JSONArray dataArray = new JSONArray();
     dataArray.put(slotId);  // Server slot ID
     
-    return apiConnection.callPostEventBoolean(
+    boolean apiCallResult = apiConnection.callPostEventBoolean(
         "services/event/IOServicesEventType/KILL_SESSION/", dataArray);
+    
+    logger.info("Killing session #" + slotId + " result: " + apiCallResult);
+    
+    return apiCallResult;
   }
 
 }
