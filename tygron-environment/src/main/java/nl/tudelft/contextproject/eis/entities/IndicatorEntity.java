@@ -19,7 +19,13 @@ public class IndicatorEntity {
   }
   
   /**
-   * Percepts the indicators on change.
+   * Percepts the indicators.
+   *  Id
+   *  Type
+   *  Name
+   *  Progress
+   *  Current
+   *  Target
    * @return the list of indicators
    */
   public List<TygronPercept> progressIndicator() {  
@@ -27,8 +33,9 @@ public class IndicatorEntity {
     
     for (int i = 0; i < indicatorList.size(); i++) {
       Indicator ind = indicatorList.get(i);
-      result.add(new TygronPercept(ind.getType().toLowerCase(),
-          ind.getName().toLowerCase(), ind.getProgress()));
+      result.add(new TygronPercept(ind.getId(), ind.getType().toLowerCase(),
+          ind.getName().toLowerCase(), ind.getProgress(),
+          ind.getCurrent(), ind.getTarget()));
     }
     
     return result;
