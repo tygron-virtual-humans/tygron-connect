@@ -1,9 +1,15 @@
 package nl.tudelft.contextproject.tygron;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * The TygronConnector is the bridge between the Tygron API and JAVA.
  */
 public class Connector {
+  
+  final Logger logger = LoggerFactory.getLogger(Connector.class);
+
   private User user;
   private Session session;
   private SessionManager sessionManager;
@@ -21,6 +27,9 @@ public class Connector {
    * @param connection the connection to use.
    */
   public Connector(Connection connection) {
+    
+    logger.info("Connector loading.");
+    
     this.connection = connection;
     
     // Now load user, it depends on http
@@ -30,6 +39,8 @@ public class Connector {
     sessionManager = new SessionManager(connection);
 
     session = sessionManager.createOrFindSessionAndJoin("testmap");
+    
+    logger.info("Connector loading complete.");
   }
 
   /**
