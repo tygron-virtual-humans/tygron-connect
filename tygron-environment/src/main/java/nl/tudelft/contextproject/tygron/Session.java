@@ -2,6 +2,8 @@ package nl.tudelft.contextproject.tygron;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 
@@ -15,6 +17,8 @@ import java.util.ArrayList;
  */
 public class Session {
 
+  final Logger logger = LoggerFactory.getLogger(Session.class);
+  
   // Session oriented
   private static Connection apiConnection;
   private String name;
@@ -79,13 +83,19 @@ public class Session {
    */
   public boolean closeSession(boolean keepAlive) {
 
+    logger.info("Closing session #" + this.id + " with clientToken " + this.clientToken + " (keepalive: " + keepAlive + ")");
+    
     JSONArray dataArray = new JSONArray();
     dataArray.put(this.id); // Server slot ID
     dataArray.put(this.clientToken); // Client session token
     dataArray.put(keepAlive); // Keep alive?
 
-    return apiConnection.callPostEventBoolean(
-        "services/event/IOServicesEventType/CLOSE_SESSION/", dataArray);
+    boolean apiReturnValue = apiConnection.callPostEventBoolean(
+        "services/event/IOServicesEventType/CLOSE_SESSION/", dataArray); 
+    
+    logger.info("Closing session result: " + apiReturnValue);
+    
+    return apiReturnValue;
   }
 
   /**

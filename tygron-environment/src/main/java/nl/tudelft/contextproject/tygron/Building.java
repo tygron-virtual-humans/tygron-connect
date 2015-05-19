@@ -1,15 +1,21 @@
 package nl.tudelft.contextproject.tygron;
 
 import com.esri.core.geometry.Polygon;
+
 import nl.tudelft.contextproject.util.PolygonUtil;
 
 import org.codehaus.jackson.JsonParseException;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 
 public class Building {
+  
+  final Logger logger = LoggerFactory.getLogger(Building.class);
+  
   private String name;
   private Polygon polygon;
   private int floors;
@@ -23,13 +29,13 @@ public class Building {
     try {
       polygon = polyUtil.createPolygonFromWkt(input.getString("polygons"));
     } catch (JsonParseException e) {
-      System.out.println("There was a problem parsing JSON");
+      logger.error("There was a problem parsing JSON");
       e.printStackTrace();
     } catch (JSONException e) {
-      System.out.println("There was a JSON Exception");
+      logger.error("There was a JSON Exception");
       e.printStackTrace();
     } catch (IOException e) {
-      System.out.println("A IO Exception occurred");
+      logger.error("A IO Exception occurred");
       e.printStackTrace();
     }
     floors = input.getInt("floors");

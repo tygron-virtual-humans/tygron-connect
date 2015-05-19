@@ -2,12 +2,16 @@ package nl.tudelft.contextproject.tygron;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class SessionManager {
 
+  final Logger logger = LoggerFactory.getLogger(SessionManager.class);
+  
   private static Connection apiConnection;
   
   public SessionManager(Connection localApiConnection) {
@@ -51,6 +55,8 @@ public class SessionManager {
    */
   public boolean joinSession(Session session, int slotId) {
 
+    logger.info("Joining session in slot " + slotId);
+    
     JSONArray dataArray = new JSONArray();
     dataArray.put(slotId);      // Server slot ID
     dataArray.put("VIEWER");    // My application type: EDITOR, VIEWER, ADMIN, BEAM 
@@ -104,14 +110,17 @@ public class SessionManager {
    */
   public int createSession(String mapName) {
     
+    logger.info("Creating session with name: " + mapName);
     JSONArray dataArray = new JSONArray();
     dataArray.put("MULTI_PLAYER");  // SessionType: SINGLE_PLAYER, MULTI_PLAYER, EDITOR
     dataArray.put(mapName);         // Project file name
     
-    int retValue = apiConnection.callPostEventInt(
+    int slotNumber = apiConnection.callPostEventInt(
         "services/event/IOServicesEventType/START_NEW_SESSION/", dataArray); 
+    
+    logger.info("Session created in slot: " + slotNumber);
 
-    return retValue;
+    return slotNumber;
   }
   
   /**
