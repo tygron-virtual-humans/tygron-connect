@@ -90,10 +90,6 @@ public class TygronInterfaceImpl extends AbstractEnvironment {
   @Override
   public void reset(Map<String, Parameter> parameters)
       throws ManagementException {
-    if (configuration.getStakeholder() == 0) {
-      throw new ManagementException(
-          "stakeHolder set on 0");
-    }
     
     //Create a new connection
     Connector connector = new Connector();
