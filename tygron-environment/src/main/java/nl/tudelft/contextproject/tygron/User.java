@@ -67,5 +67,4 @@ public class User {
   public String getMaxOption() {
     return maxOption;
   }
-
 }
