@@ -33,11 +33,11 @@ public class PerceptTests {
     String indicatorContents = CachedFileReader.getFileContents("/serverResponses/testmap/lists/indicators.json");
     JSONArray indicatorResult = new JSONArray(indicatorContents);
     IndicatorList indicators = new IndicatorList(indicatorResult);
-    when(sessionMock.loadIndicators()).thenReturn(indicators);
+    when(sessionMock.getEnvironment().loadIndicators()).thenReturn(indicators);
 
     String stakeholderContents = CachedFileReader.getFileContents("/serverResponses/testmap/lists/stakeholders.json");
     StakeholderList stakeholders = new StakeholderList(new JSONArray(stakeholderContents));
-    when(sessionMock.loadStakeHolders()).thenReturn(stakeholders);
+    when(sessionMock.getEnvironment().loadStakeHolders()).thenReturn(stakeholders);
 
     //when(sessionMock.loadEconomies()).thenReturn(null);
 
