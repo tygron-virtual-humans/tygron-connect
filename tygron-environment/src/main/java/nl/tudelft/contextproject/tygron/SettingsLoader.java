@@ -18,7 +18,11 @@ public class SettingsLoader {
   public SettingsLoader(String path) throws Exception {
     File jarFile = new File(this.getClass().getProtectionDomain()
         .getCodeSource().getLocation().toURI().getPath());
-    readConfig(new FileInputStream(new File(jarFile.getParent(), path)));
+    if (jarFile.exists() && !jarFile.isDirectory()) {
+      readConfig(new FileInputStream(new File(jarFile.getParent(), path)));
+    } else {
+      readConfig(new FileInputStream(path));
+    }
   }
 
 
