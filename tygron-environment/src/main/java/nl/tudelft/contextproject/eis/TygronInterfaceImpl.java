@@ -24,6 +24,7 @@ import java.util.Map.Entry;
 @SuppressWarnings("serial")
 public class TygronInterfaceImpl extends AbstractEnvironment {
 
+  protected Connector connector;
   protected Session controller;
   protected Configuration configuration;
   
@@ -91,8 +92,12 @@ public class TygronInterfaceImpl extends AbstractEnvironment {
   public void reset(Map<String, Parameter> parameters)
       throws ManagementException {
     
+    if (connector != null) {
+      connector.cleanup();
+    }
+    
     //Create a new connection
-    Connector connector = new Connector();
+    connector = new Connector();
     
     //Get the session manager
     controller = connector.getSession();
@@ -105,6 +110,11 @@ public class TygronInterfaceImpl extends AbstractEnvironment {
    */
   @Override
   public void kill() throws ManagementException {
+    
+    if (connector != null) {
+      connector.cleanup();
+    }
+    
     setState(EnvironmentState.KILLED);
   }
 
