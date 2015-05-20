@@ -4,13 +4,9 @@ import com.esri.core.geometry.Polygon;
 
 import nl.tudelft.contextproject.util.PolygonUtil;
 
-import org.codehaus.jackson.JsonParseException;
-import org.json.JSONException;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.io.IOException;
 
 public class Building {
   
@@ -32,15 +28,8 @@ public class Building {
     
     try {
       polygon = polyUtil.createPolygonFromWkt(input.getString("polygons"));
-    } catch (JsonParseException e) {
-      logger.error("There was a problem parsing JSON");
-      e.printStackTrace();
-    } catch (JSONException e) {
-      logger.error("There was a JSON Exception");
-      e.printStackTrace();
-    } catch (IOException e) {
-      logger.error("A IO Exception occurred");
-      e.printStackTrace();
+    } catch (Exception e) {
+      throw new RuntimeException("Error parsing Building with string " + input.toString());
     }
     floors = input.getInt("floors");
   }
