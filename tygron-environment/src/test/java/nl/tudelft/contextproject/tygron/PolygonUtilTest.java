@@ -30,7 +30,7 @@ public class PolygonUtilTest {
   @Test
   public void readerTest() {
     try {
-      final Polygon polygon1 = polyutil.createPolygonFromWkt("MULTIPOLYGON (((1 1, 2 2"
+      final Polygon polygon1 = polyutil.createPolygonFromWkt("MULTIPOLYGxON (((1 1, 2 2"
           + ", 3 3, 1 1)))");
       Polygon polygon2 = new Polygon();
       polygon2.startPath(1, 1);
