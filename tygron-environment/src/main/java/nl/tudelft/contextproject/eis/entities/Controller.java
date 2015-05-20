@@ -1,6 +1,7 @@
 package nl.tudelft.contextproject.eis.entities;
 
 import nl.tudelft.contextproject.eis.TygronPercept;
+import nl.tudelft.contextproject.tygron.Environment;
 import nl.tudelft.contextproject.tygron.Session;
 
 import eis.eis2java.annotation.AsPercept;
@@ -19,10 +20,10 @@ public class Controller {
    * @param controller
    *          the session object
    */
-  public Controller(Session controller) {
-    indicators = new IndicatorEntity(controller.getEnvironment().loadIndicators());
-    stakeholders = new StakeholderEntity(controller.getEnvironment().loadStakeHolders());
-    economies = new EconomyEntity(controller.getEnvironment().loadEconomies());
+  public Controller(Environment controller) {
+    indicators = new IndicatorEntity(controller.loadIndicators());
+    stakeholders = new StakeholderEntity(controller.loadStakeHolders());
+    economies = new EconomyEntity(controller.loadEconomies());
   }
 
   /**

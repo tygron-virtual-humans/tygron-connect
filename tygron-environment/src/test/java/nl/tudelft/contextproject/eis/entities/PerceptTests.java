@@ -2,9 +2,9 @@ package nl.tudelft.contextproject.eis.entities;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.when;
-
 import nl.tudelft.contextproject.democode.CachedFileReader;
 import nl.tudelft.contextproject.eis.TygronPercept;
+import nl.tudelft.contextproject.tygron.Environment;
 import nl.tudelft.contextproject.tygron.IndicatorList;
 import nl.tudelft.contextproject.tygron.Session;
 import nl.tudelft.contextproject.tygron.StakeholderList;
@@ -23,7 +23,7 @@ public class PerceptTests {
   private Controller controller;
   
   @Mock
-  private Session sessionMock;
+  private Environment environmentMock;
 
   /**
    * Init all test objects.
@@ -33,15 +33,15 @@ public class PerceptTests {
     String indicatorContents = CachedFileReader.getFileContents("/serverResponses/testmap/lists/indicators.json");
     JSONArray indicatorResult = new JSONArray(indicatorContents);
     IndicatorList indicators = new IndicatorList(indicatorResult);
-    when(sessionMock.getEnvironment().loadIndicators()).thenReturn(indicators);
+    when(environmentMock.loadIndicators()).thenReturn(indicators);
 
     String stakeholderContents = CachedFileReader.getFileContents("/serverResponses/testmap/lists/stakeholders.json");
     StakeholderList stakeholders = new StakeholderList(new JSONArray(stakeholderContents));
-    when(sessionMock.getEnvironment().loadStakeHolders()).thenReturn(stakeholders);
+    when(environmentMock.loadStakeHolders()).thenReturn(stakeholders);
 
     //when(sessionMock.loadEconomies()).thenReturn(null);
 
-    controller = new Controller(sessionMock);
+    controller = new Controller(environmentMock);
   }
 
   @Test
