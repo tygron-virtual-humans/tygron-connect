@@ -16,7 +16,7 @@ import java.nio.file.Paths;
  * 
  */
 public class DummyConnection extends Connection {
-  
+
   String response;
 
   /**
@@ -27,7 +27,8 @@ public class DummyConnection extends Connection {
    */
   public void setFile(File inputFile) {
     try {
-      response = new String(Files.readAllBytes(inputFile.toPath()), StandardCharsets.UTF_8);
+      response = new String(Files.readAllBytes(inputFile.toPath()),
+          StandardCharsets.UTF_8);
     } catch (IOException e) {
       throw new RuntimeException(e);
     }
@@ -43,7 +44,8 @@ public class DummyConnection extends Connection {
     try {
       URL resourceUrl = getClass().getResource(filePath);
       Path resourcePath = Paths.get(resourceUrl.toURI());
-      response = new String(Files.readAllBytes(resourcePath), StandardCharsets.UTF_8);
+      response = new String(Files.readAllBytes(resourcePath),
+          StandardCharsets.UTF_8);
     } catch (URISyntaxException | IOException e) {
       throw new RuntimeException(e);
     }
@@ -61,23 +63,23 @@ public class DummyConnection extends Connection {
 
   @Override
   public String callSessionGetEvent(String eventName) {
-	// TODO Auto-generated method stub
-	return null;
+    // TODO Auto-generated method stub
+    return null;
   }
 
   @Override
   public String callSessionPostEvent(String eventName, JSONArray parameters) {
-	// TODO Auto-generated method stub
+    // TODO Auto-generated method stub
     return null;
   }
 
   @Override
   public void setServerToken(String serverToken) {
-	// TODO Auto-generated method stub
+    // TODO Auto-generated method stub
   }
 
   @Override
   public void setSessionId(int sessionId) {
-	// TODO Auto-generated method stub
+    // TODO Auto-generated method stub
   }
 }

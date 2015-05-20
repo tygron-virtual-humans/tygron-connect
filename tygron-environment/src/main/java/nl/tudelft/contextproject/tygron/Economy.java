@@ -31,7 +31,7 @@ public class Economy {
   }
   
   @Override
-  public String toString(){
+  public String toString() {
     JSONObject str = new JSONObject();
     str.put("id", this.id);
     str.put("category", this.category);

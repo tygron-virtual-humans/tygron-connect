@@ -3,7 +3,6 @@ package nl.tudelft.contextproject.eis.democode;
 import nl.tudelft.contextproject.tygron.Connector;
 import nl.tudelft.contextproject.tygron.Session;
 import nl.tudelft.contextproject.tygron.SessionManager;
-import nl.tudelft.contextproject.tygron.StakeholderList;
 
 public class DemoConnector {
 
