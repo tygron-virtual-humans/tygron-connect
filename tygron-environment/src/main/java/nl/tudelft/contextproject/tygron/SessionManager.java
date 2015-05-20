@@ -12,9 +12,9 @@ public class SessionManager {
 
   final Logger logger = LoggerFactory.getLogger(SessionManager.class);
   
-  private static Connection apiConnection;
+  private static HttpConnection apiConnection;
   
-  public SessionManager(Connection localApiConnection) {
+  public SessionManager(HttpConnection localApiConnection) {
     apiConnection = localApiConnection;
   }
   

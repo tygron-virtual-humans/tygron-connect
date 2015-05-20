@@ -1,6 +1,5 @@
 package nl.tudelft.contextproject.eis.democode;
 
-import nl.tudelft.contextproject.tygron.Connection;
 import nl.tudelft.contextproject.tygron.HttpConnection;
 import nl.tudelft.contextproject.tygron.Settings;
 
@@ -15,7 +14,7 @@ public class DemoHttp {
   public static void main(String[] args) {
     // General setup for http
     Settings settings = new Settings();
-    Connection http = new HttpConnection(settings);
+    HttpConnection http = new HttpConnection(settings);
 
     // Example GET request
     JSONObject getDemoResponse = http.callGetEventObject("services/myuser/");

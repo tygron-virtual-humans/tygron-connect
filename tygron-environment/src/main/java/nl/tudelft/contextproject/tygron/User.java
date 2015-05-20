@@ -4,7 +4,7 @@ import org.json.JSONObject;
 
 public class User {
 
-  private static Connection http;
+  private static HttpConnection http;
 
   private boolean active;
   private String domain;
@@ -17,7 +17,7 @@ public class User {
   private long lastLogin;
   private String maxOption;
 
-  public User(Connection localhttp) {
+  public User(HttpConnection localhttp) {
     http = localhttp;
   }
 
