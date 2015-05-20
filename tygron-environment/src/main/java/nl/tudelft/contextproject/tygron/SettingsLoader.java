@@ -9,7 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class SettingsLoader {
-  final private static Logger logger = LoggerFactory.getLogger(HttpConnection.class);
+  final private static Logger logger = LoggerFactory.getLogger(SettingsLoader.class);
   Properties config;
 
   String username = "";
