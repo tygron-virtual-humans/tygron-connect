@@ -1,8 +1,8 @@
 package nl.tudelft.contextproject.tygron;
 
 import static org.junit.Assert.assertEquals;
-
 import nl.tudelft.contextproject.democode.CachedFileReader;
+import nl.tudelft.contextproject.tygron.objects.StakeholderList;
 
 import org.json.JSONArray;
 import org.junit.Before;
