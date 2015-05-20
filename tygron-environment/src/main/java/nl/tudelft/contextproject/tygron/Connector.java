@@ -1,5 +1,8 @@
 package nl.tudelft.contextproject.tygron;
 
+import nl.tudelft.contextproject.tygron.HttpConnection.Type;
+import nl.tudelft.contextproject.tygron.results.JsonObjectResultHandler;
+
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -8,7 +11,7 @@ import org.slf4j.LoggerFactory;
  * The TygronConnector is the bridge between the Tygron API and JAVA.
  */
 public class Connector {
-  
+
   final Logger logger = LoggerFactory.getLogger(Connector.class);
 
   private User user;
@@ -20,7 +23,7 @@ public class Connector {
    * Create a new TygronConnector.
    */
   public Connector() {
-    this(new HttpConnection());
+    this(new HttpConnection(new Settings()));
   }
 
   /**
@@ -30,17 +33,16 @@ public class Connector {
    *          the connection to use.
    */
   public Connector(HttpConnection connection) {
-
     logger.info("Connector loading.");
 
     this.connection = connection;
 
     // Now load user, it depends on http
-    JSONObject userObj = connection.callGetEventObject("services/myuser/");
+    JSONObject userObj = connection.execute("services/myuser", Type.GET, new JsonObjectResultHandler());
     user = new User(userObj);
 
-    logger.info("Using user #" + user.getId() + " " + user.getUserName() + " "
-        + user.getFirstName() + " " + user.getLastName());
+    logger.info("Using user #" + user.getId() + " " + user.getUserName() + " " + user.getFirstName() + " "
+        + user.getLastName());
 
     // Now load session, it depends on user
     sessionManager = new SessionManager(connection);
@@ -58,9 +60,9 @@ public class Connector {
   }
 
   /**
-   * Return the connection manager.
+   * Returns the connection.
    */
-  public HttpConnection getConnectionManager() {
+  public HttpConnection getConnection() {
     return connection;
   }
 
@@ -70,9 +72,9 @@ public class Connector {
   public Session getSession() {
     return session;
   }
-  
+
   /**
-   * Cleanup function, should be called to reset or shut down. 
+   * Cleanup function, should be called to reset or shut down.
    */
   public void cleanup() {
     if (session != null) {

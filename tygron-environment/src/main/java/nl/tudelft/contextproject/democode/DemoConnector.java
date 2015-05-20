@@ -19,7 +19,7 @@ public class DemoConnector {
     SessionManager sesM = con.getSessionManager();
     int sessionSlot = sesM.createSession("testmap");
     
-    Session sess = new Session(con.getConnectionManager());
+    Session sess = new Session(con.getConnection());
     sess.setId(sessionSlot);
     sesM.joinSession(sess);
    
