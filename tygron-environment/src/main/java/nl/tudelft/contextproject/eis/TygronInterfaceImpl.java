@@ -4,23 +4,37 @@ import eis.exceptions.EntityException;
 import eis.exceptions.ManagementException;
 import eis.iilang.Action;
 import eis.iilang.EnvironmentState;
+import eis.iilang.Identifier;
 import eis.iilang.Parameter;
+import eis.iilang.ParameterList;
 import nl.tudelft.contextproject.eis.entities.Controller;
-import nl.tudelft.contextproject.translators.TygronIndicatorTranslator;
+import nl.tudelft.contextproject.eis.translators.ConfigurationTranslator;
+import nl.tudelft.contextproject.eis.translators.HashMapTranslator;
+import nl.tudelft.contextproject.eis.translators.ParamEnumTranslator;
 import nl.tudelft.contextproject.tygron.Connector;
 import nl.tudelft.contextproject.tygron.Session;
+
 import eis.eis2java.environment.AbstractEnvironment;
+import eis.eis2java.exception.TranslationException;
 import eis.eis2java.translation.Translator;
 
 import java.util.Map;
+import java.util.Map.Entry;
 
 @SuppressWarnings("serial")
 public class TygronInterfaceImpl extends AbstractEnvironment {
 
-  Session controller;
+  protected Session controller;
+  protected Configuration configuration;
   
+  /**
+   * Constructs the EIS.
+   */
   public TygronInterfaceImpl() {
-    //Used for testing.
+    Translator translator = Translator.getInstance();
+    translator.registerParameter2JavaTranslator(new ConfigurationTranslator());
+    translator.registerParameter2JavaTranslator(new HashMapTranslator());
+    translator.registerParameter2JavaTranslator(new ParamEnumTranslator());
   }
   
   /* (non-Javadoc)
@@ -46,10 +60,17 @@ public class TygronInterfaceImpl extends AbstractEnvironment {
   public void init(Map<String, Parameter> parameters)
       throws ManagementException {
     
-    TygronIndicatorTranslator indicatorTranslator = new TygronIndicatorTranslator();
-    Translator translator = Translator.getInstance();
-    translator.registerJava2ParameterTranslator(indicatorTranslator);
-    translator.registerParameter2JavaTranslator(indicatorTranslator);
+    try {
+      // Wrapper pending fix to environment init.
+      ParameterList parameterMap = new ParameterList();
+      for (Entry<String,Parameter> entry : parameters.entrySet()) {
+        parameterMap.add(new ParameterList(new Identifier(entry.getKey()), entry.getValue()));
+      }
+      configuration = Translator.getInstance().translate2Java(
+          parameterMap, Configuration.class);
+    } catch (TranslationException e) {
+      throw new ManagementException("Invalid parameters", e);
+    }
     
     // Prepare the game.
     reset(parameters);
@@ -85,10 +106,6 @@ public class TygronInterfaceImpl extends AbstractEnvironment {
   @Override
   public void kill() throws ManagementException {
     setState(EnvironmentState.KILLED);
-  }
-
-  public static void main(String[] args) throws ManagementException {
-    new TygronInterfaceImpl().init(null);
   }
 
 }

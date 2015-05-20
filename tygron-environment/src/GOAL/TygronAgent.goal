@@ -7,6 +7,7 @@ init module {
 	}
 	program {
 		forall bel(percept(stakeholder(A,B,C))) do insert (stakeholder(A,B,C)).
+		forall bel(percept(initIndicator(A,B,C))) do insert (initIndicator(A,B,C)).
 	}
 }
 
@@ -18,6 +19,7 @@ main module {
 
 event module {
 	program {
- 		forall bel(percept(indicator(A,B,C))) do insert (indicator(A,B,C)).
+ 		forall bel(percept(indicator(A,B,C,D,E,F))) do insert (indicator(A,B,C,D,E,F)).
+ 		forall bel(percept(economy(A,B,C))) do insert (economy(A,B,C)).
 	}
 }
