@@ -1,6 +1,6 @@
 package nl.tudelft.contextproject.tygron;
 
-import nl.tudelft.contextproject.tygron.results.ResultHandler;
+import nl.tudelft.contextproject.tygron.handlers.ResultHandler;
 
 import org.apache.commons.codec.binary.Base64;
 import org.apache.http.HttpResponse;
@@ -44,15 +44,15 @@ public class HttpConnection {
     this.serverToken = serverToken;
   }
 
-  public <T> T execute(String eventName, Type type, ResultHandler<T> resultHandler) {
+  public <T> T execute(String eventName, CallType type, ResultHandler<T> resultHandler) {
     return execute(eventName, type, resultHandler, null, null);
   }
 
-  public <T> T execute(String eventName, Type type, ResultHandler<T> resultHandler, JSONArray parameters) {
+  public <T> T execute(String eventName, CallType type, ResultHandler<T> resultHandler, JSONArray parameters) {
     return execute(eventName, type, resultHandler, null, parameters);
   }
 
-  public <T> T execute(String eventName, Type type, ResultHandler<T> resultHandler, Session session) {
+  public <T> T execute(String eventName, CallType type, ResultHandler<T> resultHandler, Session session) {
     return execute(eventName, type, resultHandler, session, null);
   }
   
@@ -65,7 +65,7 @@ public class HttpConnection {
    * @param parameters The parameters this request should use, can be null
    * @return a result handled by this request
    */
-  public <T> T execute(String eventName, Type type, ResultHandler<T> resultHandler, Session session, JSONArray parameters) {
+  public <T> T execute(String eventName, CallType type, ResultHandler<T> resultHandler, Session session, JSONArray parameters) {
     try {
       HttpRequestBase requester = type.asRequest(parameters);
       String url = getApiUrl(eventName, session);
@@ -87,34 +87,6 @@ public class HttpConnection {
       return response;
     } catch (Exception e) {
       throw new RuntimeException(e);
-    }
-  }
-
-  public enum Type {
-    GET, POST;
-    /**
-     * Creates a HttpRequestBase from this type.
-     * @param parameters parameters to attach to the request, may be null
-     * @return a HttpRequestBase that can be executed
-     */
-    public HttpRequestBase asRequest(JSONArray parameters) {
-      switch (this) {
-        case GET:
-          return new HttpGet();
-        case POST:
-          try {
-            HttpPost ret = new HttpPost();
-            if (parameters != null) {
-              ret.setEntity(new StringEntity(parameters.toString()));
-            }
-            return ret;
-          } catch (UnsupportedEncodingException e) {
-            throw new RuntimeException(e);
-          }
-        default: 
-          throw new RuntimeException("Invalid Type");
-      }
-      
     }
   }
 

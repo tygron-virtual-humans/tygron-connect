@@ -1,4 +1,4 @@
-package nl.tudelft.contextproject.tygron.results;
+package nl.tudelft.contextproject.tygron.handlers;
 
 public class BooleanResultHandler extends ResultHandler<Boolean> {
   @Override

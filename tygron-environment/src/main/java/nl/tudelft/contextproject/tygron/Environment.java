@@ -1,7 +1,6 @@
 package nl.tudelft.contextproject.tygron;
 
-import nl.tudelft.contextproject.tygron.HttpConnection.Type;
-import nl.tudelft.contextproject.tygron.results.JsonArrayResultHandler;
+import nl.tudelft.contextproject.tygron.handlers.JsonArrayResultHandler;
 
 import org.json.JSONArray;
 import org.slf4j.Logger;
@@ -53,7 +52,7 @@ public class Environment implements Runnable {
    */
   public StakeholderList loadStakeHolders() {
     logger.debug("Loading stakeholders");
-    JSONArray data = apiConnection.execute("lists/stakeholders/", Type.GET, new JsonArrayResultHandler(), session);
+    JSONArray data = apiConnection.execute("lists/stakeholders/", CallType.GET, new JsonArrayResultHandler(), session);
     this.stakeholderList = new StakeholderList(data);
     return this.stakeholderList;
   }
@@ -74,7 +73,7 @@ public class Environment implements Runnable {
    */
   public IndicatorList loadIndicators() {
     logger.debug("Loading indicators");
-    JSONArray data = apiConnection.execute("lists/indicators", Type.GET, new JsonArrayResultHandler(), session);
+    JSONArray data = apiConnection.execute("lists/indicators", CallType.GET, new JsonArrayResultHandler(), session);
     this.indicatorList = new IndicatorList(data);
     return this.indicatorList;
   }
@@ -95,7 +94,7 @@ public class Environment implements Runnable {
    */
   public ZoneList loadZones() {
     logger.debug("Loading zones");
-    JSONArray data = apiConnection.execute("lists/zones", Type.GET, new JsonArrayResultHandler(), session);
+    JSONArray data = apiConnection.execute("lists/zones", CallType.GET, new JsonArrayResultHandler(), session);
     this.zoneList = new ZoneList(data);
     return this.zoneList;
   }
@@ -116,7 +115,7 @@ public class Environment implements Runnable {
    */
   public EconomyList loadEconomies() {
     logger.debug("Loading economies");
-    JSONArray data = apiConnection.execute("lists/economies", Type.GET, new JsonArrayResultHandler(), session);
+    JSONArray data = apiConnection.execute("lists/economies", CallType.GET, new JsonArrayResultHandler(), session);
     this.economyList = new EconomyList(data);
     return this.economyList;
   }
@@ -137,7 +136,7 @@ public class Environment implements Runnable {
    */
   public BuildingList loadBuildings() {
     logger.debug("Loading buildings");
-    JSONArray data = apiConnection.execute("lists/buildings", Type.GET, new JsonArrayResultHandler(), session);
+    JSONArray data = apiConnection.execute("lists/buildings", CallType.GET, new JsonArrayResultHandler(), session);
     this.buildingList = new BuildingList(data);
     return this.buildingList;
   }

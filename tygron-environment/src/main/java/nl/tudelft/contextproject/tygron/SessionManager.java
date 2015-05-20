@@ -1,10 +1,9 @@
 package nl.tudelft.contextproject.tygron;
 
-import nl.tudelft.contextproject.tygron.HttpConnection.Type;
-import nl.tudelft.contextproject.tygron.results.BooleanResultHandler;
-import nl.tudelft.contextproject.tygron.results.IntegerResultHandler;
-import nl.tudelft.contextproject.tygron.results.JsonArrayResultHandler;
-import nl.tudelft.contextproject.tygron.results.JsonObjectResultHandler;
+import nl.tudelft.contextproject.tygron.handlers.BooleanResultHandler;
+import nl.tudelft.contextproject.tygron.handlers.IntegerResultHandler;
+import nl.tudelft.contextproject.tygron.handlers.JsonArrayResultHandler;
+import nl.tudelft.contextproject.tygron.handlers.JsonObjectResultHandler;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -34,7 +33,7 @@ public class SessionManager {
 
     List<Session> returnList = new ArrayList<Session>();
 
-    JSONArray data = apiConnection.execute("services/event/IOServicesEventType/GET_JOINABLE_SESSIONS/", Type.POST,
+    JSONArray data = apiConnection.execute("services/event/IOServicesEventType/GET_JOINABLE_SESSIONS/", CallType.POST,
         new JsonArrayResultHandler());
 
     for (int i = 0; i < data.length(); i++) {
@@ -75,7 +74,7 @@ public class SessionManager {
     dataArray.put("Tygron-API-Agent"); // My client computer name (optional)
     dataArray.put(""); // My client token for rejoining (optional)
 
-    JSONObject data = apiConnection.execute("services/event/IOServicesEventType/JOIN_SESSION/", Type.POST,
+    JSONObject data = apiConnection.execute("services/event/IOServicesEventType/JOIN_SESSION/", CallType.POST,
         new JsonObjectResultHandler(), dataArray);
 
     session.loadFromJson(data);
@@ -141,7 +140,7 @@ public class SessionManager {
                                    // EDITOR
     dataArray.put(mapName); // Project file name
 
-    int slotNumber = apiConnection.execute("services/event/IOServicesEventType/START_NEW_SESSION/", Type.POST,
+    int slotNumber = apiConnection.execute("services/event/IOServicesEventType/START_NEW_SESSION/", CallType.POST,
         new IntegerResultHandler(), dataArray);
 
     logger.info("Session created in slot: " + slotNumber);
@@ -159,7 +158,7 @@ public class SessionManager {
     JSONArray dataArray = new JSONArray();
     dataArray.put(slotId); // Server slot ID
 
-    boolean apiCallResult = apiConnection.execute("services/event/IOServicesEventType/KILL_SESSION/", Type.POST,
+    boolean apiCallResult = apiConnection.execute("services/event/IOServicesEventType/KILL_SESSION/", CallType.POST,
         new BooleanResultHandler(), dataArray);
 
     logger.info("Killing session #" + slotId + " result: " + apiCallResult);

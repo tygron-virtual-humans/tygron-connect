@@ -1,7 +1,6 @@
 package nl.tudelft.contextproject.tygron;
 
-import nl.tudelft.contextproject.tygron.HttpConnection.Type;
-import nl.tudelft.contextproject.tygron.results.JsonObjectResultHandler;
+import nl.tudelft.contextproject.tygron.handlers.JsonObjectResultHandler;
 
 import org.json.JSONObject;
 import org.slf4j.Logger;
@@ -38,7 +37,7 @@ public class Connector {
     this.connection = connection;
 
     // Now load user, it depends on http
-    JSONObject userObj = connection.execute("services/myuser", Type.GET, new JsonObjectResultHandler());
+    JSONObject userObj = connection.execute("services/myuser", CallType.GET, new JsonObjectResultHandler());
     user = new User(userObj);
 
     logger.info("Using user #" + user.getId() + " " + user.getUserName() + " " + user.getFirstName() + " "

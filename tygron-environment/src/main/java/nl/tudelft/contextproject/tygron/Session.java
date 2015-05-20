@@ -1,7 +1,6 @@
 package nl.tudelft.contextproject.tygron;
 
-import nl.tudelft.contextproject.tygron.HttpConnection.Type;
-import nl.tudelft.contextproject.tygron.results.BooleanResultHandler;
+import nl.tudelft.contextproject.tygron.handlers.BooleanResultHandler;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -95,7 +94,7 @@ public class Session {
     dataArray.put(this.clientToken); // Client session token
     dataArray.put(keepAlive); // Keep alive?
 
-    boolean apiReturnValue = apiConnection.execute("services/event/IOServicesEventType/CLOSE_SESSION/", Type.POST,
+    boolean apiReturnValue = apiConnection.execute("services/event/IOServicesEventType/CLOSE_SESSION/", CallType.POST,
         new BooleanResultHandler(), dataArray);
 
     logger.info("Closing session result: " + apiReturnValue);

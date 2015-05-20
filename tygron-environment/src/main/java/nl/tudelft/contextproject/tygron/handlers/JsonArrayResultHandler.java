@@ -1,4 +1,4 @@
-package nl.tudelft.contextproject.tygron.results;
+package nl.tudelft.contextproject.tygron.handlers;
 
 import org.json.JSONArray;
 

@@ -1,9 +1,9 @@
 package nl.tudelft.contextproject.democode;
 
+import nl.tudelft.contextproject.tygron.CallType;
 import nl.tudelft.contextproject.tygron.HttpConnection;
-import nl.tudelft.contextproject.tygron.HttpConnection.Type;
 import nl.tudelft.contextproject.tygron.Settings;
-import nl.tudelft.contextproject.tygron.results.JsonObjectResultHandler;
+import nl.tudelft.contextproject.tygron.handlers.JsonObjectResultHandler;
 
 import org.json.JSONObject;
 import org.slf4j.Logger;
@@ -23,11 +23,11 @@ public class DemoHttp {
     HttpConnection http = new HttpConnection(new Settings());
 
     // Example GET request
-    JSONObject getDemoResponse = http.execute("services/myuser/", Type.GET, new JsonObjectResultHandler());
+    JSONObject getDemoResponse = http.execute("services/myuser/", CallType.GET, new JsonObjectResultHandler());
     logger.info("User is active? " + getDemoResponse.getBoolean("active"));
 
     // Example POST request
-    JSONObject postDemoResponse = http.execute("services/event/UserServicesEventType/GET_MY_USER", Type.POST,
+    JSONObject postDemoResponse = http.execute("services/event/UserServicesEventType/GET_MY_USER", CallType.POST,
         new JsonObjectResultHandler());
     logger.info("User #" + postDemoResponse.getInt("id") + " " + postDemoResponse.getString("userName") + " "
         + postDemoResponse.getString("firstName") + " " + postDemoResponse.getString("lastName"));
