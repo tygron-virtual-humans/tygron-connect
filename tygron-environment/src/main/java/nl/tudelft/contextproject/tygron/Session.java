@@ -85,7 +85,8 @@ public class Session {
    */
   public boolean closeSession(boolean keepAlive) {
 
-    logger.info("Closing session #" + this.id + " with clientToken " + this.clientToken + " (keepalive: " + keepAlive + ")");
+    logger.info("Closing session #" + this.id + " with clientToken " + this.clientToken
+        + " (keepalive: " + keepAlive + ")");
     
     JSONArray dataArray = new JSONArray();
     dataArray.put(this.id); // Server slot ID
@@ -147,7 +148,6 @@ public class Session {
    */
   public void setId(int newId) {
     this.id = newId;
-    apiConnection.setSessionId(newId);
   }
 
   /**
@@ -168,7 +168,6 @@ public class Session {
   public void setServerToken(String serverToken) {
     logger.debug("Session serverToken=" + serverToken);
     this.serverToken = serverToken;
-    apiConnection.setServerToken(serverToken);
   }
 
   /**

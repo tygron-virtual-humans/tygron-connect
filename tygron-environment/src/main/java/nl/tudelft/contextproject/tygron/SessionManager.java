@@ -95,6 +95,7 @@ public class SessionManager {
     
     // Try to find a session with the name if it already exists
     List<Session> availableList = getJoinableSessions();
+    System.out.println(availableList);
     for (int i = 0;i < availableList.size();i++) {
       if (mapName.equals(availableList.get(i).getName())) {
         slot = availableList.get(i).getId();
@@ -112,6 +113,10 @@ public class SessionManager {
     
     // Join / startup the session
     joinSession(sess);
+    
+    // Set server token and session id in connection
+    apiConnection.setServerToken(sess.getServerToken());
+    apiConnection.setSessionId(slot);
     
     return sess;
   }
