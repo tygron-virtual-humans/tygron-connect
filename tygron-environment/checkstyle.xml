@@ -197,4 +197,7 @@
         </module>
         <module name="SingleLineJavadoc"/>
     </module>
+    <module name="NewlineAtEndOfFile">
+        <property name="lineSeparator" value="crlf" />
+    </module>
 </module>
