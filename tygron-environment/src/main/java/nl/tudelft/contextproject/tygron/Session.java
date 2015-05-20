@@ -1,5 +1,7 @@
 package nl.tudelft.contextproject.tygron;
 
+import nl.tudelft.contextproject.tygron.handlers.BooleanResultHandler;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.slf4j.Logger;
@@ -13,12 +15,11 @@ import java.util.ArrayList;
  * can also get the joinable session with GET_JOINABLE_SESSIONS You can now join
  * a session with JOIN_SESSION. You can either close your own session with
  * CLOSE_SESSION or kill the session with KILL_SESSION.
- *
+ * 
  */
 public class Session {
+  private static final Logger logger = LoggerFactory.getLogger(Session.class);
 
-  final Logger logger = LoggerFactory.getLogger(Session.class);
-  
   // Session oriented
   private static HttpConnection apiConnection;
   private Environment environment;
@@ -41,8 +42,8 @@ public class Session {
     setName("");
     clientToken = "";
     serverToken = "";
-    
-    environment = new Environment(apiConnection);
+
+    environment = new Environment(apiConnection, this);
   }
 
   /**
@@ -68,10 +69,10 @@ public class Session {
       }
     }
   }
-  
+
   public void start() {
     envThread = new Thread(environment);
-    envThread.start(); 
+    envThread.start();
   }
 
   /**
@@ -85,19 +86,19 @@ public class Session {
    */
   public boolean closeSession(boolean keepAlive) {
 
-    logger.info("Closing session #" + this.id + " with clientToken " + this.clientToken
-        + " (keepalive: " + keepAlive + ")");
-    
+    logger.info("Closing session #" + this.id + " with clientToken " + this.clientToken + " (keepalive: " + keepAlive
+        + ")");
+
     JSONArray dataArray = new JSONArray();
     dataArray.put(this.id); // Server slot ID
     dataArray.put(this.clientToken); // Client session token
     dataArray.put(keepAlive); // Keep alive?
 
-    boolean apiReturnValue = apiConnection.callPostEventBoolean(
-        "services/event/IOServicesEventType/CLOSE_SESSION/", dataArray); 
-    
+    boolean apiReturnValue = apiConnection.execute("services/event/IOServicesEventType/CLOSE_SESSION/", CallType.POST,
+        new BooleanResultHandler(), dataArray);
+
     logger.info("Closing session result: " + apiReturnValue);
-    
+
     return apiReturnValue;
   }
 
@@ -172,7 +173,7 @@ public class Session {
 
   /**
    * Get the server token.
-   *
+   * 
    * @return The server token.
    */
   public String getServerToken() {
@@ -192,16 +193,16 @@ public class Session {
 
   /**
    * Get the client token.
-   *
+   * 
    * @return The client token.
    */
   public String getClientToken() {
     return this.clientToken;
   }
-  
+
   /**
    * Get the environment.
-   *
+   * 
    * @return The environment.
    */
   public Environment getEnvironment() {
