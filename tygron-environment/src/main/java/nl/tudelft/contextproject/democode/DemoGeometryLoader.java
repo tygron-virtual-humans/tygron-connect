@@ -1,4 +1,4 @@
-package nl.tudelft.contextproject.eis.democode;
+package nl.tudelft.contextproject.democode;
 
 import com.esri.core.geometry.Geometry;
 

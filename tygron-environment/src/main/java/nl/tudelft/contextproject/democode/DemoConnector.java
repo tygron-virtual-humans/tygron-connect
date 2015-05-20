@@ -1,4 +1,4 @@
-package nl.tudelft.contextproject.eis.democode;
+package nl.tudelft.contextproject.democode;
 
 import nl.tudelft.contextproject.tygron.Connector;
 import nl.tudelft.contextproject.tygron.Session;

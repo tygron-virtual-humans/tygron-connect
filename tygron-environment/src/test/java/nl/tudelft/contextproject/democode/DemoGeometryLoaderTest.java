@@ -1,13 +1,12 @@
 package nl.tudelft.contextproject.democode;
 
 import static org.junit.Assert.assertFalse;
-
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import com.esri.core.geometry.Polygon;
 
-import nl.tudelft.contextproject.eis.democode.DemoGeometryLoader;
+import nl.tudelft.contextproject.democode.DemoGeometryLoader;
 
 import org.junit.Test;
 
