@@ -60,14 +60,14 @@ This part describes our Connector and how it is divided into subsystems.
 \subsubsection{Tygron Interface}
 The Tygron Interface is a subsystem that will communicate with Tygron’s REST endpoint. This interface’s responsibility is to translate functions to REST requests, and to translate REST responses back to Java objects.
 
-\subsubsection{Cache}
-The Cache is a buffer between the EIS and the Tygron Interface. It’s responsibility is to keep a copy of data from the Tygron Interface which can be updated. GOAL agents will be able to access this data via the EIS. The Cache is necessary because otherwise the GOAL agent will be have to wait for the duration of the API request.
+\subsubsection{Environment}
+The Environment is a buffer between the EIS and the Tygron Interface. It’s responsibility is to keep a copy of data from the Tygron Interface which can be updated. GOAL agents will be able to access this data via the EIS. The Environment is necessary because otherwise the GOAL agent will be have to wait for the duration of the API request.
 
 \subsubsection{EIS}
 We will also develop an interface according to the Environment Interface Standard. This interface is what provides GOAL agents with percepts which will provide GOAL agents with the required information to perform and exposes functions that the agent can call.
 
 \subsubsection{Poller}
-It’s job is to poll our JSON interface with some interval, and the results of the polling is used to update the Cache. 
+It’s job is to poll our JSON interface with some interval, and the results of the polling is used to update the Environment. 
 
 \subsection{Hardware/software mapping}
 Our software will communicate over the internet with Tygron’s server. This communication will be layered on HTTP, using the REST protocol.
@@ -76,7 +76,7 @@ Our software will communicate over the internet with Tygron’s server. This com
 Our connector does not have the responsibility of storing persistent data, so it does not have external files or databases.
 
 \subsection{Concurrency}
-Our cache is a shared resource. It is updated by one subsystem and read by another, therefore we are not concerned about deadlocks.
+Our Environment is a shared resource. It is updated by one subsystem and read by another, therefore we are not concerned about deadlocks.
 
 \clearpage
 \section{Glossary}
