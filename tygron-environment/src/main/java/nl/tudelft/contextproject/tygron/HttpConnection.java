@@ -11,12 +11,16 @@ import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.HttpClients;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
 public class HttpConnection {
 
+  final Logger logger = LoggerFactory.getLogger(HttpConnection.class);
+  
   private Settings settings;
   private HttpClient client;
   private String authString;
@@ -30,12 +34,9 @@ public class HttpConnection {
 
   /**
    * Creates a Tygron connection using some settings.
-   * 
-   * @param tygronSettings
-   *          the settings that should be used.
    */
-  public HttpConnection(Settings tygronSettings) {
-    settings = tygronSettings;
+  public HttpConnection() {
+    settings = new Settings();
     client = HttpClients.custom().build();
     String headerValue = settings.getUserName() + ":" + settings.getPassword();
     authString = Base64.encodeBase64String(headerValue.getBytes());
@@ -115,6 +116,7 @@ public class HttpConnection {
     addDefaultHeaders(request);
     try {
       HttpResponse response = client.execute(request);
+      logger.debug(request.toString());
       return new BasicResponseHandler().handleResponse(response);
     } catch (IOException e) {
       throw new RuntimeException(e);
@@ -141,6 +143,7 @@ public class HttpConnection {
 
     try {
       HttpResponse response = client.execute(request);
+      logger.debug(request.toString());
       return new BasicResponseHandler().handleResponse(response);
     } catch (IOException e) {
       throw new RuntimeException(e);

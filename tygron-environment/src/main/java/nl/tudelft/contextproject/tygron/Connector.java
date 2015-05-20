@@ -19,7 +19,7 @@ public class Connector {
    * Create a new TygronConnector.
    */
   public Connector() {
-    this(new HttpConnection(new Settings()));
+    this(new HttpConnection());
   }
 
   /**
