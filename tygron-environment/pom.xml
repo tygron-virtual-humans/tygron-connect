@@ -13,7 +13,7 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<environmentname>tygron_environment</environmentname>
-		<mainclass>nl.tudelft.contextproject.eis.TygronInterfaceImpl</mainclass>
+		<mainclass>nl.tudelft.contextproject.tygron.eis.TygronInterfaceImpl</mainclass>
 		<checkstyle.version>2.15</checkstyle.version>
 		<cobertura.version>2.6</cobertura.version>
 		<findbugs.version>3.0.1</findbugs.version>
