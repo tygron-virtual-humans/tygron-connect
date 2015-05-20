@@ -69,4 +69,13 @@ public class Connector {
   public Session getSession() {
     return session;
   }
+  
+  /**
+   * Cleanup function, should be called to reset or shut down. 
+   */
+  public void cleanup() {
+    if (session != null) {
+      session.closeSession(false);
+    }
+  }
 }
