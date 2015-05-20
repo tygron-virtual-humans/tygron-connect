@@ -16,7 +16,7 @@ public class IndicatorTest {
    */
   @Before
   public void setupObject() {
-    String contents = CachedFileReader.getFileContents("/serverResponses/testmap/lists/economies.json");
+    String contents = CachedFileReader.getFileContents("/serverResponses/testmap/lists/indicators.json");
     JSONArray json = new JSONArray(contents);
     indicatorList = new IndicatorList(json);
   }
