@@ -74,9 +74,6 @@ public class HttpConnection {
         + API_JSON_SUFFIX;
   }
 
-  public int getSessionId() {
-    return sessionId;
-  }
   /**
    * Calls a get event without a session.
    * @param eventName the event as described in the API
