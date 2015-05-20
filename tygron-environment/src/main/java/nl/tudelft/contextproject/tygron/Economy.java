@@ -22,10 +22,6 @@ public class Economy {
     state = input.getString("state"); 
   }
   
-  public int getId() {
-    return id;
-  }
-  
   public String getCategory() {
     return category;
   }
