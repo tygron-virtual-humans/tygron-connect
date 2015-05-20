@@ -178,9 +178,18 @@ public class HttpConnection {
   public JSONObject callSessionGetEventObject(String eventName) {
     return new JSONObject(callSessionGetEvent(eventName));
   }
+  
+  public JSONArray callSessionGetEventArray(String eventName) {
+    return new JSONArray(callSessionGetEvent(eventName));
+  }
+  
 
   public JSONObject callSessionPostEventObject(String eventName, JSONArray parameters) {
     return new JSONObject(callSessionPostEvent(eventName, parameters));
   }
+ 
+  public JSONArray callSessionPostEventArray(String eventName, JSONArray parameters) {
+    return new JSONArray(callSessionPostEvent(eventName, parameters));
+  }  
 }
 

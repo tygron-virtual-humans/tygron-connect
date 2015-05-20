@@ -21,6 +21,8 @@ public class Session {
   
   // Session oriented
   private static HttpConnection apiConnection;
+  private Environment environment;
+  private Thread envThread;
   private String name;
   private String platform;
   private String state;
@@ -31,13 +33,6 @@ public class Session {
   private ArrayList<String> compatibleOperations;
   private int id;
 
-  // Session data oriented
-  private StakeholderList stakeholderList;
-  private IndicatorList indicatorList;
-  private ZoneList zoneList;
-  private EconomyList economyList;
-  private BuildingList buildingList;
-
   /**
    * Tygron Session Object.
    */
@@ -46,6 +41,8 @@ public class Session {
     setName("");
     clientToken = "";
     serverToken = "";
+    
+    environment = new Environment(apiConnection);
   }
 
   /**
@@ -70,6 +67,11 @@ public class Session {
         compatibleOperations.add(jsonArray.get(i).toString());
       }
     }
+  }
+  
+  public void start() {
+    envThread = new Thread(environment);
+    envThread.start(); 
   }
 
   /**
@@ -197,6 +199,15 @@ public class Session {
   public String getClientToken() {
     return this.clientToken;
   }
+  
+  /**
+   * Get the environment.
+   *
+   * @return The environment.
+   */
+  public Environment getEnvironment() {
+    return this.environment;
+  }
 
   /**
    * Return a (string) array with all the possible operations/data that can be
@@ -206,136 +217,6 @@ public class Session {
    */
   public ArrayList<String> getCompatibleOperations() {
     return this.compatibleOperations;
-  }
-
-  /**
-   * Load the stake holders into this session.
-   * 
-   * @return the list of stakeholders.
-   */
-  public StakeholderList loadStakeHolders() {
-    
-    logger.debug("Loading stakeholders"); 
-    
-    JSONArray data = apiConnection.callGetEventArray("slots/" + this.id
-        + "/lists/stakeholders/");
-
-    this.stakeholderList = new StakeholderList(data);
-
-    return this.stakeholderList;
-  }
-
-  /**
-   * Return the stake holder list
-   * 
-   * @return the list of stakeholders.
-   */
-  public StakeholderList getStakeHolders() {
-    return this.stakeholderList;
-  }
-
-  /**
-   * Load the indicators into this session.
-   * 
-   * @return the list of indicators.
-   */
-  public IndicatorList loadIndicators() {
-    
-    logger.debug("Loading indicators"); 
-    
-    JSONArray data = apiConnection.callGetEventArray("slots/" + this.id
-        + "/lists/indicators/");
-
-    this.indicatorList = new IndicatorList(data);
-
-    return this.indicatorList;
-  }
-
-  /**
-   * Return the indicator list
-   * 
-   * @return the list of indicators.
-   */
-  public IndicatorList getIndicators() {
-    return this.indicatorList;
-  }
-
-  /**
-   * Load the zones into this session.
-   * 
-   * @return the list of zones.
-   */
-  public ZoneList loadZones() {
-    
-    logger.debug("Loading zones"); 
-    
-    JSONArray data = apiConnection.callGetEventArray("slots/" + this.id
-        + "/lists/zones/");
-
-    this.zoneList = new ZoneList(data);
-
-    return this.zoneList;
-  }
-
-  /**
-   * Return the zone list
-   * 
-   * @return the list of zones.
-   */
-  public ZoneList getZones() {
-    return this.zoneList;
-  }
-
-  /**
-   * Load the economies into this session.
-   * 
-   * @return the list of economics.
-   */
-  public EconomyList loadEconomies() {
-    
-    logger.debug("Loading economies");  
-    
-    JSONArray data = apiConnection.callGetEventArray("slots/" + this.id
-        + "/lists/economies/");
-
-    this.economyList = new EconomyList(data);
-
-    return this.economyList;
-  }
-
-  /**
-   * Return the economies list
-   * 
-   * @return the list of economics.
-   */
-  public EconomyList getEconomies() {
-    return this.economyList;
-  }
-
-  /**
-   * Load the buildings into this session.
-   * 
-   * @return the list of buildings.
-   */
-  public BuildingList loadBuildings() {
-    
-    logger.debug("Loading buildings"); 
-    
-    JSONArray data = apiConnection.callGetEventArray("slots/" + this.id
-        + "/lists/buildings/");
-
-    this.buildingList = new BuildingList(data);
-
-    return this.buildingList;
-  }
-
-  /**
-   * Return the buildings list
-   * 
-   * @return the list of buildings.
-   */
-  public BuildingList getBuildings() {
-    return this.buildingList;
   }
 
   /**

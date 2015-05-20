@@ -12,6 +12,7 @@ public class DemoConnector {
    */
   public static void main(String[] args) {
     // General setup for http
+    
     Connector con = new Connector();
     
     // Session Manager
@@ -19,22 +20,23 @@ public class DemoConnector {
     int sessionSlot = sesM.createSession("testmap");
     
     Session sess = new Session(con.getConnectionManager());
-    sesM.joinSession(sess, sessionSlot);
+    sess.setId(sessionSlot);
+    sesM.joinSession(sess);
    
     System.out.println("Compatible API Data/Functions:");
     System.out.println(sess.getCompatibleOperations());
     
     System.out.println("Loading stake holders:");
-    System.out.println(sess.loadStakeHolders());
+    System.out.println(sess.getEnvironment().loadStakeHolders());
     
     System.out.println("Loading indicators:");
-    System.out.println(sess.loadIndicators());
+    System.out.println(sess.getEnvironment().loadIndicators());
     
     System.out.println("Loading economies:");
-    System.out.println(sess.loadEconomies());   
+    System.out.println(sess.getEnvironment().loadEconomies());   
     
     System.out.println("Loading buildings:");
-    System.out.println(sess.loadBuildings());       
+    System.out.println(sess.getEnvironment().loadBuildings());       
    
     sess.closeSession(false);
   }

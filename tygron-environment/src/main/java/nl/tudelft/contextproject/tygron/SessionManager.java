@@ -58,12 +58,12 @@ public class SessionManager {
    * Data is loaded into memory.
    * @return whether the join was successful or not.
    */
-  public boolean joinSession(Session session, int slotId) {
+  public boolean joinSession(Session session) {
 
-    logger.info("Joining session in slot " + slotId);
+    logger.info("Joining session in slot " + session.getId());
     
     JSONArray dataArray = new JSONArray();
-    dataArray.put(slotId);      // Server slot ID
+    dataArray.put(session.getId());      // Server slot ID
     dataArray.put("VIEWER");    // My application type: EDITOR, VIEWER, ADMIN, BEAM 
     dataArray.put("");          // My client address (optional)
     dataArray.put("Tygron-API-Agent"); //  My client computer name (optional)
@@ -72,8 +72,9 @@ public class SessionManager {
     JSONObject data = apiConnection.callPostEventObject(
         "services/event/IOServicesEventType/JOIN_SESSION/", dataArray);
         
-    session.setId(slotId); 
     session.loadFromJson(data);
+    
+    session.start();
     
     return true;
   }
@@ -90,23 +91,27 @@ public class SessionManager {
     
     // Set default slot
     int slot = -1;
+    Session sess = null;
     
     // Try to find a session with the name if it already exists
     List<Session> availableList = getJoinableSessions();
     for (int i = 0;i < availableList.size();i++) {
       if (mapName.equals(availableList.get(i).getName())) {
         slot = availableList.get(i).getId();
+        sess = availableList.get(i);
+        break;
       }
     }
     
     // else create a new session
-    if (slot < 0) {
+    if (slot == -1) {
       slot = createSession(mapName);
+      sess = new Session(apiConnection);
+      sess.setId(slot);
     }
     
-    // Create a new session
-    Session sess = new Session(apiConnection);
-    joinSession(sess,slot);
+    // Join / startup the session
+    joinSession(sess);
     
     return sess;
   }

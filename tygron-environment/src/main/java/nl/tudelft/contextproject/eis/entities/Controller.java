@@ -18,9 +18,9 @@ public class Controller {
    * @param controller the session object
    */
   public Controller(Session controller) {
-    indicators = new IndicatorEntity(controller.loadIndicators());
-    stakeholders = new StakeholderEntity(controller.loadStakeHolders());
-    economies = new EconomyEntity(controller.loadEconomies());
+    indicators = new IndicatorEntity(controller.getEnvironment().loadIndicators());
+    stakeholders = new StakeholderEntity(controller.getEnvironment().loadStakeHolders());
+    economies = new EconomyEntity(controller.getEnvironment().loadEconomies());
   }
   
 
