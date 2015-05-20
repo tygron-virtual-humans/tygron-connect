@@ -10,7 +10,6 @@ import nl.tudelft.contextproject.democode.CachedFileReader;
 import nl.tudelft.contextproject.util.PolygonUtil;
 
 import org.json.JSONArray;
-import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -29,8 +28,9 @@ public class BuildingTest {
    */
   @Before
   public void setupEconomy() {
-    String indicatorContents = CachedFileReader.getFileContents("/serverResponses/testmap/lists/building.json");
-    JSONArray buildingResult = new JSONArray(indicatorContents);
+    String file = "/serverResponses/testmap/lists/building.json";
+    String buildingContents = CachedFileReader.getFileContents(file);
+    JSONArray buildingResult = new JSONArray(buildingContents);
     building = new BuildingList(buildingResult);
   }
 

@@ -1,10 +1,10 @@
 package nl.tudelft.contextproject.tygron;
 
 import static org.junit.Assert.assertEquals;
+
 import nl.tudelft.contextproject.democode.CachedFileReader;
 
 import org.json.JSONArray;
-import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
 
