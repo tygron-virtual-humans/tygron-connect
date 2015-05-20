@@ -7,6 +7,9 @@ import static org.junit.Assert.fail;
 import com.esri.core.geometry.Polygon;
 
 import nl.tudelft.contextproject.democode.CachedFileReader;
+import nl.tudelft.contextproject.tygron.api.Session;
+import nl.tudelft.contextproject.tygron.objects.Building;
+import nl.tudelft.contextproject.tygron.objects.BuildingList;
 import nl.tudelft.contextproject.util.PolygonUtil;
 
 import org.json.JSONArray;
