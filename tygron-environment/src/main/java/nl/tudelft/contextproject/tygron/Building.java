@@ -25,7 +25,6 @@ public class Building {
     PolygonUtil polyUtil = new PolygonUtil();
     name = input.getString("name");
     id = input.getInt("id");
-    
     try {
       polygon = polyUtil.createPolygonFromWkt(input.getString("polygons"));
     } catch (Exception e) {
