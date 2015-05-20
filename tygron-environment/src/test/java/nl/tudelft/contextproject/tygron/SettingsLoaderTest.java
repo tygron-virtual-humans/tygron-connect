@@ -18,7 +18,7 @@ public class SettingsLoaderTest {
   public void start() {
     try {
       settingsLoader = new SettingsLoader(
-          "../src/main/resources/testconfiguration.cfg");
+          "src/main/resources/testconfiguration.cfg");
     } catch (Exception e) {
       e.printStackTrace();
       fail("File not found or could not be read");
