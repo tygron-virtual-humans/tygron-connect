@@ -5,7 +5,6 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import nl.tudelft.contextproject.tygron.DummyConnection;
-import nl.tudelft.contextproject.tygron.EconomyList;
 import nl.tudelft.contextproject.tygron.IndicatorList;
 import nl.tudelft.contextproject.tygron.Session;
 import nl.tudelft.contextproject.tygron.StakeholderList;
