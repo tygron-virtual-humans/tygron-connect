@@ -13,7 +13,7 @@ public class Connector {
   private User user;
   private Session session;
   private SessionManager sessionManager;
-  private Connection connection;
+  private HttpConnection connection;
 
   /**
    * Create a new TygronConnector.
@@ -28,7 +28,7 @@ public class Connector {
    * @param connection
    *          the connection to use.
    */
-  public Connector(Connection connection) {
+  public Connector(HttpConnection connection) {
 
     logger.info("Connector loading.");
 
@@ -59,7 +59,7 @@ public class Connector {
   /**
    * Return the connection manager.
    */
-  public Connection getConnectionManager() {
+  public HttpConnection getConnectionManager() {
     return connection;
   }
 

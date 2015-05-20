@@ -6,40 +6,43 @@ import static org.junit.Assert.fail;
 
 import com.esri.core.geometry.Polygon;
 
+import nl.tudelft.contextproject.democode.CachedFileReader;
 import nl.tudelft.contextproject.util.PolygonUtil;
 
-import org.codehaus.jackson.JsonParseException;
 import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
 
-import java.io.IOException;
-
+@RunWith(value = MockitoJUnitRunner.class)
 public class BuildingTest {
-  DummyConnection connection;
   Building building;
-  
+
+  @Mock
+  private Session sessionMock;
+
   /**
-   * Set up the mock connection and use building.json as mock json file.
+   * Creates a building from a cached file.
    */
   @Before
-  public void setupConnection() {
-    connection = new DummyConnection();
-    connection.setFile("/serverResponses/testmap/lists/building.json");
-    JSONObject result = connection.callGetEventObject("");
-    building = new Building(result);
+  public void setupEconomy() {
+    String indicatorContents = CachedFileReader.getFileContents("/serverResponses/testmap/lists/building.json");
+    JSONObject buildingResult = new JSONObject(indicatorContents);
+    building = new Building(buildingResult);
   }
-  
+
   @Test
   public void nameTest() {
-    assertEquals("Delfgauwseweg",building.getName());
+    assertEquals("Delfgauwseweg", building.getName());
   }
-  
+
   @Test
   public void floorTest() {
-    assertEquals(1,building.getFloors());
+    assertEquals(1, building.getFloors());
   }
-  
+
   @Test
   public void polygonTest() {
     PolygonUtil polyUtil = new PolygonUtil();
@@ -49,10 +52,7 @@ public class BuildingTest {
           + ", 111.728 92.311, 166.819 69.234, 229.024 45.124, 226.367 38.006, 182 55.553"
           + ", 0 124.472, 0 134.572, 32.063 122.522)))");
       assertTrue(polyUtil.equals(polygon1, polygon2));
-    } catch (JsonParseException e) {
-      fail();
-      e.printStackTrace();
-    } catch (IOException e) {
+    } catch (Exception e) {
       fail();
       e.printStackTrace();
     }

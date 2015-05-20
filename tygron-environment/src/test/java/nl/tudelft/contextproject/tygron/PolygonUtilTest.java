@@ -8,11 +8,10 @@ import com.esri.core.geometry.Polygon;
 
 import nl.tudelft.contextproject.util.PolygonUtil;
 
-import org.codehaus.jackson.JsonParseException;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.io.IOException;
+
 
 public class PolygonUtilTest {
   PolygonUtil polyutil;
@@ -39,10 +38,7 @@ public class PolygonUtilTest {
       polygon2.lineTo(3, 3);
       polygon2.lineTo(1, 1);
       polyutil.equals(polygon1,polygon2);
-    } catch (JsonParseException e) {
-      fail();
-      e.printStackTrace();
-    } catch (IOException e) {
+    } catch (Exception e) {
       fail();
       e.printStackTrace();
     }
@@ -57,10 +53,7 @@ public class PolygonUtilTest {
       Polygon polygon1 = polyutil.createPolygonFromWkt("MULTIPOLYGON (((1 1, 2 2, 3 3, 1 1)))");
       Polygon polygon2 = polyutil.createPolygonFromWkt("MULTIPOLYGON (((1 1, 2 2, 3 3, 1 1)))");
       assertTrue(polyutil.equals(polygon1,polygon2));
-    } catch (JsonParseException e) {
-      fail();
-      e.printStackTrace();
-    } catch (IOException e) {
+    } catch (Exception e) {
       fail();
       e.printStackTrace();
     }
@@ -75,12 +68,9 @@ public class PolygonUtilTest {
       Polygon polygon1 = polyutil.createPolygonFromWkt("MULTIPOLYGON (((1 1, 2 2, 3 3, 1 1)))");
       Polygon polygon2 = polyutil.createPolygonFromWkt("MULTIPOLYGON (((4 4, 2 2, 3 3, 4 4)))");
       assertFalse(polyutil.equals(polygon1,polygon2));
-    } catch (JsonParseException e) {
-      e.printStackTrace();
+    } catch (Exception e) {
       fail();
-    } catch (IOException e) {
       e.printStackTrace();
-      fail();
     }
   }
   
@@ -95,12 +85,9 @@ public class PolygonUtilTest {
       Polygon polygon2 = polyutil.createPolygonFromWkt("MULTIPOLYGON (((4 4, 4 8, 8 8, 8 4"
           + ", 4 4)))");
       assertTrue(polyutil.contains(polygon1, polygon2));
-    } catch (JsonParseException e) {
-      e.printStackTrace();
+    } catch (Exception e) {
       fail();
-    } catch (IOException e) {
       e.printStackTrace();
-      fail();
     }
   }
   
@@ -115,12 +102,9 @@ public class PolygonUtilTest {
       Polygon polygon2 = polyutil.createPolygonFromWkt("MULTIPOLYGON (((4 4, 4 8, 8 8, 8 4"
           + ", 4 4)))");
       assertFalse(polyutil.contains(polygon2, polygon1));
-    } catch (JsonParseException e) {
-      e.printStackTrace();
+    } catch (Exception e) {
       fail();
-    } catch (IOException e) {
       e.printStackTrace();
-      fail();
     }
   }
 }
