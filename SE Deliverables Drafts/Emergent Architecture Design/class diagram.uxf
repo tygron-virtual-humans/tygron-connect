@@ -1,0 +1,714 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="13.0">
+  <zoom_level>6</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>180</x>
+      <y>0</y>
+      <w>228</w>
+      <h>240</h>
+    </coordinates>
+    <panel_attributes>Session
+--
+-apiConnection: HttpConnection
+-name: String
+-platform: String
+-state: String
+-type: String
+-language: String
+-clientToken: String
+-serverToken: String
+-id: int
+--
++Session(HttpConnection localApiConnection): ctor
++loadFromJson(JSONObject object): void
++closeSession(boolean keepAlive): boolean
++setName(String newName): void
++getName(): String
++setType(String newType): void
++setLanguage(String newLanguage): void
++setId(int newId): void
++getId(): int
++setServerToken(String serverToken): void
++getServerToken(): String
++setClientToken(String clientToken): void
++getClientToken(): String
++getCompatibleOperations(): ArrayList&lt;String&gt;
+--
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>414</x>
+      <y>0</y>
+      <w>192</w>
+      <h>204</h>
+    </coordinates>
+    <panel_attributes>Zone
+--
++Zone(JSONObject object)
++getAllowedFloors(): int
++getAllowedFunctions(): List&lt;Object&gt;
++getCategoryFloorM2s(): List&lt;Double&gt;
++getCategoryFloorM2sMaquette(): List&lt;Double&gt;
++getCategoryM2s(): List&lt;Double&gt;
++getCategoryM2sMaquette(): List&lt;Double&gt;
++getCategoryVersion(): int
++getCategoryVersionMaquette(): int
++getColor(): int
++getDescription(): String
++getDetailVersions(): List&lt;Integer&gt;
++getDetails(): List&lt;List&lt;Double&gt;&gt;
++getId(): int
++getName(): String
++getPlayable(): JSONObject
++isShowlabel(): boolean
++getSortIndex(): int
++getVersion(): int
+--
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>612</x>
+      <y>0</y>
+      <w>336</w>
+      <h>318</h>
+    </coordinates>
+    <panel_attributes>HttpConnection
+--
+-settings: Settings
+-client: HttpClient
+-authString: String
+-serverToken: String
+-sessionId: int
+-API_URL_BASE = "https://server2.tygron.com:3022/api/": String
+-API_JSON_SUFFIX = "?f=JSON": String
+-API_DELIMITER = "/": String
+-API_SLOTS = "slots/": String
+--
++HttpConnection(Settings tygronSettings)
++setServerToken(String serverToken): void
++setSessionId(int sessionId): void
++addDefaultHeaders(HttpRequestBase request): void
+-getApiUrl(String eventName): String
+-getApiSessionUrl(String eventName): String
++callGetEvent(String eventName): String
++callPostEvent(String eventName, JSONArray parameters): String
++callSessionGetEvent(String eventName): String
++callSessionPostEvent(String eventName, JSONArray parameters): String
++getEvent(HttpGet request): String
++postEvent(HttpPost request, JSONArray parameters): String
++callGetEventObject(String eventName): JSONObject
++callGetEventArray(String eventName): JSONArray
++callPostEventRaw(String eventName, JSONArray parameters): String
++callPostEventBoolean(String eventName, JSONArray parameters): boolean
++callPostEventInt(String eventName, JSONArray parameters): int
++callPostEventObject(String eventName, JSONArray parameters): JSONObject
++callPostEventArray(String eventName, JSONArray parameters): JSONArray
++callSessionGetEventObject(String eventName): JSONObject
++callSessionPostEventObject(String eventName, JSONArray parameters): JSONObject
+--
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>954</x>
+      <y>0</y>
+      <w>144</w>
+      <h>132</h>
+    </coordinates>
+    <panel_attributes>User
+--
++User(HttpConnection localhttp): ctor
++loadSettings(): void
++isActive(): boolean
++getDomain(): String
++getUserName(): String
++getFirstName(): String
++getLastName(): String
++getNickName(): String
++getId(): int
++getLastLogin(): long
++getMaxOption(): String
+--
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1104</x>
+      <y>0</y>
+      <w>162</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>/Indicator/
+--
++Indicator(JSONObject input): ctor
++getId(): int
++getName(): String
++getShortName(): String
++getType(): String
++getDescriptionHtml(): String
++getExplanationHtml(): String
++getProgress(): double
++getTarget(): double
++getCurrent(): double
+--
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1272</x>
+      <y>0</y>
+      <w>186</w>
+      <h>102</h>
+    </coordinates>
+    <panel_attributes>Stakeholder
+--
++Stakeholder(JSONObject input)
++getId(): int
++getName(): String
++getShortName(): String
++getDescription(): String
++getOwnedLands(): List&lt;Integer&gt;
++getIndicatorWeights(): Map&lt;Integer, Double&gt;
++toString(): String
+--
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1464</x>
+      <y>0</y>
+      <w>228</w>
+      <h>84</h>
+    </coordinates>
+    <panel_attributes>Building
+--
++Building(JSONObject input)
++getId(): int
++getName(): String
++getPolygon(): Polygon
++getFloors(): int
++toString(): String
+--
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>180</x>
+      <y>456</y>
+      <w>240</w>
+      <h>78</h>
+    </coordinates>
+    <panel_attributes>Connector
+--
++Connector()
++Connector(HttpConnection connection): ctor
++getSessionManager(): SessionManager
++getConnectionManager(): HttpConnection
++getSession(): Session
+--
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>426</x>
+      <y>456</y>
+      <w>180</w>
+      <h>84</h>
+    </coordinates>
+    <panel_attributes>Controller
+--
++Controller(Session controller)
++stakeholder(): List&lt;TygronPercept&gt;
++progressIndicator(): List&lt;TygronPercept&gt;
++initIndicator(): List&lt;TygronPercept&gt;
++economies(): List&lt;TygronPercept&gt;
+--
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>612</x>
+      <y>456</y>
+      <w>222</w>
+      <h>114</h>
+    </coordinates>
+    <panel_attributes>TygronInterfaceImpl
+--
+#controller: Session
+#configuration: Configuration
+--
++TygronInterfaceImpl(): ctor
+#isSupportedByEnvironment(Action action): boolean
+#isSupportedByType(Action action, String type): boolean
++init(Map&lt;String, Parameter&gt; parameters): void
++reset(Map&lt;String, Parameter&gt; parameters): void
++kill(): void
+--
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>840</x>
+      <y>456</y>
+      <w>162</w>
+      <h>114</h>
+    </coordinates>
+    <panel_attributes>Economy
+--
++Economy(JSONObject input)
++getId(): int
++getCategory(): String
++getState(): String
++toString(): String
+--
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1008</x>
+      <y>456</y>
+      <w>264</w>
+      <h>114</h>
+    </coordinates>
+    <panel_attributes>SessionManager
+--
++SessionManager(HttpConnection localApiConnection): ctor
++getJoinableSessions(): List&lt;Session&gt;
++joinSession(Session session, int slotId): boolean
++createOrFindSessionAndJoin(String mapName): Session
++createSession(String mapName): int
++killSession(int slotId): boolean
+--
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1278</x>
+      <y>456</y>
+      <w>186</w>
+      <h>114</h>
+    </coordinates>
+    <panel_attributes>SettingsLoader
+--
+~config: Properties
+--
++SettingsLoader(String path): ctor
+-readConfig(String path): void
++getUsername(): String
++getPassword(): String
+--
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1470</x>
+      <y>456</y>
+      <w>192</w>
+      <h>96</h>
+    </coordinates>
+    <panel_attributes>IndicatorFinance
+--
++IndicatorFinance(JSONObject input): ctor
++getTarget(): double
++getProgress(): double
++getCurrent(): double
+--
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>180</x>
+      <y>600</y>
+      <w>204</w>
+      <h>96</h>
+    </coordinates>
+    <panel_attributes>IndicatorHousing
+--
+~start: double[]
+~current: double[]
+~desired: double[]
+~jsonInput: JSONObject
+--
++IndicatorHousing(JSONObject input): ctor
++extractIndicators(): Collection&lt;? extends Indicator&gt;
+--
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>390</x>
+      <y>600</y>
+      <w>186</w>
+      <h>96</h>
+    </coordinates>
+    <panel_attributes>IndicatorParking
+--
+~targetParking: double
+~currentParking: double
+--
++IndicatorParking(JSONObject input): ctor
++getProgress(): double
++getTarget(): double
++getCurrent(): double
+--
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>582</x>
+      <y>600</y>
+      <w>306</w>
+      <h>96</h>
+    </coordinates>
+    <panel_attributes>SubIndicatorHousing
+--
+-desired: double
+-current: double
+--
++SubIndicatorHousing(JSONObject input, double desired, double current): ctor
++getProgress(): double
++getTarget(): double
++getCurrent(): double
+--
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>894</x>
+      <y>600</y>
+      <w>156</w>
+      <h>84</h>
+    </coordinates>
+    <panel_attributes>Settings
+--
++Settings(): ctor
++getUserName(): String
++getPassword(): String
+--
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1056</x>
+      <y>600</y>
+      <w>210</w>
+      <h>72</h>
+    </coordinates>
+    <panel_attributes>Configuration
+--
+-stakeholders: int
+--
++Configuration(): ctor
++setStakeholder(int stakeholderParametersList): void
++getStakeholder(): int
+--
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1272</x>
+      <y>600</y>
+      <w>240</w>
+      <h>72</h>
+    </coordinates>
+    <panel_attributes>DemoGeometryLoader
+--
+--
++DemoGeometryLoader(): ctor
++main(String[] args): void
++contains(Polygon polygon1, Polygon polygon2): boolean
++createPolygonFromWkt(String wktString): Polygon
+--
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1518</x>
+      <y>600</y>
+      <w>228</w>
+      <h>72</h>
+    </coordinates>
+    <panel_attributes>IndicatorTranslator
+--
+--
++translate(Parameter parameter): Indicator
++translate(Indicator ind): Parameter[]
++translatesTo(): Class&lt;Indicator&gt;
++translatesFrom(): Class&lt;? extends Indicator&gt;
+--
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>180</x>
+      <y>702</y>
+      <w>222</w>
+      <h>72</h>
+    </coordinates>
+    <panel_attributes>PolygonUtil
+--
+--
++PolygonUtil(): ctor
++createPolygonFromWkt(String wktString): Polygon
++contains(Polygon polygon1, Polygon polygon2): boolean
++equals(Polygon polygon1, Polygon polygon2): boolean
+--
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>408</x>
+      <y>702</y>
+      <w>228</w>
+      <h>66</h>
+    </coordinates>
+    <panel_attributes>HashMapTranslator
+--
+--
++translate(Parameter parameter): HashMap
+-translateEntries(ParameterList parameter): HashMap
++translatesTo(): Class&lt;HashMap&gt;
+--
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>642</x>
+      <y>702</y>
+      <w>246</w>
+      <h>54</h>
+    </coordinates>
+    <panel_attributes>ConfigurationTranslator
+--
+--
++translate(Parameter parameter): Configuration
++translatesTo(): Class&lt;Configuration&gt;
+--
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>894</x>
+      <y>702</y>
+      <w>240</w>
+      <h>54</h>
+    </coordinates>
+    <panel_attributes>ParamEnumTranslator
+--
+--
++translate(Parameter parameter): ParamEnum
++translatesTo(): Class&lt;ParamEnum&gt;
+--
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1140</x>
+      <y>702</y>
+      <w>198</w>
+      <h>54</h>
+    </coordinates>
+    <panel_attributes>TygronPercept
+--
+-serialVersionUID = 6615181739404057470L: long
+--
++TygronPercept(Object... arguments): ctor
+--
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1344</x>
+      <y>702</y>
+      <w>168</w>
+      <h>54</h>
+    </coordinates>
+    <panel_attributes>BuildingList
+--
+-serialVersionUID = 1L: long
+--
++BuildingList(JSONArray input): ctor
+--
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>180</x>
+      <y>780</y>
+      <w>174</w>
+      <h>54</h>
+    </coordinates>
+    <panel_attributes>EconomyList
+--
+-serialVersionUID = 1L: long
+--
++EconomyList(JSONArray input): ctor
+--
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>360</x>
+      <y>780</y>
+      <w>174</w>
+      <h>54</h>
+    </coordinates>
+    <panel_attributes>IndicatorList
+--
+-serialVersionUID = 1L: long
+--
++IndicatorList(JSONArray input): ctor
+--
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>540</x>
+      <y>780</y>
+      <w>186</w>
+      <h>54</h>
+    </coordinates>
+    <panel_attributes>StakeholderList
+--
+-serialVersionUID = 1L: long
+--
++StakeholderList(JSONArray input): ctor
+--
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>732</x>
+      <y>780</y>
+      <w>162</w>
+      <h>54</h>
+    </coordinates>
+    <panel_attributes>ZoneList
+--
+-serialVersionUID = 1L: long
+--
++ZoneList(JSONArray input): ctor
+--
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>900</x>
+      <y>780</y>
+      <w>216</w>
+      <h>42</h>
+    </coordinates>
+    <panel_attributes>DemoConnector
+--
+--
++main(String[] args): void
+--
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1122</x>
+      <y>780</y>
+      <w>192</w>
+      <h>42</h>
+    </coordinates>
+    <panel_attributes>DemoHttp
+--
+--
++main(String[] args): void
+--
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>414</x>
+      <y>216</y>
+      <w>192</w>
+      <h>144</h>
+    </coordinates>
+    <panel_attributes>Environment
+--
++loadStakeHolders(): StakeholderList
++getStakeHolders(): StakeholderList
++loadIndicators(): IndicatorList
++getIndicators(): IndicatorList
++loadZones(): ZoneList
++getZones(): ZoneList
++loadEconomies(): EconomyList
++getEconomies(): EconomyList
++loadBuildings(): BuildingList
++getBuildings(): BuildingList
++toString(): String</panel_attributes>
+    <additional_attributes/>
+  </element>
+</diagram>
