@@ -1,12 +1,12 @@
 package nl.tudelft.contextproject.tygron;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.Properties;
 
 public class SettingsLoader {
   Properties config;
-  InputStream input = null;
 
   String username = "";
   String password = "";
@@ -16,22 +16,22 @@ public class SettingsLoader {
    * loading or reading of the cfg file fails.
    */
   public SettingsLoader(String path) throws Exception {
-    readConfig(path);
+    File jarFile = new File(this.getClass().getProtectionDomain()
+        .getCodeSource().getLocation().toURI().getPath());
+    readConfig(new FileInputStream(new File(jarFile.getParent(), path)));
   }
+
 
   /**
    * Read in the file from filepath and assign values to variables.
    * 
-   * @param path
-   *          File Path to configuration file.
    * @throws Exception
    *           Exception for when read fails or if file is not found.
    */
-  private void readConfig(String path) throws Exception {
-    input = new FileInputStream(path);
+  public void readConfig(InputStream stream) throws Exception {
     config = new Properties();
 
-    config.load(input);
+    config.load(stream);
     username = config.getProperty("username");
     password = config.getProperty("password");
   }
