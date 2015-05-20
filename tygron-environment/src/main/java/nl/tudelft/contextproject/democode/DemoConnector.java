@@ -1,8 +1,8 @@
 package nl.tudelft.contextproject.democode;
 
-import nl.tudelft.contextproject.tygron.Connector;
-import nl.tudelft.contextproject.tygron.Session;
-import nl.tudelft.contextproject.tygron.SessionManager;
+import nl.tudelft.contextproject.tygron.api.Connector;
+import nl.tudelft.contextproject.tygron.api.Session;
+import nl.tudelft.contextproject.tygron.api.SessionManager;
 
 public class DemoConnector {
 
