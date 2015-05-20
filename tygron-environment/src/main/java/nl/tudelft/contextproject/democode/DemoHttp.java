@@ -1,8 +1,8 @@
 package nl.tudelft.contextproject.democode;
 
-import nl.tudelft.contextproject.tygron.CallType;
-import nl.tudelft.contextproject.tygron.HttpConnection;
 import nl.tudelft.contextproject.tygron.Settings;
+import nl.tudelft.contextproject.tygron.api.CallType;
+import nl.tudelft.contextproject.tygron.api.HttpConnection;
 import nl.tudelft.contextproject.tygron.handlers.JsonObjectResultHandler;
 
 import org.json.JSONObject;
