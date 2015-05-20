@@ -76,6 +76,10 @@ public class SessionManager {
     
     session.start();
     
+    // Set server token and session id in connection
+    apiConnection.setServerToken(session.getServerToken());
+    apiConnection.setSessionId(session.getId());
+    
     return true;
   }
   
