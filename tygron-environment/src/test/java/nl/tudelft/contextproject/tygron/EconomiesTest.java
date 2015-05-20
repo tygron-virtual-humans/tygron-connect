@@ -2,28 +2,28 @@ package nl.tudelft.contextproject.tygron;
 
 import static org.junit.Assert.assertEquals;
 
+import nl.tudelft.contextproject.democode.CachedFileReader;
 
 import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
 
 public class EconomiesTest {
-  DummyConnection connection;
+  Economy economy;
   
+  /**
+   * Creates an economy from a cached file.
+   */
   @Before
-  public void setupConnection() {
-    connection = new DummyConnection();
+  public void setupEconomy() {
+    String contents = CachedFileReader.getFileContents("/serverResponses/testmap/lists/economies.json");
+    JSONObject json = new JSONObject(contents);
+    economy = new Economy(json);
   }
   
   @Test
   public void indicatorTest() {
-    connection.setFile("/serverResponses/testmap/lists/economies.json");
-    JSONObject result = connection.callGetEventObject("");
-    Economy economies = new Economy(result);
-
-    assertEquals("SOCIAL", economies.getCategory());
-    assertEquals("GOOD", economies.getState());
-    
+    assertEquals("SOCIAL", economy.getCategory());
+    assertEquals("GOOD", economy.getState());
   }
-
 }

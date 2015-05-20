@@ -20,7 +20,7 @@ public class Session {
   final Logger logger = LoggerFactory.getLogger(Session.class);
   
   // Session oriented
-  private static Connection apiConnection;
+  private static HttpConnection apiConnection;
   private String name;
   private String platform;
   private String state;
@@ -41,7 +41,7 @@ public class Session {
   /**
    * Tygron Session Object.
    */
-  public Session(Connection localApiConnection) {
+  public Session(HttpConnection localApiConnection) {
     apiConnection = localApiConnection;
     setName("");
     clientToken = "";

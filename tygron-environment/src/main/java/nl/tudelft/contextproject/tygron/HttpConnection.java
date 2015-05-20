@@ -10,11 +10,12 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.HttpClients;
 import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
-public class HttpConnection extends Connection {
+public class HttpConnection {
 
   private Settings settings;
   private HttpClient client;
@@ -73,32 +74,43 @@ public class HttpConnection extends Connection {
         + API_JSON_SUFFIX;
   }
 
-  @Override
+  /**
+   * Calls a get event without a session.
+   * @param eventName the event as described in the API
+   * @return the result from the server
+   */
   public String callGetEvent(String eventName) {
     HttpGet request = new HttpGet(getApiUrl(eventName));
 
     return getEvent(request);
   }
 
-  @Override
+  /**
+   * Calls a post event without a session.
+   * @param eventName the event as described in the API
+   * @return the result from the server
+   */
   public String callPostEvent(String eventName, JSONArray parameters) {
     HttpPost request = new HttpPost(getApiUrl(eventName));
 
     return postEvent(request, parameters);
   }
-
-  @Override
+  
   public String callSessionGetEvent(String eventName) {
     HttpGet request = new HttpGet(getApiSessionUrl(eventName));
     return getEvent(request);
   }
 
-  @Override
   public String callSessionPostEvent(String eventName, JSONArray parameters) {
     HttpPost request = new HttpPost(getApiSessionUrl(eventName));
     return postEvent(request, parameters);
   }
 
+  /**
+   * Calls a get event.
+   * @param request the event as described in the API
+   * @return the result from the server
+   */
   public String getEvent(HttpGet request) {
     addDefaultHeaders(request);
     try {
@@ -109,6 +121,12 @@ public class HttpConnection extends Connection {
     }
   }
 
+  /**
+   * Calls a post event.
+   * @param request the event as described in the API
+   * @param parameters the parameters to bind to the request
+   * @return the result from the server
+   */
   public String postEvent(HttpPost request, JSONArray parameters) {
     addDefaultHeaders(request);
 
@@ -128,5 +146,41 @@ public class HttpConnection extends Connection {
       throw new RuntimeException(e);
     }
   }
+  
+  public JSONObject callGetEventObject(String eventName) {
+    return new JSONObject(callGetEvent(eventName));
+  }
+  
+  public JSONArray callGetEventArray(String eventName) {
+    return new JSONArray(callGetEvent(eventName));
+  }
+ 
+  public String callPostEventRaw(String eventName, JSONArray parameters) {
+    return callPostEvent(eventName, parameters);
+  }
+  
+  public boolean callPostEventBoolean(String eventName, JSONArray parameters) {
+    return Boolean.parseBoolean(callPostEvent(eventName, parameters));
+  }
+  
+  public int callPostEventInt(String eventName, JSONArray parameters) {
+    return Integer.parseInt(callPostEvent(eventName, parameters));
+  }
+  
+  public JSONObject callPostEventObject(String eventName, JSONArray parameters) {
+    return new JSONObject(callPostEvent(eventName, parameters));
+  }
 
+  public JSONArray callPostEventArray(String eventName, JSONArray parameters) {
+    return new JSONArray(callPostEvent(eventName, parameters));
+  }
+
+  public JSONObject callSessionGetEventObject(String eventName) {
+    return new JSONObject(callSessionGetEvent(eventName));
+  }
+
+  public JSONObject callSessionPostEventObject(String eventName, JSONArray parameters) {
+    return new JSONObject(callSessionPostEvent(eventName, parameters));
+  }
 }
+
