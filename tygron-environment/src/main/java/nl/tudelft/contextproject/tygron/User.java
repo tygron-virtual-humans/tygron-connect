@@ -4,8 +4,6 @@ import org.json.JSONObject;
 
 public class User {
 
-  private static HttpConnection http;
-
   private boolean active;
   private String domain;
   private String userName;
@@ -17,29 +15,21 @@ public class User {
   private long lastLogin;
   private String maxOption;
 
-  public User(HttpConnection localhttp) {
-    http = localhttp;
-  }
-
   /**
-   * Load user settings from API.
+   * User Object.
+   * @param userObj JSONData containing the user object
    */
-  public void loadSettings() {
-    if (http != null) {
-      // Request user info
-      JSONObject userObj = http.callGetEventObject("services/myuser/");
+  public User(JSONObject userObj) {
+    active = userObj.getBoolean("active");
+    domain = userObj.getString("domain");
+    userName = userObj.getString("userName");
+    firstName = userObj.getString("firstName");
+    lastName = userObj.getString("lastName");
+    nickName = userObj.getString("nickName");
 
-      active = userObj.getBoolean("active");
-      domain = userObj.getString("domain");
-      userName = userObj.getString("userName");
-      firstName = userObj.getString("firstName");
-      lastName = userObj.getString("lastName");
-      nickName = userObj.getString("nickName");
-
-      id = userObj.getInt("id");
-      lastLogin = userObj.getLong("lastLogin");
-      maxOption = userObj.getString("maxOption");
-    }
+    id = userObj.getInt("id");
+    lastLogin = userObj.getLong("lastLogin");
+    maxOption = userObj.getString("maxOption");
   }
 
   public boolean isActive() {
