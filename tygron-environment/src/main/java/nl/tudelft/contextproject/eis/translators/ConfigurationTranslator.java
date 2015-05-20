@@ -19,24 +19,34 @@ public class ConfigurationTranslator implements Parameter2Java<Configuration> {
   public Configuration translate(Parameter parameter)
       throws TranslationException {
     Translator translator = Translator.getInstance();
-    
+
     @SuppressWarnings("unchecked")
-    HashMap<Identifier, Parameter> params = translator.translate2Java(parameter, HashMap.class);
-    
+    HashMap<Identifier, Parameter> params = translator.translate2Java(
+        parameter, HashMap.class);
+
     Configuration configuration = new Configuration();
-    
+
     for (Entry<Identifier, Parameter> entry : params.entrySet()) {
-      ParamEnum param = translator.translate2Java(entry.getKey(), ParamEnum.class);
+      ParamEnum param = translator.translate2Java(entry.getKey(),
+          ParamEnum.class);
       switch (param) {
         case STAKEHOLDER:
-          configuration.setStakeholder(translator.translate2Java(entry.getValue(), 
+          configuration.setStakeholder(translator.translate2Java(
+              entry.getValue(), Integer.class));
+          break;
+        case MAP:
+          configuration.setMap(translator.translate2Java(entry.getValue(),
+              String.class));
+          break;
+        case SLOT:
+          configuration.setSlot(translator.translate2Java(entry.getValue(),
               Integer.class));
           break;
         default:
           break;
       }
     }
-    
+
     return configuration;
   }
 
@@ -44,5 +54,5 @@ public class ConfigurationTranslator implements Parameter2Java<Configuration> {
   public Class<Configuration> translatesTo() {
     return Configuration.class;
   }
-  
+
 }

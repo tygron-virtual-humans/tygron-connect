@@ -1,7 +1,9 @@
 package nl.tudelft.contextproject.eis;
 
 public enum ParamEnum {
-  STAKEHOLDER("stakeholder");
+  STAKEHOLDER("stakeholder"), 
+  MAP("map"),
+  SLOT("slot");
   
   private String param;
 
