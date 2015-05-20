@@ -5,7 +5,11 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.Properties;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class SettingsLoader {
+  final private static Logger logger = LoggerFactory.getLogger(HttpConnection.class);
   Properties config;
 
   String username = "";
@@ -16,15 +20,17 @@ public class SettingsLoader {
    * loading or reading of the cfg file fails.
    */
   public SettingsLoader(String path) throws Exception {
-    File jarFile = new File(this.getClass().getProtectionDomain()
-        .getCodeSource().getLocation().toURI().getPath());
+    File jarFile = new File(this.getClass().getProtectionDomain().getCodeSource().getLocation().toURI().getPath());
     if (jarFile.exists() && !jarFile.isDirectory()) {
-      readConfig(new FileInputStream(new File(jarFile.getParent(), path)));
+      File configFile = new File(jarFile.getParent(), path);
+      logger.info("Using config file " + configFile.getAbsolutePath());
+      readConfig(new FileInputStream(configFile));
     } else {
-      readConfig(new FileInputStream(path));
+      File configFile = new File(path);
+      logger.info("Using config file " + configFile.getAbsolutePath());
+      readConfig(new FileInputStream(configFile));
     }
   }
-
 
   /**
    * Read in the file from filepath and assign values to variables.
@@ -34,7 +40,6 @@ public class SettingsLoader {
    */
   public void readConfig(InputStream stream) throws Exception {
     config = new Properties();
-
     config.load(stream);
     username = config.getProperty("username");
     password = config.getProperty("password");
