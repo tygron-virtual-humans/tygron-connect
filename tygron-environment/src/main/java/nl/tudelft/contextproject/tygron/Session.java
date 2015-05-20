@@ -19,8 +19,7 @@ import java.util.ArrayList;
  * 
  */
 public class Session {
-
-  final Logger logger = LoggerFactory.getLogger(Session.class);
+  private static final Logger logger = LoggerFactory.getLogger(Session.class);
 
   // Session oriented
   private static HttpConnection apiConnection;

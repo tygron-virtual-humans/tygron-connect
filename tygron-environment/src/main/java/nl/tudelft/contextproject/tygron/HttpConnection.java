@@ -1,9 +1,5 @@
 package nl.tudelft.contextproject.tygron;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URI;
-import java.net.URISyntaxException;
-
 import nl.tudelft.contextproject.tygron.results.ResultHandler;
 
 import org.apache.commons.codec.binary.Base64;
@@ -20,8 +16,12 @@ import org.json.JSONArray;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URI;
+import java.net.URISyntaxException;
+
 public class HttpConnection {
-  final private static Logger logger = LoggerFactory.getLogger(HttpConnection.class);
+  private static final Logger logger = LoggerFactory.getLogger(HttpConnection.class);
   private static HttpClient client = HttpClients.custom().build();
 
   private Settings settings;
@@ -44,25 +44,34 @@ public class HttpConnection {
     this.serverToken = serverToken;
   }
 
-  public <T> T execute(String eventName, Type type, ResultHandler<T> result) {
-    return execute(eventName, type, result, null, null);
+  public <T> T execute(String eventName, Type type, ResultHandler<T> resultHandler) {
+    return execute(eventName, type, resultHandler, null, null);
   }
 
-  public <T> T execute(String eventName, Type type, ResultHandler<T> result, JSONArray parameters) {
-    return execute(eventName, type, result, null, parameters);
+  public <T> T execute(String eventName, Type type, ResultHandler<T> resultHandler, JSONArray parameters) {
+    return execute(eventName, type, resultHandler, null, parameters);
   }
 
-  public <T> T execute(String eventName, Type type, ResultHandler<T> result, Session session) {
-    return execute(eventName, type, result, session, null);
+  public <T> T execute(String eventName, Type type, ResultHandler<T> resultHandler, Session session) {
+    return execute(eventName, type, resultHandler, session, null);
   }
-
-  public <T> T execute(String eventName, Type type, ResultHandler<T> result, Session session, JSONArray parameters) {
+  
+  /**
+   * Calls a method on Tygron's servers.
+   * @param eventName The event name, a part of the URL
+   * @param type GET or POST event
+   * @param resultHandler The handler used to parse Tygron's result.
+   * @param session The session this call should use, can be null
+   * @param parameters The parameters this request should use, can be null
+   * @return a result handled by this request
+   */
+  public <T> T execute(String eventName, Type type, ResultHandler<T> resultHandler, Session session, JSONArray parameters) {
     try {
       HttpRequestBase requester = type.asRequest(parameters);
       String url = getApiUrl(eventName, session);
       requester.setURI(new URI(url));
       String resultString = execute(requester);
-      return result.handleResult(resultString);
+      return resultHandler.handleResult(resultString);
     } catch (URISyntaxException e) {
       throw new RuntimeException(e);
     }
@@ -83,25 +92,38 @@ public class HttpConnection {
 
   public enum Type {
     GET, POST;
+    /**
+     * Creates a HttpRequestBase from this type.
+     * @param parameters parameters to attach to the request, may be null
+     * @return a HttpRequestBase that can be executed
+     */
     public HttpRequestBase asRequest(JSONArray parameters) {
       switch (this) {
-      case GET:
-        return new HttpGet();
-      case POST:
-        try {
-          HttpPost ret = new HttpPost();
-          if (parameters != null) {
-            ret.setEntity(new StringEntity(parameters.toString()));
+        case GET:
+          return new HttpGet();
+        case POST:
+          try {
+            HttpPost ret = new HttpPost();
+            if (parameters != null) {
+              ret.setEntity(new StringEntity(parameters.toString()));
+            }
+            return ret;
+          } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException(e);
           }
-          return ret;
-        } catch (UnsupportedEncodingException e) {
-          throw new RuntimeException(e);
-        }
+        default: 
+          throw new RuntimeException("Invalid Type");
       }
-      throw new RuntimeException("Invalid Type");
+      
     }
   }
 
+  /**
+   * Returns Tygron's API url endpoint for a given event name and session.
+   * @param eventName the event that should be called
+   * @param session a session, may be null
+   * @return Tygron's response
+   */
   public String getApiUrl(String eventName, Session session) {
     if (session == null) {
       return API_URL_BASE + eventName + API_JSON_SUFFIX;
@@ -114,7 +136,11 @@ public class HttpConnection {
     String headerValue = settings.getUserName() + ":" + settings.getPassword();
     return Base64.encodeBase64String(headerValue.getBytes());
   }
-
+  
+  /**
+   * Adds the required headers (authentication) for Tygron communication.
+   * @param request the request to attach the headers to
+   */
   public void addDefaultHeaders(HttpUriRequest request) {
     request.setHeader("Accept", "application/json");
     request.setHeader("Content-Type", "application/json");

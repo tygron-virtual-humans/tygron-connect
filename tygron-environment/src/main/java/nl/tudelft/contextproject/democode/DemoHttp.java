@@ -10,32 +10,27 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class DemoHttp {
-	final private static Logger logger = LoggerFactory
-			.getLogger(DemoHttp.class);
+  private static final Logger logger = LoggerFactory.getLogger(DemoHttp.class);
 
-	/**
-	 * Demo program for GET/POST requests to API.
-	 * 
-	 * @param args
-	 *            Main arguments
-	 */
-	public static void main(String[] args) {
-		// General setup for http
-		HttpConnection http = new HttpConnection(new Settings());
+  /**
+   * Demo program for GET/POST requests to API.
+   * 
+   * @param args
+   *          Main arguments
+   */
+  public static void main(String[] args) {
+    // General setup for http
+    HttpConnection http = new HttpConnection(new Settings());
 
-		// Example GET request
-		JSONObject getDemoResponse = http.execute("services/myuser/", Type.GET,
-				new JsonObjectResultHandler());
-		logger.info("User is active? " + getDemoResponse.getBoolean("active"));
+    // Example GET request
+    JSONObject getDemoResponse = http.execute("services/myuser/", Type.GET, new JsonObjectResultHandler());
+    logger.info("User is active? " + getDemoResponse.getBoolean("active"));
 
-		// Example POST request
-		JSONObject postDemoResponse = http.execute(
-				"services/event/UserServicesEventType/GET_MY_USER", Type.POST,
-				new JsonObjectResultHandler());
-		logger.info("User #" + postDemoResponse.getInt("id") + " "
-				+ postDemoResponse.getString("userName") + " "
-				+ postDemoResponse.getString("firstName") + " "
-				+ postDemoResponse.getString("lastName"));
-	}
+    // Example POST request
+    JSONObject postDemoResponse = http.execute("services/event/UserServicesEventType/GET_MY_USER", Type.POST,
+        new JsonObjectResultHandler());
+    logger.info("User #" + postDemoResponse.getInt("id") + " " + postDemoResponse.getString("userName") + " "
+        + postDemoResponse.getString("firstName") + " " + postDemoResponse.getString("lastName"));
+  }
 
 }
