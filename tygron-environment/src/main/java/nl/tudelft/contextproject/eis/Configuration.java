@@ -4,6 +4,7 @@ public class Configuration {
 
   private int stakeholders;
   private String map;
+  private int slot;
 
   public Configuration() {
 
@@ -23,6 +24,14 @@ public class Configuration {
 
   public String getMap() {
     return map;
+  }
+  
+  public void setSlot(int slot) {
+    this.slot = slot;
+  }
+
+  public int getSlot() {
+    return slot;
   }
 
 }

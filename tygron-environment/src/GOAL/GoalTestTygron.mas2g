@@ -3,7 +3,8 @@ environment{
 	init = [
 		% Stakeholder, 0 is muncipianity, 1 is the housing corporation, 2 is company
 		stakeholder = 1,
-		map = "testmap"
+		map = "testmap",
+		slot = 1
 	].
 }
 agentfiles{

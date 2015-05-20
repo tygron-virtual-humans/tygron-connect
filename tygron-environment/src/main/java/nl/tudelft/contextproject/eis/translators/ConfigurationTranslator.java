@@ -38,6 +38,10 @@ public class ConfigurationTranslator implements Parameter2Java<Configuration> {
           configuration.setMap(translator.translate2Java(entry.getValue(),
               String.class));
           break;
+        case SLOT:
+          configuration.setSlot(translator.translate2Java(entry.getValue(),
+              Integer.class));
+          break;
         default:
           break;
       }
