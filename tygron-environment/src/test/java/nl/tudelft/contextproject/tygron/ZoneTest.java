@@ -112,7 +112,7 @@ public class ZoneTest {
   }
 
   @Test
-  public void getCategoryMaquetteTest() {
+  public void getCategoryM2sMaquetteTest() {
     String ar = "[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0"
         + ", 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]";
     assertTrue(ar.equals(zoneList.get(0).getCategoryM2sMaquette().toString()));
@@ -134,5 +134,10 @@ public class ZoneTest {
   @Test
   public void getCategoryVersionTest() {
     assertEquals(4, zoneList.get(0).getCategoryVersion());
+  }
+  
+  @Test
+  public void getCategoryMaquetteTest() {
+    assertEquals(4,zoneList.get(0).getCategoryVersionMaquette());
   }
 }

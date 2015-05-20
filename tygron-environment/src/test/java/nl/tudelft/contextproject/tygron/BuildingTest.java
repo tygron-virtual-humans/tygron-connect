@@ -9,6 +9,7 @@ import com.esri.core.geometry.Polygon;
 import nl.tudelft.contextproject.democode.CachedFileReader;
 import nl.tudelft.contextproject.util.PolygonUtil;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
@@ -18,7 +19,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 @RunWith(value = MockitoJUnitRunner.class)
 public class BuildingTest {
-  Building building;
+  BuildingList building;
 
   @Mock
   private Session sessionMock;
@@ -29,35 +30,35 @@ public class BuildingTest {
   @Before
   public void setupEconomy() {
     String indicatorContents = CachedFileReader.getFileContents("/serverResponses/testmap/lists/building.json");
-    JSONObject buildingResult = new JSONObject(indicatorContents);
-    building = new Building(buildingResult);
+    JSONArray buildingResult = new JSONArray(indicatorContents);
+    building = new BuildingList(buildingResult);
   }
 
   @Test
   public void nameTest() {
-    assertEquals("Delfgauwseweg", building.getName());
+    assertEquals("Delfgauwseweg", building.get(0).getName());
   }
 
   @Test
   public void idTest() {
-    assertEquals(0,building.getId());
+    assertEquals(0,building.get(0).getId());
   }
   
   @Test
   public void toStringTest() {
-    String str = "{\"id\":0,\"name\":\"Delfgauwseweg\"}";
+    String str = "[{\"id\":0,\"name\":\"Delfgauwseweg\"}]";
     assertEquals(building.toString(),str);
   }
   
   @Test
   public void floorTest() {
-    assertEquals(1, building.getFloors());
+    assertEquals(1, building.get(0).getFloors());
   }
 
   @Test
   public void polygonTest() {
     PolygonUtil polyUtil = new PolygonUtil();
-    Polygon polygon1 = building.getPolygon();
+    Polygon polygon1 = building.get(0).getPolygon();
     try {
       Polygon polygon2 = polyUtil.createPolygonFromWkt("MULTIPOLYGON (((32.063 122.522"
           + ", 111.728 92.311, 166.819 69.234, 229.024 45.124, 226.367 38.006, 182 55.553"
