@@ -17,22 +17,10 @@ public enum CallType {
    * @return a HttpRequestBase that can be executed
    */
   public HttpRequestBase asRequest(JSONArray parameters) {
-    switch (this) {
-      case GET:
-        return new HttpGet();
-      case POST:
-        try {
-          HttpPost ret = new HttpPost();
-          if (parameters != null) {
-            ret.setEntity(new StringEntity(parameters.toString()));
-          }
-          return ret;
-        } catch (UnsupportedEncodingException e) {
-          throw new RuntimeException(e);
-        }
-      default: 
-        throw new RuntimeException("Invalid Type");
-    }    
+    if (parameters != null) {
+      return asRequest(parameters.toString());
+    }
+    return asRequest("");  
   }
   
   /**
@@ -41,14 +29,26 @@ public enum CallType {
    * @return a HttpRequestBase that can be executed
    */
   public HttpRequestBase asRequest(JSONObject parameters) {
+    if (parameters != null) {
+      return asRequest(parameters.toString());
+    }
+    return asRequest("");
+  }
+  
+  /**
+   * Creates a HttpRequestBase from this type.
+   * @param entity entity to attach to the request, may be null
+   * @return a HttpRequestBase that can be executed
+   */
+  public HttpRequestBase asRequest(String entity) {
     switch (this) {
       case GET:
         return new HttpGet();
       case POST:
         try {
           HttpPost ret = new HttpPost();
-          if (parameters != null) {
-            ret.setEntity(new StringEntity(parameters.toString()));
+          if (entity != null && !entity.isEmpty()) {
+            ret.setEntity(new StringEntity(entity));
           }
           return ret;
         } catch (UnsupportedEncodingException e) {
@@ -56,7 +56,7 @@ public enum CallType {
         }
       default: 
         throw new RuntimeException("Invalid Type");
-    }    
+    }
   }
 }
 
