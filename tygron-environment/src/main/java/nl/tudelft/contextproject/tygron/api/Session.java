@@ -1,13 +1,13 @@
 package nl.tudelft.contextproject.tygron.api;
 
 import nl.tudelft.contextproject.tygron.handlers.BooleanResultHandler;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * TygronSession. General session handling to Tygron. A brief overview: First
@@ -15,7 +15,6 @@ import java.util.ArrayList;
  * can also get the joinable session with GET_JOINABLE_SESSIONS You can now join
  * a session with JOIN_SESSION. You can either close your own session with
  * CLOSE_SESSION or kill the session with KILL_SESSION.
- * 
  */
 public class Session {
   private static final Logger logger = LoggerFactory.getLogger(Session.class);
@@ -31,7 +30,7 @@ public class Session {
   private String language;
   private String clientToken;
   private String serverToken;
-  private ArrayList<String> compatibleOperations;
+  private List<String> compatibleOperations;
   private int id;
 
   /**
@@ -39,7 +38,7 @@ public class Session {
    */
   public Session(HttpConnection localApiConnection) {
     apiConnection = localApiConnection;
-    setName("");
+    name = "";
     clientToken = "";
     serverToken = "";
 
@@ -48,9 +47,8 @@ public class Session {
 
   /**
    * Load details from JSON Object and load them locally.
-   * 
-   * @param object
-   *          the JSON Object with data
+   *
+   * @param object the JSON Object with data
    */
   public void loadFromJson(JSONObject object) {
     this.setClientToken(object.getJSONObject("client").getString("clientToken"));
@@ -60,13 +58,11 @@ public class Session {
     this.platform = object.getString("platform");
     this.state = object.getJSONObject("client").getString("connectionState");
 
-    compatibleOperations = new ArrayList<String>();
+    compatibleOperations = new ArrayList<>();
     JSONArray jsonArray = object.getJSONArray("lists");
-    if (jsonArray != null) {
-      int len = jsonArray.length();
-      for (int i = 0; i < len; i++) {
-        compatibleOperations.add(jsonArray.get(i).toString());
-      }
+    int len = jsonArray.length();
+    for (int i = 0; i < len; i++) {
+      compatibleOperations.add(jsonArray.get(i).toString());
     }
   }
 
@@ -77,36 +73,29 @@ public class Session {
 
   /**
    * Close a session (instead of killing it).
-   * 
-   * @param keepAlive
-   *          In keepAlive is true and you are the last one in the session,
-   *          should it be killed? False indicated it should. True indicated it
-   *          should be kept alive.
+   *
+   * @param keepAlive In keepAlive is true and you are the last one in the session,
+   *                  should it be killed? False indicated it should. True indicated it
+   *                  should be kept alive.
    * @return Whether the operations succeeded.
    */
   public boolean closeSession(boolean keepAlive) {
-
     logger.info("Closing session #" + this.id + " with clientToken " + this.clientToken + " (keepalive: " + keepAlive
         + ")");
-
-    JSONArray dataArray = new JSONArray();
-    dataArray.put(this.id); // Server slot ID
-    dataArray.put(this.clientToken); // Client session token
-    dataArray.put(keepAlive); // Keep alive?
-
+    CloseSessionRequest closeSessionRequest = new CloseSessionRequest(this, keepAlive);
     boolean apiReturnValue = apiConnection.execute("services/event/IOServicesEventType/CLOSE_SESSION/", CallType.POST,
-        new BooleanResultHandler(), dataArray);
+        new BooleanResultHandler(), closeSessionRequest);
 
     logger.info("Closing session result: " + apiReturnValue);
 
     return apiReturnValue;
   }
 
+
   /**
    * Set a new session name.
-   * 
-   * @param newName
-   *          The new session name.
+   *
+   * @param newName The new session name.
    */
   public void setName(String newName) {
     this.name = newName;
@@ -114,7 +103,7 @@ public class Session {
 
   /**
    * Get the session name.
-   * 
+   *
    * @return The session name.
    */
   public String getName() {
@@ -123,9 +112,8 @@ public class Session {
 
   /**
    * Set a new session type.
-   * 
-   * @param newType
-   *          The new session type.
+   *
+   * @param newType The new session type.
    */
   public void setType(String newType) {
     this.type = newType;
@@ -133,9 +121,8 @@ public class Session {
 
   /**
    * Set a new session language.
-   * 
-   * @param newLanguage
-   *          The new session language.
+   *
+   * @param newLanguage The new session language.
    */
   public void setLanguage(String newLanguage) {
     this.language = newLanguage;
@@ -143,9 +130,8 @@ public class Session {
 
   /**
    * Set a new session id.
-   * 
-   * @param session
-   *          id The new session id.
+   *
+   * @param newId id The new session id.
    */
   public void setId(int newId) {
     this.id = newId;
@@ -153,7 +139,7 @@ public class Session {
 
   /**
    * Get the session id.
-   * 
+   *
    * @return The session id.
    */
   public int getId() {
@@ -162,9 +148,8 @@ public class Session {
 
   /**
    * Set a new server token.
-   * 
-   * @param serverToken
-   *          The server token.
+   *
+   * @param serverToken The server token.
    */
   public void setServerToken(String serverToken) {
     logger.debug("Session serverToken=" + serverToken);
@@ -173,7 +158,7 @@ public class Session {
 
   /**
    * Get the server token.
-   * 
+   *
    * @return The server token.
    */
   public String getServerToken() {
@@ -182,9 +167,8 @@ public class Session {
 
   /**
    * Set a client token.
-   * 
-   * @param clientToken
-   *          The client token.
+   *
+   * @param clientToken The client token.
    */
   public void setClientToken(String clientToken) {
     logger.debug("Session clientToken=" + clientToken);
@@ -193,7 +177,7 @@ public class Session {
 
   /**
    * Get the client token.
-   * 
+   *
    * @return The client token.
    */
   public String getClientToken() {
@@ -202,7 +186,7 @@ public class Session {
 
   /**
    * Get the environment.
-   * 
+   *
    * @return The environment.
    */
   public Environment getEnvironment() {
@@ -212,10 +196,10 @@ public class Session {
   /**
    * Return a (string) array with all the possible operations/data that can be
    * loaded from the API.
-   * 
+   *
    * @return The compatible operations for this session.
    */
-  public ArrayList<String> getCompatibleOperations() {
+  public List<String> getCompatibleOperations() {
     return this.compatibleOperations;
   }
 
@@ -229,5 +213,13 @@ public class Session {
     str.put("language", this.language);
     str.put("id", this.id);
     return str.toString();
+  }
+
+  class CloseSessionRequest extends JSONArray {
+    public CloseSessionRequest(Session session, boolean keepAlive) {
+      put(session.getId());
+      put(session.getClientToken());
+      put(keepAlive);
+    }
   }
 }
