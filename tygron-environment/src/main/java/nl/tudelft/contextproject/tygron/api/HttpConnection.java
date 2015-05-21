@@ -14,6 +14,7 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.HttpClients;
 import org.json.JSONArray;
+import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -70,6 +71,25 @@ public class HttpConnection {
     try {
       HttpRequestBase requester = type.asRequest(parameters);
       String url = getApiUrl(eventName, session);
+      requester.setURI(new URI(url));
+      String resultString = execute(requester);
+      return resultHandler.handleResult(resultString);
+    } catch (URISyntaxException e) {
+      throw new RuntimeException(e);
+    }
+  }
+  
+  /**
+   * Calls the update method on Tygron's servers.
+   * @param resultHandler The handler used to parse Tygron's result.
+   * @param session The session this call should use
+   * @param parameters The parameters this request should use
+   * @return new updates of the data types requested
+   */
+  public JSONObject getUpdate(ResultHandler<JSONObject> resultHandler, Session session, JSONObject parameters) {
+    try {
+      HttpRequestBase requester = CallType.POST.asRequest(parameters);
+      String url = getApiUrl("update/", session);
       requester.setURI(new URI(url));
       String resultString = execute(requester);
       return resultHandler.handleResult(resultString);
