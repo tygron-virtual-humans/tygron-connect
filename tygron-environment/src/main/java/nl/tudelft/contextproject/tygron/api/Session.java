@@ -44,6 +44,16 @@ public class Session {
   }
 
   /**
+   * Tygron Session Object with data.
+   */
+  public Session(HttpConnection localApiConnection, JSONObject data) {
+    this(localApiConnection);
+    name = data.getString("name");
+    type = data.getString("sessionType");
+    id = data.getInt("id");
+  }
+
+  /**
    * Load details from JSON Object and load them locally.
    *
    * @param object the JSON Object with data
