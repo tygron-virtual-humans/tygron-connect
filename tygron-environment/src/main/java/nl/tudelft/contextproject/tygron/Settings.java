@@ -13,7 +13,7 @@ public class Settings {
    */
   public Settings() {
     try {
-      SettingsLoader settingsLoader = new SettingsLoader("configuration.cfg");
+      SettingsLoader settingsLoader = getSettingsLoader("configuration.cfg");
       this.username = settingsLoader.getUsername();
       this.password = settingsLoader.getPassword();
     } catch (Exception e) {
@@ -22,7 +22,10 @@ public class Settings {
       password = "fallbackpassword";
     }
   }
-
+  
+  protected SettingsLoader getSettingsLoader(String cfg) throws Exception {
+    return new SettingsLoader(cfg);
+  }
   /**
    * Return the Tygron username.
    * 
