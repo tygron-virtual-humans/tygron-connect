@@ -16,8 +16,10 @@ public class PopUp {
   private int linkId;
   private String polygons;
   private String linkType;
-  private String type;
   private String point;
+  
+  // Either INTERACTION, INTERACTION_WITH_DATE, 
+  private String type;
   
   // When selling land, 0 is YES, 1 is NO, 2 is GIVE FOR FREE
   // When requesting confirmation, 0 is OK
