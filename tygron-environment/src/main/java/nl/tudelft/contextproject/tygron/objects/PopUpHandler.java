@@ -1,5 +1,9 @@
 package nl.tudelft.contextproject.tygron.objects;
 
+import nl.tudelft.contextproject.tygron.api.HttpConnection;
+import nl.tudelft.contextproject.tygron.api.Session;
+import nl.tudelft.contextproject.tygron.handlers.JsonObjectResultHandler;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -8,17 +12,37 @@ import java.util.List;
 
 public class PopUpHandler {
   
+  private HttpConnection apiConnection;
+  private Session session;
+  
   private int version;
   private int stakeholderId;
   private List<PopUp> list;
   
   /**
-   * A list containing all active popups.
-   * @param array The id of the player's stakeholder id
+   * A list containing all new, active popups.
+   * @param localApiConnection The connection
+   * @param session The session
+   * @param stakeholderId The id of the player's stakeholder
    */
-  public PopUpHandler(int stakeholderId) {
+  public PopUpHandler(HttpConnection localApiConnection, Session session, int stakeholderId) {
+    apiConnection = localApiConnection;
+    this.session = session;
     this.stakeholderId = stakeholderId;
     this.version = 0;
+  }
+  
+  /**
+   * Gets new popups from the API update.
+   */
+  public void newPopUps() {
+    JSONObject dataObject = apiConnection.getUpdate(new JsonObjectResultHandler(), session, 
+        getRequestObject());
+    if (dataObject != null) {
+      updateList(dataObject.getJSONObject("items"));
+    } else {
+      list = new ArrayList<PopUp>();
+    }
   }
   
   /**

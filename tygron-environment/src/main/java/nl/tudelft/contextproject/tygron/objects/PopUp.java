@@ -8,6 +8,15 @@ import java.util.List;
 
 public class PopUp {
   
+  private enum TypeValue {
+    INTERACTION, INFORMATION
+  }
+  
+  private enum EventValue {
+    LAND_SELL_REQUEST, LAND_SELL_APPROVED, LAND_SELL_REFUSED, LAND_BUY_REQUEST, LAND_BUY_APPROVED,
+    LAND_BUY_REFUSED, BUILD_PERMISSION_REQUEST, BUILD_PERMISSION_APPROVED, BUILD_PERMISSION_REFUSED
+  }
+  
   private int id;
   private int version;
   private List<Integer> visibleForActorIds;
@@ -18,8 +27,10 @@ public class PopUp {
   private String linkType;
   private String point;
   
-  // Either INTERACTION, INTERACTION_WITH_DATE, 
-  private String type;
+  private TypeValue type;
+  private EventValue event;
+  private int cost; // can be null
+  private int surface; // can be null
   
   // When selling land, 0 is YES, 1 is NO, 2 is GIVE FOR FREE
   // When requesting confirmation, 0 is OK
@@ -27,7 +38,7 @@ public class PopUp {
   // When answering a building permit request, 0 is YES, 1 is NO
   
   /**
-   * 
+   * Creates a popup object.
    * @param object The JSONObject to be read.
    */
   public PopUp(JSONObject object) {
@@ -42,15 +53,21 @@ public class PopUp {
       visibleForActorIds.add(array.getInt(i));
     }
     
-    title = popUp.getString("title");
+    String tempTitle = popUp.getString("title");
+    title = tempTitle.equals("NO TITLE SET") ? null : tempTitle;
     text = popUp.getString("text");
+    parseText();
     linkId = popUp.getInt("linkID");
     polygons = popUp.optString("polygons");
     linkType = popUp.getString("linkType");
-    type = popUp.getString("type");
+    type = TypeValue.valueOf(popUp.getString("type"));
     point = popUp.getString("point");
   }
   
+  private void parseText() {
+    
+  }
+
   public int getId() {
     return id;
   }
@@ -83,7 +100,7 @@ public class PopUp {
     return linkType;
   }
 
-  public String getType() {
+  public TypeValue getType() {
     return type;
   }
 
