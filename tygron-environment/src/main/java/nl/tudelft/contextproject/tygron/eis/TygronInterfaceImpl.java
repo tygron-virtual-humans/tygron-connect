@@ -1,6 +1,7 @@
 package nl.tudelft.contextproject.tygron.eis;
 
 import eis.exceptions.EntityException;
+
 import eis.exceptions.ManagementException;
 import eis.iilang.Action;
 import eis.iilang.EnvironmentState;
@@ -13,6 +14,7 @@ import nl.tudelft.contextproject.tygron.eis.entities.Controller;
 import nl.tudelft.contextproject.tygron.eis.translators.ConfigurationTranslator;
 import nl.tudelft.contextproject.tygron.eis.translators.HashMapTranslator;
 import nl.tudelft.contextproject.tygron.eis.translators.ParamEnumTranslator;
+
 import eis.eis2java.environment.AbstractEnvironment;
 import eis.eis2java.exception.TranslationException;
 import eis.eis2java.translation.Translator;
@@ -96,12 +98,16 @@ public class TygronInterfaceImpl extends AbstractEnvironment {
     }
     
     //Create a new connection
-    connector = new Connector();
+    connector = makeConnector();
     
     //Get the session manager
     controller = connector.getSession();
     
     setState(EnvironmentState.PAUSED);
+  }
+  
+  protected Connector makeConnector() {
+    return new Connector();
   }
 
   /* (non-Javadoc)

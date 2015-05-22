@@ -3,11 +3,16 @@ package nl.tudelft.contextproject.tygron.eis.translators;
 import eis.iilang.Identifier;
 import eis.iilang.Parameter;
 import nl.tudelft.contextproject.tygron.eis.ParamEnum;
+
 import eis.eis2java.exception.TranslationException;
 import eis.eis2java.translation.Parameter2Java;
 
 public class ParamEnumTranslator implements Parameter2Java<ParamEnum> {
 
+  public ParamEnumTranslator() {
+    // Used for testing
+  }
+  
   @Override
   public ParamEnum translate(Parameter parameter) throws TranslationException {
     if (!(parameter instanceof Identifier)) {

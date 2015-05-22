@@ -13,6 +13,10 @@ import java.util.Map.Entry;
 
 public class ConfigurationTranslator implements Parameter2Java<Configuration> {
 
+  public ConfigurationTranslator() {
+    // used for testing
+  }
+  
   @Override
   public Configuration translate(Parameter parameter)
       throws TranslationException {

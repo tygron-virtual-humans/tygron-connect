@@ -12,6 +12,10 @@ import java.util.HashMap;
 @SuppressWarnings("rawtypes")
 public class HashMapTranslator implements Parameter2Java<HashMap> {
 
+  public HashMapTranslator() {
+    // Used for testing
+  }
+  
   @Override
   public HashMap translate(Parameter parameter) throws TranslationException {
     if (!(parameter instanceof ParameterList)) {

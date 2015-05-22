@@ -1,8 +1,8 @@
 package nl.tudelft.contextproject.tygron.eis.entities;
 
 import nl.tudelft.contextproject.tygron.api.Environment;
-import nl.tudelft.contextproject.tygron.api.Session;
 import nl.tudelft.contextproject.tygron.eis.TygronPercept;
+
 import eis.eis2java.annotation.AsPercept;
 import eis.eis2java.translation.Filter;
 

@@ -1,6 +1,7 @@
 package nl.tudelft.contextproject.tygron.eis;
 
 import static org.junit.Assert.assertEquals;
+
 import nl.tudelft.contextproject.tygron.eis.TygronPercept;
 
 import org.junit.Test;
