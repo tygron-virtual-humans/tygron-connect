@@ -20,7 +20,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 import java.util.List;
 
 @RunWith(value = MockitoJUnitRunner.class)
-public class PerceptTests {
+public class PerceptTest {
   private Controller controller;
   
   @Mock
