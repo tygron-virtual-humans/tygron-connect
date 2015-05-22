@@ -63,7 +63,7 @@ public class PopUpHandler {
         .getJSONArray("[Lnl.tytech.core.data.item.Item;");
     for (int i = 0; i < popUpArray.length(); i++) {
       PopUp popUp = new PopUp(popUpArray.getJSONObject(i));
-      this.version = Integer.max(this.version, popUp.getVersion());
+      this.version = max(this.version, popUp.getVersion());
       if (popUp.getVisibleForActorIds().contains(this.stakeholderId)) {
         list.add(popUp);
       }
@@ -72,5 +72,12 @@ public class PopUpHandler {
   
   public List<PopUp> getList() {
     return list;
+  }
+  
+  private int max(int i1, int i2) {
+    if (i1 > i2) {
+      return i1;
+    }
+    return i2;
   }
 }
