@@ -45,7 +45,6 @@ public class SessionManager {
       // Set data here
       localSession.setName(row.getString("name"));
       localSession.setType(row.getString("sessionType"));
-      localSession.setLanguage(row.getString("sessionType"));
       localSession.setId(row.getInt("id"));
 
       // Add to datalist
@@ -78,12 +77,10 @@ public class SessionManager {
         new JsonObjectResultHandler(), dataArray);
 
     session.loadFromJson(data);
-
-    session.start();
-
     // Set server token and session id in connection
     apiConnection.setServerToken(session.getServerToken());
 
+    session.getEnvironment().start();
     return true;
   }
 

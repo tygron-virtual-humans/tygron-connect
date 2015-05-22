@@ -22,12 +22,10 @@ public class Session {
   // Session oriented
   private static HttpConnection apiConnection;
   private Environment environment;
-  private Thread envThread;
   private String name;
   private String platform;
   private String state;
   private String type;
-  private String language;
   private String clientToken;
   private String serverToken;
   private List<String> compatibleOperations;
@@ -51,12 +49,11 @@ public class Session {
    * @param object the JSON Object with data
    */
   public void loadFromJson(JSONObject object) {
-    this.setClientToken(object.getJSONObject("client").getString("clientToken"));
-    this.setServerToken(object.getString("serverToken"));
-    this.name = object.getString("project");
-    // this.type = object.getString("type");
-    this.platform = object.getString("platform");
-    this.state = object.getJSONObject("client").getString("connectionState");
+    clientToken = object.getJSONObject("client").getString("clientToken");
+    serverToken = object.getString("serverToken");
+    name = object.getString("project");
+    platform = object.getString("platform");
+    state = object.getJSONObject("client").getString("connectionState");
 
     compatibleOperations = new ArrayList<>();
     JSONArray jsonArray = object.getJSONArray("lists");
@@ -64,11 +61,6 @@ public class Session {
     for (int i = 0; i < len; i++) {
       compatibleOperations.add(jsonArray.get(i).toString());
     }
-  }
-
-  public void start() {
-    envThread = new Thread(environment);
-    envThread.start();
   }
 
   /**
@@ -110,6 +102,10 @@ public class Session {
     return this.name;
   }
 
+  public String getType() {
+    return type;
+  }
+
   /**
    * Set a new session type.
    *
@@ -117,15 +113,6 @@ public class Session {
    */
   public void setType(String newType) {
     this.type = newType;
-  }
-
-  /**
-   * Set a new session language.
-   *
-   * @param newLanguage The new session language.
-   */
-  public void setLanguage(String newLanguage) {
-    this.language = newLanguage;
   }
 
   /**
@@ -201,18 +188,6 @@ public class Session {
    */
   public List<String> getCompatibleOperations() {
     return this.compatibleOperations;
-  }
-
-  /**
-   * Return a string interpretation of this object.
-   */
-  public String toString() {
-    JSONObject str = new JSONObject();
-    str.put("name", this.name);
-    str.put("sessionType", this.type);
-    str.put("language", this.language);
-    str.put("id", this.id);
-    return str.toString();
   }
 
   class CloseSessionRequest extends JSONArray {
