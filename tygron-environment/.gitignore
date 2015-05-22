@@ -8,3 +8,8 @@ configuration.cfg
 
 
 .settings/*
+.checkstyle
+
+#IntelliJ
+.idea/*
+tygron_environment.iml
