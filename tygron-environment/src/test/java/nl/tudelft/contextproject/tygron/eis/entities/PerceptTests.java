@@ -2,9 +2,9 @@ package nl.tudelft.contextproject.tygron.eis.entities;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.when;
+
 import nl.tudelft.contextproject.democode.CachedFileReader;
 import nl.tudelft.contextproject.tygron.api.Environment;
-import nl.tudelft.contextproject.tygron.api.Session;
 import nl.tudelft.contextproject.tygron.eis.TygronPercept;
 import nl.tudelft.contextproject.tygron.eis.entities.Controller;
 import nl.tudelft.contextproject.tygron.objects.StakeholderList;
