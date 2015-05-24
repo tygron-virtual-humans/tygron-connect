@@ -205,7 +205,7 @@ public class PopUpHandler {
   /**
    * Handles the popups appropriately.
    */
-  public void handlePopUps() {
+  private void handlePopUps() {
     for (PopUp popUp : list) {
       EventValue event = popUp.getEvent();
       switch (event) {
