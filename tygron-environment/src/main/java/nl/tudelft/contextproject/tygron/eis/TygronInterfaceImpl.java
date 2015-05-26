@@ -22,9 +22,14 @@ import eis.eis2java.translation.Translator;
 import java.util.Map;
 import java.util.Map.Entry;
 
-@SuppressWarnings("serial")
 public class TygronInterfaceImpl extends AbstractEnvironment {
 
+  /**
+   * Serial version.
+   */
+  private static final long serialVersionUID = 1L;
+  
+  
   protected Connector connector;
   protected Session controller;
   protected Configuration configuration;
@@ -124,3 +129,4 @@ public class TygronInterfaceImpl extends AbstractEnvironment {
   }
 
 }
+
