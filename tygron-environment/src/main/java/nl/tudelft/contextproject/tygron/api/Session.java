@@ -189,7 +189,25 @@ public class Session {
   public Environment getEnvironment() {
     return this.environment;
   }
-
+  
+  /**
+   * Get the platform.
+   *
+   * @return The platform.
+   */
+  public String getPlatform() {
+    return this.platform;
+  }
+  
+  /**
+   * Get the state.
+   *
+   * @return The state.
+   */
+  public String getState() {
+    return this.state;
+  }
+  
   /**
    * Return a (string) array with all the possible operations/data that can be
    * loaded from the API.
