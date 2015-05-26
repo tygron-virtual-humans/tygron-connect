@@ -17,7 +17,7 @@ import org.slf4j.LoggerFactory;
  */
 public class Environment implements Runnable {
 
-  final Logger logger = LoggerFactory.getLogger(Session.class);
+  private static final Logger logger = LoggerFactory.getLogger(Session.class);
 
   // Environment oriented
   private HttpConnection apiConnection;
@@ -168,3 +168,4 @@ public class Environment implements Runnable {
   }
 
 }
+
