@@ -53,7 +53,7 @@ public class Environment implements Runnable {
   @Override
   public void run() {
     logger.debug("Running Environment update loop...");
-    while(true) {
+    while (true) {
       try {
         Thread.sleep(2500);
       } catch (InterruptedException e) {
