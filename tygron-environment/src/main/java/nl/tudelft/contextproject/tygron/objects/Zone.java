@@ -23,7 +23,6 @@ public class Zone {
   private int id;
   private String name;
   private JSONObject playable;
-  // private ? polygons;
   private boolean showlabel;
   private int sortIndex;
   private int version;
@@ -71,7 +70,7 @@ public class Zone {
     for (int i = 0; i < array.length(); i++) {
       detailVersions.add(array.getInt(i));
     }
-    ;
+
     details = new ArrayList<List<Double>>();
     array = zone.getJSONArray("details");
     for (int i = 0; i < array.length(); i++) {
@@ -82,13 +81,11 @@ public class Zone {
       }
       details.add(innerList);
     }
-    ;
 
     id = zone.getInt("id");
     name = zone.getString("name");
 
     playable = zone.getJSONObject("playable");
-    // polygons;
 
     showlabel = zone.getBoolean("showLabel");
     sortIndex = zone.getInt("sortIndex");
