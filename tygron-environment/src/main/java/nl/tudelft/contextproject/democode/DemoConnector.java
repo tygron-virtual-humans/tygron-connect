@@ -1,8 +1,8 @@
 package nl.tudelft.contextproject.democode;
 
-import nl.tudelft.contextproject.tygron.Connector;
-import nl.tudelft.contextproject.tygron.Session;
-import nl.tudelft.contextproject.tygron.SessionManager;
+import nl.tudelft.contextproject.tygron.api.Connector;
+import nl.tudelft.contextproject.tygron.api.Session;
+import nl.tudelft.contextproject.tygron.api.SessionManager;
 
 public class DemoConnector {
 
@@ -17,9 +17,9 @@ public class DemoConnector {
     
     // Session Manager
     SessionManager sesM = con.getSessionManager();
-    int sessionSlot = sesM.createSession("testmap");
+    int sessionSlot = sesM.startSession("testmap");
     
-    Session sess = new Session(con.getConnectionManager());
+    Session sess = new Session(con.getConnection());
     sess.setId(sessionSlot);
     sesM.joinSession(sess);
    

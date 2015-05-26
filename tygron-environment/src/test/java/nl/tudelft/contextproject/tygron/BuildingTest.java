@@ -7,9 +7,13 @@ import static org.junit.Assert.fail;
 import com.esri.core.geometry.Polygon;
 
 import nl.tudelft.contextproject.democode.CachedFileReader;
+import nl.tudelft.contextproject.tygron.api.Session;
+import nl.tudelft.contextproject.tygron.objects.Building;
+import nl.tudelft.contextproject.tygron.objects.BuildingList;
 import nl.tudelft.contextproject.util.PolygonUtil;
 
 import org.json.JSONArray;
+import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -68,5 +72,12 @@ public class BuildingTest {
       fail();
       e.printStackTrace();
     }
+  }
+  
+  @Test(expected = Exception.class)
+  public void polyfailTest() {
+    JSONObject jobject = new JSONObject("{\"polygons\":99,\"name\":\"i\",\"id\":0}");
+    @SuppressWarnings("unused")
+    Building building = new Building(jobject);
   }
 }

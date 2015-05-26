@@ -1,7 +1,10 @@
 package nl.tudelft.contextproject.tygron;
 
-public class Settings {
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+public class Settings {
+  final private static Logger logger = LoggerFactory.getLogger(Settings.class);
   private String username;
   private String password;
 
@@ -10,16 +13,19 @@ public class Settings {
    */
   public Settings() {
     try {
-      SettingsLoader settingsLoader = new SettingsLoader(
-          "configuration.cfg");
+      SettingsLoader settingsLoader = getSettingsLoader("configuration.cfg");
       this.username = settingsLoader.getUsername();
       this.password = settingsLoader.getPassword();
     } catch (Exception e) {
+      logger.info("Using fallback username/password");
       username = "fallbackusername";
       password = "fallbackpassword";
     }
   }
-
+  
+  protected SettingsLoader getSettingsLoader(String cfg) throws Exception {
+    return new SettingsLoader(cfg);
+  }
   /**
    * Return the Tygron username.
    * 

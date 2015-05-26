@@ -1,10 +1,17 @@
 \documentclass[a4paper]{article}
 \usepackage[utf8]{inputenc}
 \usepackage[margin=1.5in]{geometry}
-\usepackage{graphicx}
 \usepackage{datatool}
 
 \usepackage[space]{grffile}
+
+\usepackage{lscape}
+
+\usepackage{wrapfig}
+\usepackage{graphicx}
+\usepackage{grffile}
+
+\usepackage{rotating}
 
 \title{Emergent Architecture Design}
 \author{Joe Harrison \and Harm Griffioen \and Dereck Bridie \and Paul van der Knaap \and Natasa Radenovic}
@@ -44,6 +51,12 @@ Our code repository is split up into multiple branches. One branch, \textbf{mast
 \textbf{Javadoc} will be used to generate documentation which will be used to describe code. %needs more
 
 All of these tools will be run together using \textbf{Travis} and \textbf{Jenkins} Continuous Integration. These tools will automatically generate reports based on latest versions of code.
+
+\noindent
+\begin{sidewaysfigure}[ht]
+\section{Class Diagram}
+\includegraphics[width=1.0\textwidth]{class diagram.png}
+\end{sidewaysfigure}
 
 \clearpage
 

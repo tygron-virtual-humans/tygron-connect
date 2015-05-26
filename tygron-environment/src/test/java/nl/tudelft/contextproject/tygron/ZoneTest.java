@@ -2,8 +2,8 @@ package nl.tudelft.contextproject.tygron;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-
 import nl.tudelft.contextproject.democode.CachedFileReader;
+import nl.tudelft.contextproject.tygron.objects.ZoneList;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
