@@ -13,7 +13,7 @@ import org.slf4j.LoggerFactory;
  */
 public class Connector {
 
-  final Logger logger = LoggerFactory.getLogger(Connector.class);
+  private static final Logger logger = LoggerFactory.getLogger(Connector.class);
 
   private User user;
   private Session session;
