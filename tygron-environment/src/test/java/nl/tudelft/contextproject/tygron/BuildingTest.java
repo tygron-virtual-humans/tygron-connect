@@ -67,7 +67,7 @@ public class BuildingTest {
       Polygon polygon2 = polyUtil.createPolygonFromWkt("MULTIPOLYGON (((32.063 122.522"
           + ", 111.728 92.311, 166.819 69.234, 229.024 45.124, 226.367 38.006, 182 55.553"
           + ", 0 124.472, 0 134.572, 32.063 122.522)))");
-      assertTrue(polyUtil.equals(polygon1, polygon2));
+      assertTrue(polyUtil.polygonEquals(polygon1, polygon2));
     } catch (Exception e) {
       fail();
       e.printStackTrace();

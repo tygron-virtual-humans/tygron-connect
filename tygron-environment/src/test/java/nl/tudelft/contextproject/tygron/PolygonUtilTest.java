@@ -37,7 +37,7 @@ public class PolygonUtilTest {
       polygon2.lineTo(2, 2);
       polygon2.lineTo(3, 3);
       polygon2.lineTo(1, 1);
-      polyutil.equals(polygon1,polygon2);
+      polyutil.polygonEquals(polygon1,polygon2);
     } catch (Exception e) {
       fail();
       e.printStackTrace();
@@ -52,7 +52,7 @@ public class PolygonUtilTest {
     try {
       Polygon polygon1 = polyutil.createPolygonFromWkt("MULTIPOLYGON (((1 1, 2 2, 3 3, 1 1)))");
       Polygon polygon2 = polyutil.createPolygonFromWkt("MULTIPOLYGON (((1 1, 2 2, 3 3, 1 1)))");
-      assertTrue(polyutil.equals(polygon1,polygon2));
+      assertTrue(polyutil.polygonEquals(polygon1,polygon2));
     } catch (Exception e) {
       fail();
       e.printStackTrace();
@@ -67,7 +67,7 @@ public class PolygonUtilTest {
     try {
       Polygon polygon1 = polyutil.createPolygonFromWkt("MULTIPOLYGON (((1 1, 2 2, 3 3, 1 1)))");
       Polygon polygon2 = polyutil.createPolygonFromWkt("MULTIPOLYGON (((4 4, 2 2, 3 3, 4 4)))");
-      assertFalse(polyutil.equals(polygon1,polygon2));
+      assertFalse(polyutil.polygonEquals(polygon1,polygon2));
     } catch (Exception e) {
       fail();
       e.printStackTrace();
@@ -84,7 +84,7 @@ public class PolygonUtilTest {
           + ", 16 0, 0 0)))");
       Polygon polygon2 = polyutil.createPolygonFromWkt("MULTIPOLYGON (((4 4, 4 8, 8 8, 8 4"
           + ", 4 4)))");
-      assertTrue(polyutil.contains(polygon1, polygon2));
+      assertTrue(polyutil.polygonContains(polygon1, polygon2));
     } catch (Exception e) {
       fail();
       e.printStackTrace();
@@ -101,7 +101,7 @@ public class PolygonUtilTest {
           + ", 16 0, 0 0)))");
       Polygon polygon2 = polyutil.createPolygonFromWkt("MULTIPOLYGON (((4 4, 4 8, 8 8, 8 4"
           + ", 4 4)))");
-      assertFalse(polyutil.contains(polygon2, polygon1));
+      assertFalse(polyutil.polygonContains(polygon2, polygon1));
     } catch (Exception e) {
       fail();
       e.printStackTrace();
