@@ -1,7 +1,6 @@
 package nl.tudelft.contextproject.democode;
 
 import com.esri.core.geometry.Geometry;
-
 import com.esri.core.geometry.OperatorContains;
 import com.esri.core.geometry.OperatorImportFromWkt;
 import com.esri.core.geometry.Polygon;
@@ -9,10 +8,17 @@ import com.esri.core.geometry.SpatialReference;
 import com.esri.core.geometry.WktImportFlags;
 
 import org.codehaus.jackson.JsonParseException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 
 public class DemoGeometryLoader {
+
+  private DemoGeometryLoader() {
+    // Static class
+  }
+
   /**
    * Demonstrates the capabilities of the esri geometry library.
    * 
@@ -20,6 +26,9 @@ public class DemoGeometryLoader {
    *          Not used.
    */
   public static void main(String[] args) {
+
+    final Logger logger = LoggerFactory.getLogger(DemoGeometryLoader.class);
+
     String container = "MULTIPOLYGON (((665.733 -329.601, -244.292 -23.896, "
         + "77.336 933.526, 987.36 627.82, 665.733 -329.601)))";
     String containee = "MULTIPOLYGON (((1000 1000 , 1000 -1000, -1000 -1000, "
@@ -27,13 +36,10 @@ public class DemoGeometryLoader {
     try {
       Polygon poly1 = createPolygonFromWkt(container);
       Polygon poly2 = createPolygonFromWkt(containee);
-      System.out.println(contains(poly1, poly2));
+      logger.info("" + contains(poly1, poly2));
     } catch (Exception e) {
-      e.printStackTrace();
+      throw new RuntimeException(e);
     }
-  }
-  
-  public DemoGeometryLoader(){
   }
 
   /**
@@ -63,13 +69,11 @@ public class DemoGeometryLoader {
    * @throws IOException
    *           Exception thrown if other IOException is encountered.
    */
-  public static Polygon createPolygonFromWkt(String wktString)
-      throws JsonParseException, IOException {
-
-    Geometry geom = OperatorImportFromWkt.local().execute(
+  public static Polygon createPolygonFromWkt(String wktString) {
+    Geometry geom;
+    geom = OperatorImportFromWkt.local().execute(
         WktImportFlags.wktImportDefaults, Geometry.Type.Polygon, wktString,
         null);
-
     return (Polygon) geom;
   }
 }

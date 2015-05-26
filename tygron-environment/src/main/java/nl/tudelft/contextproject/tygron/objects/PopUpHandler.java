@@ -9,7 +9,6 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -197,9 +196,9 @@ public class PopUpHandler {
    * @return The array of numbers
    */
   private String[] getNumbers(String string) { 
-    string = string.substring(0, string.length() - 1);
-    string = string.replaceAll("[^.?0-9]+", " ");
-    return string.trim().split(" ");
+    String newstring = string.substring(0, string.length() - 1);
+    newstring = newstring.replaceAll("[^.?0-9]+", " ");
+    return newstring.trim().split(" ");
   }
   
   /**

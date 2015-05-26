@@ -4,15 +4,23 @@ import nl.tudelft.contextproject.tygron.api.Connector;
 import nl.tudelft.contextproject.tygron.api.Session;
 import nl.tudelft.contextproject.tygron.api.SessionManager;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class DemoConnector {
 
+  private DemoConnector() {
+    // Static class
+  }
+  
   /**
    * Demo Connector setup.
    * @param args Main Arguments
    */
   public static void main(String[] args) {
-    // General setup for http
+    final Logger logger = LoggerFactory.getLogger(DemoConnector.class);
     
+    // General setup for http
     Connector con = new Connector();
     
     // Session Manager
@@ -23,21 +31,22 @@ public class DemoConnector {
     sess.setId(sessionSlot);
     sesM.joinSession(sess);
    
-    System.out.println("Compatible API Data/Functions:");
-    System.out.println(sess.getCompatibleOperations());
+    logger.info("Compatible API Data/Functions:");
+    logger.info(sess.getCompatibleOperations().toString());
     
-    System.out.println("Loading stake holders:");
-    System.out.println(sess.getEnvironment().loadStakeHolders());
+    logger.info("Loading stake holders:");
+    logger.info(sess.getEnvironment().loadStakeHolders().toString());
     
-    System.out.println("Loading indicators:");
-    System.out.println(sess.getEnvironment().loadIndicators());
+    logger.info("Loading indicators:");
+    logger.info(sess.getEnvironment().loadIndicators().toString());
     
-    System.out.println("Loading economies:");
-    System.out.println(sess.getEnvironment().loadEconomies());   
+    logger.info("Loading economies:");
+    logger.info(sess.getEnvironment().loadEconomies().toString());   
     
-    System.out.println("Loading buildings:");
-    System.out.println(sess.getEnvironment().loadBuildings());       
+    logger.info("Loading buildings:");
+    logger.info(sess.getEnvironment().loadBuildings().toString());       
    
     sess.closeSession(false);
   }
 }
+

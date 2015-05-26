@@ -6,11 +6,8 @@ import nl.tudelft.contextproject.tygron.handlers.ResultHandler;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.client.methods.HttpUriRequest;
-import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.HttpClients;
 import org.json.JSONArray;
@@ -18,7 +15,6 @@ import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URISyntaxException;
 
@@ -79,6 +75,19 @@ public class HttpConnection {
     }
   }
   
+  private String execute(HttpUriRequest request) {
+    try {
+      addDefaultHeaders(request);
+      HttpResponse httpResponse = client.execute(request);
+      logger.debug("Request " + request.toString());
+      String response = new BasicResponseHandler().handleResponse(httpResponse);
+      logger.debug("Response " + response);
+      return response;
+    } catch (Exception e) {
+      throw new RuntimeException(e);
+    }
+  }
+  
   /**
    * Calls the update method on Tygron's servers.
    * @param resultHandler The handler used to parse Tygron's result.
@@ -94,19 +103,6 @@ public class HttpConnection {
       String resultString = execute(requester);
       return resultHandler.handleResult(resultString);
     } catch (URISyntaxException e) {
-      throw new RuntimeException(e);
-    }
-  }
-
-  private String execute(HttpUriRequest request) {
-    try {
-      addDefaultHeaders(request);
-      HttpResponse httpResponse = client.execute(request);
-      logger.debug("Request " + request.toString());
-      String response = new BasicResponseHandler().handleResponse(httpResponse);
-      logger.debug("Response " + response);
-      return response;
-    } catch (Exception e) {
       throw new RuntimeException(e);
     }
   }

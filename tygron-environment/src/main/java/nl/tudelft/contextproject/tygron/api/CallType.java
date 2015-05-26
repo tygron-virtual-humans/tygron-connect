@@ -13,19 +13,23 @@ public enum CallType {
   GET, POST;
   /**
    * Creates a HttpRequestBase from this type.
-   * @param parameters parameters to attach to the request, may be null
+   * 
+   * @param parameters
+   *          parameters to attach to the request, may be null
    * @return a HttpRequestBase that can be executed
    */
   public HttpRequestBase asRequest(JSONArray parameters) {
     if (parameters != null) {
       return asRequest(parameters.toString());
     }
-    return asRequest("");  
+    return asRequest("");
   }
-  
+
   /**
    * Creates a HttpRequestBase from this type.
-   * @param parameters parameters to attach to the request, may be null
+   * 
+   * @param parameters
+   *          parameters to attach to the request, may be null
    * @return a HttpRequestBase that can be executed
    */
   public HttpRequestBase asRequest(JSONObject parameters) {
@@ -34,10 +38,12 @@ public enum CallType {
     }
     return asRequest("");
   }
-  
+
   /**
    * Creates a HttpRequestBase from this type.
-   * @param entity entity to attach to the request, may be null
+   * 
+   * @param entity
+   *          entity to attach to the request, may be null
    * @return a HttpRequestBase that can be executed
    */
   public HttpRequestBase asRequest(String entity) {
@@ -45,18 +51,21 @@ public enum CallType {
       case GET:
         return new HttpGet();
       case POST:
-        try {
-          HttpPost ret = new HttpPost();
-          if (entity != null && !entity.isEmpty()) {
-            ret.setEntity(new StringEntity(entity));
-          }
-          return ret;
-        } catch (UnsupportedEncodingException e) {
-          throw new RuntimeException(e);
-        }
-      default: 
+        return postRequest(entity);
+      default:
         throw new RuntimeException("Invalid Type");
     }
   }
-}
 
+  private HttpRequestBase postRequest(String entity) {
+    try {
+      HttpPost ret = new HttpPost();
+      if (entity != null && !entity.isEmpty()) {
+        ret.setEntity(new StringEntity(entity));
+      }
+      return ret;
+    } catch (UnsupportedEncodingException e) {
+      throw new RuntimeException(e);
+    }
+  }
+}

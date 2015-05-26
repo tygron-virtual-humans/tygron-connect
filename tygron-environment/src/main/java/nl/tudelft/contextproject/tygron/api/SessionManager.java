@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SessionManager {
-  final Logger logger = LoggerFactory.getLogger(SessionManager.class);
+  private static final Logger logger = LoggerFactory.getLogger(SessionManager.class);
 
   private static HttpConnection apiConnection;
 
