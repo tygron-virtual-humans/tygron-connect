@@ -12,6 +12,10 @@ import org.slf4j.LoggerFactory;
 public class DemoHttp {
   private static final Logger logger = LoggerFactory.getLogger(DemoHttp.class);
 
+  private DemoHttp() {
+    // Static class
+  }
+  
   /**
    * Demo program for GET/POST requests to API.
    * 
