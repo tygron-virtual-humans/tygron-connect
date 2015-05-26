@@ -30,16 +30,27 @@ public class Environment implements Runnable {
   private EconomyList economyList;
   private BuildingList buildingList;
 
+  private Thread environmentThread;
+
   public Environment(HttpConnection localApiConnection, Session session) {
     apiConnection = localApiConnection;
     this.session = session;
   }
 
   /**
-   * Main update loop for the environment.
+   * Starts the update loop for this environment.
+   */
+  public void start() {
+    if (environmentThread == null) {
+      environmentThread = new Thread(this);
+    }
+    environmentThread.start();
+  }
+
+  /**
+   * Main update run for the environment.
    */
   public void run() {
-
     logger.debug("Running Environment update loop...");
 
     try {
@@ -48,6 +59,7 @@ public class Environment implements Runnable {
       logger.error("Environment crashed!");
       throw new RuntimeException(e);
     }
+    run();
   }
 
   /**
