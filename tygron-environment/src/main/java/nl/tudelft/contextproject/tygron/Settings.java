@@ -4,7 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class Settings {
-  final private static Logger logger = LoggerFactory.getLogger(Settings.class);
+  private static final Logger logger = LoggerFactory.getLogger(Settings.class);
   private String username;
   private String password;
 
@@ -44,3 +44,4 @@ public class Settings {
     return this.password;
   }
 }
+
