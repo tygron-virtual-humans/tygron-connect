@@ -1,5 +1,7 @@
 package nl.tudelft.contextproject.tygron.api;
 
+import java.io.Serializable;
+
 import nl.tudelft.contextproject.tygron.Settings;
 import nl.tudelft.contextproject.tygron.handlers.JsonObjectResultHandler;
 import nl.tudelft.contextproject.tygron.objects.User;
@@ -11,7 +13,12 @@ import org.slf4j.LoggerFactory;
 /**
  * The TygronConnector is the bridge between the Tygron API and JAVA.
  */
-public class Connector {
+public class Connector implements Serializable {
+
+  /**
+   * Seial version ID.
+   */
+  private static final long serialVersionUID = 1L;
 
   private static final Logger logger = LoggerFactory.getLogger(Connector.class);
 

@@ -1,11 +1,13 @@
 package nl.tudelft.contextproject.tygron.api;
 
 import nl.tudelft.contextproject.tygron.handlers.BooleanResultHandler;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,7 +18,12 @@ import java.util.List;
  * a session with JOIN_SESSION. You can either close your own session with
  * CLOSE_SESSION or kill the session with KILL_SESSION.
  */
-public class Session {
+public class Session implements Serializable {
+  /**
+   * Serial version ID.
+   */
+  private static final long serialVersionUID = 1L;
+
   private static final Logger logger = LoggerFactory.getLogger(Session.class);
 
   // Session oriented
