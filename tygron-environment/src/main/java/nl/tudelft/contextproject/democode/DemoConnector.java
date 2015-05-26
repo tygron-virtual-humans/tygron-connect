@@ -10,7 +10,7 @@ import org.slf4j.LoggerFactory;
 public class DemoConnector {
 
   private DemoConnector() {
-    // Static class, no instance needed
+    // Static class
   }
   
   /**
@@ -18,8 +18,9 @@ public class DemoConnector {
    * @param args Main Arguments
    */
   public static void main(String[] args) {
-    // General setup for http
     final Logger logger = LoggerFactory.getLogger(DemoConnector.class);
+    
+    // General setup for http
     Connector con = new Connector();
     
     // Session Manager
