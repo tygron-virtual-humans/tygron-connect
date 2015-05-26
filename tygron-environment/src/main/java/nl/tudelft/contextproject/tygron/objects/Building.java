@@ -10,7 +10,7 @@ import org.slf4j.LoggerFactory;
 
 public class Building {
   
-  final Logger logger = LoggerFactory.getLogger(Building.class);
+  private static final Logger logger = LoggerFactory.getLogger(Building.class);
   
   private int id;
   private String name;
@@ -28,7 +28,8 @@ public class Building {
     try {
       polygon = polyUtil.createPolygonFromWkt(input.getString("polygons"));
     } catch (Exception e) {
-      throw new RuntimeException("Error parsing Building with string " + input.toString());
+      logger.info("Error parsing Building with string " + input.toString());
+      throw new RuntimeException(e);
     }
     floors = input.getInt("floors");
   }
