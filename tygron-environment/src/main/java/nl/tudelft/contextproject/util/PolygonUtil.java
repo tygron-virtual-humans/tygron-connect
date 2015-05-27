@@ -29,8 +29,7 @@ public class PolygonUtil {
    * @throws IOException
    *           Exception thrown if other IOException is encountered.
    */
-  public Polygon createPolygonFromWkt(String wktString)
-      throws JsonParseException, IOException {
+  public Polygon createPolygonFromWkt(String wktString) {
 
     Geometry geom = OperatorImportFromWkt.local().execute(
         WktImportFlags.wktImportDefaults, Geometry.Type.Polygon, wktString,
@@ -48,7 +47,7 @@ public class PolygonUtil {
    *          The containee.
    * @return Boolean that shows whether polygon1 contains polygon2.
    */
-  public boolean contains(Polygon polygon1, Polygon polygon2) {
+  public boolean polygonContains(Polygon polygon1, Polygon polygon2) {
     SpatialReference sr = SpatialReference.create(1);
 
     return OperatorContains.local().execute(polygon1, polygon2, sr, null);
@@ -60,7 +59,7 @@ public class PolygonUtil {
    * @param polygon2 Comparing polygon2.
    * @return Boolean that shows whether polygon1 equals polygon2.
    */
-  public boolean equals(Polygon polygon1, Polygon polygon2) {
+  public boolean polygonEquals(Polygon polygon1, Polygon polygon2) {
     SpatialReference sr = SpatialReference.create(1);
 
     return OperatorEquals.local().execute(polygon1, polygon2, sr, null);

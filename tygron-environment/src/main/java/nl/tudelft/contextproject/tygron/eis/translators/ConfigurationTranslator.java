@@ -4,11 +4,13 @@ import eis.iilang.Identifier;
 import eis.iilang.Parameter;
 import nl.tudelft.contextproject.tygron.eis.Configuration;
 import nl.tudelft.contextproject.tygron.eis.ParamEnum;
+
 import eis.eis2java.exception.TranslationException;
 import eis.eis2java.translation.Parameter2Java;
 import eis.eis2java.translation.Translator;
 
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Map.Entry;
 
 public class ConfigurationTranslator implements Parameter2Java<Configuration> {
@@ -23,7 +25,7 @@ public class ConfigurationTranslator implements Parameter2Java<Configuration> {
     Translator translator = Translator.getInstance();
 
     @SuppressWarnings("unchecked")
-    HashMap<Identifier, Parameter> params = translator.translate2Java(
+    Map<Identifier, Parameter> params = translator.translate2Java(
         parameter, HashMap.class);
 
     Configuration configuration = new Configuration();

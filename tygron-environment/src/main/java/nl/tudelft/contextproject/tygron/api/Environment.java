@@ -17,7 +17,7 @@ import org.slf4j.LoggerFactory;
  */
 public class Environment implements Runnable {
 
-  final Logger logger = LoggerFactory.getLogger(Session.class);
+  private static final Logger logger = LoggerFactory.getLogger(Session.class);
 
   // Environment oriented
   private HttpConnection apiConnection;
@@ -50,16 +50,17 @@ public class Environment implements Runnable {
   /**
    * Main update run for the environment.
    */
+  @Override
   public void run() {
     logger.debug("Running Environment update loop...");
-
-    try {
-      Thread.sleep(2500);
-    } catch (InterruptedException e) {
-      logger.error("Environment crashed!");
-      throw new RuntimeException(e);
+    while (true) {
+      try {
+        Thread.sleep(2500);
+      } catch (InterruptedException e) {
+        logger.error("Environment crashed!");
+        throw new RuntimeException(e);
+      }
     }
-    run();
   }
 
   /**
@@ -168,3 +169,4 @@ public class Environment implements Runnable {
   }
 
 }
+

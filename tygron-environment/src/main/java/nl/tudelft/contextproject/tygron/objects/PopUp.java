@@ -46,7 +46,7 @@ public class PopUp {
     }
     
     String tempTitle = popUp.getString("title");
-    title = tempTitle.equals("NO TITLE SET") ? null : tempTitle;
+    title = "NO TITLE SET".equals(tempTitle) ? null : tempTitle;
     text = popUp.getString("text");
     linkId = popUp.getInt("linkID");
     polygons = popUp.optString("polygons");
