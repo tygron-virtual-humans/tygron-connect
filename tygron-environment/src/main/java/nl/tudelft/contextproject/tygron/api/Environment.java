@@ -5,6 +5,8 @@ import nl.tudelft.contextproject.tygron.handlers.JsonArrayResultHandler;
 import nl.tudelft.contextproject.tygron.handlers.StringResultHandler;
 import nl.tudelft.contextproject.tygron.objects.BuildingList;
 import nl.tudelft.contextproject.tygron.objects.EconomyList;
+import nl.tudelft.contextproject.tygron.objects.Function;
+import nl.tudelft.contextproject.tygron.objects.FunctionMap;
 import nl.tudelft.contextproject.tygron.objects.Stakeholder;
 import nl.tudelft.contextproject.tygron.objects.StakeholderList;
 import nl.tudelft.contextproject.tygron.objects.ZoneList;
@@ -36,6 +38,7 @@ public class Environment implements Runnable {
   private ZoneList zoneList;
   private EconomyList economyList;
   private BuildingList buildingList;
+  private FunctionMap functionMap;
 
   private Thread environmentThread;
 
@@ -93,27 +96,25 @@ public class Environment implements Runnable {
   private void loadActions() {
     JSONArray actionList = apiConnection.execute("lists/actionmenus/", 
         CallType.GET, new JsonArrayResultHandler(), session);
-    System.out.println(actionList);
     for (int i = 0; i < actionList.length(); i++) {
       JSONObject action = actionList.getJSONObject(i).getJSONObject("ActionMenu");
       JSONArray functions = action.getJSONArray("functionTypes");
       JSONObject stakeholders = action.getJSONObject("activeForStakeholder");
       
       JSONArray keys = stakeholders.names();
-      Map<Integer, JSONArray> functionMap = new HashMap<Integer, JSONArray>();
+      Map<Integer, JSONArray> functionsMap = new HashMap<Integer, JSONArray>();
       for (int j = 0; j < keys.length(); j++) {
         if (stakeholders.getBoolean(keys.getString(j))) {
-          functionMap.put(Integer.parseInt(keys.getString(j)), functions);
+          functionsMap.put(Integer.parseInt(keys.getString(j)), functions);
         }
       }
-      System.out.println(functionMap);
-      setFunctions(functionMap);
+      setFunctions(functionsMap);
     }
   }
   
-  private void setFunctions(Map<Integer, JSONArray> functionMap) {
+  private void setFunctions(Map<Integer, JSONArray> functionsMap) {
     for (Stakeholder stakeholder : stakeholderList) {
-      JSONArray functions = functionMap.get(stakeholder.getId());
+      JSONArray functions = functionsMap.get(stakeholder.getId());
       if (functions != null) {
         stakeholder.addAllowedFunctions(functions);
       }
@@ -207,6 +208,18 @@ public class Environment implements Runnable {
     this.buildingList = new BuildingList(data);
     return this.buildingList;
   }
+  
+  /**
+   * Loads all functions into this session.
+   * @return A map of the functions.
+   */
+  public FunctionMap loadFunctions() {
+    logger.debug("Loading functions");
+    JSONArray data = apiConnection.execute("lists/functions", 
+        CallType.GET, new JsonArrayResultHandler(), session);
+    this.functionMap = new FunctionMap(data);
+    return this.functionMap;
+  }
 
   /**
    * Return the buildings list
@@ -218,6 +231,24 @@ public class Environment implements Runnable {
   }
   
   /**
+   * Builds a project on a piece of land.
+   * @param stakeholder The stakeholder id of the building project
+   * @param functionId The id of the function.
+   * @param floors The amount of floors for the building project.
+   * @param polygons The polygons describing the land.
+   */
+  public void build(Stakeholder stakeholder, Function function, int floors, String polygons) {
+    logger.debug("Building project started");
+    JSONArray parameters = new JSONArray();
+    parameters.put(stakeholder.getId());
+    parameters.put(function.getId());
+    parameters.put(floors);
+    parameters.put(polygons);
+    apiConnection.execute("event/PlayerEventType/BUILDING_PLAN_CONSTRUCTION/", 
+        CallType.POST, new StringResultHandler(), session);
+  }
+  
+  /**
    * Buys a piece of land.
    * @param buyerId The stakeholder id of the buyer.
    * @param polygons The polygons describing the land.
@@ -225,16 +256,12 @@ public class Environment implements Runnable {
    */
   public void buyLand(int buyerId, String polygons, int cost) {
     logger.debug("Buying land");
+    JSONArray parameters = new JSONArray();
+    parameters.put(buyerId);
+    parameters.put(polygons);
+    parameters.put(cost);
     apiConnection.execute("event/PlayerEventType/MAP_BUY_LAND/", 
-        CallType.POST, new StringResultHandler(), session);
-  }
-  
-  class BuyLandRequest extends JSONArray {
-    public BuyLandRequest(int buyerId, String polygons, int cost) {
-      this.put(buyerId);
-      this.put(polygons);
-      this.put(cost);
-    }
+        CallType.POST, new StringResultHandler(), session, parameters);
   }
 
   /**
@@ -242,9 +269,11 @@ public class Environment implements Runnable {
    * @param stakeholderId the stakeholder id to select.
    */
   public boolean setStakeholder(int stakeholderId) {
-    boolean retValue = apiConnection.execute("event/PlayerEventType/STAKEHOLDER_SELECT", CallType.POST, 
-        new BooleanResultHandler(), session, new StakeHolderSelectRequest(stakeholderId,session.getClientToken()));
-    logger.info("Setting stakeholder to #" + stakeholderId + ". Operation " + ((retValue) ? "succes!" : "failed!" ));
+    boolean retValue = apiConnection.execute("event/PlayerEventType/STAKEHOLDER_SELECT", 
+        CallType.POST, new BooleanResultHandler(), session, 
+        new StakeHolderSelectRequest(stakeholderId,session.getClientToken()));
+    logger.info("Setting stakeholder to #" + stakeholderId + ". Operation " 
+        + ((retValue) ? "succes!" : "failed!" ));
     return retValue;
   }
   
