@@ -55,6 +55,7 @@ public class Environment implements Runnable {
   public void run() {
     logger.debug("Running Environment update loop...");
     while (true) {
+      reload();
       try {
         Thread.sleep(2500);
       } catch (InterruptedException e) {
@@ -63,7 +64,17 @@ public class Environment implements Runnable {
       }
     }
   }
-
+  
+  /**
+   * Reloads all data.
+   */
+  public void reload() {
+    loadStakeHolders();
+    loadIndicators();
+    loadZones();
+    loadEconomies();
+    loadBuildings();
+  }
   /**
    * Load the stake holders into this session.
    * 
@@ -71,7 +82,8 @@ public class Environment implements Runnable {
    */
   public StakeholderList loadStakeHolders() {
     logger.debug("Loading stakeholders");
-    JSONArray data = apiConnection.execute("lists/stakeholders/", CallType.GET, new JsonArrayResultHandler(), session);
+    JSONArray data = apiConnection.execute("lists/"
+        + "stakeholders/", CallType.GET, new JsonArrayResultHandler(), session);
     this.stakeholderList = new StakeholderList(data);
     return this.stakeholderList;
   }
@@ -92,7 +104,8 @@ public class Environment implements Runnable {
    */
   public IndicatorList loadIndicators() {
     logger.debug("Loading indicators");
-    JSONArray data = apiConnection.execute("lists/indicators", CallType.GET, new JsonArrayResultHandler(), session);
+    JSONArray data = apiConnection.execute("lists/"
+        + "indicators", CallType.GET, new JsonArrayResultHandler(), session);
     this.indicatorList = new IndicatorList(data);
     return this.indicatorList;
   }
@@ -113,7 +126,8 @@ public class Environment implements Runnable {
    */
   public ZoneList loadZones() {
     logger.debug("Loading zones");
-    JSONArray data = apiConnection.execute("lists/zones", CallType.GET, new JsonArrayResultHandler(), session);
+    JSONArray data = apiConnection.execute("lists/"
+        + "zones", CallType.GET, new JsonArrayResultHandler(), session);
     this.zoneList = new ZoneList(data);
     return this.zoneList;
   }
@@ -134,7 +148,8 @@ public class Environment implements Runnable {
    */
   public EconomyList loadEconomies() {
     logger.debug("Loading economies");
-    JSONArray data = apiConnection.execute("lists/economies", CallType.GET, new JsonArrayResultHandler(), session);
+    JSONArray data = apiConnection.execute("lists/"
+        + "economies", CallType.GET, new JsonArrayResultHandler(), session);
     this.economyList = new EconomyList(data);
     return this.economyList;
   }
@@ -155,7 +170,8 @@ public class Environment implements Runnable {
    */
   public BuildingList loadBuildings() {
     logger.debug("Loading buildings");
-    JSONArray data = apiConnection.execute("lists/buildings", CallType.GET, new JsonArrayResultHandler(), session);
+    JSONArray data = apiConnection.execute("lists/"
+        + "buildings", CallType.GET, new JsonArrayResultHandler(), session);
     this.buildingList = new BuildingList(data);
     return this.buildingList;
   }
