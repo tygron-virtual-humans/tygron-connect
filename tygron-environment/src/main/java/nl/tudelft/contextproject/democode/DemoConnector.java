@@ -2,7 +2,6 @@ package nl.tudelft.contextproject.democode;
 
 import nl.tudelft.contextproject.tygron.api.Connector;
 import nl.tudelft.contextproject.tygron.api.Session;
-import nl.tudelft.contextproject.tygron.api.SessionManager;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,14 +21,10 @@ public class DemoConnector {
     
     // General setup for http
     Connector con = new Connector();
+    con.connectToMap("testmap");
     
     // Session Manager
-    SessionManager sesM = con.getSessionManager();
-    int sessionSlot = sesM.startSession("testmap");
-    
-    Session sess = new Session(con.getConnection());
-    sess.setId(sessionSlot);
-    sesM.joinSession(sess);
+    Session sess = con.getSession();
    
     logger.info("Compatible API Data/Functions:");
     logger.info(sess.getCompatibleOperations().toString());

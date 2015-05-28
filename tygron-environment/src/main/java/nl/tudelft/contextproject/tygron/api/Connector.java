@@ -1,14 +1,14 @@
 package nl.tudelft.contextproject.tygron.api;
 
-import java.io.Serializable;
+import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import nl.tudelft.contextproject.tygron.Settings;
 import nl.tudelft.contextproject.tygron.handlers.JsonObjectResultHandler;
 import nl.tudelft.contextproject.tygron.objects.User;
 
-import org.json.JSONObject;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.io.Serializable;
 
 /**
  * The TygronConnector is the bridge between the Tygron API and JAVA.
@@ -52,12 +52,27 @@ public class Connector implements Serializable {
     logger.info("Using user #" + user.getId() + " " + user.getUserName() + " " + user.getFirstName() + " "
         + user.getLastName());
 
-    // Now load session, it depends on user
+    // Create a new session manager
     sessionManager = new SessionManager(connection);
-
-    session = sessionManager.createOrFindSessionAndJoin("testmap");
-
     logger.info("Connector loading complete.");
+  }
+  
+
+  /**
+   * Connect to a session on a mapname.
+   * @param mapName The project name.
+   */
+  public void connectToMap(String mapName) {
+    session = sessionManager.createOrFindSessionAndJoin(mapName);
+  }
+  
+  /**
+   * Connect to a session on a mapname, but have a prefered slot.
+   * @param mapName The project name.
+   * @param slotId The session slot id.
+   */
+  public void connectToMap(String mapName, int slotId) {
+    session = sessionManager.createOrFindSessionAndJoin(mapName,slotId);
   }
 
   /**
