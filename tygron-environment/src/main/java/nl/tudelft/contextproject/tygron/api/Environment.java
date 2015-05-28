@@ -2,15 +2,21 @@ package nl.tudelft.contextproject.tygron.api;
 
 import nl.tudelft.contextproject.tygron.handlers.BooleanResultHandler;
 import nl.tudelft.contextproject.tygron.handlers.JsonArrayResultHandler;
+import nl.tudelft.contextproject.tygron.handlers.StringResultHandler;
 import nl.tudelft.contextproject.tygron.objects.BuildingList;
 import nl.tudelft.contextproject.tygron.objects.EconomyList;
+import nl.tudelft.contextproject.tygron.objects.Stakeholder;
 import nl.tudelft.contextproject.tygron.objects.StakeholderList;
 import nl.tudelft.contextproject.tygron.objects.ZoneList;
 import nl.tudelft.contextproject.tygron.objects.indicators.IndicatorList;
 
 import org.json.JSONArray;
+import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Contains all data relative to the session.
@@ -71,11 +77,49 @@ public class Environment implements Runnable {
    */
   public StakeholderList loadStakeHolders() {
     logger.debug("Loading stakeholders");
-    JSONArray data = apiConnection.execute("lists/stakeholders/", CallType.GET, new JsonArrayResultHandler(), session);
+    JSONArray data = apiConnection.execute("lists/stakeholders/", 
+        CallType.GET, new JsonArrayResultHandler(), session);
     this.stakeholderList = new StakeholderList(data);
+    
+    loadActions();
+    
     return this.stakeholderList;
   }
-
+  
+  /**
+   * Load actions and assign their functions to stakeholders.
+   * @param stakeholderList The list of stakeholders.
+   */
+  private void loadActions() {
+    JSONArray actionList = apiConnection.execute("lists/actionmenus/", 
+        CallType.GET, new JsonArrayResultHandler(), session);
+    System.out.println(actionList);
+    for (int i = 0; i < actionList.length(); i++) {
+      JSONObject action = actionList.getJSONObject(i).getJSONObject("ActionMenu");
+      JSONArray functions = action.getJSONArray("functionTypes");
+      JSONObject stakeholders = action.getJSONObject("activeForStakeholder");
+      
+      JSONArray keys = stakeholders.names();
+      Map<Integer, JSONArray> functionMap = new HashMap<Integer, JSONArray>();
+      for (int j = 0; j < keys.length(); j++) {
+        if (stakeholders.getBoolean(keys.getString(j))) {
+          functionMap.put(Integer.parseInt(keys.getString(j)), functions);
+        }
+      }
+      System.out.println(functionMap);
+      setFunctions(functionMap);
+    }
+  }
+  
+  private void setFunctions(Map<Integer, JSONArray> functionMap) {
+    for (Stakeholder stakeholder : stakeholderList) {
+      JSONArray functions = functionMap.get(stakeholder.getId());
+      if (functions != null) {
+        stakeholder.addAllowedFunctions(functions);
+      }
+    }
+  }
+  
   /**
    * Return the stake holder list
    * 
@@ -92,7 +136,8 @@ public class Environment implements Runnable {
    */
   public IndicatorList loadIndicators() {
     logger.debug("Loading indicators");
-    JSONArray data = apiConnection.execute("lists/indicators", CallType.GET, new JsonArrayResultHandler(), session);
+    JSONArray data = apiConnection.execute("lists/indicators", 
+        CallType.GET, new JsonArrayResultHandler(), session);
     this.indicatorList = new IndicatorList(data);
     return this.indicatorList;
   }
@@ -113,7 +158,8 @@ public class Environment implements Runnable {
    */
   public ZoneList loadZones() {
     logger.debug("Loading zones");
-    JSONArray data = apiConnection.execute("lists/zones", CallType.GET, new JsonArrayResultHandler(), session);
+    JSONArray data = apiConnection.execute("lists/zones", 
+        CallType.GET, new JsonArrayResultHandler(), session);
     this.zoneList = new ZoneList(data);
     return this.zoneList;
   }
@@ -134,7 +180,8 @@ public class Environment implements Runnable {
    */
   public EconomyList loadEconomies() {
     logger.debug("Loading economies");
-    JSONArray data = apiConnection.execute("lists/economies", CallType.GET, new JsonArrayResultHandler(), session);
+    JSONArray data = apiConnection.execute("lists/economies", 
+        CallType.GET, new JsonArrayResultHandler(), session);
     this.economyList = new EconomyList(data);
     return this.economyList;
   }
@@ -155,7 +202,8 @@ public class Environment implements Runnable {
    */
   public BuildingList loadBuildings() {
     logger.debug("Loading buildings");
-    JSONArray data = apiConnection.execute("lists/buildings", CallType.GET, new JsonArrayResultHandler(), session);
+    JSONArray data = apiConnection.execute("lists/buildings", 
+        CallType.GET, new JsonArrayResultHandler(), session);
     this.buildingList = new BuildingList(data);
     return this.buildingList;
   }
@@ -167,6 +215,26 @@ public class Environment implements Runnable {
    */
   public BuildingList getBuildings() {
     return this.buildingList;
+  }
+  
+  /**
+   * Buys a piece of land.
+   * @param buyerId The stakeholder id of the buyer.
+   * @param polygons The polygons describing the land.
+   * @param cost The amount of money per unit of land.
+   */
+  public void buyLand(int buyerId, String polygons, int cost) {
+    logger.debug("Buying land");
+    apiConnection.execute("event/PlayerEventType/MAP_BUY_LAND/", 
+        CallType.POST, new StringResultHandler(), session);
+  }
+  
+  class BuyLandRequest extends JSONArray {
+    public BuyLandRequest(int buyerId, String polygons, int cost) {
+      this.put(buyerId);
+      this.put(polygons);
+      this.put(cost);
+    }
   }
 
   /**
