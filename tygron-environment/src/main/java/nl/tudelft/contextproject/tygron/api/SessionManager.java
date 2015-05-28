@@ -72,23 +72,40 @@ public class SessionManager {
     }
   }
 
+
+  public Session createOrFindSessionAndJoin(String mapName) {
+    return createOrFindSessionAndJoin(mapName,-1);
+  }
+ 
   /**
    * Return a joinable loaded session. If it does not exist yet, start a session
    * and return it.
    *
    * @param mapName The mapname you are trying to join.
    */
-  public Session createOrFindSessionAndJoin(String mapName) {
+  public Session createOrFindSessionAndJoin(String mapName, int preferedSlot) {
     logger.info("Create or find a session with name: " + mapName);
 
     Session session = null;
 
     // Try to find a session with the name if it already exists
     List<Session> availableList = getJoinableSessions();
+    
+    // Try to find the specified slot
     for (int i = 0; i < availableList.size(); i++) {
-      if (mapName.equals(availableList.get(i).getName())) {
+      if (preferedSlot == availableList.get(i).getId()) {
         session = availableList.get(i);
         break;
+      }
+    }
+    
+    // The slot cannot be found, let's try on to find a session on the mapname.
+    if (session == null) {
+      for (int i = 0; i < availableList.size(); i++) {
+        if (mapName.equals(availableList.get(i).getName())) {
+          session = availableList.get(i);
+          break;
+        }
       }
     }
 

@@ -105,6 +105,9 @@ public class TygronInterfaceImpl extends AbstractEnvironment {
     //Create a new connection
     connector = makeConnector();
     
+    // Todo: link this to the dynamic config file if exists
+    connector.connectToMap("testmap"); 
+    
     //Get the session manager
     controller = connector.getSession();
     
