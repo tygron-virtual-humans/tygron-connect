@@ -1,5 +1,6 @@
 package nl.tudelft.contextproject.tygron.api;
 
+import nl.tudelft.contextproject.tygron.handlers.BooleanResultHandler;
 import nl.tudelft.contextproject.tygron.handlers.JsonArrayResultHandler;
 import nl.tudelft.contextproject.tygron.objects.BuildingList;
 import nl.tudelft.contextproject.tygron.objects.EconomyList;
@@ -168,5 +169,22 @@ public class Environment implements Runnable {
     return this.buildingList;
   }
 
+  /**
+   * Select a stakeholder to play, can only be done once.
+   * @param stakeholderId the stakeholder id to select.
+   */
+  public boolean setStakeholder(int stakeholderId) {
+    boolean retValue = apiConnection.execute("event/PlayerEventType/STAKEHOLDER_SELECT", CallType.POST, 
+        new BooleanResultHandler(), session, new StakeHolderSelectRequest(stakeholderId,session.getClientToken()));
+    logger.info("Setting stakeholder to #" + stakeholderId + ". Operation " + ((retValue) ? "succes!" : "failed!" ));
+    return retValue;
+  }
+  
+  class StakeHolderSelectRequest extends JSONArray {
+    public StakeHolderSelectRequest(int stakeholderId, String sessionToken) {
+      this.put(stakeholderId);
+      this.put(sessionToken);
+    }
+  }
 }
 
