@@ -105,7 +105,7 @@ public class Environment implements Runnable {
       Map<Integer, JSONArray> functionsMap = new HashMap<Integer, JSONArray>();
       for (int j = 0; j < keys.length(); j++) {
         if (stakeholders.getBoolean(keys.getString(j))) {
-          functionsMap.put(Integer.parseInt(keys.getString(j)), functions);
+          functionsMap.put(keys.getInt(j), functions);
         }
       }
       setFunctions(functionsMap);
@@ -239,13 +239,18 @@ public class Environment implements Runnable {
    */
   public void build(Stakeholder stakeholder, Function function, int floors, String polygons) {
     logger.debug("Building project started");
-    JSONArray parameters = new JSONArray();
-    parameters.put(stakeholder.getId());
-    parameters.put(function.getId());
-    parameters.put(floors);
-    parameters.put(polygons);
+    BuildRequest buildRequest = new BuildRequest(stakeholder, function, floors, polygons);
     apiConnection.execute("event/PlayerEventType/BUILDING_PLAN_CONSTRUCTION/", 
-        CallType.POST, new StringResultHandler(), session);
+        CallType.POST, new StringResultHandler(), session, buildRequest);
+  }
+  
+  class BuildRequest extends JSONArray {
+    public BuildRequest(Stakeholder stakeholder, Function function, int floors, String polygons) {
+      put(stakeholder.getId());
+      put(function.getId());
+      put(floors);
+      put(polygons);
+    }
   }
   
   /**
@@ -256,12 +261,17 @@ public class Environment implements Runnable {
    */
   public void buyLand(int buyerId, String polygons, int cost) {
     logger.debug("Buying land");
-    JSONArray parameters = new JSONArray();
-    parameters.put(buyerId);
-    parameters.put(polygons);
-    parameters.put(cost);
+    BuyLandRequest buyLandRequest = new BuyLandRequest(buyerId, polygons, cost);
     apiConnection.execute("event/PlayerEventType/MAP_BUY_LAND/", 
-        CallType.POST, new StringResultHandler(), session, parameters);
+        CallType.POST, new StringResultHandler(), session, buyLandRequest);
+  }
+  
+  class BuyLandRequest extends JSONArray {
+    public BuyLandRequest(int buyerId, String polygons, int cost) {
+      put(buyerId);
+      put(polygons);
+      put(cost);
+    }
   }
 
   /**
