@@ -1,14 +1,6 @@
 package nl.tudelft.contextproject.tygron.eis;
 
-import java.io.Serializable;
-
-public class Configuration implements Serializable {
-
-  /**
-   * Serial version ID.
-   */
-  private static final long serialVersionUID = 1L;
-  
+public class Configuration {
   private int stakeholders;
   private String map;
   private int slot;
