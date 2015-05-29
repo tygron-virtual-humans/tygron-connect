@@ -18,21 +18,7 @@ public enum CallType {
    *          parameters to attach to the request, may be null
    * @return a HttpRequestBase that can be executed
    */
-  public HttpRequestBase asRequest(JSONArray parameters) {
-    if (parameters != null) {
-      return asRequest(parameters.toString());
-    }
-    return asRequest("");
-  }
-
-  /**
-   * Creates a HttpRequestBase from this type.
-   * 
-   * @param parameters
-   *          parameters to attach to the request, may be null
-   * @return a HttpRequestBase that can be executed
-   */
-  public HttpRequestBase asRequest(JSONObject parameters) {
+  public HttpRequestBase asRequest(Object parameters) {
     if (parameters != null) {
       return asRequest(parameters.toString());
     }
@@ -53,6 +39,7 @@ public enum CallType {
       case POST:
         return postRequest(entity);
       default:
+        //Can't be called.
         throw new RuntimeException("Invalid Type");
     }
   }
