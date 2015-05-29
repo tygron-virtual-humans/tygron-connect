@@ -5,6 +5,8 @@ import nl.tudelft.contextproject.tygron.handlers.JsonArrayResultHandler;
 import nl.tudelft.contextproject.tygron.handlers.StringResultHandler;
 import nl.tudelft.contextproject.tygron.objects.BuildingList;
 import nl.tudelft.contextproject.tygron.objects.EconomyList;
+import nl.tudelft.contextproject.tygron.objects.Function;
+import nl.tudelft.contextproject.tygron.objects.FunctionMap;
 import nl.tudelft.contextproject.tygron.objects.Stakeholder;
 import nl.tudelft.contextproject.tygron.objects.StakeholderList;
 import nl.tudelft.contextproject.tygron.objects.ZoneList;
@@ -36,6 +38,7 @@ public class Environment implements Runnable {
   private ZoneList zoneList;
   private EconomyList economyList;
   private BuildingList buildingList;
+  private FunctionMap functionMap;
 
   private Thread environmentThread;
 
@@ -80,6 +83,7 @@ public class Environment implements Runnable {
     loadZones();
     loadEconomies();
     loadBuildings();
+    loadFunctions();
   }
   /**
    * Load the stake holders into this session.
@@ -113,7 +117,7 @@ public class Environment implements Runnable {
       Map<Integer, JSONArray> functionMap = new HashMap<Integer, JSONArray>();
       for (int j = 0; j < keys.length(); j++) {
         if (stakeholders.getBoolean(keys.getString(j))) {
-          functionMap.put(Integer.parseInt(keys.getString(j)), functions);
+          functionMap.put(keys.getInt(j), functions);
         }
       }
       setFunctions(functionMap);
@@ -216,6 +220,18 @@ public class Environment implements Runnable {
     this.buildingList = new BuildingList(data);
     return this.buildingList;
   }
+  
+  /**
+   * Loads all functions into this session.
+   * @return A map of the functions.
+   */
+  public FunctionMap loadFunctions() {
+    logger.debug("Loading functions");
+    JSONArray data = apiConnection.execute("lists/functions", 
+        CallType.GET, new JsonArrayResultHandler(), session);
+    this.functionMap = new FunctionMap(data);
+    return this.functionMap;
+  }
 
   /**
    * Return the buildings list
@@ -227,20 +243,44 @@ public class Environment implements Runnable {
   }
   
   /**
+   * Builds a project on a piece of land.
+   * @param stakeholder The stakeholder of the building project
+   * @param function The function used.
+   * @param floors The amount of floors for the building project.
+   * @param polygons The polygons describing the land.
+   */
+  public void build(Stakeholder stakeholder, Function function, int floors, String polygons) {
+    logger.debug("Building project started");
+    BuildRequest builRequest = new BuildRequest(stakeholder, function, floors, polygons);
+    apiConnection.execute("event/PlayerEventType/BUILDING_PLAN_CONSTRUCTION/", 
+        CallType.POST, new StringResultHandler(), session, builRequest);
+  }
+  
+  class BuildRequest extends JSONArray {
+    public BuildRequest(Stakeholder stakeholder, Function function, int floors, String polygons) {
+      this.put(stakeholder.getId());
+      this.put(function.getId());
+      this.put(floors);
+      this.put(polygons);
+    }
+  }
+  
+  /**
    * Buys a piece of land.
-   * @param buyerId The stakeholder id of the buyer.
+   * @param stakeholder The buyer.
    * @param polygons The polygons describing the land.
    * @param cost The amount of money per unit of land.
    */
-  public void buyLand(int buyerId, String polygons, int cost) {
+  public void buyLand(Stakeholder stakeholder, String polygons, int cost) {
     logger.debug("Buying land");
+    BuyLandRequest buyLandRequest = new BuyLandRequest(stakeholder, polygons, cost);
     apiConnection.execute("event/PlayerEventType/MAP_BUY_LAND/", 
-        CallType.POST, new StringResultHandler(), session);
+        CallType.POST, new StringResultHandler(), session, buyLandRequest);
   }
   
   class BuyLandRequest extends JSONArray {
-    public BuyLandRequest(int buyerId, String polygons, int cost) {
-      this.put(buyerId);
+    public BuyLandRequest(Stakeholder stakeholder, String polygons, int cost) {
+      this.put(stakeholder.getId());
       this.put(polygons);
       this.put(cost);
     }
@@ -251,9 +291,11 @@ public class Environment implements Runnable {
    * @param stakeholderId the stakeholder id to select.
    */
   public boolean setStakeholder(int stakeholderId) {
-    boolean retValue = apiConnection.execute("event/PlayerEventType/STAKEHOLDER_SELECT", CallType.POST, 
-        new BooleanResultHandler(), session, new StakeHolderSelectRequest(stakeholderId,session.getClientToken()));
-    logger.info("Setting stakeholder to #" + stakeholderId + ". Operation " + ((retValue) ? "succes!" : "failed!" ));
+    boolean retValue = apiConnection.execute("event/PlayerEventType/STAKEHOLDER_SELECT", 
+        CallType.POST, new BooleanResultHandler(), session, 
+        new StakeHolderSelectRequest(stakeholderId,session.getClientToken()));
+    logger.info("Setting stakeholder to #" + stakeholderId + ". Operation " 
+        + ((retValue) ? "succes!" : "failed!" ));
     return retValue;
   }
   
