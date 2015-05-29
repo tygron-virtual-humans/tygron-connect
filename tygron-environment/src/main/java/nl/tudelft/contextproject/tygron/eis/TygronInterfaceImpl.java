@@ -27,12 +27,11 @@ public class TygronInterfaceImpl extends AbstractEnvironment {
    * Serial version.
    */
   private static final long serialVersionUID = 1L;
-  
-  
-  protected Connector connector;
-  protected Session controller;
-  protected Configuration configuration;
-  protected Environment environment;
+
+  protected transient Connector connector;
+  protected transient Session controller;
+  protected transient Configuration configuration;
+  protected transient Environment environment;
   
   /**
    * Constructs the EIS.
