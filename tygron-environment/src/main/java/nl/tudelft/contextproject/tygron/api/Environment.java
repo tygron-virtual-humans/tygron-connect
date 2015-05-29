@@ -1,15 +1,20 @@
 package nl.tudelft.contextproject.tygron.api;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import nl.tudelft.contextproject.tygron.handlers.BooleanResultHandler;
 import nl.tudelft.contextproject.tygron.handlers.JsonArrayResultHandler;
 import nl.tudelft.contextproject.tygron.objects.BuildingList;
 import nl.tudelft.contextproject.tygron.objects.EconomyList;
 import nl.tudelft.contextproject.tygron.objects.FunctionMap;
+import nl.tudelft.contextproject.tygron.objects.Stakeholder;
 import nl.tudelft.contextproject.tygron.objects.StakeholderList;
 import nl.tudelft.contextproject.tygron.objects.ZoneList;
 import nl.tudelft.contextproject.tygron.objects.indicators.IndicatorList;
 
 import org.json.JSONArray;
+import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -98,6 +103,38 @@ public class Environment implements Runnable {
    */
   public StakeholderList getStakeHolders() {
     return this.stakeholderList;
+  }
+  
+  /**
+   * Load actions and assign their functions to stakeholders.
+   * @param stakeholderList The list of stakeholders.
+   */
+  private void loadActions() {
+    JSONArray actionList = apiConnection.execute("lists/actionmenus/", 
+        CallType.GET, new JsonArrayResultHandler(), session);
+    for (int i = 0; i < actionList.length(); i++) {
+      JSONObject action = actionList.getJSONObject(i).getJSONObject("ActionMenu");
+      JSONArray functions = action.getJSONArray("functionTypes");
+      JSONObject stakeholders = action.getJSONObject("activeForStakeholder");
+      
+      JSONArray keys = stakeholders.names();
+      Map<Integer, JSONArray> functionMap = new HashMap<Integer, JSONArray>();
+      for (int j = 0; j < keys.length(); j++) {
+        if (stakeholders.getBoolean(keys.getString(j))) {
+          functionMap.put(keys.getInt(j), functions);
+        }
+      }
+      setFunctions(functionMap);
+    }
+  }
+  
+  private void setFunctions(Map<Integer, JSONArray> functionsMap) {
+    for (Stakeholder stakeholder : stakeholderList) {
+      JSONArray functions = functionsMap.get(stakeholder.getId());
+      if (functions != null) {
+        stakeholder.addAllowedFunctions(functions);
+      }
+    }
   }
 
   /**
