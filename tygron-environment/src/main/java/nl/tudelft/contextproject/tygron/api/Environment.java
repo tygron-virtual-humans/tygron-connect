@@ -245,7 +245,7 @@ public class Environment implements Runnable {
   /**
    * Builds a project on a piece of land.
    * @param stakeholder The stakeholder of the building project
-   * @param function The function used.
+   * @param function The function to be used.
    * @param floors The amount of floors for the building project.
    * @param polygons The polygons describing the land.
    */
