@@ -4,6 +4,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import com.esri.core.geometry.OperatorExportToWkt;
 import com.esri.core.geometry.Polygon;
 
 import nl.tudelft.contextproject.util.PolygonUtil;
@@ -102,6 +103,26 @@ public class PolygonUtilTest {
       Polygon polygon2 = polyutil.createPolygonFromWkt("MULTIPOLYGON (((4 4, 4 8, 8 8, 8 4"
           + ", 4 4)))");
       assertFalse(polyutil.polygonContains(polygon2, polygon1));
+    } catch (Exception e) {
+      fail();
+      e.printStackTrace();
+    }
+  }
+  
+  /**
+   * Tests the difference function.
+   */
+  @Test
+  public void differenceTest() {
+    try {
+      Polygon polygon1 = polyutil.createPolygonFromWkt("MULTIPOLYGON (((0 0, 0 16"
+          + ", 16 16, 16 0, 0 0)))");
+      Polygon polygon2 = polyutil.createPolygonFromWkt("MULTIPOLYGON (((1 1, 1 15"
+          + ", 15 15, 15 1, 1 1)))");
+      Polygon difference = polyutil.polygonDifference(polygon1, polygon2);
+      Polygon comparePolygon = polyutil.createPolygonFromWkt("MULTIPOLYGON (((0 0, 16 0"
+          + ", 16 16, 0 16, 0 0), (1 1, 1 15, 15 15, 15 1, 1 1)))");
+      assertTrue(polyutil.polygonEquals(difference, comparePolygon));
     } catch (Exception e) {
       fail();
       e.printStackTrace();

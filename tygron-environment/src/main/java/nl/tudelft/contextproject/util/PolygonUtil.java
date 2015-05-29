@@ -2,6 +2,7 @@ package nl.tudelft.contextproject.util;
 
 import com.esri.core.geometry.Geometry;
 import com.esri.core.geometry.OperatorContains;
+import com.esri.core.geometry.OperatorDifference;
 import com.esri.core.geometry.OperatorEquals;
 import com.esri.core.geometry.OperatorImportFromWkt;
 import com.esri.core.geometry.Polygon;
@@ -39,7 +40,7 @@ public class PolygonUtil {
   }
   
   /**
-   * Returns if polygon1 contains polygon2.
+   * Returns true if polygon1 contains polygon2.
    * 
    * @param polygon1
    *          The container.
@@ -49,10 +50,19 @@ public class PolygonUtil {
    */
   public boolean polygonContains(Polygon polygon1, Polygon polygon2) {
     SpatialReference sr = SpatialReference.create(1);
-
     return OperatorContains.local().execute(polygon1, polygon2, sr, null);
   }
   
+  /**
+   * Returns the difference of polygon1 and polygon2.
+   * @param polygon1 Input polygon.
+   * @param polygon2 Subtractor polygon.
+   * @return Difference of polygon1 and polygon2.
+   */
+  public Polygon polygonDifference(Polygon polygon1, Polygon polygon2) {
+    SpatialReference sr = SpatialReference.create(1);
+    return (Polygon) OperatorDifference.local().execute(polygon1, polygon2, sr, null);
+  }
   /**
    * Returns if the polygons are equal.
    * @param polygon1 Comparing polygon1.
@@ -61,7 +71,6 @@ public class PolygonUtil {
    */
   public boolean polygonEquals(Polygon polygon1, Polygon polygon2) {
     SpatialReference sr = SpatialReference.create(1);
-
     return OperatorEquals.local().execute(polygon1, polygon2, sr, null);
   }
 }
