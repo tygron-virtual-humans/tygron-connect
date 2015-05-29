@@ -12,8 +12,8 @@ public class SettingsLoader {
   private static final Logger logger = LoggerFactory.getLogger(SettingsLoader.class);
   Properties config;
 
-  String username = "";
-  String password = "";
+  String username;
+  String password;
 
   /**
    * Groups can individually decide what username they will fall back on if the
