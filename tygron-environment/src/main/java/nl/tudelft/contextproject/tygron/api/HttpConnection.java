@@ -121,7 +121,7 @@ public class HttpConnection {
     }
   }
 
-  public String getAuthString(String username, String password) {
+  private String getAuthString() {
     String headerValue = settings.getUserName() + ":" + settings.getPassword();
     return Base64.encodeBase64String(headerValue.getBytes());
   }
@@ -133,7 +133,7 @@ public class HttpConnection {
   public void addDefaultHeaders(HttpUriRequest request) {
     request.setHeader("Accept", "application/json");
     request.setHeader("Content-Type", "application/json");
-    request.setHeader("Authorization", "Basic " + getAuthString(settings.getUserName(), settings.getPassword()));
+    request.setHeader("Authorization", "Basic " + getAuthString());
 
     if (serverToken != null) {
       request.setHeader("serverToken", serverToken);
