@@ -15,6 +15,7 @@ public class Stakeholder {
   private String description;
   
   private List<Integer> ownedLands;
+  private List<Integer> allowedFunctions;
   
   private Map<Integer, Double> indicatorWeights;
   
@@ -41,6 +42,22 @@ public class Stakeholder {
     for (int i = 0; i < lands.length(); i++) {
       ownedLands.add(lands.getInt(i));
     }
+    
+    allowedFunctions = new ArrayList<Integer>();
+  }
+  
+  /**
+   * Adds functions to the list of allowed functions for the stakeholder.
+   * @param functions The list with allowed functions for the stakeholder in JSONArray format.
+   */
+  public void addAllowedFunctions(JSONArray functions) {
+    for (int i = 0; i < functions.length(); i++) {
+      allowedFunctions.add(functions.getInt(i));
+    }
+  }
+  
+  public List<Integer> getAllowedFunctions() {
+    return allowedFunctions;
   }
 
   public int getId() {
