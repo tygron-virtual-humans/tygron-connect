@@ -251,9 +251,9 @@ public class Environment implements Runnable {
    */
   public void build(Stakeholder stakeholder, Function function, int floors, String polygons) {
     logger.debug("Building project started");
-    BuildRequest builRequest = new BuildRequest(stakeholder, function, floors, polygons);
+    BuildRequest buildRequest = new BuildRequest(stakeholder, function, floors, polygons);
     apiConnection.execute("event/PlayerEventType/BUILDING_PLAN_CONSTRUCTION/", 
-        CallType.POST, new StringResultHandler(), session, builRequest);
+        CallType.POST, new StringResultHandler(), session, buildRequest);
   }
   
   class BuildRequest extends JSONArray {
