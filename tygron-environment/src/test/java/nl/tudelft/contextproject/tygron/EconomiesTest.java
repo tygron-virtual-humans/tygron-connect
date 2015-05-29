@@ -36,9 +36,4 @@ public class EconomiesTest {
   public void getId() {
     assertEquals(0,economy.get(0).getId());
   }
-  
-  @Test
-  public void toStringTest() {
-    assertEquals("{\"id\":0,\"category\":\"SOCIAL\",\"state\":\"GOOD\"}",economy.get(0).toString());
-  }
 }

@@ -50,12 +50,4 @@ public class StakeholderTest {
   public void getOwnedLandsTest() {
     assertEquals("[0, 1, 2]", stakeholderList.get(0).getOwnedLands().toString());
   }
-
-  @Test
-  public void toStringTest() {
-    String str = "[{\"id\":0,\"name\":\"Municipality\",\"shortName\":\"Municipality\"}"
-        + ", {\"id\":1,\"name\":\"Housing Corporation\",\"shortName\":\"DUWO\"}"
-        + ", {\"id\":2,\"name\":\"Company\",\"shortName\":\"Company\"}]";
-    assertEquals(stakeholderList.toString(), str);
-  }
 }

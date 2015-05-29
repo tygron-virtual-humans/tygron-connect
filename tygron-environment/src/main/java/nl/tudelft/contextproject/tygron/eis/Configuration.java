@@ -14,7 +14,8 @@ public class Configuration implements Serializable {
   private int slot;
 
   public Configuration() {
-
+    slot = -1;
+    stakeholders = -1;
   }
 
   public void setStakeholder(int stakeholderParametersList) {
