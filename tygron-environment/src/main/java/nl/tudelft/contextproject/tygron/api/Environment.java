@@ -10,6 +10,7 @@ import nl.tudelft.contextproject.tygron.objects.BuildingList;
 import nl.tudelft.contextproject.tygron.objects.EconomyList;
 import nl.tudelft.contextproject.tygron.objects.Function;
 import nl.tudelft.contextproject.tygron.objects.FunctionMap;
+import nl.tudelft.contextproject.tygron.objects.LandMap;
 import nl.tudelft.contextproject.tygron.objects.Stakeholder;
 import nl.tudelft.contextproject.tygron.objects.StakeholderList;
 import nl.tudelft.contextproject.tygron.objects.ZoneList;
@@ -39,6 +40,7 @@ public class Environment implements Runnable {
   private EconomyList economyList;
   private BuildingList buildingList;
   private FunctionMap functionMap;
+  private LandMap landMap;
 
   private Thread environmentThread;
 
@@ -84,6 +86,7 @@ public class Environment implements Runnable {
     loadEconomies();
     loadBuildings();
     loadFunctions();
+    loadLands();
   }
   /**
    * Load the stake holders into this session.
@@ -240,6 +243,14 @@ public class Environment implements Runnable {
         CallType.GET, new JsonArrayResultHandler(), session);
     this.functionMap = new FunctionMap(data);
     return this.functionMap;
+  }
+  
+  public LandMap loadLands() {
+    logger.debug("Loading lands");
+    JSONArray data = apiConnection.execute("lists/lands", 
+        CallType.GET, new JsonArrayResultHandler(), session);
+    this.landMap = new LandMap(data);
+    return this.landMap;
   }
   
   /**
