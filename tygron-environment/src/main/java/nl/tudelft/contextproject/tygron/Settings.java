@@ -17,9 +17,8 @@ public class Settings {
       this.username = settingsLoader.getUsername();
       this.password = settingsLoader.getPassword();
     } catch (Exception e) {
-      logger.info("Using fallback username/password");
-      username = "fallbackusername";
-      password = "fallbackpassword";
+      logger.info("Could not load username and password.");
+      throw new RuntimeException(e);
     }
   }
   
