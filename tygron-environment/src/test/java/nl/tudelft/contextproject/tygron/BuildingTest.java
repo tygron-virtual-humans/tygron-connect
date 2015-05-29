@@ -47,12 +47,7 @@ public class BuildingTest {
   public void idTest() {
     assertEquals(0,building.get(0).getId());
   }
-  
-  @Test
-  public void toStringTest() {
-    String str = "[{\"id\":0,\"name\":\"Delfgauwseweg\"}]";
-    assertEquals(building.toString(),str);
-  }
+
   
   @Test
   public void floorTest() {

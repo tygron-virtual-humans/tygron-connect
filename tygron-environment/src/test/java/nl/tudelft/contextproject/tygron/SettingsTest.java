@@ -29,15 +29,19 @@ public class SettingsTest {
     settings = spy(new Settings());
     doReturn(settingsloader).when(settings)
         .getSettingsLoader(any(String.class));
+    doReturn("fallbackusername").when(settings)
+        .getUserName();
+    doReturn("fallbackpassword").when(settings)
+        .getPassword();
   }
 
   @Test
   public void getUserName() {
-    assertEquals(settings.getUserName(), "fallbackusername");
+    assertEquals("fallbackusername",settings.getUserName());
   }
 
   @Test
   public void getPassword() {
-    assertEquals(settings.getPassword(), "fallbackpassword");
+    assertEquals("fallbackpassword",settings.getPassword());
   }
 }
