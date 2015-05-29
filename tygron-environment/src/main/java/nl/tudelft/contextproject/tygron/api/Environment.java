@@ -124,9 +124,9 @@ public class Environment implements Runnable {
     }
   }
   
-  private void setFunctions(Map<Integer, JSONArray> functionMap) {
+  private void setFunctions(Map<Integer, JSONArray> functionsMap) {
     for (Stakeholder stakeholder : stakeholderList) {
-      JSONArray functions = functionMap.get(stakeholder.getId());
+      JSONArray functions = functionsMap.get(stakeholder.getId());
       if (functions != null) {
         stakeholder.addAllowedFunctions(functions);
       }
