@@ -1,7 +1,6 @@
 package nl.tudelft.contextproject.tygron.eis;
 
 import eis.exceptions.EntityException;
-
 import eis.exceptions.ManagementException;
 import eis.iilang.Action;
 import eis.iilang.EnvironmentState;
@@ -9,12 +8,12 @@ import eis.iilang.Identifier;
 import eis.iilang.Parameter;
 import eis.iilang.ParameterList;
 import nl.tudelft.contextproject.tygron.api.Connector;
+import nl.tudelft.contextproject.tygron.api.Environment;
 import nl.tudelft.contextproject.tygron.api.Session;
 import nl.tudelft.contextproject.tygron.eis.entities.Controller;
 import nl.tudelft.contextproject.tygron.eis.translators.ConfigurationTranslator;
 import nl.tudelft.contextproject.tygron.eis.translators.HashMapTranslator;
 import nl.tudelft.contextproject.tygron.eis.translators.ParamEnumTranslator;
-
 import eis.eis2java.environment.AbstractEnvironment;
 import eis.eis2java.exception.TranslationException;
 import eis.eis2java.translation.Translator;
@@ -33,6 +32,7 @@ public class TygronInterfaceImpl extends AbstractEnvironment {
   protected Connector connector;
   protected Session controller;
   protected Configuration configuration;
+  protected Environment environment;
   
   /**
    * Constructs the EIS.
@@ -105,11 +105,17 @@ public class TygronInterfaceImpl extends AbstractEnvironment {
     //Create a new connection
     connector = makeConnector();
     
-    // Todo: link this to the dynamic config file if exists
-    connector.connectToMap("testmap"); 
+    connector.connectToMap(configuration.getMap(),configuration.getSlot()); 
     
     //Get the session manager
     controller = connector.getSession();
+    
+    environment = controller.getEnvironment();
+    
+    if (configuration.getStakeholder() == -1) {
+      throw new ManagementException("Stakeholder is not defined in mas2g file.");
+    }
+    environment.setStakeholder(configuration.getStakeholder());
     
     setState(EnvironmentState.PAUSED);
   }

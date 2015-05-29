@@ -9,7 +9,7 @@ import java.io.InputStream;
 import java.util.Properties;
 
 public class SettingsLoader {
-  final private static Logger logger = LoggerFactory.getLogger(SettingsLoader.class);
+  private static final Logger logger = LoggerFactory.getLogger(SettingsLoader.class);
   Properties config;
 
   String username = "";
