@@ -12,10 +12,9 @@ public class Function {
   
   /**
    * Constructs a Function from a JSONObject.
-   * @param input The input object
+   * @param function The input object
    */
-  public Function(JSONObject input) {
-    JSONObject function = input.getJSONObject("BaseFunction");
+  public Function(JSONObject function) {
     id = function.getInt("id");
     version = function.getInt("version");
     name = function.getString("name");

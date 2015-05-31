@@ -1,6 +1,7 @@
 package nl.tudelft.contextproject.tygron.objects;
 
 import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.util.HashMap;
 
@@ -13,11 +14,13 @@ public class FunctionMap extends HashMap<Integer, Function> {
 
   /**
    * Creates a map with function ids as keys and functions as values.
-   * @param array The array containing the functions.
+   * @param input The array containing the functions.
    */
-  public FunctionMap(JSONArray array) {
-    for (int i = 0; i < array.length(); i++) {
-      Function function = new Function(array.getJSONObject(i));
+  public FunctionMap(JSONArray input) {
+    for (int i = 0; i < input.length(); i++) {
+      JSONObject functionWrapper = input.getJSONObject(i);
+      JSONObject functionObj = functionWrapper.getJSONObject("BaseFunction");
+      Function function = new Function(functionObj);
       this.put(function.getId(), function);
     }
   }

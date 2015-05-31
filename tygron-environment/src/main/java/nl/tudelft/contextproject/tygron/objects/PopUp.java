@@ -1,15 +1,21 @@
 package nl.tudelft.contextproject.tygron.objects;
 
+import com.esri.core.geometry.Polygon;
+
 import nl.tudelft.contextproject.tygron.objects.PopUpHandler.EventValue;
+import nl.tudelft.contextproject.util.PolygonUtil;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class PopUp {
-
+  private static final Logger logger = LoggerFactory.getLogger(PopUp.class);
+  
   private enum TypeValue {
     INTERACTION, INFORMATION
   }
@@ -20,7 +26,7 @@ public class PopUp {
   private String title;
   private String text;
   private int linkId;
-  private String polygons;
+  private Polygon polygon;
   private String linkType;
   private String point;
 
@@ -49,7 +55,12 @@ public class PopUp {
     title = "NO TITLE SET".equals(tempTitle) ? null : tempTitle;
     text = popUp.getString("text");
     linkId = popUp.getInt("linkID");
-    polygons = popUp.optString("polygons");
+    try {
+      polygon = PolygonUtil.createPolygonFromWkt(popUp.optString("polygons"));
+    } catch (Exception e) {
+      logger.info("Error parsing Building with string " + popUp.toString());
+      throw new RuntimeException(e);
+    }
     linkType = popUp.getString("linkType");
     type = TypeValue.valueOf(popUp.getString("type"));
     point = popUp.getString("point");
@@ -91,8 +102,8 @@ public class PopUp {
     return linkId;
   }
 
-  public String getPolygons() {
-    return polygons;
+  public Polygon getPolygon() {
+    return polygon;
   }
 
   public String getLinkType() {

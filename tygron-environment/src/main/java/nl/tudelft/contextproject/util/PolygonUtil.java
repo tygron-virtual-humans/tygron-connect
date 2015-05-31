@@ -4,6 +4,7 @@ import com.esri.core.geometry.Geometry;
 import com.esri.core.geometry.OperatorContains;
 import com.esri.core.geometry.OperatorDifference;
 import com.esri.core.geometry.OperatorEquals;
+import com.esri.core.geometry.OperatorExportToWkt;
 import com.esri.core.geometry.OperatorImportFromWkt;
 import com.esri.core.geometry.Polygon;
 import com.esri.core.geometry.SpatialReference;
@@ -26,7 +27,7 @@ public class PolygonUtil {
    *          information.
    * @return Polygon created from the wkt data.
    */
-  public Polygon createPolygonFromWkt(String wktString) {
+  public static Polygon createPolygonFromWkt(String wktString) {
 
     Geometry geom = OperatorImportFromWkt.local().execute(
         WktImportFlags.wktImportDefaults, Geometry.Type.Polygon, wktString,
@@ -44,7 +45,7 @@ public class PolygonUtil {
    *          The containee.
    * @return Boolean that shows whether polygon1 contains polygon2.
    */
-  public boolean polygonContains(Polygon polygon1, Polygon polygon2) {
+  public static boolean polygonContains(Polygon polygon1, Polygon polygon2) {
     SpatialReference sr = SpatialReference.create(1);
     return OperatorContains.local().execute(polygon1, polygon2, sr, null);
   }
@@ -55,7 +56,7 @@ public class PolygonUtil {
    * @param polygon2 Subtractor polygon.
    * @return Difference of polygon1 and polygon2.
    */
-  public Polygon polygonDifference(Polygon polygon1, Polygon polygon2) {
+  public static Polygon polygonDifference(Polygon polygon1, Polygon polygon2) {
     SpatialReference sr = SpatialReference.create(1);
     return (Polygon) OperatorDifference.local().execute(polygon1, polygon2, sr, null);
   }
@@ -65,8 +66,12 @@ public class PolygonUtil {
    * @param polygon2 Comparing polygon2.
    * @return Boolean that shows whether polygon1 equals polygon2.
    */
-  public boolean polygonEquals(Polygon polygon1, Polygon polygon2) {
+  public static boolean polygonEquals(Polygon polygon1, Polygon polygon2) {
     SpatialReference sr = SpatialReference.create(1);
     return OperatorEquals.local().execute(polygon1, polygon2, sr, null);
+  }
+  
+  public static String toString(Polygon polygon) {
+    return OperatorExportToWkt.local().execute(0, polygon, null);
   }
 }

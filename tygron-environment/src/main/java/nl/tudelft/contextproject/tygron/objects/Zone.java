@@ -1,5 +1,9 @@
 package nl.tudelft.contextproject.tygron.objects;
 
+import com.esri.core.geometry.Polygon;
+
+import nl.tudelft.contextproject.util.PolygonUtil;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -10,12 +14,7 @@ public class Zone {
 
   private int allowedFloors;
   private List<Object> allowedFunctions;
-  private List<Double> categoryFloorM2s;
-  private List<Double> categoryFloorM2sMaquette;
-  private List<Double> categoryM2s;
-  private List<Double> categoryM2sMaquette;
   private int categoryVersion;
-  private int categoryVersionMaquette;
   private int color;
   private String description;
   private List<Integer> detailVersions;
@@ -26,6 +25,7 @@ public class Zone {
   private boolean showlabel;
   private int sortIndex;
   private int version;
+  private Polygon polygon;
 
   /**
    * Extract zone settings from zone.
@@ -39,29 +39,8 @@ public class Zone {
     for (int i = 0; i < array.length(); i++) {
       allowedFunctions.add(array.get(i));
     }
-    categoryFloorM2s = new ArrayList<Double>();
-    array = zone.getJSONArray("categoryFloorM2s");
-    for (int i = 0; i < array.length(); i++) {
-      categoryFloorM2s.add(array.getDouble(i));
-    }
-    categoryFloorM2sMaquette = new ArrayList<Double>();
-    array = zone.getJSONArray("categoryFloorM2sMaquette");
-    for (int i = 0; i < array.length(); i++) {
-      categoryFloorM2sMaquette.add(array.getDouble(i));
-    }
-    categoryM2s = new ArrayList<Double>();
-    array = zone.getJSONArray("categoryM2s");
-    for (int i = 0; i < array.length(); i++) {
-      categoryM2s.add(array.getDouble(i));
-    }
-    categoryM2sMaquette = new ArrayList<Double>();
-    array = zone.getJSONArray("categoryM2sMaquette");
-    for (int i = 0; i < array.length(); i++) {
-      categoryM2sMaquette.add(array.getDouble(i));
-    }
 
     categoryVersion = zone.getInt("categoryVersion");
-    categoryVersionMaquette = zone.getInt("categoryVersionMaquette");
     color = zone.getJSONObject("color").getInt("rgba");
     description = zone.getString("description");
 
@@ -90,6 +69,7 @@ public class Zone {
     showlabel = zone.getBoolean("showLabel");
     sortIndex = zone.getInt("sortIndex");
     version = zone.getInt("version");
+    polygon = PolygonUtil.createPolygonFromWkt(zone.getString("polygons"));
   }
 
   public int getAllowedFloors() {
@@ -100,28 +80,8 @@ public class Zone {
     return allowedFunctions;
   }
 
-  public List<Double> getCategoryFloorM2s() {
-    return categoryFloorM2s;
-  }
-
-  public List<Double> getCategoryFloorM2sMaquette() {
-    return categoryFloorM2sMaquette;
-  }
-
-  public List<Double> getCategoryM2s() {
-    return categoryM2s;
-  }
-
-  public List<Double> getCategoryM2sMaquette() {
-    return categoryM2sMaquette;
-  }
-
   public int getCategoryVersion() {
     return categoryVersion;
-  }
-
-  public int getCategoryVersionMaquette() {
-    return categoryVersionMaquette;
   }
 
   public int getColor() {
@@ -162,6 +122,10 @@ public class Zone {
 
   public int getVersion() {
     return version;
+  }
+  
+  public Polygon getPolygon() {
+    return polygon;
   }
 
 }
