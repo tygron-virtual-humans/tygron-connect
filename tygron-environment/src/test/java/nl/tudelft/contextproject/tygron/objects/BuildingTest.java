@@ -1,4 +1,4 @@
-package nl.tudelft.contextproject.tygron;
+package nl.tudelft.contextproject.tygron.objects;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -31,7 +31,7 @@ public class BuildingTest {
    * Creates a building from a cached file.
    */
   @Before
-  public void setupEconomy() {
+  public void setupBuilding() {
     String file = "/serverResponses/testmap/lists/building.json";
     String buildingContents = CachedFileReader.getFileContents(file);
     JSONArray buildingResult = new JSONArray(buildingContents);
@@ -45,7 +45,7 @@ public class BuildingTest {
 
   @Test
   public void idTest() {
-    assertEquals(0,building.get(0).getId());
+    assertEquals(0, building.get(0).getId());
   }
 
   

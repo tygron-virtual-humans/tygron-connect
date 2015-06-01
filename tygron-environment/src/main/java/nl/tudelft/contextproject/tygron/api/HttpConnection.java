@@ -20,7 +20,8 @@ import java.net.URISyntaxException;
 
 public class HttpConnection {
   private static final Logger logger = LoggerFactory.getLogger(HttpConnection.class);
-  private static HttpClient client = HttpClients.custom().build();
+  protected HttpClient client;
+  protected BasicResponseHandler handler;
 
   private Settings settings;
   private String serverToken;
@@ -35,7 +36,8 @@ public class HttpConnection {
    */
   public HttpConnection(Settings settings) {
     this.settings = settings;
-
+    this.client = HttpClients.custom().build();
+    this.handler = new BasicResponseHandler();
   }
 
   public void setServerToken(String serverToken) {
@@ -75,12 +77,12 @@ public class HttpConnection {
     }
   }
   
-  private String execute(HttpUriRequest request) {
+  protected String execute(HttpUriRequest request) {
     try {
       addDefaultHeaders(request);
       HttpResponse httpResponse = client.execute(request);
       logger.debug("Request " + request.toString());
-      String response = new BasicResponseHandler().handleResponse(httpResponse);
+      String response = handler.handleResponse(httpResponse);
       logger.debug("Response " + response);
       return response;
     } catch (Exception e) {
@@ -113,7 +115,7 @@ public class HttpConnection {
    * @param session a session, may be null
    * @return Tygron's response
    */
-  public String getApiUrl(String eventName, Session session) {
+  protected String getApiUrl(String eventName, Session session) {
     if (session == null) {
       return API_URL_BASE + eventName + API_JSON_SUFFIX;
     } else {
@@ -121,7 +123,7 @@ public class HttpConnection {
     }
   }
 
-  private String getAuthString() {
+  protected String getAuthString() {
     String headerValue = settings.getUserName() + ":" + settings.getPassword();
     return Base64.encodeBase64String(headerValue.getBytes());
   }
@@ -130,7 +132,7 @@ public class HttpConnection {
    * Adds the required headers (authentication) for Tygron communication.
    * @param request the request to attach the headers to
    */
-  public void addDefaultHeaders(HttpUriRequest request) {
+  protected void addDefaultHeaders(HttpUriRequest request) {
     request.setHeader("Accept", "application/json");
     request.setHeader("Content-Type", "application/json");
     request.setHeader("Authorization", "Basic " + getAuthString());

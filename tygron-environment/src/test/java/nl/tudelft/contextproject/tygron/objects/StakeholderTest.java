@@ -1,4 +1,4 @@
-package nl.tudelft.contextproject.tygron;
+package nl.tudelft.contextproject.tygron.objects;
 
 import static org.junit.Assert.assertEquals;
 import nl.tudelft.contextproject.democode.CachedFileReader;
