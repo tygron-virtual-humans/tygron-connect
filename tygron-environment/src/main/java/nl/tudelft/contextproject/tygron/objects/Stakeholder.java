@@ -79,4 +79,8 @@ public class Stakeholder {
   public Map<Integer, Double> getIndicatorWeights() {
     return indicatorWeights;
   }
+
+  public List<Integer> getAllowedFunctions() {
+    return allowedFunctions;
+  }
 }

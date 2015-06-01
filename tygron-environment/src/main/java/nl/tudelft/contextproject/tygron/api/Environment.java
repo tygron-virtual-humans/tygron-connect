@@ -1,24 +1,31 @@
 package nl.tudelft.contextproject.tygron.api;
 
-import java.util.HashMap;
-import java.util.Map;
+import com.esri.core.geometry.Polygon;
 
 import nl.tudelft.contextproject.tygron.handlers.BooleanResultHandler;
 import nl.tudelft.contextproject.tygron.handlers.JsonArrayResultHandler;
+import nl.tudelft.contextproject.tygron.handlers.JsonObjectResultHandler;
 import nl.tudelft.contextproject.tygron.handlers.StringResultHandler;
+import nl.tudelft.contextproject.tygron.objects.Building;
 import nl.tudelft.contextproject.tygron.objects.BuildingList;
 import nl.tudelft.contextproject.tygron.objects.EconomyList;
 import nl.tudelft.contextproject.tygron.objects.Function;
 import nl.tudelft.contextproject.tygron.objects.FunctionMap;
+import nl.tudelft.contextproject.tygron.objects.LandMap;
 import nl.tudelft.contextproject.tygron.objects.Stakeholder;
 import nl.tudelft.contextproject.tygron.objects.StakeholderList;
 import nl.tudelft.contextproject.tygron.objects.ZoneList;
 import nl.tudelft.contextproject.tygron.objects.indicators.IndicatorList;
+import nl.tudelft.contextproject.util.PolygonUtil;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Contains all data relative to the session.
@@ -27,6 +34,9 @@ import org.slf4j.LoggerFactory;
 public class Environment implements Runnable {
 
   private static final Logger logger = LoggerFactory.getLogger(Session.class);
+  
+  //The error margin for the amount of land
+  private final double errorMargin = 0.10;
 
   // Environment oriented
   private HttpConnection apiConnection;
@@ -39,6 +49,9 @@ public class Environment implements Runnable {
   private EconomyList economyList;
   private BuildingList buildingList;
   private FunctionMap functionMap;
+  private LandMap landMap;
+  
+  private int mapWidth;
 
   private Thread environmentThread;
 
@@ -84,6 +97,7 @@ public class Environment implements Runnable {
     loadEconomies();
     loadBuildings();
     loadFunctions();
+    loadLands();
   }
   /**
    * Load the stake holders into this session.
@@ -243,57 +257,200 @@ public class Environment implements Runnable {
   }
   
   /**
-   * Builds a project on a piece of land.
-   * @param stakeholder The stakeholder of the building project
-   * @param function The function to be used.
-   * @param floors The amount of floors for the building project.
-   * @param polygons The polygons describing the land.
+   * Loads all lands into this session.
+   * @return A map of the lands.
    */
-  public void build(Stakeholder stakeholder, Function function, int floors, String polygons) {
+  public LandMap loadLands() {
+    logger.debug("Loading lands");
+    JSONArray data = apiConnection.execute("lists/lands", 
+        CallType.GET, new JsonArrayResultHandler(), session);
+    this.landMap = new LandMap(data);
+    return this.landMap;
+  }
+  
+  /**
+   * Builds a project on a piece of land.
+   * @param stakeholder The stakeholder of the building project.
+   * @param surface The desired surface of the building.
+   * @return Whether the build request was sent or not.
+   */
+  public boolean build(Stakeholder stakeholder, int surface) {
     logger.debug("Building project started");
-    BuildRequest buildRequest = new BuildRequest(stakeholder, function, floors, polygons);
-    apiConnection.execute("event/PlayerEventType/BUILDING_PLAN_CONSTRUCTION/", 
-        CallType.POST, new StringResultHandler(), session, buildRequest);
+    Polygon availableLand = getAvailableLands(stakeholder);
+    
+    int minFloors = getMinFloors(availableLand, surface);
+    int maxFloors = getMaxFloors(stakeholder);
+    boolean enoughFloors = minFloors <= maxFloors;
+    if (!enoughFloors || minFloors >= surface) {
+      // It is not possible to create a building on less than one square meter of land. 
+      return false;
+    }
+    
+    int neededFloors = maxFloors;
+    if (minFloors <= maxFloors * 0.5) {
+      neededFloors = (int) Math.ceil(0.5 * maxFloors);
+    }
+    int neededSurface = surface / neededFloors;
+    
+    Function function = getFunction(stakeholder, neededFloors);
+    Polygon selectedLand = getSuitableLand(availableLand, neededSurface);
+    
+    if (selectedLand != null && enoughFloors) {
+      BuildRequest buildRequest = new BuildRequest(stakeholder, 
+          function, neededFloors, selectedLand);
+      apiConnection.execute("event/PlayerEventType/BUILDING_PLAN_CONSTRUCTION/", 
+          CallType.POST, new StringResultHandler(), session, buildRequest);
+      return true;
+    } else {
+      // Not enough available land
+      return false;
+    }
   }
   
   class BuildRequest extends JSONArray {
-    public BuildRequest(Stakeholder stakeholder, Function function, int floors, String polygons) {
+    public BuildRequest(Stakeholder stakeholder, Function function, int floors, Polygon polygon) {
       this.put(stakeholder.getId());
       this.put(function.getId());
       this.put(floors);
-      this.put(polygons);
+      this.put(PolygonUtil.toString(polygon));
     }
+  }
+  
+  /**
+   * Gets a piece of land from the available land with a certain surface.
+   * @param availableLand The available land.
+   * @param surface The desired surface of the land.
+   * @return A piece of land with a certain surface.
+   */
+  private Polygon getSuitableLand(Polygon availableLand, int surface) {
+    getMapWidth();
+    double margin = 0.5 * mapWidth;
+    double square = margin;
+    
+    Polygon selectedLand = PolygonUtil.polygonIntersection(createPolygon(square), availableLand);
+    while (withinMap(square) && !withinMargin(selectedLand, surface)) {
+      margin = 0.5 * margin;
+      if (selectedLand.calculateArea2D() < surface) {
+        square = square + margin;
+      } else {
+        square = square - margin;
+      }
+      selectedLand = PolygonUtil.polygonIntersection(createPolygon(square), availableLand);
+    }
+    if (withinMap(square)) {
+      return selectedLand;
+    }
+    return null;
+  }
+  
+  /**
+   * Gets the minimum amount of floors necessary to get the desires surface.
+   * @return The minimum amount of floors.
+   */
+  private int getMinFloors(Polygon selectedLand, int surface) {
+    return (int) Math.ceil(surface / selectedLand.calculateArea2D());
+  }
+  
+  /**
+   * Gets the maximum amount of floors possible in the stakeholder's functions.
+   * @return The minimum amount of floors.
+   */
+  private int getMaxFloors(Stakeholder stakeholder) {
+    loadFunctions();
+    List<Integer> functions = stakeholder.getAllowedFunctions();
+    int result = 0;
+    for (int functionId : functions) {
+      int maxFloors = functionMap.get(functionId).getMax_floors();
+      result = max(maxFloors, result);
+    }
+    return result;
+  }
+  
+  /**
+   * Gets a function that fits the requested amount of floors.
+   * @param stakeholder The stakeholder.
+   * @param floors The requested amount of floors.
+   * @return The function that fits the criteria.
+   */
+  private Function getFunction(Stakeholder stakeholder, int floors) {
+    loadFunctions();
+    List<Integer> functions = stakeholder.getAllowedFunctions();
+    for (Integer functionId : functions) {
+      Function function = functionMap.get(functionId);
+      if (floors <= function.getMax_floors() && floors >= function.getMin_floors()) {
+        return function;
+      }
+    }
+    return null;
+  }
+  
+  private boolean withinMap(double square) {
+    return square < mapWidth && square > 0;
+  }
+  
+  private boolean withinMargin(Polygon selectedLand, int surface) {
+    return selectedLand.calculateArea2D() < surface * (1 + errorMargin) 
+        && selectedLand.calculateArea2D() > surface * (1 - errorMargin);
+  }
+  
+  /**
+   * Creates a square polygon given the highest value of x and y.
+   * @param square The highest value.
+   * @return A square polygon.
+   */
+  private Polygon createPolygon(double square) {
+    StringBuilder builder = new StringBuilder();
+    builder.append("MULTIPOLYGON (((0 0, 0 ");
+    builder.append(square);
+    builder.append(", ");
+    builder.append(square); 
+    builder.append(" ");
+    builder.append(square);
+    builder.append(", ");
+    builder.append(square);
+    builder.append(" 0, 0 0)))");
+    
+    return PolygonUtil.createPolygonFromWkt(builder.toString());
   }
   
   /**
    * Buys a piece of land.
    * @param stakeholder The buyer.
-   * @param polygons The polygons describing the land.
+   * @param surface The desired surface of the land.
    * @param cost The amount of money per unit of land.
    */
-  public void buyLand(Stakeholder stakeholder, String polygons, int cost) {
+  public void buyLand(Stakeholder stakeholder, int surface, int cost) {
     logger.debug("Buying land");
-    BuyLandRequest buyLandRequest = new BuyLandRequest(stakeholder, polygons, cost);
+    BuyLandRequest buyLandRequest = new BuyLandRequest(stakeholder, new Polygon(), cost);
     apiConnection.execute("event/PlayerEventType/MAP_BUY_LAND/", 
         CallType.POST, new StringResultHandler(), session, buyLandRequest);
   }
   
   class BuyLandRequest extends JSONArray {
-    public BuyLandRequest(Stakeholder stakeholder, String polygons, int cost) {
+    public BuyLandRequest(Stakeholder stakeholder, Polygon polygons, int cost) {
       this.put(stakeholder.getId());
       this.put(polygons);
       this.put(cost);
     }
   }
 
+  private void getMapWidth() {
+    if (mapWidth == 0) {
+      mapWidth = apiConnection.execute("lists/settings/36/", 
+          CallType.GET, new JsonObjectResultHandler(), session).getInt("value");
+    }
+  }
+  
   /**
    * Select a stakeholder to play, can only be done once.
    * @param stakeholderId the stakeholder id to select.
    */
   public boolean setStakeholder(int stakeholderId) {
-    boolean retValue = apiConnection.execute("event/PlayerEventType/STAKEHOLDER_SELECT", CallType.POST, 
-        new BooleanResultHandler(), session, new StakeHolderSelectRequest(stakeholderId,session.getClientToken()));
-    logger.info("Setting stakeholder to #" + stakeholderId + ". Operation " + ((retValue) ? "succes!" : "failed!" ));
+    boolean retValue = apiConnection.execute("event/PlayerEventType/STAKEHOLDER_SELECT", 
+        CallType.POST, new BooleanResultHandler(), session, 
+        new StakeHolderSelectRequest(stakeholderId,session.getClientToken()));
+    logger.info("Setting stakeholder to #" + stakeholderId + ". Operation " 
+        + ((retValue) ? "succes!" : "failed!" ));
     return retValue;
   }
   
@@ -302,6 +459,30 @@ public class Environment implements Runnable {
       this.put(stakeholderId);
       this.put(sessionToken);
     }
+  }
+  
+  /**
+   * Get all of the stakeholder's land that is free from buildings.
+   * @param stakeholder The stakeholder.
+   * @return The stakeholder's free land.
+   */
+  private Polygon getAvailableLands(Stakeholder stakeholder) {
+    Polygon result = new Polygon();
+    for (Integer landId : stakeholder.getOwnedLands()) {
+      Polygon land = loadLands().get(landId).getPolygon();
+      for (Building building : loadBuildings()) {
+        land = PolygonUtil.polygonDifference(land, building.getPolygon());
+      }
+      result = PolygonUtil.polygonUnion(result, land);
+    }
+    return result;
+  }
+  
+  private int max(int i1, int i2) {
+    if (i1 > i2) {
+      return i1;
+    }
+    return i2;
   }
 }
 
