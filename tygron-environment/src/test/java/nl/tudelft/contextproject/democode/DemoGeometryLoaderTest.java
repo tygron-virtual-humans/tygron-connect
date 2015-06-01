@@ -12,7 +12,7 @@ import org.junit.Test;
 
 public class DemoGeometryLoaderTest {
   @Test
-  public void notcontain_test() {
+  public void containsFalseTest() {
     String container = "MULTIPOLYGON (((665.733 -329.601, -244.292 -23.896, "
         + "77.336 933.526, 987.36 627.82, 665.733 -329.601)))";
     String containee = "MULTIPOLYGON (((1000 1000 , 1000 -1000, -1000 -1000, "
@@ -28,7 +28,7 @@ public class DemoGeometryLoaderTest {
   }
 
   @Test
-  public void contain_test() {
+  public void containsTrueTest() {
     String container = "MULTIPOLYGON (((665.733 -329.601, -244.292 -23.896, "
         + "77.336 933.526, 987.36 627.82, 665.733 -329.601)))";
     String containee = "MULTIPOLYGON (((665.733 -329.601, -244.292 -23.896, "

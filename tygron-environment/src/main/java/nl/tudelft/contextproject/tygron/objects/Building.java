@@ -65,12 +65,4 @@ public class Building {
   public int getFloors() {
     return floors;
   }
-  
-  @Override
-  public String toString() {
-    JSONObject str = new JSONObject();
-    str.put("id", this.id);
-    str.put("name", this.name);
-    return str.toString();
-  }
 }

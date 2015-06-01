@@ -44,15 +44,4 @@ public class Function {
   public String getName() {
     return name;
   }
-  
-  @Override
-  public String toString() {
-    JSONObject str = new JSONObject();
-    str.put("id", this.id);
-    str.put("name", this.name);
-    str.put("MAX_FLOORS", this.maxFloors);
-    str.put("MIN_FLOORS", this.minFloors);
-      
-    return str.toString();
-  }
 }
