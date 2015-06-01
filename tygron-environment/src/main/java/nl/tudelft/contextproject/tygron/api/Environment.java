@@ -278,7 +278,7 @@ public class Environment implements Runnable {
    */
   public boolean build(Stakeholder stakeholder, int surface) {
     logger.debug("Building project started");
-    Polygon availableLand = getAvailableLands(stakeholder);
+    Polygon availableLand = getAvailableLand(stakeholder);
     
     int minFloors = getMinFloors(availableLand, surface);
     int maxFloors = getMaxFloors(stakeholder);
@@ -467,16 +467,22 @@ public class Environment implements Runnable {
    * @param stakeholder The stakeholder.
    * @return The stakeholder's free land.
    */
-  private Polygon getAvailableLands(Stakeholder stakeholder) {
+  private Polygon getAvailableLand(Stakeholder stakeholder) {
     Polygon result = new Polygon();
     for (Integer landId : stakeholder.getOwnedLands()) {
       Polygon land = loadLands().get(landId).getPolygon();
       for (Building building : loadBuildings()) {
-        land = PolygonUtil.polygonDifference(land, building.getPolygon());
+        if (!demolished(building)) {
+          land = PolygonUtil.polygonDifference(land, building.getPolygon());
+        }
       }
       result = PolygonUtil.polygonUnion(result, land);
     }
     return result;
+  }
+  
+  private boolean demolished(Building building) {
+    return building.getState().matches("(.*)DEMOLISH(.*)") || building.getState().equals("NOTHING");
   }
   
   private int max(int i1, int i2) {

@@ -56,7 +56,7 @@ public class DemoBuilding {
       }
     }
 
-    System.out.println("Building done: " + environment.build(selectedStakeholder, 50));
+    System.out.println("Building done: " + environment.build(selectedStakeholder, 500));
 
   }
 }
