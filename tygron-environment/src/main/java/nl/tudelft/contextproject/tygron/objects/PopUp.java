@@ -15,7 +15,7 @@ import java.util.List;
 
 public class PopUp {
   private static final Logger logger = LoggerFactory.getLogger(PopUp.class);
-  
+
   private enum TypeValue {
     INTERACTION, INFORMATION
   }

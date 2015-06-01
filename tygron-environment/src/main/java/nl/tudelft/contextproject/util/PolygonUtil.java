@@ -6,6 +6,10 @@ import com.esri.core.geometry.OperatorDifference;
 import com.esri.core.geometry.OperatorEquals;
 import com.esri.core.geometry.OperatorExportToWkt;
 import com.esri.core.geometry.OperatorImportFromWkt;
+import com.esri.core.geometry.OperatorIntersection;
+import com.esri.core.geometry.OperatorIntersects;
+import com.esri.core.geometry.OperatorOverlaps;
+import com.esri.core.geometry.OperatorUnion;
 import com.esri.core.geometry.Polygon;
 import com.esri.core.geometry.SpatialReference;
 import com.esri.core.geometry.WktImportFlags;
@@ -60,6 +64,29 @@ public class PolygonUtil {
     SpatialReference sr = SpatialReference.create(1);
     return (Polygon) OperatorDifference.local().execute(polygon1, polygon2, sr, null);
   }
+  
+  /**
+   * Returns the intersection of polygon1 and polygon2.
+   * @param polygon1 Input polygon.
+   * @param polygon2 Input polygon.
+   * @return Intersection of polygon1 and polygon2.
+   */
+  public static Polygon polygonIntersection(Polygon polygon1, Polygon polygon2) {
+    SpatialReference sr = SpatialReference.create(1);
+    return (Polygon) OperatorIntersection.local().execute(polygon1, polygon2, sr, null);
+  }
+  
+  /**
+   * Returns the union of polygon1 and polygon2.
+   * @param polygon1 Input polygon.
+   * @param polygon2 Input polygon.
+   * @return Union of polygon1 and polygon2.
+   */
+  public static Polygon polygonUnion(Polygon polygon1, Polygon polygon2) {
+    SpatialReference sr = SpatialReference.create(1);
+    return (Polygon) OperatorUnion.local().execute(polygon1, polygon2, sr, null);
+  }
+  
   /**
    * Returns if the polygons are equal.
    * @param polygon1 Comparing polygon1.
