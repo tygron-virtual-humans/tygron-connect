@@ -120,34 +120,6 @@ public class EconomyTest {
     }
 
     @Test
-    public void getCategoryFloorM2sTest() {
-      String ar = "[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0"
-          + ", 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]";
-      assertTrue(ar.equals(zoneList.get(0).getCategoryFloorM2s().toString()));
-    }
-
-    @Test
-    public void getCategoryM2sTest() {
-      String ar = "[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0"
-          + ", 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]";
-      assertTrue(ar.equals(zoneList.get(0).getCategoryM2s().toString()));
-    }
-
-    @Test
-    public void getCategoryFloorMaquettteTest() {
-      String ar = "[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0"
-          + ", 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]";
-      assertTrue(ar.equals(zoneList.get(0).getCategoryFloorM2sMaquette().toString()));
-    }
-
-    @Test
-    public void getCategoryM2sMaquetteTest() {
-      String ar = "[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0"
-          + ", 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]";
-      assertTrue(ar.equals(zoneList.get(0).getCategoryM2sMaquette().toString()));
-    }
-
-    @Test
     public void getDetailsTest() {
       String ar = "[[1142.8457545049998, 4069.5895371893384, 3.154208828218336E8"
           + ", 3.6613757822604495E8, 3.3658121291559994E8, 3.347581316114003E8"
@@ -163,11 +135,6 @@ public class EconomyTest {
     @Test
     public void getCategoryVersionTest() {
       assertEquals(4, zoneList.get(0).getCategoryVersion());
-    }
-
-    @Test
-    public void getCategoryMaquetteTest() {
-      assertEquals(4,zoneList.get(0).getCategoryVersionMaquette());
     }
   }
 }
