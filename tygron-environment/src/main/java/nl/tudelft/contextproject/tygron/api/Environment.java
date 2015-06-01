@@ -23,9 +23,11 @@ import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 /**
  * Contains all data relative to the session.
@@ -286,13 +288,17 @@ public class Environment implements Runnable {
       return false;
     }
     
-    int neededFloors = maxFloors;
-    if (minFloors <= maxFloors * 0.5) {
-      neededFloors = (int) Math.ceil(0.5 * maxFloors);
+    Function function = getFunction(stakeholder, minFloors);
+    
+    // Select a random amount of floors
+    int neededFloors = minFloors;
+    if (minFloors != function.getMax_floors()) {
+      Random random = new Random();
+      neededFloors = random.nextInt(function.getMax_floors() - minFloors) + minFloors;
     }
+    
     int neededSurface = surface / neededFloors;
     
-    Function function = getFunction(stakeholder, neededFloors);
     Polygon selectedLand = getSuitableLand(availableLand, neededSurface);
     
     if (selectedLand != null && enoughFloors) {
@@ -324,23 +330,38 @@ public class Environment implements Runnable {
    */
   private Polygon getSuitableLand(Polygon availableLand, int surface) {
     getMapWidth();
-    double margin = 0.5 * mapWidth;
-    double square = margin;
+    Random random = new Random();
+    Polygon selectedLand;
+    Polygon intersection;
     
-    Polygon selectedLand = PolygonUtil.polygonIntersection(createPolygon(square), availableLand);
-    while (withinMap(square) && !withinMargin(selectedLand, surface)) {
-      margin = 0.5 * margin;
-      if (selectedLand.calculateArea2D() < surface) {
-        square = square + margin;
+    double x1;
+    double y1;
+    double x2;
+    double y2;
+    // Select a random rectangle in the map and get the part of land that is available.
+    do {
+      x1 = random.nextDouble() * mapWidth;
+      y1 = random.nextDouble() * mapWidth;
+      x2 = random.nextDouble() * mapWidth;
+      y2 = random.nextDouble() * mapWidth;
+      selectedLand = PolygonUtil.makeRectangle(x1, y1, x2, y2);
+      intersection = PolygonUtil.polygonIntersection(selectedLand, availableLand);
+    } while (intersection.calculateArea2D() < surface);
+    
+    while (!withinMargin(intersection, surface) && intersection.calculateArea2D() != 0) {
+      // Reduce the land to a square as much as possible
+      if (Math.abs(x1 - x2) > Math.abs(y1 - y2)) {
+        x1 = x2 > x1 ? x1 + 0.5 : x1 - 0.5;
       } else {
-        square = square - margin;
+        y1 = y2 > y1 ? y1 + 0.5 : y1 - 0.5;
       }
-      selectedLand = PolygonUtil.polygonIntersection(createPolygon(square), availableLand);
+      selectedLand = PolygonUtil.makeRectangle(x1, y1, x2, y2);
+      intersection = PolygonUtil.polygonIntersection(selectedLand, availableLand);
     }
-    if (withinMap(square)) {
-      return selectedLand;
-    }
-    return null;
+
+    // If the selected land is empty, try again
+    return intersection.calculateArea2D() != 0 ? intersection :
+      getSuitableLand(availableLand, surface);
   }
   
   /**
@@ -375,42 +396,22 @@ public class Environment implements Runnable {
   private Function getFunction(Stakeholder stakeholder, int floors) {
     loadFunctions();
     List<Integer> functions = stakeholder.getAllowedFunctions();
+    List<Function> functionList = new ArrayList<Function>();
     for (Integer functionId : functions) {
       Function function = functionMap.get(functionId);
       if (floors <= function.getMax_floors() && floors >= function.getMin_floors()) {
-        return function;
+        functionList.add(function);
       }
     }
-    return null;
-  }
-  
-  private boolean withinMap(double square) {
-    return square < mapWidth && square > 0;
+    
+    // Pick a random function
+    Random random = new Random();
+    return functionList.get(random.nextInt(functionList.size()));
   }
   
   private boolean withinMargin(Polygon selectedLand, int surface) {
     return selectedLand.calculateArea2D() < surface * (1 + errorMargin) 
         && selectedLand.calculateArea2D() > surface * (1 - errorMargin);
-  }
-  
-  /**
-   * Creates a square polygon given the highest value of x and y.
-   * @param square The highest value.
-   * @return A square polygon.
-   */
-  private Polygon createPolygon(double square) {
-    StringBuilder builder = new StringBuilder();
-    builder.append("MULTIPOLYGON (((0 0, 0 ");
-    builder.append(square);
-    builder.append(", ");
-    builder.append(square); 
-    builder.append(" ");
-    builder.append(square);
-    builder.append(", ");
-    builder.append(square);
-    builder.append(" 0, 0 0)))");
-    
-    return PolygonUtil.createPolygonFromWkt(builder.toString());
   }
   
   /**

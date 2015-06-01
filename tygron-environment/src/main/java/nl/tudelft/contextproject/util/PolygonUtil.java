@@ -7,16 +7,10 @@ import com.esri.core.geometry.OperatorEquals;
 import com.esri.core.geometry.OperatorExportToWkt;
 import com.esri.core.geometry.OperatorImportFromWkt;
 import com.esri.core.geometry.OperatorIntersection;
-import com.esri.core.geometry.OperatorIntersects;
-import com.esri.core.geometry.OperatorOverlaps;
 import com.esri.core.geometry.OperatorUnion;
 import com.esri.core.geometry.Polygon;
 import com.esri.core.geometry.SpatialReference;
 import com.esri.core.geometry.WktImportFlags;
-
-import org.codehaus.jackson.JsonParseException;
-
-import java.io.IOException;
 
 public class PolygonUtil {
 
@@ -96,6 +90,42 @@ public class PolygonUtil {
   public static boolean polygonEquals(Polygon polygon1, Polygon polygon2) {
     SpatialReference sr = SpatialReference.create(1);
     return OperatorEquals.local().execute(polygon1, polygon2, sr, null);
+  }
+  
+  /**
+   * Creates a rectangle shaped polygon from the given coordinates 
+   *     which represent the two opposite corners.
+   *     
+   * @param x1 X coordinate of the first corner.
+   * @param y1 Y coordinate of the first corner.
+   * @param x2 X coordinate of the second corner.
+   * @param y2 Y coordinate of the second corner.
+   * @return Rectangle shaped polygon.
+   */
+  public static Polygon makeRectangle(double x1, double y1, double x2, double y2) {
+    StringBuilder builder = new StringBuilder();
+    builder.append("MULTIPOLYGON (((");
+    builder.append(x1);
+    builder.append(" ");
+    builder.append(y1);
+    builder.append(", ");
+    builder.append(x1);
+    builder.append(" ");
+    builder.append(y2);
+    builder.append(", ");
+    builder.append(x2);
+    builder.append(" ");
+    builder.append(y2);
+    builder.append(", ");
+    builder.append(x2);
+    builder.append(" ");
+    builder.append(y1);
+    builder.append(", ");
+    builder.append(x1);
+    builder.append(" ");
+    builder.append(y1);
+    builder.append(")))");
+    return createPolygonFromWkt(builder.toString());
   }
   
   public static String toString(Polygon polygon) {

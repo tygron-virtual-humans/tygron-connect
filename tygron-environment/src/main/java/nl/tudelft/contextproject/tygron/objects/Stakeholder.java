@@ -13,6 +13,7 @@ public class Stakeholder {
   private String name;
   private String shortName;
   private String description;
+  private String type;
   
   private List<Integer> ownedLands;
   private List<Integer> allowedFunctions;
@@ -29,6 +30,7 @@ public class Stakeholder {
     name = input.getString("name");
     shortName = input.getString("shortName");
     description = input.getString("description");
+    type = input.getString("type");
     
     indicatorWeights = new HashMap<Integer, Double>();
     JSONArray currentIndicatorWeights = input.getJSONArray("currentIndicatorWeights");
@@ -70,6 +72,10 @@ public class Stakeholder {
 
   public String getDescription() {
     return description;
+  }
+  
+  public String getType() {
+    return type;
   }
 
   public List<Integer> getOwnedLands() {
