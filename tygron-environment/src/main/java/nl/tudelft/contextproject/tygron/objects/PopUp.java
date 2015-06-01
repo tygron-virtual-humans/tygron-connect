@@ -9,11 +9,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PopUp {
-  
+
   private enum TypeValue {
     INTERACTION, INFORMATION
   }
-  
+
   private int id;
   private int version;
   private List<Integer> visibleForActorIds;
@@ -23,28 +23,28 @@ public class PopUp {
   private String polygons;
   private String linkType;
   private String point;
-  
+
   private TypeValue type;
   private EventValue event;
   private int cost; // can be null
   private int surface; // can be null
-  
+
   /**
    * Creates a popup object.
    * @param object The JSONObject to be read.
    */
   public PopUp(JSONObject object) {
     JSONObject popUp = object.getJSONObject("PopupData");
-    
+
     id = popUp.getInt("id");
     version = popUp.getInt("version");
-    
+
     visibleForActorIds = new ArrayList<Integer>();
     JSONArray array = popUp.getJSONArray("visibleForActorIDs");
     for (int i = 0; i < array.length(); i++) {
       visibleForActorIds.add(array.getInt(i));
     }
-    
+
     String tempTitle = popUp.getString("title");
     title = "NO TITLE SET".equals(tempTitle) ? null : tempTitle;
     text = popUp.getString("text");
@@ -54,15 +54,15 @@ public class PopUp {
     type = TypeValue.valueOf(popUp.getString("type"));
     point = popUp.getString("point");
   }
-  
+
   public void setEvent(EventValue event) {
     this.event = event;
   }
-  
+
   public void setCost(int cost) {
     this.cost = cost;
   }
-  
+
   public void setSurface(int surface) {
     this.surface = surface;
   }
@@ -106,25 +106,17 @@ public class PopUp {
   public String getPoint() {
     return point;
   }
-  
+
   public EventValue getEvent() {
     return event;
   }
-  
+
   public int getCost() {
     return cost;
   }
-  
+
   public int getSurface() {
     return surface;
   }
-  
-  @Override
-  public String toString() {
-    JSONObject str = new JSONObject();
-    str.put("id", this.id);
-    str.put("event", this.event);
-    str.put("text", this.text);
-    return str.toString();
-  }
 }
+

@@ -33,14 +33,4 @@ public class Economy {
   public String getState() {
     return state;
   }
-  
-  @Override
-  public String toString() {
-    JSONObject str = new JSONObject();
-    str.put("id", this.id);
-    str.put("category", this.category);
-    str.put("state", this.state);
-    
-    return str.toString();
-  }  
 }
