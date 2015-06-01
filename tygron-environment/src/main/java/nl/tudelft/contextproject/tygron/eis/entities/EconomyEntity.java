@@ -12,7 +12,7 @@ public class EconomyEntity {
   
   /**
    * Creates an Indicator Entity.
-   * @param indicatorList the list with indicators
+   * @param economyList the list with indicators
    */
   public EconomyEntity(EconomyList economyList) {
     this.economyList = economyList;

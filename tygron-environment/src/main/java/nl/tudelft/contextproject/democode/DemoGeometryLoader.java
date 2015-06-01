@@ -64,10 +64,6 @@ public class DemoGeometryLoader {
    *          A string in the Well-known text format containing polygon
    *          information.
    * @return Polygon created from the wkt data.
-   * @throws JsonParseException
-   *           Exception thrown if JSON is not in right format.
-   * @throws IOException
-   *           Exception thrown if other IOException is encountered.
    */
   public static Polygon createPolygonFromWkt(String wktString) {
     Geometry geom;
