@@ -2,10 +2,10 @@ environment{
 	env = "tygron_environment-1.0-SNAPSHOT-jar-with-dependencies.jar".
 	init = [
 		%stakeholder is mandatory, as is the map, if slot is not set it will result in a random slot.
-		% Stakeholder, 0 is muncipianity, 1 is the housing corporation, 2 is company
-		stakeholder = 2,
-		map = "testmap",
-		slot = 12
+		% Stakeholder, 0 is municipality, 1 is the housing corporation, 2 is company
+		stakeholder = -1,
+		map = "FilInMapNameHere",
+		slot = -1
 	].
 }
 agentfiles{

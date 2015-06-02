@@ -57,6 +57,8 @@ public class Environment implements Runnable {
 
   private Thread environmentThread;
 
+  private int stakeholderId;
+
   public Environment(HttpConnection localApiConnection, Session session) {
     apiConnection = localApiConnection;
     this.session = session;
@@ -272,11 +274,11 @@ public class Environment implements Runnable {
   
   /**
    * Builds a project on a piece of land.
-   * @param stakeholder The stakeholder of the building project.
    * @param surface The desired surface of the building.
    * @return Whether the build request was sent or not.
    */
-  public boolean build(Stakeholder stakeholder, double surface) {
+  public boolean build(double surface) {
+    Stakeholder stakeholder = getStakeHolders().get(stakeholderId);
     logger.debug("Building project started");
     Polygon availableLand = getAvailableLand(stakeholder);
     double availableSurface = availableLand.calculateArea2D();
@@ -458,6 +460,7 @@ public class Environment implements Runnable {
    * @param stakeholderId the stakeholder id to select.
    */
   public boolean setStakeholder(int stakeholderId) {
+    this.stakeholderId = stakeholderId;
     boolean retValue = apiConnection.execute("event/PlayerEventType/STAKEHOLDER_SELECT", 
         CallType.POST, new BooleanResultHandler(), session, 
         new StakeHolderSelectRequest(stakeholderId,session.getClientToken()));

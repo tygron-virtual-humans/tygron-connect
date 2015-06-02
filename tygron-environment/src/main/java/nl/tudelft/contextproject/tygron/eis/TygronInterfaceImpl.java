@@ -14,6 +14,7 @@ import nl.tudelft.contextproject.tygron.eis.entities.Controller;
 import nl.tudelft.contextproject.tygron.eis.translators.ConfigurationTranslator;
 import nl.tudelft.contextproject.tygron.eis.translators.HashMapTranslator;
 import nl.tudelft.contextproject.tygron.eis.translators.ParamEnumTranslator;
+
 import eis.eis2java.environment.AbstractEnvironment;
 import eis.eis2java.exception.TranslationException;
 import eis.eis2java.translation.Translator;
@@ -48,7 +49,7 @@ public class TygronInterfaceImpl extends AbstractEnvironment {
    */
   @Override
   protected boolean isSupportedByEnvironment(Action action) {
-    return false;
+    return (action.getName().equals("build") && action.getParameters().size() == 1);
   }
 
   /* (non-Javadoc)
@@ -56,7 +57,7 @@ public class TygronInterfaceImpl extends AbstractEnvironment {
    */
   @Override
   protected boolean isSupportedByType(Action action, String type) {
-    return false;
+    return isSupportedByEnvironment(action);
   }
 
   /* (non-Javadoc)
