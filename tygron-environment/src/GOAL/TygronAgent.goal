@@ -3,17 +3,24 @@ init module {
 		
 	}
 	beliefs {
-		
+		val(0).
 	}
 	program {
 		forall bel(percept(stakeholder(A,B,C))) do insert (stakeholder(A,B,C)).
 		forall bel(percept(initIndicator(A,B,C))) do insert (initIndicator(A,B,C)).
 	}
+	actionspec {
+		build(Surface) {
+			pre {true}
+			post {true}
+		}
+	}
 }
 
 main module {
 	program {
-		
+		if bel(val(X1), X1 > 25) then build(5000) + delete(val(X1)) + insert(val(0)).
+		if bel(val(X1), X2 is X1 + 1) then insert(val(X2)) + delete(val(X1)).
 	}
 }
 

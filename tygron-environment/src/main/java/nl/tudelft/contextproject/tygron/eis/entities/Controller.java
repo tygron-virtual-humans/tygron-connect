@@ -3,6 +3,7 @@ package nl.tudelft.contextproject.tygron.eis.entities;
 import nl.tudelft.contextproject.tygron.api.Environment;
 import nl.tudelft.contextproject.tygron.eis.TygronPercept;
 
+import eis.eis2java.annotation.AsAction;
 import eis.eis2java.annotation.AsPercept;
 import eis.eis2java.translation.Filter;
 
@@ -12,6 +13,7 @@ public class Controller {
   private IndicatorEntity indicators;
   private StakeholderEntity stakeholders;
   private EconomyEntity economies;
+  private Environment env;
 
   /**
    * Controller constructor.
@@ -23,6 +25,7 @@ public class Controller {
     indicators = new IndicatorEntity(controller.loadIndicators());
     stakeholders = new StakeholderEntity(controller.loadStakeHolders());
     economies = new EconomyEntity(controller.loadEconomies());
+    env = controller;
   }
 
   /**
@@ -63,6 +66,11 @@ public class Controller {
   @AsPercept(name = "economy", multiplePercepts = true, multipleArguments = true, filter = Filter.Type.ON_CHANGE)
   public List<TygronPercept> economies() {
     return economies.economies();
+  }
+  
+  @AsAction(name = "build")
+  public void build(int surface){
+    env.build(surface);
   }
 
 }

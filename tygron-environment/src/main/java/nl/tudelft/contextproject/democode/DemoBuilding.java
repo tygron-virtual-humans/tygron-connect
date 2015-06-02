@@ -7,8 +7,6 @@ import nl.tudelft.contextproject.tygron.api.HttpConnection;
 import nl.tudelft.contextproject.tygron.api.Session;
 import nl.tudelft.contextproject.tygron.api.SessionManager;
 import nl.tudelft.contextproject.tygron.handlers.JsonObjectResultHandler;
-import nl.tudelft.contextproject.tygron.objects.Stakeholder;
-import nl.tudelft.contextproject.tygron.objects.StakeholderList;
 
 import org.json.JSONArray;
 import org.slf4j.Logger;
@@ -27,7 +25,7 @@ public class DemoBuilding {
    * @throws IOException Exception from FileWriter.
    */
   public static void main(String[]  args) throws IOException {
-
+ 
     Connector connector = new Connector();
 
     // Get a session
@@ -49,18 +47,9 @@ public class DemoBuilding {
         session, param);
   
     Environment environment = session.getEnvironment();
-    environment.setStakeholder(2);
-
-    // Get housing corporation
-    StakeholderList stakeholderList = environment.loadStakeHolders();
-    Stakeholder selectedStakeholder = null;
-    for (Stakeholder stakeholder : stakeholderList) {
-      if (stakeholder.getType().equals("HOUSING_CORPORATION")) {
-        selectedStakeholder = stakeholder;
-      }
-    }
+    environment.setStakeholder(0);
     
-    logger.info("Building done: " + environment.build(selectedStakeholder, 50));
+    //logger.info("Building done: " + environment.build(50));
 
   }
 }

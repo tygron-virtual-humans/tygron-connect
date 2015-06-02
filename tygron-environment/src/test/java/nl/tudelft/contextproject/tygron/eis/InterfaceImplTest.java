@@ -1,8 +1,8 @@
 package nl.tudelft.contextproject.tygron.eis;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.when;
@@ -95,12 +95,12 @@ public class InterfaceImplTest {
   public void test_environmentSupport() {
     assertNotNull(envinterface);
     Action action = new Action("testAction");
-    assertFalse(envinterface.isSupportedByEnvironment(action));
+    assertTrue(envinterface.isSupportedByEnvironment(action));
   }
 
   @Test
   public void testTypeSupport() {
     Action action = new Action("testAction");
-    assertFalse(envinterface.isSupportedByType(action, "testType"));
+    assertTrue(envinterface.isSupportedByType(action, "testType"));
   }
 }
