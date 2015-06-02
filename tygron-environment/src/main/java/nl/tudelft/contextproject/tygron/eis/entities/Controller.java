@@ -69,8 +69,8 @@ public class Controller {
   }
   
   @AsAction(name = "build")
-  public void build(int surface){
-    env.build(surface);
+  public void build(int surface, int type){
+    env.build(surface, type);
   }
 
 }
