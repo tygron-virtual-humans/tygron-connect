@@ -276,15 +276,16 @@ public class Environment implements Runnable {
    * @param surface The desired surface of the building.
    * @return Whether the build request was sent or not.
    */
-  public boolean build(Stakeholder stakeholder, int surface) {
+  public boolean build(Stakeholder stakeholder, double surface) {
     logger.debug("Building project started");
     Polygon availableLand = getAvailableLand(stakeholder);
+    double availableSurface = availableLand.calculateArea2D();
     
     int minFloors = getMinFloors(availableLand, surface);
     int maxFloors = getMaxFloors(stakeholder);
     boolean enoughFloors = minFloors <= maxFloors;
-    if (!enoughFloors || minFloors >= surface) {
-      // It is not possible to create a building on less than one square meter of land. 
+    if (!enoughFloors) {
+      logger.info("Not enough land for building");
       return false;
     }
     
@@ -296,19 +297,29 @@ public class Environment implements Runnable {
       Random random = new Random();
       neededFloors = random.nextInt(function.getMax_floors() - minFloors) + minFloors;
     }
+    double neededSurface = surface / neededFloors;
     
-    int neededSurface = surface / neededFloors;
+    Polygon selectedLand;
+    if (withinMargin(availableLand, neededSurface)) {
+      // If the available land is already the required size, select all of it
+      selectedLand = availableLand;
+    } else if (availableSurface < 5) {
+      // The available land is small, so fill it entirely
+      selectedLand = availableLand;
+      neededFloors = (int) Math.ceil(surface / availableSurface);
+    } else {
+      // Otherwise, take a random piece of land
+      selectedLand = getSuitableLand(availableLand, neededSurface);
+    }
     
-    Polygon selectedLand = getSuitableLand(availableLand, neededSurface);
-    
-    if (selectedLand != null && enoughFloors) {
+    if (selectedLand != null) {
       BuildRequest buildRequest = new BuildRequest(stakeholder, 
           function, neededFloors, selectedLand);
       apiConnection.execute("event/PlayerEventType/BUILDING_PLAN_CONSTRUCTION/", 
           CallType.POST, new StringResultHandler(), session, buildRequest);
       return true;
     } else {
-      // Not enough available land
+      logger.info("Not enough land for building");
       return false;
     }
   }
@@ -328,7 +339,7 @@ public class Environment implements Runnable {
    * @param surface The desired surface of the land.
    * @return A piece of land with a certain surface.
    */
-  private Polygon getSuitableLand(Polygon availableLand, int surface) {
+  private Polygon getSuitableLand(Polygon availableLand, double surface) {
     getMapWidth();
     Random random = new Random();
     Polygon selectedLand;
@@ -368,7 +379,7 @@ public class Environment implements Runnable {
    * Gets the minimum amount of floors necessary to get the desires surface.
    * @return The minimum amount of floors.
    */
-  private int getMinFloors(Polygon selectedLand, int surface) {
+  private int getMinFloors(Polygon selectedLand, double surface) {
     return (int) Math.ceil(surface / selectedLand.calculateArea2D());
   }
   
@@ -409,7 +420,7 @@ public class Environment implements Runnable {
     return functionList.get(random.nextInt(functionList.size()));
   }
   
-  private boolean withinMargin(Polygon selectedLand, int surface) {
+  private boolean withinMargin(Polygon selectedLand, double surface) {
     return selectedLand.calculateArea2D() < surface * (1 + errorMargin) 
         && selectedLand.calculateArea2D() > surface * (1 - errorMargin);
   }
@@ -420,7 +431,7 @@ public class Environment implements Runnable {
    * @param surface The desired surface of the land.
    * @param cost The amount of money per unit of land.
    */
-  public void buyLand(Stakeholder stakeholder, int surface, int cost) {
+  public void buyLand(Stakeholder stakeholder, double surface, int cost) {
     logger.debug("Buying land");
     BuyLandRequest buyLandRequest = new BuyLandRequest(stakeholder, new Polygon(), cost);
     apiConnection.execute("event/PlayerEventType/MAP_BUY_LAND/", 

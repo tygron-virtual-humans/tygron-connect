@@ -11,12 +11,16 @@ import nl.tudelft.contextproject.tygron.objects.Stakeholder;
 import nl.tudelft.contextproject.tygron.objects.StakeholderList;
 
 import org.json.JSONArray;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.FileWriter;
 import java.io.IOException;
 
 public class DemoBuilding {
 
+  private static final Logger logger = LoggerFactory.getLogger(DemoBuilding.class);
+  
   /**
    * Main method illustrated how to build.
    * @param args Not used.
@@ -55,8 +59,8 @@ public class DemoBuilding {
         selectedStakeholder = stakeholder;
       }
     }
-
-    System.out.println("Building done: " + environment.build(selectedStakeholder, 500));
+    
+    logger.info("Building done: " + environment.build(selectedStakeholder, 50));
 
   }
 }
