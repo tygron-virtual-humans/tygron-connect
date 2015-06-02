@@ -3,9 +3,9 @@ environment{
 	init = [
 		%stakeholder is mandatory, as is the map, if slot is not set it will result in a random slot.
 		% Stakeholder, 0 is muncipianity, 1 is the housing corporation, 2 is company
-		stakeholder = 2,
-		map = "example2",
-		slot = 13
+		stakeholder = -1,
+		map = "FilInMapNameHere",
+		slot = -1
 	].
 }
 agentfiles{
