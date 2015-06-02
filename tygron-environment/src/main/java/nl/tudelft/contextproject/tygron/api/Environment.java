@@ -483,9 +483,11 @@ public class Environment implements Runnable {
    */
   private Polygon getAvailableLand(Stakeholder stakeholder) {
     Polygon result = new Polygon();
+    BuildingList buildingList = loadBuildings();
+    LandMap landMap = loadLands();
     for (Integer landId : stakeholder.getOwnedLands()) {
-      Polygon land = loadLands().get(landId).getPolygon();
-      for (Building building : loadBuildings()) {
+      Polygon land = landMap.get(landId).getPolygon();
+      for (Building building : buildingList) {
         if (!demolished(building)) {
           land = PolygonUtil.polygonDifference(land, building.getPolygon());
         }
