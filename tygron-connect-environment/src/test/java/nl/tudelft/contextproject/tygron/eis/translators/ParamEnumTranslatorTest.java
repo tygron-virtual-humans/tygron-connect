@@ -7,7 +7,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import eis.eis2java.exception.TranslationException;
-import eis.exceptions.ManagementException;
 import eis.iilang.Identifier;
 import eis.iilang.Numeral;
 import eis.iilang.Parameter;

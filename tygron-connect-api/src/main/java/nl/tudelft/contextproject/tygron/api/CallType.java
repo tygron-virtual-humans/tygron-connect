@@ -1,13 +1,11 @@
 package nl.tudelft.contextproject.tygron.api;
 
+import java.io.UnsupportedEncodingException;
+
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.entity.StringEntity;
-import org.json.JSONArray;
-import org.json.JSONObject;
-
-import java.io.UnsupportedEncodingException;
 
 public enum CallType {
   GET, POST;

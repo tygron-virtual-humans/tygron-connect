@@ -1,22 +1,5 @@
 package nl.tudelft.contextproject.tygron.api;
 
-import nl.tudelft.contextproject.tygron.Settings;
-import nl.tudelft.contextproject.tygron.handlers.JsonObjectResultHandler;
-import nl.tudelft.contextproject.tygron.handlers.StringResultHandler;
-import org.apache.http.HttpRequest;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpUriRequest;
-import org.apache.http.impl.client.BasicResponseHandler;
-import org.apache.http.message.BasicStatusLine;
-import org.json.JSONArray;
-import org.json.JSONObject;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
-
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
@@ -24,6 +7,21 @@ import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.atLeast;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import nl.tudelft.contextproject.tygron.Settings;
+import nl.tudelft.contextproject.tygron.handlers.JsonObjectResultHandler;
+import nl.tudelft.contextproject.tygron.handlers.StringResultHandler;
+
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpUriRequest;
+import org.apache.http.impl.client.BasicResponseHandler;
+import org.json.JSONArray;
+import org.json.JSONObject;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
 public class HttpConnectionTest {
@@ -76,7 +74,7 @@ public class HttpConnectionTest {
 
     @Test
     public void testAuthString() {
-        String result = connection.getAuthString();
+        connection.getAuthString();
         verify(settings).getUserName();
         verify(settings).getPassword();
     }
