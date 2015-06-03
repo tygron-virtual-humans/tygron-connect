@@ -68,9 +68,24 @@ public class Controller {
     return economies.economies();
   }
   
+  /**
+   * Build action.
+   * @param surface the surface to build
+   * @param type the type of the building
+   */
   @AsAction(name = "build")
   public void build(int surface, int type){
     env.build(surface, type);
+  }
+  
+  /**
+   * Buy land action.
+   * @param surface the surface to buy
+   * @param cost the price to buy it
+   */
+  @AsAction(name = "buyLand")
+  public void buyLand(int surface, int cost){
+    env.buyLand(surface, cost);
   }
 
 }
