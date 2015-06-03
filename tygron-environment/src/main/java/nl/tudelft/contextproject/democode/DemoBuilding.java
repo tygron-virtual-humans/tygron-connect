@@ -49,6 +49,8 @@ public class DemoBuilding {
     Environment environment = session.getEnvironment();
     environment.setStakeholder(2);
     
+    logger.info("Buying land done: " + environment.buyLand(5000, 200));
+    
     for (int i = 0; i < 50; i++) {
       logger.info("Building done " + i +  ": " + environment.build(50, 0));
     }
@@ -58,5 +60,7 @@ public class DemoBuilding {
     for (int i = 0; i < 50; i++) {
       logger.info("Parking lot done " + i +  ": " + environment.build(50, 2));
     }
+    
+    environment.releaseStakeholder();
   }
 }

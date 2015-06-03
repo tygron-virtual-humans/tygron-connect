@@ -30,7 +30,7 @@ public class DemoConnector {
     logger.info(sess.getCompatibleOperations().toString());
     
     logger.info("Loading stake holders:");
-    logger.info(sess.getEnvironment().loadStakeHolders().toString());
+    logger.info(sess.getEnvironment().loadStakeholders().toString());
     
     logger.info("Loading indicators:");
     logger.info(sess.getEnvironment().loadIndicators().toString());

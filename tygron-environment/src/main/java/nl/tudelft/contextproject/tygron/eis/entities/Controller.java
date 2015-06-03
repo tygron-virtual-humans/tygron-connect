@@ -23,7 +23,7 @@ public class Controller {
    */
   public Controller(Environment controller) {
     indicators = new IndicatorEntity(controller.loadIndicators());
-    stakeholders = new StakeholderEntity(controller.loadStakeHolders());
+    stakeholders = new StakeholderEntity(controller.loadStakeholders());
     economies = new EconomyEntity(controller.loadEconomies());
     env = controller;
   }
