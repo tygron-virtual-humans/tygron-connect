@@ -38,7 +38,7 @@ public class PerceptTest {
 
     String stakeholderContents = CachedFileReader.getFileContents("/serverResponses/testmap/lists/stakeholders.json");
     StakeholderList stakeholders = new StakeholderList(new JSONArray(stakeholderContents));
-    when(environmentMock.loadStakeHolders()).thenReturn(stakeholders);
+    when(environmentMock.loadStakeholders()).thenReturn(stakeholders);
 
     //when(sessionMock.loadEconomies()).thenReturn(null);
 

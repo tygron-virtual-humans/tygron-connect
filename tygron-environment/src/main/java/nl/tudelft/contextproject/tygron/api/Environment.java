@@ -95,7 +95,7 @@ public class Environment implements Runnable {
    * Reloads all data.
    */
   public void reload() {
-    loadStakeHolders();
+    loadStakeholders();
     loadIndicators();
     loadZones();
     loadEconomies();
@@ -108,7 +108,7 @@ public class Environment implements Runnable {
    * 
    * @return the list of stakeholders.
    */
-  public StakeholderList loadStakeHolders() {
+  public StakeholderList loadStakeholders() {
     logger.debug("Loading stakeholders");
     JSONArray data = apiConnection.execute("lists/"
         + "stakeholders/", CallType.GET, new JsonArrayResultHandler(), session);
@@ -124,7 +124,7 @@ public class Environment implements Runnable {
    * 
    * @return the list of stakeholders.
    */
-  public StakeholderList getStakeHolders() {
+  public StakeholderList getStakeholders() {
     return this.stakeholderList;
   }
   
@@ -279,7 +279,7 @@ public class Environment implements Runnable {
    * @return Whether the build request was sent or not.
    */
   public boolean build(double surface, int type) {
-    Stakeholder stakeholder = loadStakeHolders().get(stakeholderId);
+    Stakeholder stakeholder = loadStakeholders().get(stakeholderId);
     logger.debug("Building project started");
     Polygon availableLand = getAvailableLand(stakeholder);
     double availableSurface = availableLand.calculateArea2D();
@@ -436,23 +436,65 @@ public class Environment implements Runnable {
   
   /**
    * Buys a piece of land.
-   * @param stakeholder The buyer.
    * @param surface The desired surface of the land.
    * @param cost The amount of money per unit of land.
    */
-  public void buyLand(Stakeholder stakeholder, double surface, int cost) {
+  public boolean buyLand(double surface, int cost) {
+    loadStakeholders();
     logger.debug("Buying land");
-    BuyLandRequest buyLandRequest = new BuyLandRequest(stakeholder, new Polygon(), cost);
-    apiConnection.execute("event/PlayerEventType/MAP_BUY_LAND/", 
-        CallType.POST, new StringResultHandler(), session, buyLandRequest);
+    
+    Polygon availableLand = getBuyableLand();
+    
+    if (availableLand.isEmpty() || availableLand.calculateArea2D() < surface) {
+      logger.info("No land available for buying");
+      return false;
+    } else if (availableLand.calculateArea2D() < surface) {
+      logger.info("Not enough land available for buying");
+      return false;
+    }
+    
+    Polygon suitableLand = getSuitableLand(availableLand, surface);
+    List<Polygon> splitLands = splitLand(suitableLand);
+    
+    Stakeholder buyer = stakeholderList.get(stakeholderId);
+    for (Polygon landPiece : splitLands) {
+      BuyLandRequest buyLandRequest = new BuyLandRequest(buyer, landPiece, cost);
+      apiConnection.execute("event/PlayerEventType/MAP_BUY_LAND/", 
+          CallType.POST, new StringResultHandler(), session, buyLandRequest);
+    }
+    return true;
   }
   
   class BuyLandRequest extends JSONArray {
-    public BuyLandRequest(Stakeholder stakeholder, Polygon polygons, int cost) {
-      this.put(stakeholder.getId());
-      this.put(polygons);
+    public BuyLandRequest(Stakeholder buyer, Polygon polygon, int cost) {
+      this.put(buyer.getId());
+      this.put(PolygonUtil.toString(polygon));
       this.put(cost);
     }
+  }
+  
+  private Polygon getBuyableLand() {
+    Polygon land = new Polygon();
+    for (Stakeholder stakeholder : stakeholderList) {
+      if (stakeholder.getId() != stakeholderId) {
+        land = PolygonUtil.polygonUnion(land, getAvailableLand(stakeholder));
+      }
+    }
+    return land;
+  }
+  
+  /**
+   * Splits the selected land per owner.
+   * @param land The land to be split.
+   * @return The land split per owner.
+   */
+  private List<Polygon> splitLand(Polygon land) {
+    List<Polygon> polygonList = new ArrayList<Polygon>();
+    for (Stakeholder stakeholder : stakeholderList) {
+      Polygon stakeholderLand = getAvailableLand(stakeholder);
+      polygonList.add(PolygonUtil.polygonIntersection(land, stakeholderLand));
+    }
+    return polygonList;
   }
 
   private void getMapWidth() {
@@ -470,16 +512,31 @@ public class Environment implements Runnable {
     this.stakeholderId = stakeholderId;
     boolean retValue = apiConnection.execute("event/PlayerEventType/STAKEHOLDER_SELECT", 
         CallType.POST, new BooleanResultHandler(), session, 
-        new StakeHolderSelectRequest(stakeholderId,session.getClientToken()));
+        new StakeholderSelectRequest(stakeholderId,session.getClientToken()));
     logger.info("Setting stakeholder to #" + stakeholderId + ". Operation " 
         + ((retValue) ? "succes!" : "failed!" ));
     return retValue;
   }
   
-  class StakeHolderSelectRequest extends JSONArray {
-    public StakeHolderSelectRequest(int stakeholderId, String sessionToken) {
+  class StakeholderSelectRequest extends JSONArray {
+    public StakeholderSelectRequest(int stakeholderId, String sessionToken) {
       this.put(stakeholderId);
       this.put(sessionToken);
+    }
+  }
+  
+  /**
+   * Releases the stakeholder that is currently selected.
+   */
+  public void releaseStakeholder() {
+    apiConnection.execute("event/LogicEventType/STAKEHOLDER_RELEASE/", 
+        CallType.POST, new BooleanResultHandler(), session, 
+        new StakeholderReleaseRequest(stakeholderId)); 
+  }
+  
+  class StakeholderReleaseRequest extends JSONArray {
+    public StakeholderReleaseRequest(int stakeholderId) {
+      this.put(stakeholderId);
     }
   }
   
@@ -495,17 +552,13 @@ public class Environment implements Runnable {
     for (Integer landId : stakeholder.getOwnedLands()) {
       Polygon land = landMap.get(landId).getPolygon();
       for (Building building : buildingList) {
-        if (!demolished(building)) {
+        if (!building.demolished()) {
           land = PolygonUtil.polygonDifference(land, building.getPolygon());
         }
       }
       result = PolygonUtil.polygonUnion(result, land);
     }
     return result;
-  }
-  
-  private boolean demolished(Building building) {
-    return building.getState().matches("(.*)DEMOLISH(.*)") || building.getState().equals("NOTHING");
   }
   
   private int max(int i1, int i2) {

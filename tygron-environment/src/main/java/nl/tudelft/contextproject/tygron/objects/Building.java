@@ -75,6 +75,14 @@ public class Building {
     return state;
   }
   
+  /**
+   * Check if the building is demolished.
+   * @return Whether the building is demolished.
+   */
+  public boolean demolished() {
+    return this.state.matches("(.*)DEMOLISH(.*)") || this.state.equals("NOTHING");
+  }
+  
   @Override
   public String toString() {
     JSONObject str = new JSONObject();
