@@ -47,9 +47,16 @@ public class DemoBuilding {
         session, param);
   
     Environment environment = session.getEnvironment();
-    environment.setStakeholder(0);
+    environment.setStakeholder(2);
     
-    //logger.info("Building done: " + environment.build(50));
-
+    for (int i = 0; i < 50; i++) {
+      logger.info("Building done " + i +  ": " + environment.build(50, 0));
+    }
+    for (int i = 0; i < 50; i++) {
+      logger.info("Park done " + i +  ": " + environment.build(50, 1));
+    }
+    for (int i = 0; i < 50; i++) {
+      logger.info("Parking lot done " + i +  ": " + environment.build(50, 2));
+    }
   }
 }

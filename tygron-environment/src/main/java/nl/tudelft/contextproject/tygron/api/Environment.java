@@ -83,7 +83,7 @@ public class Environment implements Runnable {
     while (true) {
       reload();
       try {
-        Thread.sleep(2500);
+        Thread.sleep(10000);
       } catch (InterruptedException e) {
         logger.error("Environment crashed!");
         throw new RuntimeException(e);
@@ -275,23 +275,24 @@ public class Environment implements Runnable {
   /**
    * Builds a project on a piece of land.
    * @param surface The desired surface of the building.
+   * @param type The type of the building project. 0 for housing, 1 for park, 2 for parking lots.
    * @return Whether the build request was sent or not.
    */
-  public boolean build(double surface) {
-    Stakeholder stakeholder = getStakeHolders().get(stakeholderId);
+  public boolean build(double surface, int type) {
+    Stakeholder stakeholder = loadStakeHolders().get(stakeholderId);
     logger.debug("Building project started");
     Polygon availableLand = getAvailableLand(stakeholder);
     double availableSurface = availableLand.calculateArea2D();
     
     int minFloors = getMinFloors(availableLand, surface);
-    int maxFloors = getMaxFloors(stakeholder);
+    int maxFloors = getMaxFloors(stakeholder, type);
     boolean enoughFloors = minFloors <= maxFloors;
     if (!enoughFloors) {
       logger.info("Not enough land for building");
       return false;
     }
     
-    Function function = getFunction(stakeholder, minFloors);
+    Function function = getFunction(stakeholder, minFloors, type);
     
     // Select a random amount of floors
     int neededFloors = minFloors;
@@ -387,15 +388,20 @@ public class Environment implements Runnable {
   
   /**
    * Gets the maximum amount of floors possible in the stakeholder's functions.
+   * @param The stakeholder initiating the building project.
+   * @param The type of building project.
    * @return The minimum amount of floors.
    */
-  private int getMaxFloors(Stakeholder stakeholder) {
+  private int getMaxFloors(Stakeholder stakeholder, int type) {
     loadFunctions();
     List<Integer> functions = stakeholder.getAllowedFunctions();
     int result = 0;
     for (int functionId : functions) {
-      int maxFloors = functionMap.get(functionId).getMax_floors();
-      result = max(maxFloors, result);
+      Function function = functionMap.get(functionId);
+      if (function.isRightType(type)) {
+        int maxFloors = function.getMax_floors();
+        result = max(maxFloors, result);
+      }
     }
     return result;
   }
@@ -403,16 +409,17 @@ public class Environment implements Runnable {
   /**
    * Gets a function that fits the requested amount of floors.
    * @param stakeholder The stakeholder.
+   * @param type The type of building project.
    * @param floors The requested amount of floors.
    * @return The function that fits the criteria.
    */
-  private Function getFunction(Stakeholder stakeholder, int floors) {
+  private Function getFunction(Stakeholder stakeholder, int floors, int type) {
     loadFunctions();
     List<Integer> functions = stakeholder.getAllowedFunctions();
     List<Function> functionList = new ArrayList<Function>();
     for (Integer functionId : functions) {
       Function function = functionMap.get(functionId);
-      if (floors <= function.getMax_floors() && floors >= function.getMin_floors()) {
+      if (function.hasEnoughFloors(floors) && function.isRightType(type)) {
         functionList.add(function);
       }
     }
@@ -483,9 +490,11 @@ public class Environment implements Runnable {
    */
   private Polygon getAvailableLand(Stakeholder stakeholder) {
     Polygon result = new Polygon();
+    BuildingList buildingList = loadBuildings();
+    LandMap landMap = loadLands();
     for (Integer landId : stakeholder.getOwnedLands()) {
-      Polygon land = loadLands().get(landId).getPolygon();
-      for (Building building : loadBuildings()) {
+      Polygon land = landMap.get(landId).getPolygon();
+      for (Building building : buildingList) {
         if (!demolished(building)) {
           land = PolygonUtil.polygonDifference(land, building.getPolygon());
         }
