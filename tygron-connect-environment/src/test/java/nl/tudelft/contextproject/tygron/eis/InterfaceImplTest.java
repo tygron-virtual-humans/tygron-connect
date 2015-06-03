@@ -47,7 +47,7 @@ public class InterfaceImplTest {
    * @throws Exception 
    */
   @Before
-  public void initTest() throws Exception {
+  public void initTest() {
     
     envinterface = spy(new TygronInterfaceImpl());
     
