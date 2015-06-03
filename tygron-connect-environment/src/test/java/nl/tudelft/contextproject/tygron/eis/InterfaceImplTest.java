@@ -3,6 +3,7 @@ package nl.tudelft.contextproject.tygron.eis;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
+import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.when;
@@ -58,7 +59,8 @@ public class InterfaceImplTest {
     when(envMock.loadBuildings()).thenReturn(null);
     when(envMock.loadEconomies()).thenReturn(null);
     when(envMock.loadIndicators()).thenReturn(null);
-
+    when(envMock.setStakeholder(any(Integer.class))).thenReturn(true);
+    
     doReturn(envMock).when(session).getEnvironment();
     
     doReturn(session).when(connector).getSession();
