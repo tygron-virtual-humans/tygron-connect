@@ -10,7 +10,7 @@ init module {
 		forall bel(percept(initIndicator(A,B,C))) do insert (initIndicator(A,B,C)).
 	}
 	actionspec {
-		build(Surface) {
+		build(Surface, Type) {
 			pre {true}
 			post {true}
 		}
@@ -19,7 +19,7 @@ init module {
 
 main module {
 	program {
-		if bel(val(X1), X1 > 25) then build(5000) + delete(val(X1)) + insert(val(0)).
+		if bel(val(X1), X1 > 25) then build(5000,0) + delete(val(X1)) + insert(val(0)).
 		if bel(val(X1), X2 is X1 + 1) then insert(val(X2)) + delete(val(X1)).
 	}
 }
