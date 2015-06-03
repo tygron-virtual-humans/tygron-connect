@@ -1,6 +1,3 @@
-# Our project files
-configuration.cfg
-
 *.class
 
 .metadata/*
@@ -20,9 +17,9 @@ hs_err_pid*
 /target/
 
 # Eclipse project files
-*.classpath
-*.project
-*.settings/*
+.classpath
+.project
+.settings/*
 .checkstyle
 
 #IntelliJ
