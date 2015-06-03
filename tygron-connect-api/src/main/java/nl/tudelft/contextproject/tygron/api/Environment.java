@@ -507,15 +507,18 @@ public class Environment implements Runnable {
   /**
    * Select a stakeholder to play, can only be done once.
    * @param stakeholderId the stakeholder id to select.
+   * @throws Exception if stakeholder fails
    */
-  public boolean setStakeholder(int stakeholderId) {
+  public void setStakeholder(int stakeholderId) {
     this.stakeholderId = stakeholderId;
     boolean retValue = apiConnection.execute("event/PlayerEventType/STAKEHOLDER_SELECT", 
         CallType.POST, new BooleanResultHandler(), session, 
         new StakeholderSelectRequest(stakeholderId,session.getClientToken()));
     logger.info("Setting stakeholder to #" + stakeholderId + ". Operation " 
         + ((retValue) ? "succes!" : "failed!" ));
-    return retValue;
+    if (!retValue) {
+      throw new RuntimeException("Stakeholder could not be selected!");
+    }
   }
   
   class StakeholderSelectRequest extends JSONArray {

@@ -116,9 +116,8 @@ public class TygronInterfaceImpl extends AbstractEnvironment {
     if (configuration.getStakeholder() == -1) {
       throw new ManagementException("Stakeholder is not defined in mas2g file.");
     }
-    if(!environment.setStakeholder(configuration.getStakeholder())) {
-      throw new ManagementException("Failed to select stakeholder, maybe it is already taken?");
-    }
+
+    environment.setStakeholder(configuration.getStakeholder());
     
     setState(EnvironmentState.PAUSED);
   }

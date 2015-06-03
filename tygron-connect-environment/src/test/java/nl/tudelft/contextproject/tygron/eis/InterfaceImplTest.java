@@ -4,10 +4,10 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.when;
-
 import eis.exceptions.ManagementException;
 import eis.iilang.Action;
 import eis.iilang.EnvironmentState;
@@ -44,9 +44,10 @@ public class InterfaceImplTest {
   
   /**
    * initialize the test.
+   * @throws Exception 
    */
   @Before
-  public void initTest() {
+  public void initTest() throws Exception {
     
     envinterface = spy(new TygronInterfaceImpl());
     
@@ -59,7 +60,7 @@ public class InterfaceImplTest {
     when(envMock.loadBuildings()).thenReturn(null);
     when(envMock.loadEconomies()).thenReturn(null);
     when(envMock.loadIndicators()).thenReturn(null);
-    when(envMock.setStakeholder(any(Integer.class))).thenReturn(true);
+    doNothing().when(envMock).setStakeholder(any(Integer.class));
     
     doReturn(envMock).when(session).getEnvironment();
     
