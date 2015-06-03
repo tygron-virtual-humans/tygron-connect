@@ -49,7 +49,8 @@ public class TygronInterfaceImpl extends AbstractEnvironment {
    */
   @Override
   protected boolean isSupportedByEnvironment(Action action) {
-    return (action.getName().equals("build") && action.getParameters().size() == 2);
+    return (action.getName().equals("build") && action.getParameters().size() == 2)
+        || (action.getName().equals("buyLand") && action.getParameters().size() == 2);
   }
 
   /* (non-Javadoc)
@@ -115,7 +116,9 @@ public class TygronInterfaceImpl extends AbstractEnvironment {
     if (configuration.getStakeholder() == -1) {
       throw new ManagementException("Stakeholder is not defined in mas2g file.");
     }
-    environment.setStakeholder(configuration.getStakeholder());
+    if(!environment.setStakeholder(configuration.getStakeholder())) {
+      throw new ManagementException("Failed to select stakeholder, maybe it is already taken?");
+    }
     
     setState(EnvironmentState.PAUSED);
   }
