@@ -543,19 +543,21 @@ public class Environment implements Runnable {
    * @return The stakeholder's free land.
    */
   private Polygon getAvailableLand(Stakeholder stakeholder) {
-    Polygon result = new Polygon();
-    BuildingList buildingList = loadBuildings();
-    LandMap landMap = loadLands();
+    loadBuildings();
+    loadLands();
+    
+    Polygon land = new Polygon();
     for (Integer landId : stakeholder.getOwnedLands()) {
-      Polygon land = landMap.get(landId).getPolygon();
-      for (Building building : buildingList) {
-        if (!building.demolished()) {
-          land = PolygonUtil.polygonDifference(land, building.getPolygon());
-        }
-      }
-      result = PolygonUtil.polygonUnion(result, land);
+      land = PolygonUtil.polygonUnion(land, landMap.get(landId).getPolygon());
     }
-    return result;
+      
+    for (Building building : buildingList) {
+      if (!building.demolished()) {
+        land = PolygonUtil.polygonDifference(land, building.getPolygon());
+      }
+    }
+    
+    return land;
   }
   
   private int max(int i1, int i2) {
