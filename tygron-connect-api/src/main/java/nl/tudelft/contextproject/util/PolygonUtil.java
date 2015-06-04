@@ -12,6 +12,8 @@ import com.esri.core.geometry.Polygon;
 import com.esri.core.geometry.SpatialReference;
 import com.esri.core.geometry.WktImportFlags;
 
+import java.util.List;
+
 public class PolygonUtil {
 
   public PolygonUtil() {
@@ -79,6 +81,19 @@ public class PolygonUtil {
   public static Polygon polygonUnion(Polygon polygon1, Polygon polygon2) {
     SpatialReference sr = SpatialReference.create(1);
     return (Polygon) OperatorUnion.local().execute(polygon1, polygon2, sr, null);
+  }
+  
+  /**
+   * Returns the union of all polygons in the list.
+   * @param polygonList The list of polygons.
+   * @return Union of all polygons.
+   */
+  public static Polygon polygonUnion(List<Polygon> polygonList) {
+    Polygon result = new Polygon();
+    for (Polygon polygon : polygonList) {
+      result = polygonUnion(result, polygon);
+    }
+    return result;
   }
   
   /**

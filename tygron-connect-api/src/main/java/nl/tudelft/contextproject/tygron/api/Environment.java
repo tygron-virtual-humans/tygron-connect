@@ -443,9 +443,10 @@ public class Environment implements Runnable {
     loadStakeholders();
     logger.debug("Buying land");
     
-    Polygon availableLand = getBuyableLand();
+    List<Polygon> availableLandList = getBuyableLand();
+    Polygon availableLand = PolygonUtil.polygonUnion(availableLandList);
     
-    if (availableLand.isEmpty() || availableLand.calculateArea2D() < surface) {
+    if (availableLand.isEmpty()) {
       logger.info("No land available for buying");
       return false;
     } else if (availableLand.calculateArea2D() < surface) {
@@ -454,10 +455,15 @@ public class Environment implements Runnable {
     }
     
     Polygon suitableLand = getSuitableLand(availableLand, surface);
-    List<Polygon> splitLands = splitLand(suitableLand);
+    
+    // Split the land per landowner.
+    List<Polygon> splitLand = new ArrayList<Polygon>();
+    for (Polygon polygon : availableLandList) {
+      splitLand.add(PolygonUtil.polygonIntersection(polygon, suitableLand));
+    }
     
     Stakeholder buyer = stakeholderList.get(stakeholderId);
-    for (Polygon landPiece : splitLands) {
+    for (Polygon landPiece : splitLand) {
       BuyLandRequest buyLandRequest = new BuyLandRequest(buyer, landPiece, cost);
       apiConnection.execute("event/PlayerEventType/MAP_BUY_LAND/", 
           CallType.POST, new StringResultHandler(), session, buyLandRequest);
@@ -473,28 +479,16 @@ public class Environment implements Runnable {
     }
   }
   
-  private Polygon getBuyableLand() {
-    Polygon land = new Polygon();
+  private List<Polygon> getBuyableLand() {
+    List<Polygon> result = new ArrayList<Polygon>();
     for (Stakeholder stakeholder : stakeholderList) {
+      Polygon land = new Polygon();
       if (stakeholder.getId() != stakeholderId) {
         land = PolygonUtil.polygonUnion(land, getAvailableLand(stakeholder));
       }
+      result.add(land);
     }
-    return land;
-  }
-  
-  /**
-   * Splits the selected land per owner.
-   * @param land The land to be split.
-   * @return The land split per owner.
-   */
-  private List<Polygon> splitLand(Polygon land) {
-    List<Polygon> polygonList = new ArrayList<Polygon>();
-    for (Stakeholder stakeholder : stakeholderList) {
-      Polygon stakeholderLand = getAvailableLand(stakeholder);
-      polygonList.add(PolygonUtil.polygonIntersection(land, stakeholderLand));
-    }
-    return polygonList;
+    return result;
   }
 
   private void getMapWidth() {
