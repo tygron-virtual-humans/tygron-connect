@@ -7,14 +7,11 @@ import nl.tudelft.contextproject.util.PolygonUtil;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class PopUp {
-  private static final Logger logger = LoggerFactory.getLogger(PopUp.class);
 
   private enum TypeValue {
     INTERACTION, INFORMATION
@@ -55,11 +52,10 @@ public class PopUp {
     title = "NO TITLE SET".equals(tempTitle) ? null : tempTitle;
     text = popUp.getString("text");
     linkId = popUp.getInt("linkID");
-    try {
-      polygon = PolygonUtil.createPolygonFromWkt(popUp.optString("polygons"));
-    } catch (Exception e) {
-      logger.info("Error parsing Building with string " + popUp.toString());
-      throw new RuntimeException(e);
+    
+    String polygonString = popUp.optString("polygons");
+    if (!polygonString.isEmpty()) {
+      PolygonUtil.createPolygonFromWkt(popUp.optString("polygons"));
     }
     linkType = popUp.getString("linkType");
     type = TypeValue.valueOf(popUp.getString("type"));
