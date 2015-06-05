@@ -1,0 +1,129 @@
+%% Manual for the environment made by the group Tygron connect
+%%% https://github.com/tygron-virtual-humans/tygron-connect
+
+\documentclass[english,11pt]{report}		
+%\documentclass[ngerman,11pt]{report}
+
+\usepackage{hgb}
+\usepackage{hgbbib}
+\usepackage{hgbheadings}
+\usepackage{hyperref}
+\usepackage{caption}
+\usepackage{tabularx}
+
+\graphicspath{{images/}}   
+\bibliography{literatur} 
+
+\title{Tygron Environment \\ Guide}
+\author{Tygron Connect \\ VH group 1}
+\date{June 2015}
+
+%%%----------------------------------------------------------
+\begin{document}
+%%%----------------------------------------------------------
+\maketitle
+\tableofcontents
+%%%----------------------------------------------------------
+
+\chapter*{Summary}
+
+In this document you can find the list of actions and percepts that are implemented in the Tygron environment. The environment can be downloaded from our Jenkins server located at: \url{http://jenkins.buildwise.eu/job/tygron-connect/lastBuild/}
+
+
+%%%----------------------------------------------------------
+\chapter{Percepts}
+%%%----------------------------------------------------------
+
+This section will list all the percepts that are usable in the Tygron environment, there are currently two types of percepts: \textbf{Send once} and \textbf{Send on change}. For the implementation of these percepts in your GOAL code, please refer to the GOAL manual.
+
+\newpage
+\section*{1.1 Send once percepts}
+
+\textbf{Stakeholder percept}\\
+\\
+\begin{tabularx}{\textwidth}{lX}
+ Desription & Information about the stakeholders present in the map. \\
+ Type & Send once \\
+ Syntax & stakeholder(<ID>, <Name>, <ShortName>) \\
+ Parameters &   <ID>: Unique number of the stakeholder.\\
+            &   <Name>: The name of the stakeholder (eg. Housing Corporation).\\
+            &   <ShortName>: The short name of the stakeholder (eg. DUWO).
+\end{tabularx}\\
+\\
+\\
+\textbf{InitIndicator percept}\\
+\\
+\begin{tabularx}{\textwidth}{lX}
+ Desription & Weights of the indicators in the map. \\
+ Type & Send once \\
+ Syntax & initIndicator(<SID>, <IID>, <Weight>) \\
+ Parameters &   <SID>: ID of the stakeholder for which this percept has this weight.\\
+            &   <IID>: The ID of the indicator.\\
+            &   <ShortName>: The weight of the indicator.
+\end{tabularx}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
+\section*{1.2 On change percepts}
+
+\textbf{Indicator percept}\\
+\\
+\begin{tabularx}{\textwidth}{lX}
+ Desription & Information about the indicators present in the map. \\
+ Type & Send on change \\
+ Syntax & indicator(<ID>, <Type>, <Name>, <Progress>, <Current>, <Target>) \\
+ Parameters &   <ID>: Unique number of the indicator.\\
+            &   <Type>: The type of indicator (eg. finance).\\
+            &   <Name>: The name of the indicator.\\
+            &   <Progress>: the progress of the indicator (current / target).\\
+            &   <Current>: The current value of the indicator.\\
+            &   <Target>: The target value of the indicator.
+\end{tabularx}\\
+\\
+\\
+\textbf{Economy percept}\\
+\\
+\begin{tabularx}{\textwidth}{lX}
+ Desription & Information about the economies present in the map. \\
+ Type & Send on change \\
+ Syntax & economy(<ID>, <Category>, <State>) \\
+ Parameters &   <ID>: Unique number of the economy.\\
+            &   <Category>: The category of the economy.\\
+            &   <State>: The state of the economy.
+\end{tabularx}
+
+
+%%%----------------------------------------------------------
+\chapter{Actions}
+%%%----------------------------------------------------------
+
+In this section, You will find all the actions present in the latest stable Tygron environment, these actions can all be performed by the GOAL agent. The actions should be implemented with an actionspec.
+
+\newpage
+\section*{2.1 General actions}
+
+\textbf{Build action}\\
+\\
+\begin{tabularx}{\textwidth}{lX}
+ Desription & Build. \\
+ Syntax & build(<Surface>, <Type>) \\
+ Parameters & <Surface>: The size of the surface to build on.\\
+            & <Type>: The type of building to be built, this is a natural number with: \\
+            &      1 = building, 2 = park and 3 = parking lot.\\
+ Effects &  Builds a park, building or parking lot on an available piece of land.
+\end{tabularx}\\
+\\
+\\
+\textbf{Buy land action}\\
+\\
+\begin{tabularx}{\textwidth}{lX}
+ Desription & Buy land. \\
+ Syntax & buyLand(<Surface>, <Cost>) \\
+ Parameters & <Surface>: The size of the surface to buy.\\
+            & <Type>: The cost to buy this piece of land.\\
+ Effects &  Buys land from another stakeholder.
+\end{tabularx}
+
+
+
+\end{document}
