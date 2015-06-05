@@ -115,6 +115,12 @@ public class SessionManager {
       session = new Session(apiConnection);
       session.setId(slot);
     }
+    
+    // if a session could not be joined/created let's print this
+    if(session.getId() == -1){
+    	logger.info("Could not create or join session. Do you have access to the selected map?");
+    	throw new RuntimeException();
+    }
 
     // Join / startup the session
     joinSession(session);
