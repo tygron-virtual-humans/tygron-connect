@@ -110,8 +110,9 @@ public class PopUpHandler {
   public void loadPopUps() {
     JSONObject dataObject = apiConnection.getUpdate(new JsonObjectResultHandler(), session, 
         getRequestObject());
-    if (dataObject != null) {
-      updateList(dataObject.getJSONObject("items").getJSONObject("POPUPS"));
+    JSONObject items = dataObject.getJSONObject("items");
+    if (items.has("POPUPS")) {
+      updateList(items.getJSONObject("POPUPS"));
     } else {
       list = new ArrayList<PopUp>();
     }
@@ -245,31 +246,39 @@ public class PopUpHandler {
   }
 
   private void landTransactionApproved(PopUp popUp) {
+    answer(popUp, 0);
     // TODO Send info to stakeholder
   }
   
   private void landTransactionRefused(PopUp popUp) {
+    answer(popUp, 0);
     // TODO Send info to stakeholder
   }
   
   private void landBuyRequestReceived(PopUp popUp) {
+    // Accept all land transaction requests
+    answer(popUp, 0);
+    
     // TODO Send info to stakeholder
+    popUp.getCost();
+    popUp.getSurface();
   }
   
   private void landSellRequestReceived(PopUp popUp) {
+    // Accept all land transaction requests
+    answer(popUp, 0);
+    
     // TODO Send info to stakeholder
+    popUp.getCost();
+    popUp.getSurface();
   }
   
   private void permitRequestAsk(PopUp popUp) {
-    JSONArray parameters = new JSONArray();
-    parameters.put(stakeholderId);
-    parameters.put(popUp.getId());
-    parameters.put(0);
-    apiConnection.execute("event/PlayerEventType/POPUP_ANSWER/", CallType.POST, 
-        new JsonObjectResultHandler(), session, parameters);
+    answer(popUp, 0);
   }
   
   private void permitRequestReceived(PopUp popUp) {
+    answer(popUp, 0);
     // TODO Send info to stakeholder
   }
   
@@ -282,11 +291,22 @@ public class PopUpHandler {
   }
 
   private void permitRequestRefused(PopUp popUp) {
+    answer(popUp, 0);
     // TODO Send info to stakeholder
   }
 
   private void permitRequestApproved(PopUp popUp) {
+    answer(popUp, 0);
     // TODO Send info to stakeholder
+  }
+  
+  private void answer(PopUp popUp, int answer) {
+    JSONArray parameters = new JSONArray();
+    parameters.put(stakeholderId);
+    parameters.put(popUp.getId());
+    parameters.put(answer);
+    apiConnection.execute("event/PlayerEventType/POPUP_ANSWER/", CallType.POST, 
+        new JsonObjectResultHandler(), session, parameters);
   }
   
   public List<PopUp> getList() {

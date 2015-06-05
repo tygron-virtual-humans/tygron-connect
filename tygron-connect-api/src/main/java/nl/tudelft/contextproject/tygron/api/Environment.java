@@ -12,6 +12,7 @@ import nl.tudelft.contextproject.tygron.objects.EconomyList;
 import nl.tudelft.contextproject.tygron.objects.Function;
 import nl.tudelft.contextproject.tygron.objects.FunctionMap;
 import nl.tudelft.contextproject.tygron.objects.LandMap;
+import nl.tudelft.contextproject.tygron.objects.PopUpHandler;
 import nl.tudelft.contextproject.tygron.objects.Stakeholder;
 import nl.tudelft.contextproject.tygron.objects.StakeholderList;
 import nl.tudelft.contextproject.tygron.objects.ZoneList;
@@ -43,6 +44,7 @@ public class Environment implements Runnable {
   // Environment oriented
   private HttpConnection apiConnection;
   private Session session;
+  private PopUpHandler popUpHandler;
 
   // Session data oriented
   private StakeholderList stakeholderList;
@@ -59,9 +61,15 @@ public class Environment implements Runnable {
 
   private int stakeholderId;
 
+  /**
+   * Creates an environment that communicates with the session API.
+   * @param localApiConnection The connection.
+   * @param session The session.
+   */
   public Environment(HttpConnection localApiConnection, Session session) {
     apiConnection = localApiConnection;
     this.session = session;
+    stakeholderId = -1;
   }
 
   /**
@@ -102,6 +110,9 @@ public class Environment implements Runnable {
     loadBuildings();
     loadFunctions();
     loadLands();
+    if (stakeholderId != -1) {
+      popUpHandler.loadPopUps();
+    }
   }
   /**
    * Load the stake holders into this session.
@@ -126,6 +137,47 @@ public class Environment implements Runnable {
    */
   public StakeholderList getStakeholders() {
     return this.stakeholderList;
+  }
+  
+  /**
+   * Select a stakeholder to play, can only be done once.
+   * @param stakeholderId the stakeholder id to select.
+   * @throws Exception if stakeholder fails
+   */
+  public void setStakeholder(int stakeholderId) {
+    this.stakeholderId = stakeholderId;
+    boolean retValue = apiConnection.execute("event/PlayerEventType/STAKEHOLDER_SELECT", 
+        CallType.POST, new BooleanResultHandler(), session, 
+        new StakeholderSelectRequest(stakeholderId,session.getClientToken()));
+    logger.info("Setting stakeholder to #" + stakeholderId + ". Operation " 
+        + ((retValue) ? "succes!" : "failed!" ));
+    if (!retValue) {
+      throw new RuntimeException("Stakeholder could not be selected!");
+    }
+    popUpHandler = new PopUpHandler(apiConnection, session, stakeholderId);
+  }
+  
+  class StakeholderSelectRequest extends JSONArray {
+    public StakeholderSelectRequest(int stakeholderId, String sessionToken) {
+      this.put(stakeholderId);
+      this.put(sessionToken);
+    }
+  }
+  
+  /**
+   * Releases the stakeholder that is currently selected.
+   */
+  public void releaseStakeholder() {
+    apiConnection.execute("event/LogicEventType/STAKEHOLDER_RELEASE/", 
+        CallType.POST, new BooleanResultHandler(), session, 
+        new StakeholderReleaseRequest(stakeholderId)); 
+    stakeholderId = -1;
+  }
+  
+  class StakeholderReleaseRequest extends JSONArray {
+    public StakeholderReleaseRequest(int stakeholderId) {
+      this.put(stakeholderId);
+    }
   }
   
   /**
@@ -287,7 +339,10 @@ public class Environment implements Runnable {
     int minFloors = getMinFloors(availableLand, surface);
     int maxFloors = getMaxFloors(stakeholder, type);
     boolean enoughFloors = minFloors <= maxFloors;
-    if (!enoughFloors) {
+    if (maxFloors == 0) {
+      logger.info("Stakeholder " + stakeholder.getId() + " can't build type " + type);
+      return false;
+    } else if (!enoughFloors) {
       logger.info("Not enough land for building");
       return false;
     }
@@ -337,6 +392,175 @@ public class Environment implements Runnable {
   }
   
   /**
+   * Demolishes a piece of land.
+   * @param surface The desired surface of the land to demolish.
+   */
+  public boolean demolish(double surface) {
+    loadStakeholders();
+    logger.debug("Demolishing");
+    
+    Stakeholder stakeholder = stakeholderList.get(stakeholderId);
+    Polygon occupiedLand = getOccupiedLand(stakeholder);
+    
+    if (occupiedLand.isEmpty()) {
+      logger.info("Nothing to demolish");
+      return false;
+    } else if (occupiedLand.calculateArea2D() < surface) {
+      logger.info("Not enough available for demolishing");
+      return false;
+    }
+    
+    Polygon suitableLand = getSuitableLand(occupiedLand, surface);
+    
+    DemolishRequest demolishRequest = new DemolishRequest(stakeholder, suitableLand);
+    apiConnection.execute("event/PlayerEventType/BUILDING_PLAN_DEMOLISH_COORDINATES/", 
+        CallType.POST, new StringResultHandler(), session, demolishRequest);
+    return true;
+  }
+  
+  class DemolishRequest extends JSONArray {
+    public DemolishRequest(Stakeholder buyer, Polygon polygon) {
+      this.put(buyer.getId());
+      this.put(PolygonUtil.toString(polygon));
+      this.put("SURFACE");
+    }
+  }
+  
+  /**
+   * Buys a piece of land.
+   * @param surface The desired surface of the land.
+   * @param cost The amount of money per unit of land.
+   */
+  public boolean buyLand(double surface, double cost) {
+    loadStakeholders();
+    logger.debug("Buying land");
+    
+    List<Polygon> availableLandList = getBuyableLand();
+    Polygon availableLand = PolygonUtil.polygonUnion(availableLandList);
+    
+    if (availableLand.isEmpty()) {
+      logger.info("No land available for buying");
+      return false;
+    } else if (availableLand.calculateArea2D() < surface) {
+      logger.info("Not enough land available for buying");
+      return false;
+    }
+    
+    Polygon suitableLand = getSuitableLand(availableLand, surface);
+    
+    // Split the land per landowner.
+    List<Polygon> splitLand = new ArrayList<Polygon>();
+    for (Polygon polygon : availableLandList) {
+      splitLand.add(PolygonUtil.polygonIntersection(polygon, suitableLand));
+    }
+    
+    Stakeholder buyer = stakeholderList.get(stakeholderId);
+    for (Polygon landPiece : splitLand) {
+      BuyLandRequest buyLandRequest = new BuyLandRequest(buyer, landPiece, cost);
+      apiConnection.execute("event/PlayerEventType/MAP_BUY_LAND/", 
+          CallType.POST, new StringResultHandler(), session, buyLandRequest);
+    }
+    return true;
+  }
+  
+  class BuyLandRequest extends JSONArray {
+    public BuyLandRequest(Stakeholder buyer, Polygon polygon, double cost) {
+      this.put(buyer.getId());
+      this.put(PolygonUtil.toString(polygon));
+      this.put(cost);
+    }
+  }
+  
+  /**
+   * Sell a piece of land.
+   * @param surface The desired surface of the land.
+   * @param price The amount of money per unit of land.
+   */
+  public boolean sellLand(double surface, double price) {
+    loadStakeholders();
+    logger.debug("Selling land");
+    Stakeholder seller = stakeholderList.get(stakeholderId);
+    
+    Polygon availableLand = getAvailableLand(seller);
+    
+    if (availableLand.isEmpty()) {
+      logger.info("No land available for selling");
+      return false;
+    } else if (availableLand.calculateArea2D() < surface) {
+      logger.info("Not enough land available for selling");
+      return false;
+    }
+    
+    Polygon suitableLand = getSuitableLand(availableLand, surface);
+    
+    List<Stakeholder> list = new ArrayList<Stakeholder>(stakeholderList);
+    list.remove(stakeholderId);
+    Random random = new Random();
+    Stakeholder buyer = list.get(random.nextInt(list.size()));
+    
+    SellLandRequest sellLandRequest = new SellLandRequest(seller, buyer, suitableLand, price);
+    apiConnection.execute("event/PlayerEventType/MAP_SELL_LAND/", 
+        CallType.POST, new StringResultHandler(), session, sellLandRequest);
+    return true;
+  }
+  
+  class SellLandRequest extends JSONArray {
+    public SellLandRequest(Stakeholder buyer, Stakeholder seller, Polygon polygon, double price) {
+      this.put(buyer.getId());
+      this.put(seller.getId());
+      this.put(PolygonUtil.toString(polygon));
+      this.put(price);
+    }
+  }
+  
+  /**
+   * Get all of the stakeholder's land that is free from buildings.
+   * @param stakeholder The stakeholder.
+   * @return The stakeholder's free land.
+   */
+  public Polygon getAvailableLand(Stakeholder stakeholder) {
+    loadBuildings();
+    loadLands();
+    
+    Polygon land = new Polygon();
+    for (Integer landId : stakeholder.getOwnedLands()) {
+      land = PolygonUtil.polygonUnion(land, landMap.get(landId).getPolygon());
+    }
+      
+    for (Building building : buildingList) {
+      if (!building.demolished()) {
+        land = PolygonUtil.polygonDifference(land, building.getPolygon());
+      }
+    }
+    
+    return land;
+  }
+  
+  /**
+   * Get all of the stakeholder's land that contains buildings.
+   * @param stakeholder The stakeholder.
+   * @return The stakeholder's occupied land.
+   */
+  private Polygon getOccupiedLand(Stakeholder stakeholder) {
+    loadBuildings();
+    loadLands();
+    
+    Polygon owned = new Polygon();
+    for (Integer landId : stakeholder.getOwnedLands()) {
+      owned = PolygonUtil.polygonUnion(owned, landMap.get(landId).getPolygon());
+    }
+    
+    Polygon occupied = new Polygon();
+    for (Building building : buildingList) {
+      if (!building.demolished()) {
+        occupied = PolygonUtil.polygonUnion(occupied, building.getPolygon());
+      }
+    }
+    
+    return PolygonUtil.polygonIntersection(owned, occupied);
+  }
+  
+  /**
    * Gets a piece of land from the available land with a certain surface.
    * @param availableLand The available land.
    * @param surface The desired surface of the land.
@@ -376,6 +600,18 @@ public class Environment implements Runnable {
     // If the selected land is empty, try again
     return intersection.calculateArea2D() != 0 ? intersection :
       getSuitableLand(availableLand, surface);
+  }
+  
+  private List<Polygon> getBuyableLand() {
+    List<Polygon> result = new ArrayList<Polygon>();
+    for (Stakeholder stakeholder : stakeholderList) {
+      Polygon land = new Polygon();
+      if (stakeholder.getId() != stakeholderId) {
+        land = PolygonUtil.polygonUnion(land, getAvailableLand(stakeholder));
+      }
+      result.add(land);
+    }
+    return result;
   }
   
   /**
@@ -433,131 +669,12 @@ public class Environment implements Runnable {
     return selectedLand.calculateArea2D() < surface * (1 + errorMargin) 
         && selectedLand.calculateArea2D() > surface * (1 - errorMargin);
   }
-  
-  /**
-   * Buys a piece of land.
-   * @param surface The desired surface of the land.
-   * @param cost The amount of money per unit of land.
-   * @return a boolean
-   */
-  public boolean buyLand(double surface, int cost) {
-    loadStakeholders();
-    logger.debug("Buying land");
-    
-    List<Polygon> availableLandList = getBuyableLand();
-    Polygon availableLand = PolygonUtil.polygonUnion(availableLandList);
-    
-    if (availableLand.isEmpty()) {
-      logger.info("No land available for buying");
-      return false;
-    } else if (availableLand.calculateArea2D() < surface) {
-      logger.info("Not enough land available for buying");
-      return false;
-    }
-    
-    Polygon suitableLand = getSuitableLand(availableLand, surface);
-    
-    // Split the land per landowner.
-    List<Polygon> splitLand = new ArrayList<Polygon>();
-    for (Polygon polygon : availableLandList) {
-      splitLand.add(PolygonUtil.polygonIntersection(polygon, suitableLand));
-    }
-    
-    Stakeholder buyer = stakeholderList.get(stakeholderId);
-    for (Polygon landPiece : splitLand) {
-      BuyLandRequest buyLandRequest = new BuyLandRequest(buyer, landPiece, cost);
-      apiConnection.execute("event/PlayerEventType/MAP_BUY_LAND/", 
-          CallType.POST, new StringResultHandler(), session, buyLandRequest);
-    }
-    return true;
-  }
-  
-  class BuyLandRequest extends JSONArray {
-    public BuyLandRequest(Stakeholder buyer, Polygon polygon, int cost) {
-      this.put(buyer.getId());
-      this.put(PolygonUtil.toString(polygon));
-      this.put(cost);
-    }
-  }
-  
-  private List<Polygon> getBuyableLand() {
-    List<Polygon> result = new ArrayList<Polygon>();
-    for (Stakeholder stakeholder : stakeholderList) {
-      Polygon land = new Polygon();
-      if (stakeholder.getId() != stakeholderId) {
-        land = PolygonUtil.polygonUnion(land, getAvailableLand(stakeholder));
-      }
-      result.add(land);
-    }
-    return result;
-  }
 
   private void getMapWidth() {
     if (mapWidth == 0) {
       mapWidth = apiConnection.execute("lists/settings/36/", 
           CallType.GET, new JsonObjectResultHandler(), session).getInt("value");
     }
-  }
-  
-  /**
-   * Select a stakeholder to play, can only be done once.
-   * @param stakeholderId the stakeholder id to select.
-   */
-  public void setStakeholder(int stakeholderId) {
-    this.stakeholderId = stakeholderId;
-    boolean retValue = apiConnection.execute("event/PlayerEventType/STAKEHOLDER_SELECT", 
-        CallType.POST, new BooleanResultHandler(), session, 
-        new StakeholderSelectRequest(stakeholderId,session.getClientToken()));
-    logger.info("Setting stakeholder to #" + stakeholderId + ". Operation " 
-        + ((retValue) ? "succes!" : "failed!" ));
-    if (!retValue) {
-      throw new RuntimeException("Stakeholder could not be selected!");
-    }
-  }
-  
-  class StakeholderSelectRequest extends JSONArray {
-    public StakeholderSelectRequest(int stakeholderId, String sessionToken) {
-      this.put(stakeholderId);
-      this.put(sessionToken);
-    }
-  }
-  
-  /**
-   * Releases the stakeholder that is currently selected.
-   */
-  public void releaseStakeholder() {
-    apiConnection.execute("event/LogicEventType/STAKEHOLDER_RELEASE/", 
-        CallType.POST, new BooleanResultHandler(), session, 
-        new StakeholderReleaseRequest(stakeholderId)); 
-  }
-  
-  class StakeholderReleaseRequest extends JSONArray {
-    public StakeholderReleaseRequest(int stakeholderId) {
-      this.put(stakeholderId);
-    }
-  }
-  
-  /**
-   * Get all of the stakeholder's land that is free from buildings.
-   * @param stakeholder The stakeholder.
-   * @return The stakeholder's free land.
-   */
-  private Polygon getAvailableLand(Stakeholder stakeholder) {
-    loadBuildings();
-    loadLands();
-    
-    Polygon land = new Polygon();
-    for (Integer landId : stakeholder.getOwnedLands()) {
-      land = PolygonUtil.polygonUnion(land, landMap.get(landId).getPolygon());
-    }
-      
-    for (Building building : buildingList) {
-      if (!building.demolished()) {
-        land = PolygonUtil.polygonDifference(land, building.getPolygon());
-      }
-    }
-    
-    return land;
   }
   
   private int max(int i1, int i2) {
