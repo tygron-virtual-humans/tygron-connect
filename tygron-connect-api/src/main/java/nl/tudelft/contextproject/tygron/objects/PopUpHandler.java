@@ -257,12 +257,7 @@ public class PopUpHandler {
   
   private void landBuyRequestReceived(PopUp popUp) {
     // Accept all land transaction requests
-    JSONArray parameters = new JSONArray();
-    parameters.put(stakeholderId);
-    parameters.put(popUp.getId());
-    parameters.put(0);
-    apiConnection.execute("event/PlayerEventType/POPUP_ANSWER/", CallType.POST, 
-        new JsonObjectResultHandler(), session, parameters);
+    answer(popUp, 0);
     
     // TODO Send info to stakeholder
     popUp.getCost();
