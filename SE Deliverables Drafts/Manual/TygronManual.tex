@@ -109,7 +109,7 @@ In this section, You will find all the actions present in the latest stable Tygr
  Syntax & build(<Surface>, <Type>) \\
  Parameters & <Surface>: The size of the surface to build on.\\
             & <Type>: The type of building to be built, this is a natural number with: \\
-            &      1 = building, 2 = park and 3 = parking lot.\\
+            &      0 = building, 1 = park and 2 = parking lot.\\
  Effects &  Builds a park, building or parking lot on an available piece of land.
 \end{tabularx}\\
 \\
@@ -120,10 +120,14 @@ In this section, You will find all the actions present in the latest stable Tygr
  Desription & Buy land. \\
  Syntax & buyLand(<Surface>, <Cost>) \\
  Parameters & <Surface>: The size of the surface to buy.\\
-            & <Type>: The cost to buy this piece of land.\\
+            & <Cost>: The cost of the land per $m^2$.\\
  Effects &  Buys land from another stakeholder.
 \end{tabularx}
 
+%%%----------------------------------------------------------
+\chapter{Choices}
+%%%----------------------------------------------------------
 
-
+\section*{3.1 Build action}
+For this release of the environment we chose to have three sorts of buildings that the agent can build: parking spaces, parks and buildings. We chose to do this because we have limited time; the Virtual Human will only play in a map where the only goals that can be accomplished involves building these buildings.
 \end{document}
