@@ -44,7 +44,6 @@ public class InterfaceImplTest {
   
   /**
    * initialize the test.
-   * @throws Exception 
    */
   @Before
   public void initTest() {

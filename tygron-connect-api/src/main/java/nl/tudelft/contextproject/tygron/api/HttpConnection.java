@@ -33,6 +33,7 @@ public class HttpConnection {
 
   /**
    * Creates a Tygron connection using some settings.
+   * @param settings the settings
    */
   public HttpConnection(Settings settings) {
     this.settings = settings;
@@ -58,6 +59,7 @@ public class HttpConnection {
   
   /**
    * Calls a method on Tygron's servers.
+   * @param <T> A type
    * @param eventName The event name, a part of the URL
    * @param type GET or POST event
    * @param resultHandler The handler used to parse Tygron's result.

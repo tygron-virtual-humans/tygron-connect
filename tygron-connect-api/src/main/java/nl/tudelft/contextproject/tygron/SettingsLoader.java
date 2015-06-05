@@ -18,6 +18,10 @@ public class SettingsLoader {
   /**
    * Groups can individually decide what username they will fall back on if the
    * loading or reading of the cfg file fails.
+   * 
+   * @param path the path of the config file
+   * 
+   * @throws Exception when fails
    */
   public SettingsLoader(String path) throws Exception {
     File jarFile = new File(this.getClass().getProtectionDomain().getCodeSource().getLocation().toURI().getPath());
@@ -35,6 +39,7 @@ public class SettingsLoader {
   /**
    * Read in the file from filepath and assign values to variables.
    * 
+   * @param stream the inputstream of the file
    * @throws Exception
    *           Exception for when read fails or if file is not found.
    */
