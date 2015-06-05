@@ -16,6 +16,13 @@
 		<module>tygron-connect-demo</module>
 	</modules>
 	
+	<properties>
+       <checkstyle.version>2.15</checkstyle.version>
+       <cobertura.version>2.6</cobertura.version>
+       <findbugs.version>3.0.1</findbugs.version>
+       <pmd.version>3.4</pmd.version>
+    </properties>
+	
 	<build>
 		<plugins>
 			<plugin>

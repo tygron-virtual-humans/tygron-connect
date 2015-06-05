@@ -29,6 +29,7 @@ public class Zone {
 
   /**
    * Extract zone settings from zone.
+   * @param object the json object with data
    */
   public Zone(JSONObject object) {
     JSONObject zone = object.getJSONObject("Zone");

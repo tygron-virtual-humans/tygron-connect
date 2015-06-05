@@ -70,6 +70,7 @@ public class Connector {
 
   /**
    * Return the session manager.
+   * @return the session manager
    */
   public SessionManager getSessionManager() {
     return sessionManager;
@@ -77,6 +78,7 @@ public class Connector {
 
   /**
    * Returns the connection.
+   * @return the connection
    */
   public HttpConnection getConnection() {
     return connection;
@@ -84,6 +86,7 @@ public class Connector {
 
   /**
    * Return the session.
+   * @return the session
    */
   public Session getSession() {
     return session;

@@ -43,6 +43,7 @@ public class SessionManager {
 
   /**
    * Joins a Tygron session.
+   * @param session the session to join
    */
   public void joinSession(Session session) {
     logger.info("Joining session in slot " + session.getId());
@@ -82,6 +83,8 @@ public class SessionManager {
    * and return it.
    *
    * @param mapName The mapname you are trying to join.
+   * @param preferedSlot the preferred slot
+   * @return a session
    */
   public Session createOrFindSessionAndJoin(String mapName, int preferedSlot) {
     logger.info("Create or find a session with name: " + mapName);
@@ -148,6 +151,7 @@ public class SessionManager {
   /**
    * Hard kill a Tygron session and reply whether it was a success or not.
    *
+   * @param slotId the id of the slot to load in
    * @return whether the kill was successful or not.
    */
   public boolean killSession(int slotId) {

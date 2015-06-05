@@ -34,6 +34,7 @@ public class Session {
 
   /**
    * Tygron Session Object.
+   * @param localApiConnection the connection to the api
    */
   public Session(HttpConnection localApiConnection) {
     apiConnection = localApiConnection;
@@ -46,6 +47,8 @@ public class Session {
 
   /**
    * Tygron Session Object with data.
+   * @param localApiConnection the connection to the api
+   * @param data the json data
    */
   public Session(HttpConnection localApiConnection, JSONObject data) {
     this(localApiConnection);

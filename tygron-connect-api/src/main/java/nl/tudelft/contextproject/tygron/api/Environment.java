@@ -438,6 +438,7 @@ public class Environment implements Runnable {
    * Buys a piece of land.
    * @param surface The desired surface of the land.
    * @param cost The amount of money per unit of land.
+   * @return a boolean
    */
   public boolean buyLand(double surface, int cost) {
     loadStakeholders();
@@ -501,7 +502,6 @@ public class Environment implements Runnable {
   /**
    * Select a stakeholder to play, can only be done once.
    * @param stakeholderId the stakeholder id to select.
-   * @throws Exception if stakeholder fails
    */
   public void setStakeholder(int stakeholderId) {
     this.stakeholderId = stakeholderId;
