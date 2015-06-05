@@ -110,8 +110,9 @@ public class PopUpHandler {
   public void loadPopUps() {
     JSONObject dataObject = apiConnection.getUpdate(new JsonObjectResultHandler(), session, 
         getRequestObject());
-    if (dataObject != null) {
-      updateList(dataObject.getJSONObject("items").getJSONObject("POPUPS"));
+    JSONObject items = dataObject.getJSONObject("items");
+    if (dataObject.isNull("items")) {
+      updateList(items.getJSONObject("POPUPS"));
     } else {
       list = new ArrayList<PopUp>();
     }
@@ -253,11 +254,31 @@ public class PopUpHandler {
   }
   
   private void landBuyRequestReceived(PopUp popUp) {
+    // Accept all land transaction requests
+    JSONArray parameters = new JSONArray();
+    parameters.put(stakeholderId);
+    parameters.put(popUp.getId());
+    parameters.put(0);
+    apiConnection.execute("event/PlayerEventType/POPUP_ANSWER/", CallType.POST, 
+        new JsonObjectResultHandler(), session, parameters);
+    
     // TODO Send info to stakeholder
+    popUp.getCost();
+    popUp.getSurface();
   }
   
   private void landSellRequestReceived(PopUp popUp) {
+    // Accept all land transaction requests
+    JSONArray parameters = new JSONArray();
+    parameters.put(stakeholderId);
+    parameters.put(popUp.getId());
+    parameters.put(0);
+    apiConnection.execute("event/PlayerEventType/POPUP_ANSWER/", CallType.POST, 
+        new JsonObjectResultHandler(), session, parameters);
+    
     // TODO Send info to stakeholder
+    popUp.getCost();
+    popUp.getSurface();
   }
   
   private void permitRequestAsk(PopUp popUp) {
