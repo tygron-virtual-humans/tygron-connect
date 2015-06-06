@@ -13,6 +13,7 @@ public class Building {
   private static final Logger logger = LoggerFactory.getLogger(Building.class);
   
   private int id;
+  private int functionId;
   private String name;
   private Polygon polygon;
   private int floors;
@@ -25,6 +26,7 @@ public class Building {
   public Building(JSONObject input) {
     name = input.getString("name");
     id = input.getInt("id");
+    functionId = input.getInt("functionID");
     try {
       polygon = PolygonUtil.createPolygonFromWkt(input.getString("polygons"));
     } catch (Exception e) {
@@ -36,7 +38,7 @@ public class Building {
   }
 
   /**
-   * Get the buildings id.
+   * Get the building's id.
    * @return Building id.
    */
   public int getId() {
@@ -44,11 +46,19 @@ public class Building {
   } 
   
   /**
-   * Get the buildings name.
+   * Get the building's name.
    * @return Building name.
    */
   public String getName() {
     return name;
+  }
+  
+  /**
+   * Get the building's function id.
+   * @return Building function id.
+   */
+  public int getFunctionId() {
+    return functionId;
   }
   
   /**

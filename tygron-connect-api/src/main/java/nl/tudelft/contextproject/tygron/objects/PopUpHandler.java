@@ -1,6 +1,7 @@
 package nl.tudelft.contextproject.tygron.objects;
 
 import nl.tudelft.contextproject.tygron.api.CallType;
+import nl.tudelft.contextproject.tygron.api.Environment;
 import nl.tudelft.contextproject.tygron.api.HttpConnection;
 import nl.tudelft.contextproject.tygron.api.Session;
 import nl.tudelft.contextproject.tygron.handlers.JsonObjectResultHandler;
@@ -25,8 +26,7 @@ public class PopUpHandler {
     LAND_SELL_REQUEST_SENT, LAND_BUY__REQUEST_SENT, LAND_TRANSACTION_APPROVED, 
     LAND_TRANSACION_REFUSED, LAND_BUY_REQUEST_RECEIVED, LAND_SELL_REQUEST_RECEIVED, 
     PERMIT_REQUEST_ASK, PERMIT_REQUEST_RECEIVED, PERMIT_REQUEST_SENT, 
-    PERMIT_REQUEST_APPROVED, PERMIT_REQUEST_REFUSED, ZONING_DIVERGED, 
-    ZONING_DIVERGED_PERSONAL
+    PERMIT_REQUEST_APPROVED, PERMIT_REQUEST_REFUSED, ZONING_DIVERGED, PLAN_PERFORM_ASK
   }
   
   private HttpConnection apiConnection;
@@ -57,32 +57,32 @@ public class PopUpHandler {
    */
   private void loadServerWords() {
     String res;
-    res = replace(getServerWord(3));
+    res = replace(getServerWord(2));
     wordsMap.put(EventValue.PERMIT_REQUEST_RECEIVED, res);
-    res = replace(getServerWord(6));
+    res = replace(getServerWord(165));
     wordsMap.put(EventValue.ZONING_DIVERGED, res);
-    res = replace(getServerWord(7));
-    wordsMap.put(EventValue.ZONING_DIVERGED_PERSONAL, res);
-    res = replace(getServerWord(180));
+    res = replace(getServerWord(92));
     wordsMap.put(EventValue.LAND_BUY_REQUEST_RECEIVED, res);
-    res = replace(getServerWord(181));
+    res = replace(getServerWord(93));
     wordsMap.put(EventValue.LAND_TRANSACTION_APPROVED, res);
-    res = replace(getServerWord(182));
+    res = replace(getServerWord(94));
     wordsMap.put(EventValue.LAND_SELL_REQUEST_RECEIVED, res);
-    res = replace(getServerWord(183));
+    res = replace(getServerWord(95));
     wordsMap.put(EventValue.LAND_TRANSACION_REFUSED, res);
-    res = replace(getServerWord(223));
+    res = replace(getServerWord(127));
     wordsMap.put(EventValue.LAND_BUY__REQUEST_SENT, res);
-    res = replace(getServerWord(224));
+    res = replace(getServerWord(128));
     wordsMap.put(EventValue.LAND_SELL_REQUEST_SENT, res);
-    res = replace(getServerWord(231));
+    res = replace(getServerWord(135));
     wordsMap.put(EventValue.PERMIT_REQUEST_REFUSED, res);
-    res = replace(getServerWord(233));
+    res = replace(getServerWord(137));
     wordsMap.put(EventValue.PERMIT_REQUEST_ASK, res);
-    res = replace(getServerWord(234));
+    res = replace(getServerWord(139));
     wordsMap.put(EventValue.PERMIT_REQUEST_APPROVED, res);
-    res = replace(getServerWord(236));
+    res = replace(getServerWord(140));
     wordsMap.put(EventValue.PERMIT_REQUEST_SENT, res);
+    res = replace(getServerWord(134));
+    wordsMap.put(EventValue.PLAN_PERFORM_ASK, res);
   }
   
   /**
@@ -110,11 +110,13 @@ public class PopUpHandler {
   public void loadPopUps() {
     JSONObject dataObject = apiConnection.getUpdate(new JsonObjectResultHandler(), session, 
         getRequestObject());
-    JSONObject items = dataObject.getJSONObject("items");
-    if (items.has("POPUPS")) {
-      updateList(items.getJSONObject("POPUPS"));
-    } else {
-      list = new ArrayList<PopUp>();
+    if (dataObject != null) {
+      JSONObject items = dataObject.getJSONObject("items");
+      if (items.has("POPUPS")) {
+        updateList(items.getJSONObject("POPUPS"));
+      } else {
+        list = new ArrayList<PopUp>();
+      }
     }
   }
   
@@ -236,8 +238,8 @@ public class PopUpHandler {
         case ZONING_DIVERGED:
           zoneDiverged(popUp);
           break;
-        case ZONING_DIVERGED_PERSONAL:
-          zoneDivergedPersonal(popUp);
+        case PLAN_PERFORM_ASK:
+          planPerformAsk(popUp);
           break;
         default: // Do nothing (LAND_SELL_REQUEST_SENT, LAND_BUY__REQUEST_SENT, PERMIT_REQUEST_SENT)
           break;
@@ -281,12 +283,10 @@ public class PopUpHandler {
     answer(popUp, 0);
     // TODO Send info to stakeholder
   }
-  
-  private void zoneDivergedPersonal(PopUp popUp) {
-    // TODO Change zone max floors and function categories
-  }
 
   private void zoneDiverged(PopUp popUp) {
+    Environment environment = session.getEnvironment();
+    environment.changeZones(popUp.getLinkId());
     // TODO Send info to stakeholder
   }
 
@@ -296,6 +296,11 @@ public class PopUpHandler {
   }
 
   private void permitRequestApproved(PopUp popUp) {
+    answer(popUp, 0);
+    // TODO Send info to stakeholder
+  }
+  
+  private void planPerformAsk(PopUp popUp) {
     answer(popUp, 0);
     // TODO Send info to stakeholder
   }

@@ -7,6 +7,7 @@ import com.esri.core.geometry.OperatorEquals;
 import com.esri.core.geometry.OperatorExportToWkt;
 import com.esri.core.geometry.OperatorImportFromWkt;
 import com.esri.core.geometry.OperatorIntersection;
+import com.esri.core.geometry.OperatorIntersects;
 import com.esri.core.geometry.OperatorUnion;
 import com.esri.core.geometry.Polygon;
 import com.esri.core.geometry.SpatialReference;
@@ -48,6 +49,20 @@ public class PolygonUtil {
   public static boolean polygonContains(Polygon polygon1, Polygon polygon2) {
     SpatialReference sr = SpatialReference.create(1);
     return OperatorContains.local().execute(polygon1, polygon2, sr, null);
+  }
+  
+  /**
+   * Returns true if polygon1 intersects with polygon2.
+   * 
+   * @param polygon1
+   *          The polygon.
+   * @param polygon2
+   *          The polygon.
+   * @return Boolean that shows whether polygon1 intersects with polygon2.
+   */
+  public static boolean polygonIntersects(Polygon polygon1, Polygon polygon2) {
+    SpatialReference sr = SpatialReference.create(1);
+    return OperatorIntersects.local().execute(polygon1, polygon2, sr, null);
   }
   
   /**
