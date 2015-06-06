@@ -10,6 +10,17 @@ import nl.tudelft.contextproject.tygron.objects.User;
 
 /**
  * The TygronConnector is the bridge between the Tygron API and JAVA.
+ * The Tygron API is still under development. It might be the case that not all parts of this code are functional at all times. 
+ * Please check the log files if such a thing happens.
+ * Enjoy your stay...
+ * 
+ *    ROFL:ROFL:LOL:ROFL:ROFL
+ *        ______/|\____
+ *  L    /          [] \
+ * LOL===_      ROFL    \_
+ *  L     \_______________]
+ *            I      I
+ *        /---------------/
  */
 public class Connector {
 
