@@ -1,14 +1,9 @@
 package nl.tudelft.contextproject.democode;
 
-import nl.tudelft.contextproject.tygron.api.CallType;
 import nl.tudelft.contextproject.tygron.api.Connector;
 import nl.tudelft.contextproject.tygron.api.Environment;
-import nl.tudelft.contextproject.tygron.api.HttpConnection;
 import nl.tudelft.contextproject.tygron.api.Session;
-import nl.tudelft.contextproject.tygron.api.SessionManager;
-import nl.tudelft.contextproject.tygron.handlers.JsonObjectResultHandler;
 
-import org.json.JSONArray;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -29,24 +24,17 @@ public class DemoBuilding {
     Connector connector = new Connector();
 
     // Get a session
-    SessionManager sessionManager = connector.getSessionManager();
-    Session session = sessionManager.createOrFindSessionAndJoin("example2");
-
+    connector.connectToMap("example2");
+    Session session = connector.getSession();
+    
     // Write the API link to a file
     FileWriter writer = new FileWriter("demoBuildingText");
     writer.write("Session link: " + "https://server2.tygron.com:3022/api/slots/" + session.getId() + "/?token=" + session.getServerToken() + "\n");
     writer.close();
-
-    HttpConnection connection = connector.getConnection();
-
-    // Allow interaction
-    String allowInteraction = "event/SettingsLogicEventType/SETTINGS_ALLOW_GAME_INTERACTION/";
-    JSONArray param = new JSONArray();
-    param.put(true);
-    connection.execute(allowInteraction, CallType.POST, new JsonObjectResultHandler(), 
-        session, param);
   
     Environment environment = session.getEnvironment();
+    
+    environment.allowGameInteraction(true);
     environment.setStakeholder(2);
     
     logger.info("Buying land done: " + environment.buyLand(5000, 200));

@@ -15,6 +15,7 @@ import nl.tudelft.contextproject.tygron.objects.LandMap;
 import nl.tudelft.contextproject.tygron.objects.PopUpHandler;
 import nl.tudelft.contextproject.tygron.objects.Stakeholder;
 import nl.tudelft.contextproject.tygron.objects.StakeholderList;
+import nl.tudelft.contextproject.tygron.objects.Zone;
 import nl.tudelft.contextproject.tygron.objects.ZoneList;
 import nl.tudelft.contextproject.tygron.objects.indicators.IndicatorList;
 import nl.tudelft.contextproject.util.PolygonUtil;
@@ -97,6 +98,17 @@ public class Environment implements Runnable {
         throw new RuntimeException(e);
       }
     }
+  }
+  
+  /**
+   * Allows or disables game interaction.
+   */
+  public void allowGameInteraction(boolean set) {
+    String allowInteraction = "event/LogicEventType/SETTINGS_ALLOW_GAME_INTERACTION/";
+    JSONArray param = new JSONArray();
+    param.put(set);
+    apiConnection.execute(allowInteraction, CallType.POST, new JsonObjectResultHandler(), 
+        session, param);
   }
   
   /**
@@ -514,6 +526,36 @@ public class Environment implements Runnable {
   }
   
   /**
+   * Change zones to include the given building's category and floors.
+   * @param buildingId The building's id.
+   */
+  public void changeZones(int buildingId) {
+    Building building = loadBuildings().get(buildingId);
+    Function function = loadFunctions().get(building.getFunctionId());
+    
+    ZoneList zoneList = loadZones();
+    for (Zone zone : zoneList) {
+      if (PolygonUtil.polygonIntersects(zone.getPolygon(), building.getPolygon())) {
+        // Add function category to zone.
+        JSONArray parameters = new JSONArray();
+        parameters.put(stakeholderId);
+        parameters.put(zone.getId());
+        parameters.put(function.getCategoryValue().toString());
+        apiConnection.execute("event/PlayerEventType/ZONE_ADD_FUNCTION_CATEGORY/", CallType.POST,
+            new JsonObjectResultHandler(), session, parameters);
+        
+        // Change max floors allowed in zone
+        parameters = new JSONArray();
+        parameters.put(stakeholderId);
+        parameters.put(zone.getId());
+        parameters.put(max(zone.getAllowedFloors(), building.getFloors()));
+        apiConnection.execute("event/PlayerEventType/ZONE_SET_MAX_FLOORS/", CallType.POST,
+            new JsonObjectResultHandler(), session, parameters);
+      }
+    }
+  }
+  
+  /**
    * Get all of the stakeholder's land that is free from buildings.
    * @param stakeholder The stakeholder.
    * @return The stakeholder's free land.
@@ -672,7 +714,7 @@ public class Environment implements Runnable {
 
   private void getMapWidth() {
     if (mapWidth == 0) {
-      mapWidth = apiConnection.execute("lists/settings/36/", 
+      mapWidth = apiConnection.execute("lists/settings/31/", 
           CallType.GET, new JsonObjectResultHandler(), session).getInt("value");
     }
   }

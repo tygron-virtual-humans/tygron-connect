@@ -24,4 +24,16 @@ public class BuildingList extends ArrayList<Building> {
       this.add(building);
     }
   }
+  
+  /**
+   * Gets the building with the provided id.
+   */
+  public Building get(int id) {
+    for (Building building : this) {
+      if (building.getId() == id) {
+        return building;
+      }
+    }
+    return null;
+  }
 }
