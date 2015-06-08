@@ -28,8 +28,6 @@ public class PopUpHandler {
     PERMIT_REQUEST_ASK, PERMIT_REQUEST_RECEIVED, PERMIT_REQUEST_SENT, 
     PERMIT_REQUEST_APPROVED, PERMIT_REQUEST_REFUSED, ZONING_DIVERGED, PLAN_PERFORM_ASK
   }
-  
-  private HttpConnection apiConnection;
   private Session session;
   
   private int version;
@@ -39,12 +37,10 @@ public class PopUpHandler {
   
   /**
    * A list containing all new, active popups.
-   * @param localApiConnection The connection
    * @param session The session
    * @param stakeholderId The id of the player's stakeholder
    */
-  public PopUpHandler(HttpConnection localApiConnection, Session session, int stakeholderId) {
-    apiConnection = localApiConnection;
+  public PopUpHandler(Session session, int stakeholderId) {
     this.session = session;
     this.stakeholderId = stakeholderId;
     this.version = 0;
@@ -90,8 +86,8 @@ public class PopUpHandler {
    * @return The server word translation
    */
   private String getServerWord(int wordId) {
-    return apiConnection.execute("lists/serverwords/" + wordId + "/", CallType.GET, 
-        new JsonObjectResultHandler(), session).getString("translation");
+    return HttpConnection.getInstance().execute("lists/serverwords/" + wordId + "/",
+            CallType.GET, new JsonObjectResultHandler(), session).getString("translation");
   }
   
   /**
@@ -108,8 +104,8 @@ public class PopUpHandler {
    * Gets new popups from the API update.
    */
   public void loadPopUps() {
-    JSONObject dataObject = apiConnection.getUpdate(new JsonObjectResultHandler(), session, 
-        getRequestObject());
+    JSONObject dataObject = HttpConnection.getInstance().getUpdate(new JsonObjectResultHandler(),
+            session, getRequestObject());
     if (dataObject != null) {
       JSONObject items = dataObject.getJSONObject("items");
       if (items.has("POPUPS")) {
@@ -310,8 +306,8 @@ public class PopUpHandler {
     parameters.put(stakeholderId);
     parameters.put(popUp.getId());
     parameters.put(answer);
-    apiConnection.execute("event/PlayerEventType/POPUP_ANSWER/", CallType.POST, 
-        new JsonObjectResultHandler(), session, parameters);
+    HttpConnection.getInstance().execute("event/PlayerEventType/POPUP_ANSWER/",
+            CallType.POST, new JsonObjectResultHandler(), session, parameters);
   }
   
   public List<PopUp> getList() {

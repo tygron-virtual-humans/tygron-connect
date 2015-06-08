@@ -24,15 +24,16 @@ public class DemoHttp {
    */
   public static void main(String[] args) {
     // General setup for http
-    HttpConnection http = new HttpConnection(new Settings());
+    HttpConnection.setSettings(new Settings());
 
     // Example GET request
-    JSONObject getDemoResponse = http.execute("services/myuser/", CallType.GET, new JsonObjectResultHandler());
+    JSONObject getDemoResponse = HttpConnection.getInstance().execute("services/myuser/",
+            CallType.GET, new JsonObjectResultHandler());
     logger.info("User is active? " + getDemoResponse.getBoolean("active"));
 
     // Example POST request
-    JSONObject postDemoResponse = http.execute("services/event/UserServicesEventType/GET_MY_USER", CallType.POST,
-        new JsonObjectResultHandler());
+    JSONObject postDemoResponse = HttpConnection.getInstance().execute("services/event/UserServicesEventType/GET_MY_USER",
+            CallType.POST, new JsonObjectResultHandler());
     logger.info("User #" + postDemoResponse.getInt("id") + " " + postDemoResponse.getString("userName") + " "
         + postDemoResponse.getString("firstName") + " " + postDemoResponse.getString("lastName"));
   }

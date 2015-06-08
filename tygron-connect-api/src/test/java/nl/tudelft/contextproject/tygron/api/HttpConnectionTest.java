@@ -63,7 +63,8 @@ public class HttpConnectionTest {
 
         when(session.getId()).thenReturn(17);
 
-        connection = new HttpConnection(settings);
+        HttpConnection.setSettings(settings);
+        connection = HttpConnection.getInstance();
 
         when(handler.handleResponse(any(HttpResponse.class))).thenReturn(responseString);
         connection.handler = handler;

@@ -18,35 +18,22 @@ public class Connector {
   private User user;
   private Session session;
   private SessionManager sessionManager;
-  private HttpConnection connection;
 
   /**
    * Create a new TygronConnector.
    */
   public Connector() {
-    this(new HttpConnection(new Settings()));
-  }
-
-  /**
-   * Create a new TygronConnector with a given connection.
-   * 
-   * @param connection
-   *          the connection to use.
-   */
-  public Connector(HttpConnection connection) {
     logger.info("Connector loading.");
 
-    this.connection = connection;
-
     // Now load user, it depends on http
-    JSONObject userObj = connection.execute("services/myuser", CallType.GET, new JsonObjectResultHandler());
+    JSONObject userObj = HttpConnection.getInstance().execute("services/myuser", CallType.GET, new JsonObjectResultHandler());
     user = new User(userObj);
 
     logger.info("Using user #" + user.getId() + " " + user.getUserName() + " " + user.getFirstName() + " "
         + user.getLastName());
 
     // Create a new session manager
-    sessionManager = new SessionManager(connection);
+    sessionManager = new SessionManager();
     logger.info("Connector loading complete.");
   }
   
@@ -74,14 +61,6 @@ public class Connector {
    */
   public SessionManager getSessionManager() {
     return sessionManager;
-  }
-
-  /**
-   * Returns the connection.
-   * @return the connection
-   */
-  public HttpConnection getConnection() {
-    return connection;
   }
 
   /**

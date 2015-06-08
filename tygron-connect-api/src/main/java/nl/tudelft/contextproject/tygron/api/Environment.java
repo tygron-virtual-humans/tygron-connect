@@ -43,7 +43,6 @@ public class Environment implements Runnable {
   private final double errorMargin = 0.10;
 
   // Environment oriented
-  private HttpConnection apiConnection;
   private Session session;
   private PopUpHandler popUpHandler;
 
@@ -64,11 +63,9 @@ public class Environment implements Runnable {
 
   /**
    * Creates an environment that communicates with the session API.
-   * @param localApiConnection The connection.
    * @param session The session.
    */
-  public Environment(HttpConnection localApiConnection, Session session) {
-    apiConnection = localApiConnection;
+  public Environment(Session session) {
     this.session = session;
     stakeholderId = -1;
   }
@@ -107,8 +104,8 @@ public class Environment implements Runnable {
     String allowInteraction = "event/LogicEventType/SETTINGS_ALLOW_GAME_INTERACTION/";
     JSONArray param = new JSONArray();
     param.put(set);
-    apiConnection.execute(allowInteraction, CallType.POST, new JsonObjectResultHandler(), 
-        session, param);
+    HttpConnection.getInstance().execute(allowInteraction, CallType.POST,
+            new JsonObjectResultHandler(), session, param);
   }
   
   /**
@@ -133,8 +130,8 @@ public class Environment implements Runnable {
    */
   public StakeholderList loadStakeholders() {
     logger.debug("Loading stakeholders");
-    JSONArray data = apiConnection.execute("lists/"
-        + "stakeholders/", CallType.GET, new JsonArrayResultHandler(), session);
+    JSONArray data = HttpConnection.getInstance().execute("lists/"
+            + "stakeholders/", CallType.GET, new JsonArrayResultHandler(), session);
     this.stakeholderList = new StakeholderList(data);
     
     loadActions();
@@ -158,15 +155,15 @@ public class Environment implements Runnable {
    */
   public void setStakeholder(int stakeholderId) {
     this.stakeholderId = stakeholderId;
-    boolean retValue = apiConnection.execute("event/PlayerEventType/STAKEHOLDER_SELECT", 
-        CallType.POST, new BooleanResultHandler(), session, 
-        new StakeholderSelectRequest(stakeholderId,session.getClientToken()));
+    boolean retValue = HttpConnection.getInstance().execute("event/PlayerEventType/STAKEHOLDER_SELECT",
+            CallType.POST, new BooleanResultHandler(), session,
+            new StakeholderSelectRequest(stakeholderId, session.getClientToken()));
     logger.info("Setting stakeholder to #" + stakeholderId + ". Operation " 
         + ((retValue) ? "succes!" : "failed!" ));
     if (!retValue) {
       throw new RuntimeException("Stakeholder could not be selected!");
     }
-    popUpHandler = new PopUpHandler(apiConnection, session, stakeholderId);
+    popUpHandler = new PopUpHandler(session, stakeholderId);
   }
   
   class StakeholderSelectRequest extends JSONArray {
@@ -180,9 +177,9 @@ public class Environment implements Runnable {
    * Releases the stakeholder that is currently selected.
    */
   public void releaseStakeholder() {
-    apiConnection.execute("event/LogicEventType/STAKEHOLDER_RELEASE/", 
-        CallType.POST, new BooleanResultHandler(), session, 
-        new StakeholderReleaseRequest(stakeholderId)); 
+    HttpConnection.getInstance().execute("event/LogicEventType/STAKEHOLDER_RELEASE/",
+            CallType.POST, new BooleanResultHandler(), session,
+            new StakeholderReleaseRequest(stakeholderId));
     stakeholderId = -1;
   }
   
@@ -194,11 +191,10 @@ public class Environment implements Runnable {
   
   /**
    * Load actions and assign their functions to stakeholders.
-   * @param stakeholderList The list of stakeholders.
    */
   private void loadActions() {
-    JSONArray actionList = apiConnection.execute("lists/actionmenus/", 
-        CallType.GET, new JsonArrayResultHandler(), session);
+    JSONArray actionList = HttpConnection.getInstance().execute("lists/actionmenus/",
+            CallType.GET, new JsonArrayResultHandler(), session);
     for (int i = 0; i < actionList.length(); i++) {
       JSONObject action = actionList.getJSONObject(i).getJSONObject("ActionMenu");
       JSONArray functions = action.getJSONArray("functionTypes");
@@ -231,8 +227,8 @@ public class Environment implements Runnable {
    */
   public IndicatorList loadIndicators() {
     logger.debug("Loading indicators");
-    JSONArray data = apiConnection.execute("lists/"
-        + "indicators", CallType.GET, new JsonArrayResultHandler(), session);
+    JSONArray data = HttpConnection.getInstance().execute("lists/"
+            + "indicators", CallType.GET, new JsonArrayResultHandler(), session);
     this.indicatorList = new IndicatorList(data);
     return this.indicatorList;
   }
@@ -253,8 +249,8 @@ public class Environment implements Runnable {
    */
   public ZoneList loadZones() {
     logger.debug("Loading zones");
-    JSONArray data = apiConnection.execute("lists/"
-        + "zones", CallType.GET, new JsonArrayResultHandler(), session);
+    JSONArray data = HttpConnection.getInstance().execute("lists/"
+            + "zones", CallType.GET, new JsonArrayResultHandler(), session);
     this.zoneList = new ZoneList(data);
     return this.zoneList;
   }
@@ -275,8 +271,8 @@ public class Environment implements Runnable {
    */
   public EconomyList loadEconomies() {
     logger.debug("Loading economies");
-    JSONArray data = apiConnection.execute("lists/"
-        + "economies", CallType.GET, new JsonArrayResultHandler(), session);
+    JSONArray data = HttpConnection.getInstance().execute("lists/"
+            + "economies", CallType.GET, new JsonArrayResultHandler(), session);
     this.economyList = new EconomyList(data);
     return this.economyList;
   }
@@ -297,8 +293,8 @@ public class Environment implements Runnable {
    */
   public BuildingList loadBuildings() {
     logger.debug("Loading buildings");
-    JSONArray data = apiConnection.execute("lists/"
-        + "buildings", CallType.GET, new JsonArrayResultHandler(), session);
+    JSONArray data = HttpConnection.getInstance().execute("lists/"
+            + "buildings", CallType.GET, new JsonArrayResultHandler(), session);
     this.buildingList = new BuildingList(data);
     return this.buildingList;
   }
@@ -318,8 +314,8 @@ public class Environment implements Runnable {
    */
   public FunctionMap loadFunctions() {
     logger.debug("Loading functions");
-    JSONArray data = apiConnection.execute("lists/functions", 
-        CallType.GET, new JsonArrayResultHandler(), session);
+    JSONArray data = HttpConnection.getInstance().execute("lists/functions",
+            CallType.GET, new JsonArrayResultHandler(), session);
     this.functionMap = new FunctionMap(data);
     return this.functionMap;
   }
@@ -330,8 +326,8 @@ public class Environment implements Runnable {
    */
   public LandMap loadLands() {
     logger.debug("Loading lands");
-    JSONArray data = apiConnection.execute("lists/lands", 
-        CallType.GET, new JsonArrayResultHandler(), session);
+    JSONArray data = HttpConnection.getInstance().execute("lists/lands",
+            CallType.GET, new JsonArrayResultHandler(), session);
     this.landMap = new LandMap(data);
     return this.landMap;
   }
@@ -385,8 +381,8 @@ public class Environment implements Runnable {
     if (selectedLand != null) {
       BuildRequest buildRequest = new BuildRequest(stakeholder, 
           function, neededFloors, selectedLand);
-      apiConnection.execute("event/PlayerEventType/BUILDING_PLAN_CONSTRUCTION/", 
-          CallType.POST, new StringResultHandler(), session, buildRequest);
+      HttpConnection.getInstance().execute("event/PlayerEventType/BUILDING_PLAN_CONSTRUCTION/",
+              CallType.POST, new StringResultHandler(), session, buildRequest);
       return true;
     } else {
       logger.info("Not enough land for building");
@@ -425,8 +421,8 @@ public class Environment implements Runnable {
     Polygon suitableLand = getSuitableLand(occupiedLand, surface);
     
     DemolishRequest demolishRequest = new DemolishRequest(stakeholder, suitableLand);
-    apiConnection.execute("event/PlayerEventType/BUILDING_PLAN_DEMOLISH_COORDINATES/", 
-        CallType.POST, new StringResultHandler(), session, demolishRequest);
+    HttpConnection.getInstance().execute("event/PlayerEventType/BUILDING_PLAN_DEMOLISH_COORDINATES/",
+            CallType.POST, new StringResultHandler(), session, demolishRequest);
     return true;
   }
   
@@ -469,8 +465,8 @@ public class Environment implements Runnable {
     Stakeholder buyer = stakeholderList.get(stakeholderId);
     for (Polygon landPiece : splitLand) {
       BuyLandRequest buyLandRequest = new BuyLandRequest(buyer, landPiece, cost);
-      apiConnection.execute("event/PlayerEventType/MAP_BUY_LAND/", 
-          CallType.POST, new StringResultHandler(), session, buyLandRequest);
+      HttpConnection.getInstance().execute("event/PlayerEventType/MAP_BUY_LAND/",
+              CallType.POST, new StringResultHandler(), session, buyLandRequest);
     }
     return true;
   }
@@ -511,8 +507,8 @@ public class Environment implements Runnable {
     Stakeholder buyer = list.get(random.nextInt(list.size()));
     
     SellLandRequest sellLandRequest = new SellLandRequest(seller, buyer, suitableLand, price);
-    apiConnection.execute("event/PlayerEventType/MAP_SELL_LAND/", 
-        CallType.POST, new StringResultHandler(), session, sellLandRequest);
+    HttpConnection.getInstance().execute("event/PlayerEventType/MAP_SELL_LAND/",
+            CallType.POST, new StringResultHandler(), session, sellLandRequest);
     return true;
   }
   
@@ -541,16 +537,16 @@ public class Environment implements Runnable {
         parameters.put(stakeholderId);
         parameters.put(zone.getId());
         parameters.put(function.getCategoryValue().toString());
-        apiConnection.execute("event/PlayerEventType/ZONE_ADD_FUNCTION_CATEGORY/", CallType.POST,
-            new JsonObjectResultHandler(), session, parameters);
+        HttpConnection.getInstance().execute("event/PlayerEventType/ZONE_ADD_FUNCTION_CATEGORY/", CallType.POST,
+                new JsonObjectResultHandler(), session, parameters);
         
         // Change max floors allowed in zone
         parameters = new JSONArray();
         parameters.put(stakeholderId);
         parameters.put(zone.getId());
         parameters.put(max(zone.getAllowedFloors(), building.getFloors()));
-        apiConnection.execute("event/PlayerEventType/ZONE_SET_MAX_FLOORS/", CallType.POST,
-            new JsonObjectResultHandler(), session, parameters);
+        HttpConnection.getInstance().execute("event/PlayerEventType/ZONE_SET_MAX_FLOORS/", CallType.POST,
+                new JsonObjectResultHandler(), session, parameters);
       }
     }
   }
@@ -666,8 +662,8 @@ public class Environment implements Runnable {
   
   /**
    * Gets the maximum amount of floors possible in the stakeholder's functions.
-   * @param The stakeholder initiating the building project.
-   * @param The type of building project.
+   * @param stakeholder The stakeholder initiating the building project.
+   * @param type The type of building project.
    * @return The minimum amount of floors.
    */
   private int getMaxFloors(Stakeholder stakeholder, int type) {
@@ -694,7 +690,7 @@ public class Environment implements Runnable {
   private Function getFunction(Stakeholder stakeholder, int floors, int type) {
     loadFunctions();
     List<Integer> functions = stakeholder.getAllowedFunctions();
-    List<Function> functionList = new ArrayList<Function>();
+    List<Function> functionList = new ArrayList<>();
     for (Integer functionId : functions) {
       Function function = functionMap.get(functionId);
       if (function.hasEnoughFloors(floors) && function.isRightType(type)) {
@@ -714,8 +710,8 @@ public class Environment implements Runnable {
 
   private void getMapWidth() {
     if (mapWidth == 0) {
-      mapWidth = apiConnection.execute("lists/settings/31/", 
-          CallType.GET, new JsonObjectResultHandler(), session).getInt("value");
+      mapWidth = HttpConnection.getInstance().execute("lists/settings/31/",
+              CallType.GET, new JsonObjectResultHandler(), session).getInt("value");
     }
   }
   

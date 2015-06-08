@@ -23,7 +23,6 @@ public class HttpConnection {
   protected HttpClient client;
   protected BasicResponseHandler handler;
 
-  private Settings settings;
   private String serverToken;
 
   private static final String API_URL_BASE = "https://server2.tygron.com:3022/api/";
@@ -35,10 +34,27 @@ public class HttpConnection {
    * Creates a Tygron connection using some settings.
    * @param settings the settings
    */
-  public HttpConnection(Settings settings) {
+  private HttpConnection(Settings settings) {
     this.settings = settings;
     this.client = HttpClients.custom().build();
     this.handler = new BasicResponseHandler();
+  }
+
+  private static HttpConnection instance;
+  private static Settings settings;
+
+  public static void setSettings(Settings settings) {
+    HttpConnection.settings = settings;
+  }
+
+  public static HttpConnection getInstance() {
+    if (instance == null) {
+      if (settings == null) {
+        throw new RuntimeException("Settings not available");
+      }
+      instance = new HttpConnection(settings);
+    }
+    return instance;
   }
 
   public void setServerToken(String serverToken) {
