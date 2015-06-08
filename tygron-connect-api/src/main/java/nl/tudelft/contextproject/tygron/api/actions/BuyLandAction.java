@@ -62,6 +62,7 @@ public class BuyLandAction {
       HttpConnection.getInstance().execute("event/PlayerEventType/MAP_BUY_LAND/",
               CallType.POST, new StringResultHandler(), session, buyLandRequest);
     }
+    environment.loadLands();
     return true;
   }
   

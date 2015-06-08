@@ -82,6 +82,7 @@ public class BuildAction {
           function, neededFloors, selectedLand);
       HttpConnection.getInstance().execute("event/PlayerEventType/BUILDING_PLAN_CONSTRUCTION/",
               CallType.POST, new StringResultHandler(), session, buildRequest);
+      environment.loadBuildings();
       return true;
     } else {
       logger.info("Not enough land for building");
