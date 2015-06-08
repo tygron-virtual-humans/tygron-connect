@@ -71,6 +71,7 @@ public class Environment implements Runnable {
     apiConnection = localApiConnection;
     this.session = session;
     stakeholderId = -1;
+    reload();
   }
 
   /**
@@ -343,7 +344,7 @@ public class Environment implements Runnable {
    * @return Whether the build request was sent or not.
    */
   public boolean build(double surface, int type) {
-    Stakeholder stakeholder = loadStakeholders().get(stakeholderId);
+    Stakeholder stakeholder = stakeholderList.get(stakeholderId);
     logger.debug("Building project started");
     Polygon availableLand = getAvailableLand(stakeholder);
     double availableSurface = availableLand.calculateArea2D();
@@ -408,7 +409,6 @@ public class Environment implements Runnable {
    * @param surface The desired surface of the land to demolish.
    */
   public boolean demolish(double surface) {
-    loadStakeholders();
     logger.debug("Demolishing");
     
     Stakeholder stakeholder = stakeholderList.get(stakeholderId);
@@ -444,7 +444,6 @@ public class Environment implements Runnable {
    * @param cost The amount of money per unit of land.
    */
   public boolean buyLand(double surface, double cost) {
-    loadStakeholders();
     logger.debug("Buying land");
     
     List<Polygon> availableLandList = getBuyableLand();
@@ -489,7 +488,6 @@ public class Environment implements Runnable {
    * @param price The amount of money per unit of land.
    */
   public boolean sellLand(double surface, double price) {
-    loadStakeholders();
     logger.debug("Selling land");
     Stakeholder seller = stakeholderList.get(stakeholderId);
     
@@ -530,10 +528,9 @@ public class Environment implements Runnable {
    * @param buildingId The building's id.
    */
   public void changeZones(int buildingId) {
-    Building building = loadBuildings().get(buildingId);
-    Function function = loadFunctions().get(building.getFunctionId());
+    Building building = buildingList.get(buildingId);
+    Function function = functionMap.get(building.getFunctionId());
     
-    ZoneList zoneList = loadZones();
     for (Zone zone : zoneList) {
       if (PolygonUtil.polygonIntersects(zone.getPolygon(), building.getPolygon())) {
         // Add function category to zone.
@@ -561,9 +558,6 @@ public class Environment implements Runnable {
    * @return The stakeholder's free land.
    */
   public Polygon getAvailableLand(Stakeholder stakeholder) {
-    loadBuildings();
-    loadLands();
-    
     Polygon land = new Polygon();
     for (Integer landId : stakeholder.getOwnedLands()) {
       land = PolygonUtil.polygonUnion(land, landMap.get(landId).getPolygon());
@@ -584,9 +578,6 @@ public class Environment implements Runnable {
    * @return The stakeholder's occupied land.
    */
   private Polygon getOccupiedLand(Stakeholder stakeholder) {
-    loadBuildings();
-    loadLands();
-    
     Polygon owned = new Polygon();
     for (Integer landId : stakeholder.getOwnedLands()) {
       owned = PolygonUtil.polygonUnion(owned, landMap.get(landId).getPolygon());
@@ -671,7 +662,6 @@ public class Environment implements Runnable {
    * @return The minimum amount of floors.
    */
   private int getMaxFloors(Stakeholder stakeholder, int type) {
-    loadFunctions();
     List<Integer> functions = stakeholder.getAllowedFunctions();
     int result = 0;
     for (int functionId : functions) {
@@ -692,7 +682,6 @@ public class Environment implements Runnable {
    * @return The function that fits the criteria.
    */
   private Function getFunction(Stakeholder stakeholder, int floors, int type) {
-    loadFunctions();
     List<Integer> functions = stakeholder.getAllowedFunctions();
     List<Function> functionList = new ArrayList<Function>();
     for (Integer functionId : functions) {
