@@ -1,8 +1,10 @@
 package nl.tudelft.contextproject.tygron.eis.entities;
 
 import nl.tudelft.contextproject.tygron.api.Environment;
+import nl.tudelft.contextproject.tygron.api.Session;
+import nl.tudelft.contextproject.tygron.api.actions.BuildAction;
+import nl.tudelft.contextproject.tygron.api.actions.BuyLandAction;
 import nl.tudelft.contextproject.tygron.eis.TygronPercept;
-
 import eis.eis2java.annotation.AsAction;
 import eis.eis2java.annotation.AsPercept;
 import eis.eis2java.translation.Filter;
@@ -14,6 +16,7 @@ public class Controller {
   private StakeholderEntity stakeholders;
   private EconomyEntity economies;
   private Environment env;
+  private Session session;
 
   /**
    * Controller constructor.
@@ -21,11 +24,12 @@ public class Controller {
    * @param controller
    *          the session object
    */
-  public Controller(Environment controller) {
-    indicators = new IndicatorEntity(controller.loadIndicators());
-    stakeholders = new StakeholderEntity(controller.loadStakeholders());
-    economies = new EconomyEntity(controller.loadEconomies());
-    env = controller;
+  public Controller(Session controller) {
+    session = controller;
+    env = controller.getEnvironment();
+    indicators = new IndicatorEntity(env.loadIndicators());
+    stakeholders = new StakeholderEntity(env.loadStakeholders());
+    economies = new EconomyEntity(env.loadEconomies());
   }
 
   /**
@@ -75,7 +79,7 @@ public class Controller {
    */
   @AsAction(name = "build")
   public void build(int surface, int type){
-    env.build(surface, type);
+    new BuildAction(session).build(surface, type);
   }
   
   /**
@@ -85,7 +89,7 @@ public class Controller {
    */
   @AsAction(name = "buyLand")
   public void buyLand(int surface, int cost){
-    env.buyLand(surface, cost);
+    new BuyLandAction(session).buyLand(surface, cost);
   }
 
 }
