@@ -21,7 +21,6 @@ public class Session {
   private static final Logger logger = LoggerFactory.getLogger(Session.class);
 
   // Session oriented
-  private static HttpConnection apiConnection;
   private Environment environment;
   private String name;
   private String platform;
@@ -34,24 +33,20 @@ public class Session {
 
   /**
    * Tygron Session Object.
-   * @param localApiConnection the connection to the api
    */
-  public Session(HttpConnection localApiConnection) {
-    apiConnection = localApiConnection;
+  public Session() {
     name = "";
     clientToken = "";
     serverToken = "";
 
-    environment = new Environment(apiConnection, this);
+    environment = new Environment(this);
   }
 
   /**
    * Tygron Session Object with data.
-   * @param localApiConnection the connection to the api
    * @param data the json data
    */
-  public Session(HttpConnection localApiConnection, JSONObject data) {
-    this(localApiConnection);
+  public Session(JSONObject data) {
     name = data.getString("name");
     type = data.getString("sessionType");
     id = data.getInt("id");
@@ -89,8 +84,8 @@ public class Session {
     logger.info("Closing session #" + this.id + " with clientToken " + this.clientToken + " (keepalive: " + keepAlive
         + ")");
     CloseSessionRequest closeSessionRequest = new CloseSessionRequest(this, keepAlive);
-    boolean apiReturnValue = apiConnection.execute("services/event/IOServicesEventType/CLOSE_SESSION/", CallType.POST,
-        new BooleanResultHandler(), closeSessionRequest);
+    boolean apiReturnValue = HttpConnection.getInstance().execute("services/event/IOServicesEventType/CLOSE_SESSION/",
+            CallType.POST, new BooleanResultHandler(), closeSessionRequest);
 
     logger.info("Closing session result: " + apiReturnValue);
 

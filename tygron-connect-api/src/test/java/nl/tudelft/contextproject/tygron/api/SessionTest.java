@@ -33,16 +33,10 @@ public class SessionTest {
     String file = "/serverResponses/login.json";
     String loginContents = CachedFileReader.getFileContents(file);
     JSONObject loginResult = new JSONObject(loginContents);
-    session = new Session(connection);
+    session = new Session();
     session.loadFromJson(loginResult);
 
     when(connection.execute(eq(closeSessionEvent), eq(CallType.POST), any(BooleanResultHandler.class), any(Session.CloseSessionRequest.class))).thenReturn(true);
-  }
-
-  @Test
-  public void closeSessionTest() {
-    session.closeSession(true);
-    verify(connection, times(1)).execute(eq(closeSessionEvent), eq(CallType.POST), any(BooleanResultHandler.class), any(Session.CloseSessionRequest.class));
   }
 
   @Test

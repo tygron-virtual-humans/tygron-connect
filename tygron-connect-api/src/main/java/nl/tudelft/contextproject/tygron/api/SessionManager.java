@@ -16,12 +16,6 @@ import java.util.List;
 public class SessionManager {
   private static final Logger logger = LoggerFactory.getLogger(SessionManager.class);
 
-  private static HttpConnection apiConnection;
-
-  public SessionManager(HttpConnection localApiConnection) {
-    apiConnection = localApiConnection;
-  }
-
   /**
    * Return a list of joinable tygron sessions.
    *
@@ -30,12 +24,12 @@ public class SessionManager {
   public List<Session> getJoinableSessions() {
     logger.info("Fetching joinable sessions.");
     List<Session> returnList = new ArrayList<Session>();
-    JSONArray data = apiConnection.execute("services/event/IOServicesEventType/GET_JOINABLE_SESSIONS/", CallType.POST,
-        new JsonArrayResultHandler());
+    JSONArray data = HttpConnection.getInstance().execute("services/event/IOServicesEventType/GET_JOINABLE_SESSIONS/",
+            CallType.POST, new JsonArrayResultHandler());
     for (int i = 0; i < data.length(); i++) {
       JSONObject row = data.getJSONObject(i);
       // Add to datalist
-      returnList.add(new Session(apiConnection, row));
+      returnList.add(new Session(row));
     }
     logger.info(data.length() + " sessions available.");
     return returnList;
@@ -49,12 +43,12 @@ public class SessionManager {
     logger.info("Joining session in slot " + session.getId());
     JoinSessionRequest joinSessionRequest = new JoinSessionRequest(session.getId(), "VIEWER", "Tygron-API-Agent");
 
-    JSONObject data = apiConnection.execute("services/event/IOServicesEventType/JOIN_SESSION/", CallType.POST,
-        new JsonObjectResultHandler(), joinSessionRequest);
-
+    JSONObject data = HttpConnection.getInstance().execute("services/event/IOServicesEventType/JOIN_SESSION/",
+            CallType.POST, new JsonObjectResultHandler(), joinSessionRequest);
     session.loadFromJson(data);
+
     // Set server token and session id in connection
-    apiConnection.setServerToken(session.getServerToken());
+    HttpConnection.getInstance().setServerToken(session.getServerToken());
 
     session.getEnvironment().start();
   }
@@ -115,7 +109,7 @@ public class SessionManager {
     // else create a new session
     if (session == null) {
       int slot = startSession(mapName);
-      session = new Session(apiConnection);
+      session = new Session();
       session.setId(slot);
     }
     
@@ -139,8 +133,8 @@ public class SessionManager {
   public int startSession(String mapName) {
     logger.info("Creating session with name: " + mapName);
     StartSessionRequest startSessionRequest = new StartSessionRequest("MULTI_PLAYER", mapName);
-    int slotNumber = apiConnection.execute("services/event/IOServicesEventType/START_NEW_SESSION/", CallType.POST,
-        new IntegerResultHandler(), startSessionRequest);
+    int slotNumber = HttpConnection.getInstance().execute("services/event/IOServicesEventType/START_NEW_SESSION/",
+            CallType.POST, new IntegerResultHandler(), startSessionRequest);
 
     logger.info("Session created in slot: " + slotNumber);
 
@@ -162,8 +156,8 @@ public class SessionManager {
    */
   public boolean killSession(int slotId) {
     KillSessionRequest killSessionRequest = new KillSessionRequest(slotId);
-    boolean apiCallResult = apiConnection.execute("services/event/IOServicesEventType/KILL_SESSION/", CallType.POST,
-        new BooleanResultHandler(), killSessionRequest);
+    boolean apiCallResult = HttpConnection.getInstance().execute("services/event/IOServicesEventType/KILL_SESSION/",
+            CallType.POST, new BooleanResultHandler(), killSessionRequest);
     logger.info("Killing session #" + slotId + " result: " + apiCallResult);
 
     return apiCallResult;
