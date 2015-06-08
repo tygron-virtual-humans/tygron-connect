@@ -5,6 +5,7 @@ import nl.tudelft.contextproject.tygron.api.Environment;
 import nl.tudelft.contextproject.tygron.api.HttpConnection;
 import nl.tudelft.contextproject.tygron.api.Session;
 import nl.tudelft.contextproject.tygron.handlers.JsonObjectResultHandler;
+import nl.tudelft.contextproject.tygron.objects.PopUp.TypeValue;
 import nl.tudelft.contextproject.util.PolygonUtil;
 
 import org.json.JSONArray;
@@ -285,7 +286,6 @@ public class PopUpHandler {
   }
 
   private void zoneDiverged(PopUp popUp) {
-    Environment environment = session.getEnvironment();
     changeZones(popUp.getLinkId());
     // TODO Send info to stakeholder
   }
@@ -310,8 +310,14 @@ public class PopUpHandler {
     parameters.put(stakeholderId);
     parameters.put(popUp.getId());
     parameters.put(answer);
-    HttpConnection.getInstance().execute("event/PlayerEventType/POPUP_ANSWER/",
-            CallType.POST, new JsonObjectResultHandler(), session, parameters);
+    if (popUp.getType() == TypeValue.INTERACTION_WITH_DATE) {
+      parameters.put(0);
+      HttpConnection.getInstance().execute("event/PlayerEventType/POPUP_ANSWER_WITH_DATE/",
+          CallType.POST, new JsonObjectResultHandler(), session, parameters);
+    } else {
+      HttpConnection.getInstance().execute("event/PlayerEventType/POPUP_ANSWER/", 
+          CallType.POST, new JsonObjectResultHandler(), session, parameters);
+    }
   }
   
   /**
