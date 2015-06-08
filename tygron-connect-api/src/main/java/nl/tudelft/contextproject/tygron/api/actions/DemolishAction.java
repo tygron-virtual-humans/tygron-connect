@@ -67,7 +67,7 @@ public class DemolishAction {
    * @param stakeholder The stakeholder.
    * @return The stakeholder's occupied land.
    */
-  public Polygon getOccupiedLand(Stakeholder stakeholder) {
+  private Polygon getOccupiedLand(Stakeholder stakeholder) {
     Polygon owned = new Polygon();
     for (Integer landId : stakeholder.getOwnedLands()) {
       owned = PolygonUtil.polygonUnion(owned, environment.getLands().get(landId).getPolygon());
