@@ -14,7 +14,7 @@ import java.util.List;
 public class PopUp {
 
   private enum TypeValue {
-    INTERACTION, INFORMATION
+    INTERACTION, INFORMATION, INTERACTION_WITH_DATE
   }
 
   private int id;
