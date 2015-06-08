@@ -7,7 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class JoinableSession {
-  private static final Logger logger = LoggerFactory.getLogger(SessionManager.class);
+  private static final Logger logger = LoggerFactory.getLogger(JoinableSession.class);
 
   private String name;
   private String type;
