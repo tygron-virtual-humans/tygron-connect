@@ -1,12 +1,12 @@
 package nl.tudelft.contextproject.tygron.api;
 
-import org.json.JSONObject;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import nl.tudelft.contextproject.tygron.Settings;
 import nl.tudelft.contextproject.tygron.handlers.JsonObjectResultHandler;
 import nl.tudelft.contextproject.tygron.objects.User;
+
+import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * The TygronConnector is the bridge between the Tygron API and JAVA.
