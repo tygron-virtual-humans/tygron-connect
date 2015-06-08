@@ -33,8 +33,7 @@ public class SessionTest {
     String file = "/serverResponses/login.json";
     String loginContents = CachedFileReader.getFileContents(file);
     JSONObject loginResult = new JSONObject(loginContents);
-    session = new Session();
-    session.loadFromJson(loginResult);
+    session = new Session(loginResult);
 
     when(connection.execute(eq(closeSessionEvent), eq(CallType.POST), any(BooleanResultHandler.class), any(Session.CloseSessionRequest.class))).thenReturn(true);
   }
@@ -72,11 +71,6 @@ public class SessionTest {
     assertEquals("bccf1987-b4f3-4245-846e-7f403bd7cd78", session.getServerToken());
     session.setServerToken("token change");
     assertEquals("token change", session.getServerToken());
-  }
-
-  @Test
-  public void environmentTest() {
-    assertNotNull(session.getEnvironment());
   }
 
   @Test

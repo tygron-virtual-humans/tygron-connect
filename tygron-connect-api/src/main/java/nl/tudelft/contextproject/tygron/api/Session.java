@@ -47,29 +47,20 @@ public class Session {
    * @param data the json data
    */
   public Session(JSONObject data) {
-    name = data.getString("name");
-    type = data.getString("sessionType");
-    id = data.getInt("id");
-  }
-
-  /**
-   * Load details from JSON Object and load them locally.
-   *
-   * @param object the JSON Object with data
-   */
-  public void loadFromJson(JSONObject object) {
-    clientToken = object.getJSONObject("client").getString("clientToken");
-    serverToken = object.getString("serverToken");
-    name = object.getString("project");
-    platform = object.getString("platform");
-    state = object.getJSONObject("client").getString("connectionState");
+    clientToken = data.getJSONObject("client").getString("clientToken");
+    serverToken = data.getString("serverToken");
+    name = data.getString("project");
+    platform = data.getString("platform");
+    state = data.getJSONObject("client").getString("connectionState");
 
     compatibleOperations = new ArrayList<>();
-    JSONArray jsonArray = object.getJSONArray("lists");
+    JSONArray jsonArray = data.getJSONArray("lists");
     int len = jsonArray.length();
     for (int i = 0; i < len; i++) {
       compatibleOperations.add(jsonArray.get(i).toString());
     }
+
+    environment = new Environment(this);
   }
 
   /**
@@ -92,6 +83,26 @@ public class Session {
     return apiReturnValue;
   }
 
+  /**
+   * Hard kill a Tygron session and reply whether it was a success or not.
+   *
+   * @param slotId the id of the slot to load in
+   * @return whether the kill was successful or not.
+   */
+  public boolean killSession(int slotId) {
+    KillSessionRequest killSessionRequest = new KillSessionRequest(slotId);
+    boolean apiCallResult = HttpConnection.getInstance().execute("services/event/IOServicesEventType/KILL_SESSION/",
+            CallType.POST, new BooleanResultHandler(), killSessionRequest);
+    logger.info("Killing session #" + slotId + " result: " + apiCallResult);
+
+    return apiCallResult;
+  }
+
+  class KillSessionRequest extends JSONArray {
+    public KillSessionRequest(int slotId) {
+      this.put(slotId);
+    }
+  }
 
   /**
    * Set a new session name.

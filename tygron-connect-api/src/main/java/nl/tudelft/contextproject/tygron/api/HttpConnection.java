@@ -50,7 +50,7 @@ public class HttpConnection {
   public static HttpConnection getInstance() {
     if (instance == null) {
       if (settings == null) {
-        throw new RuntimeException("Settings not available");
+        settings = new Settings();
       }
       instance = new HttpConnection(settings);
     }
