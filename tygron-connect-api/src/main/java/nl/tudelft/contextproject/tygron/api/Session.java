@@ -46,7 +46,10 @@ public class Session {
    * Tygron Session Object with data.
    * @param data the json data
    */
-  public Session(JSONObject data) {
+  public Session(JoinableSession session, JSONObject data) {
+    id = session.getId();
+    type = session.getType();
+
     clientToken = data.getJSONObject("client").getString("clientToken");
     serverToken = data.getString("serverToken");
     name = data.getString("project");
