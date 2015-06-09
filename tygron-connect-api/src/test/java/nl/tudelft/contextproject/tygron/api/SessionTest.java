@@ -14,10 +14,9 @@ import java.util.Collections;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.when;
 
 @RunWith(value = MockitoJUnitRunner.class)
 public class SessionTest {
@@ -26,14 +25,21 @@ public class SessionTest {
   @Mock
   HttpConnection connection;
 
+  @Mock
+  JoinableSession joinableSession;
+
   String closeSessionEvent = "services/event/IOServicesEventType/CLOSE_SESSION/";
 
   @Before
   public void createSession() {
+
+    when(joinableSession.getId()).thenReturn(0);
+    when(joinableSession.getType()).thenReturn(null);
+
     String file = "/serverResponses/login.json";
     String loginContents = CachedFileReader.getFileContents(file);
     JSONObject loginResult = new JSONObject(loginContents);
-    session = new Session(loginResult);
+    session = new Session(joinableSession, loginResult);
 
     when(connection.execute(eq(closeSessionEvent), eq(CallType.POST), any(BooleanResultHandler.class), any(Session.CloseSessionRequest.class))).thenReturn(true);
   }

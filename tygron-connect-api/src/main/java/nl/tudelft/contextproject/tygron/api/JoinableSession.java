@@ -33,7 +33,7 @@ public class JoinableSession {
 
     JSONObject data = HttpConnection.getInstance().execute("services/event/IOServicesEventType/JOIN_SESSION/",
             CallType.POST, new JsonObjectResultHandler(), joinSessionRequest);
-    Session session = new Session(data);
+    Session session = new Session(this, data);
 
     // Set server token and session id in connection
     HttpConnection.getInstance().setServerToken(session.getServerToken());
