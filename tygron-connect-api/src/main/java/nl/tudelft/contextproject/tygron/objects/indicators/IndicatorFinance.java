@@ -9,6 +9,7 @@ import org.json.JSONObject;
 public class IndicatorFinance extends Indicator {
   private double target;
   private double currentBudget;
+  private int actorId;
   
   /**
    * Constructs a TygronIndicatorFinance from a JSONObject.
@@ -18,6 +19,7 @@ public class IndicatorFinance extends Indicator {
     super(input);
     target = input.getJSONObject("targets").getJSONArray("0").getDouble(0);
     currentBudget = input.getJSONObject("exactActorValues").getDouble("CURRENT");
+    actorId = input.getInt("actorID");
   }
 
   @Override
@@ -33,5 +35,9 @@ public class IndicatorFinance extends Indicator {
   @Override
   public double getCurrent() {
     return currentBudget;
+  }
+  
+  public int getActorId() {
+    return actorId;
   }
 }

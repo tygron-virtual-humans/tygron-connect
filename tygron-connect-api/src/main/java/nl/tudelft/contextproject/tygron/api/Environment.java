@@ -14,6 +14,8 @@ import nl.tudelft.contextproject.tygron.objects.PopUpHandler;
 import nl.tudelft.contextproject.tygron.objects.Stakeholder;
 import nl.tudelft.contextproject.tygron.objects.StakeholderList;
 import nl.tudelft.contextproject.tygron.objects.ZoneList;
+import nl.tudelft.contextproject.tygron.objects.indicators.Indicator;
+import nl.tudelft.contextproject.tygron.objects.indicators.IndicatorFinance;
 import nl.tudelft.contextproject.tygron.objects.indicators.IndicatorList;
 import nl.tudelft.contextproject.util.PolygonUtil;
 
@@ -424,6 +426,23 @@ public class Environment implements Runnable {
   public boolean withinMargin(Polygon selectedLand, double surface) {
     return selectedLand.calculateArea2D() < surface * (1 + errorMargin) 
         && selectedLand.calculateArea2D() > surface * (1 - errorMargin);
+  }
+  
+  /**
+   * Gets the current budget of the given stakeholder.
+   * @param stakeholderId The stakeholder's id.
+   * @return The current budget.
+   */
+  public double getBudget(int stakeholderId) {
+    for (Indicator indicator : indicatorList) {
+      if (indicator.getType().equals("FINANCE")) {
+        IndicatorFinance indicatorFinance = (IndicatorFinance) indicator;
+        if (indicatorFinance.getActorId() == stakeholderId) {
+          return indicatorFinance.getCurrent();
+        }
+      }
+    }
+    return -1;
   }
 }
 
