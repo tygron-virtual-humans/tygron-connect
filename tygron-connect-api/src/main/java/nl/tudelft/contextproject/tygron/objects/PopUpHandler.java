@@ -5,6 +5,8 @@ import nl.tudelft.contextproject.tygron.api.Environment;
 import nl.tudelft.contextproject.tygron.api.HttpConnection;
 import nl.tudelft.contextproject.tygron.api.Session;
 import nl.tudelft.contextproject.tygron.handlers.JsonObjectResultHandler;
+import nl.tudelft.contextproject.tygron.objects.PopUp.TypeValue;
+import nl.tudelft.contextproject.util.PolygonUtil;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -28,7 +30,9 @@ public class PopUpHandler {
     PERMIT_REQUEST_ASK, PERMIT_REQUEST_RECEIVED, PERMIT_REQUEST_SENT, 
     PERMIT_REQUEST_APPROVED, PERMIT_REQUEST_REFUSED, ZONING_DIVERGED, PLAN_PERFORM_ASK
   }
+  
   private Session session;
+  private Environment environment;
   
   private int version;
   private int stakeholderId;
@@ -42,6 +46,7 @@ public class PopUpHandler {
    */
   public PopUpHandler(Session session, int stakeholderId) {
     this.session = session;
+    this.environment = session.getEnvironment();
     this.stakeholderId = stakeholderId;
     this.version = 0;
     this.wordsMap = new HashMap<EventValue, String>();
@@ -281,8 +286,7 @@ public class PopUpHandler {
   }
 
   private void zoneDiverged(PopUp popUp) {
-    Environment environment = session.getEnvironment();
-    environment.changeZones(popUp.getLinkId());
+    changeZones(popUp.getLinkId());
     // TODO Send info to stakeholder
   }
 
@@ -306,8 +310,43 @@ public class PopUpHandler {
     parameters.put(stakeholderId);
     parameters.put(popUp.getId());
     parameters.put(answer);
-    HttpConnection.getInstance().execute("event/PlayerEventType/POPUP_ANSWER/",
-            CallType.POST, new JsonObjectResultHandler(), session, parameters);
+    if (popUp.getType() == TypeValue.INTERACTION_WITH_DATE) {
+      parameters.put(0);
+      HttpConnection.getInstance().execute("event/PlayerEventType/POPUP_ANSWER_WITH_DATE/",
+          CallType.POST, new JsonObjectResultHandler(), session, parameters);
+    } else {
+      HttpConnection.getInstance().execute("event/PlayerEventType/POPUP_ANSWER/", 
+          CallType.POST, new JsonObjectResultHandler(), session, parameters);
+    }
+  }
+  
+  /**
+   * Change zones to include the given building's category and floors.
+   * @param buildingId The building's id.
+   */
+  public void changeZones(int buildingId) {
+    Building building = environment.getBuildings().get(buildingId);
+    Function function = environment.getFunctions().get(building.getFunctionId());
+    
+    for (Zone zone : environment.getZones()) {
+      if (PolygonUtil.polygonIntersects(zone.getPolygon(), building.getPolygon())) {
+        // Add function category to zone.
+        JSONArray parameters = new JSONArray();
+        parameters.put(stakeholderId);
+        parameters.put(zone.getId());
+        parameters.put(function.getCategoryValue().toString());
+        HttpConnection.getInstance().execute("event/PlayerEventType/ZONE_ADD_FUNCTION_CATEGORY/", CallType.POST,
+                new JsonObjectResultHandler(), session, parameters);
+        
+        // Change max floors allowed in zone
+        parameters = new JSONArray();
+        parameters.put(stakeholderId);
+        parameters.put(zone.getId());
+        parameters.put(max(zone.getAllowedFloors(), building.getFloors()));
+        HttpConnection.getInstance().execute("event/PlayerEventType/ZONE_SET_MAX_FLOORS/", CallType.POST,
+                new JsonObjectResultHandler(), session, parameters);
+      }
+    }
   }
   
   public List<PopUp> getList() {

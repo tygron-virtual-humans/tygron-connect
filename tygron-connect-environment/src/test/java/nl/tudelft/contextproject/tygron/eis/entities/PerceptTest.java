@@ -2,9 +2,9 @@ package nl.tudelft.contextproject.tygron.eis.entities;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.when;
-
 import nl.tudelft.contextproject.tygron.CachedFileReader;
 import nl.tudelft.contextproject.tygron.api.Environment;
+import nl.tudelft.contextproject.tygron.api.Session;
 import nl.tudelft.contextproject.tygron.eis.TygronPercept;
 import nl.tudelft.contextproject.tygron.eis.entities.Controller;
 import nl.tudelft.contextproject.tygron.objects.StakeholderList;
@@ -25,6 +25,8 @@ public class PerceptTest {
   
   @Mock
   private Environment environmentMock;
+  @Mock
+  private Session sessionMock;
 
   /**
    * Init all test objects.
@@ -40,9 +42,9 @@ public class PerceptTest {
     StakeholderList stakeholders = new StakeholderList(new JSONArray(stakeholderContents));
     when(environmentMock.loadStakeholders()).thenReturn(stakeholders);
 
-    //when(sessionMock.loadEconomies()).thenReturn(null);
+    when(sessionMock.getEnvironment()).thenReturn(environmentMock);
 
-    controller = new Controller(environmentMock);
+    controller = new Controller(sessionMock);
   }
 
   @Test

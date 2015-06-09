@@ -13,8 +13,8 @@ import java.util.List;
 
 public class PopUp {
 
-  private enum TypeValue {
-    INTERACTION, INFORMATION
+  public enum TypeValue {
+    INTERACTION, INFORMATION, INTERACTION_WITH_DATE
   }
 
   private int id;

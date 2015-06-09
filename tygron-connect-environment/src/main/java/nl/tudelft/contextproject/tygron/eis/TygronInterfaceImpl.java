@@ -86,7 +86,7 @@ public class TygronInterfaceImpl extends AbstractEnvironment {
     // Try creating and registering an entity.
     try {
       registerEntity("Controller", "MainEntity", 
-          new Controller(controller.getEnvironment()));
+          new Controller(controller));
     } catch (EntityException e) {
       throw new ManagementException("Could not create an entity", e);
     }

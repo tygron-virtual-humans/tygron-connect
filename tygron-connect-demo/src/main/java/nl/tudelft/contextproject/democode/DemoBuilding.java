@@ -3,6 +3,9 @@ package nl.tudelft.contextproject.democode;
 import nl.tudelft.contextproject.tygron.api.Connector;
 import nl.tudelft.contextproject.tygron.api.Environment;
 import nl.tudelft.contextproject.tygron.api.Session;
+import nl.tudelft.contextproject.tygron.api.actions.BuildAction;
+import nl.tudelft.contextproject.tygron.api.actions.BuyLandAction;
+import nl.tudelft.contextproject.tygron.api.actions.DemolishAction;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,7 +27,7 @@ public class DemoBuilding {
     Connector connector = new Connector();
 
     // Get a session
-    connector.connectToMap("example2");
+    connector.connectToMap("testmap");
     Session session = connector.getSession();
     
     // Write the API link to a file
@@ -34,19 +37,28 @@ public class DemoBuilding {
   
     Environment environment = session.getEnvironment();
     
+    // Wait for environment to load in all data.
+    try {
+      Thread.sleep(5000);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    } 
+    
     environment.allowGameInteraction(true);
-    environment.setStakeholder(2);
+    environment.setStakeholder(1);
     
-    logger.info("Buying land done: " + environment.buyLand(5000, 200));
+    logger.info("Demolishing done: " + new DemolishAction(session).demolish(5000));
     
-    for (int i = 0; i < 50; i++) {
-      logger.info("Building done " + i +  ": " + environment.build(50, 0));
+    logger.info("Buying land done: " + new BuyLandAction(session).buyLand(5000, 200));
+    
+    for (int i = 0; i < 10; i++) {
+      logger.info("Building done " + i +  ": " + new BuildAction(session).build(50, 0));
     }
-    for (int i = 0; i < 50; i++) {
-      logger.info("Park done " + i +  ": " + environment.build(50, 1));
+    for (int i = 0; i < 10; i++) {
+      logger.info("Park done " + i +  ": " + new BuildAction(session).build(50, 1));
     }
-    for (int i = 0; i < 50; i++) {
-      logger.info("Parking lot done " + i +  ": " + environment.build(50, 2));
+    for (int i = 0; i < 10; i++) {
+      logger.info("Parking lot done " + i +  ": " + new BuildAction(session).build(50, 2));
     }
     
     environment.releaseStakeholder();
