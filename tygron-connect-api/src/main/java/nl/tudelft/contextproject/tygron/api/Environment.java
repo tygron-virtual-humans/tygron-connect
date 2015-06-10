@@ -5,6 +5,8 @@ import com.esri.core.geometry.Polygon;
 import nl.tudelft.contextproject.tygron.handlers.BooleanResultHandler;
 import nl.tudelft.contextproject.tygron.handlers.JsonArrayResultHandler;
 import nl.tudelft.contextproject.tygron.handlers.JsonObjectResultHandler;
+import nl.tudelft.contextproject.tygron.objects.Action;
+import nl.tudelft.contextproject.tygron.objects.ActionList;
 import nl.tudelft.contextproject.tygron.objects.Building;
 import nl.tudelft.contextproject.tygron.objects.BuildingList;
 import nl.tudelft.contextproject.tygron.objects.EconomyList;
@@ -20,13 +22,14 @@ import nl.tudelft.contextproject.tygron.objects.indicators.IndicatorList;
 import nl.tudelft.contextproject.util.PolygonUtil;
 
 import org.json.JSONArray;
-import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.Set;
 
 /**
  * Contains all data relative to the session.
@@ -51,6 +54,7 @@ public class Environment implements Runnable {
   private BuildingList buildingList;
   private FunctionMap functionMap;
   private LandMap landMap;
+  private ActionList actionList;
   
   private int mapWidth;
 
@@ -131,7 +135,7 @@ public class Environment implements Runnable {
             + "stakeholders/", CallType.GET, new JsonArrayResultHandler(), session);
     this.stakeholderList = new StakeholderList(data);
     
-    loadActions();
+    setActions();
     
     return this.stakeholderList;
   }
@@ -196,28 +200,25 @@ public class Environment implements Runnable {
   /**
    * Load actions and assign their functions to stakeholders.
    */
-  private void loadActions() {
-    JSONArray actionList = HttpConnection.getInstance().execute("lists/actionmenus/",
-            CallType.GET, new JsonArrayResultHandler(), session);
-    for (int i = 0; i < actionList.length(); i++) {
-      JSONObject action = actionList.getJSONObject(i).getJSONObject("ActionMenu");
-      JSONArray functions = action.getJSONArray("functionTypes");
-      JSONObject stakeholders = action.getJSONObject("activeForStakeholder");
-      
-      JSONArray keys = stakeholders.names();
-      Map<Integer, JSONArray> functionMap = new HashMap<Integer, JSONArray>();
-      for (int j = 0; j < keys.length(); j++) {
-        if (stakeholders.getBoolean(keys.getString(j))) {
-          functionMap.put(keys.getInt(j), functions);
+  private void setActions() {
+    ActionList actionList = loadActions();
+    for (Action action : actionList) {
+      Map<Integer, Boolean> activeForStakeholder = action.getActiveForStakeholder();
+      Set<Integer> stakeholders = activeForStakeholder.keySet();
+      Map<Integer, List<Integer>> functionMap = new HashMap<Integer, List<Integer>>();
+      for (Integer stakeholderId : stakeholders) {
+        if (activeForStakeholder.get(stakeholderId)) {
+          functionMap.put(stakeholderId, action.getFunctionTypes());
         }
       }
+      
       setFunctions(functionMap);
     }
   }
   
-  private void setFunctions(Map<Integer, JSONArray> functionsMap) {
+  private void setFunctions(Map<Integer, List<Integer>> functionsMap) {
     for (Stakeholder stakeholder : stakeholderList) {
-      JSONArray functions = functionsMap.get(stakeholder.getId());
+      List<Integer> functions = functionsMap.get(stakeholder.getId());
       if (functions != null) {
         stakeholder.addAllowedFunctions(functions);
       }
@@ -355,6 +356,22 @@ public class Environment implements Runnable {
   }
   
   /**
+   * Loads all possible actions into this session.
+   * @return A list of the actions.
+   */
+  public ActionList loadActions() {
+    logger.debug("Loading actions");
+    JSONArray data = HttpConnection.getInstance().execute("lists/actionmenus/",
+        CallType.GET, new JsonArrayResultHandler(), session);
+    this.actionList = new ActionList(data);
+    return this.actionList;
+  }
+  
+  public ActionList getActions() {
+    return this.actionList;
+  }
+  
+  /**
    * Get all of the stakeholder's land that is free from buildings.
    * @param stakeholder The stakeholder.
    * @return The stakeholder's free land.
@@ -426,6 +443,38 @@ public class Environment implements Runnable {
   public boolean withinMargin(Polygon selectedLand, double surface) {
     return selectedLand.calculateArea2D() < surface * (1 + errorMargin) 
         && selectedLand.calculateArea2D() > surface * (1 - errorMargin);
+  }
+  
+  /**
+   * Returns true if the selected stakeholder can ask for money.
+   * @return Can stakeholder ask for money.
+   */
+  public boolean canAskMoney() {
+    for (Action action : actionList) {
+      Map<Integer, Boolean> activeForStakeholder = action.getActiveForStakeholder();
+      boolean active = activeForStakeholder.containsKey(stakeholderId) 
+          ? activeForStakeholder.get(stakeholderId) : false;
+      if (action.getSpecialOptions().contains("SHOW_SUBSIDY_PANEL") && active) {
+        return true;
+      }
+    }
+    return false;
+  }
+  
+  /**
+   * Returns true if the selected stakeholder can give money to other stakeholders.
+   * @return Can stakeholder give money.
+   */
+  public boolean canGiveMoney() {
+    for (Action action : actionList) {
+      Map<Integer, Boolean> activeForStakeholder = action.getActiveForStakeholder();
+      boolean active = activeForStakeholder.containsKey(stakeholderId) 
+          ? activeForStakeholder.get(stakeholderId) : false;
+      if (action.getSpecialOptions().contains("SHOW_MONEY_TRANSFER_PANEL") && active) {
+        return true;
+      }
+    }
+    return false;
   }
   
   /**
