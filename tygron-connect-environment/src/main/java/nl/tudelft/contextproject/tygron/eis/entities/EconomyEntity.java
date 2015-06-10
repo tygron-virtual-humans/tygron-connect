@@ -11,8 +11,8 @@ public class EconomyEntity {
   private EconomyList economyList;
   
   /**
-   * Creates an Indicator Entity.
-   * @param economyList the list with indicators
+   * Creates an Economy Entity.
+   * @param economyList the list with economies
    */
   public EconomyEntity(EconomyList economyList) {
     this.economyList = economyList;
