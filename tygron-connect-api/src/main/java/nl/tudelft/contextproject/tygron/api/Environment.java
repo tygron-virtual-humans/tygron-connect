@@ -445,11 +445,35 @@ public class Environment implements Runnable {
         && selectedLand.calculateArea2D() > surface * (1 - errorMargin);
   }
   
+  /**
+   * Returns true if the selected stakeholder can ask for money.
+   * @return Can stakeholder ask for money.
+   */
   public boolean canAskMoney() {
+    for (Action action : actionList) {
+      Map<Integer, Boolean> activeForStakeholder = action.getActiveForStakeholder();
+      boolean active = activeForStakeholder.containsKey(stakeholderId) 
+          ? activeForStakeholder.get(stakeholderId) : false;
+      if (action.getSpecialOptions().contains("SHOW_SUBSIDY_PANEL") && active) {
+        return true;
+      }
+    }
     return false;
   }
   
+  /**
+   * Returns true if the selected stakeholder can give money to other stakeholders.
+   * @return Can stakeholder give money.
+   */
   public boolean canGiveMoney() {
+    for (Action action : actionList) {
+      Map<Integer, Boolean> activeForStakeholder = action.getActiveForStakeholder();
+      boolean active = activeForStakeholder.containsKey(stakeholderId) 
+          ? activeForStakeholder.get(stakeholderId) : false;
+      if (action.getSpecialOptions().contains("SHOW_MONEY_TRANSFER_PANEL") && active) {
+        return true;
+      }
+    }
     return false;
   }
   
