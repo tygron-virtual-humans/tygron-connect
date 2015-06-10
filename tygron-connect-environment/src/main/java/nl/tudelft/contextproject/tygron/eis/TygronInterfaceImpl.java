@@ -132,7 +132,7 @@ public class TygronInterfaceImpl extends AbstractEnvironment {
    */
   @Override
   public void kill() throws ManagementException {
-    environment.releaseStakeholder();
+    controller.releaseStakeholder();
     
     if (connector != null) {
       connector.cleanup();
