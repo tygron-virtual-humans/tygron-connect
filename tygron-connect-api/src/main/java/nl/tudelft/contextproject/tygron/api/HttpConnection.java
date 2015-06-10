@@ -23,8 +23,9 @@ public class HttpConnection {
   protected HttpClient client;
   protected BasicResponseHandler handler;
 
+  private String clientToken;
   private String serverToken;
-
+  
   private static final String API_URL_BASE = "https://server2.tygron.com:3022/api/";
   private static final String API_JSON_SUFFIX = "?f=JSON";
   private static final String API_DELIMITER = "/";
@@ -47,6 +48,10 @@ public class HttpConnection {
     HttpConnection.settings = settings;
   }
 
+  /**
+   * Returns the HttpInstance Object.
+   * @return HttpInstance object.
+   */
   public static HttpConnection getInstance() {
     if (instance == null) {
       if (settings == null) {
@@ -57,6 +62,10 @@ public class HttpConnection {
     return instance;
   }
 
+  public void setClientToken(String clientToken) {
+    this.clientToken = clientToken;
+  }
+  
   public void setServerToken(String serverToken) {
     this.serverToken = serverToken;
   }
@@ -157,6 +166,10 @@ public class HttpConnection {
 
     if (serverToken != null) {
       request.setHeader("serverToken", serverToken);
+    }
+    
+    if (clientToken != null) {
+      request.setHeader("clientToken", clientToken);
     }
   }
 }
