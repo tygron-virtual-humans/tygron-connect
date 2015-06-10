@@ -67,14 +67,4 @@ public class Action {
   public Map<Integer, Boolean> getActiveForStakeholder() {
     return activeForStakeholder;
   }
-  
-  @Override
-  public String toString() {
-    JSONObject str = new JSONObject();
-    str.put("name", this.name);
-    str.put("functionTypes", this.functionTypes);
-    str.put("specialOptions", this.specialOptions);
-    str.put("activeForStakeholder", this.activeForStakeholder);
-    return str.toString();
-  }
 }
