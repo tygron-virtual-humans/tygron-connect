@@ -14,7 +14,6 @@ import nl.tudelft.contextproject.tygron.eis.entities.Controller;
 import nl.tudelft.contextproject.tygron.eis.translators.ConfigurationTranslator;
 import nl.tudelft.contextproject.tygron.eis.translators.HashMapTranslator;
 import nl.tudelft.contextproject.tygron.eis.translators.ParamEnumTranslator;
-
 import eis.eis2java.environment.AbstractEnvironment;
 import eis.eis2java.exception.TranslationException;
 import eis.eis2java.translation.Translator;
@@ -113,6 +112,8 @@ public class TygronInterfaceImpl extends AbstractEnvironment {
     
     environment = controller.getEnvironment();
     
+    environment.allowGameInteraction(true);
+    
     if (configuration.getStakeholder() == -1) {
       throw new ManagementException("Stakeholder is not defined in mas2g file.");
     }
@@ -131,6 +132,7 @@ public class TygronInterfaceImpl extends AbstractEnvironment {
    */
   @Override
   public void kill() throws ManagementException {
+    environment.releaseStakeholder();
     
     if (connector != null) {
       connector.cleanup();
