@@ -52,9 +52,9 @@ public class Stakeholder {
    * Add functions from array to list.
    * @param array The array containing the functions.
    */
-  public void addAllowedFunctions(JSONArray array) {
-    for (int i = 0; i < array.length(); i++) {
-      allowedFunctions.add(array.getInt(i));
+  public void addAllowedFunctions(List<Integer> array) {
+    for (Integer functionId : array) {
+      allowedFunctions.add(functionId);
     }
   }
 
