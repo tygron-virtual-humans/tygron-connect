@@ -42,7 +42,7 @@ public class DemoConnector {
     logger.info(sess.getEnvironment().loadBuildings().toString());       
     
     logger.info("Setting stake holder:");
-    sess.getEnvironment().setStakeholder(1); 
+    sess.setStakeholder(1); 
    
     sess.closeSession(false);
   }

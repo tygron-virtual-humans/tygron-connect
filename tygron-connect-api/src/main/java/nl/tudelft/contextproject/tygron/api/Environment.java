@@ -43,7 +43,6 @@ public class Environment implements Runnable {
   private final double errorMargin = 0.10;
 
   // Environment oriented
-  private Session session;
   private PopUpHandler popUpHandler;
 
   // Session data oriented
@@ -62,12 +61,16 @@ public class Environment implements Runnable {
 
   private int stakeholderId;
 
+  
+  public void setPopupHandler(PopUpHandler popUpHandler) {
+    this.popUpHandler = popUpHandler;
+  }
+  
   /**
    * Creates an environment that communicates with the session API.
    * @param session The session.
    */
-  public Environment(Session session) {
-    this.session = session;
+  public Environment() {
     stakeholderId = -1;
   }
 
@@ -106,7 +109,7 @@ public class Environment implements Runnable {
     JSONArray param = new JSONArray();
     param.put(set);
     HttpConnection.getInstance().execute(allowInteraction, CallType.POST,
-            new JsonObjectResultHandler(), session, param);
+            new JsonObjectResultHandler(), true, param);
   }
   
   /**
@@ -132,7 +135,7 @@ public class Environment implements Runnable {
   public StakeholderList loadStakeholders() {
     logger.debug("Loading stakeholders");
     JSONArray data = HttpConnection.getInstance().execute("lists/"
-            + "stakeholders/", CallType.GET, new JsonArrayResultHandler(), session);
+            + "stakeholders/", CallType.GET, new JsonArrayResultHandler(), true);
     this.stakeholderList = new StakeholderList(data);
     
     setActions();
@@ -147,54 +150,6 @@ public class Environment implements Runnable {
    */
   public StakeholderList getStakeholders() {
     return this.stakeholderList;
-  }
-  
-  /**
-   * Select a stakeholder to play, can only be done once.
-   * @param stakeholderId the stakeholder id to select.
-   * @throws Exception if stakeholder fails
-   */
-  public void setStakeholder(int stakeholderId) {
-    this.stakeholderId = stakeholderId;
-    boolean retValue = HttpConnection.getInstance().execute("event/PlayerEventType/STAKEHOLDER_SELECT",
-            CallType.POST, new BooleanResultHandler(), session,
-            new StakeholderSelectRequest(stakeholderId, session.getClientToken()));
-    logger.info("Setting stakeholder to #" + stakeholderId + ". Operation " 
-        + ((retValue) ? "succes!" : "failed!" ));
-    if (!retValue) {
-      throw new RuntimeException("Stakeholder could not be selected!");
-    } else {
-      popUpHandler = new PopUpHandler(session, stakeholderId);
-    }
-  }
-  
-  class StakeholderSelectRequest extends JSONArray {
-    public StakeholderSelectRequest(int stakeholderId, String sessionToken) {
-      this.put(stakeholderId);
-      this.put(sessionToken);
-    }
-  }
-  
-  public int getStakeholderId() {
-    return stakeholderId;
-  }
-  
-  /**
-   * Releases the stakeholder that is currently selected.
-   */
-  public void releaseStakeholder() {
-    logger.info("Releasing stakeholder #" + stakeholderId);
-    HttpConnection.getInstance().execute("event/LogicEventType/STAKEHOLDER_RELEASE/",
-            CallType.POST, new BooleanResultHandler(), session,
-            new StakeholderReleaseRequest(stakeholderId));
-    stakeholderId = -1;
-    popUpHandler = null;
-  }
-  
-  class StakeholderReleaseRequest extends JSONArray {
-    public StakeholderReleaseRequest(int stakeholderId) {
-      this.put(stakeholderId);
-    }
   }
   
   /**
@@ -233,7 +188,7 @@ public class Environment implements Runnable {
   public IndicatorList loadIndicators() {
     logger.debug("Loading indicators");
     JSONArray data = HttpConnection.getInstance().execute("lists/"
-            + "indicators", CallType.GET, new JsonArrayResultHandler(), session);
+            + "indicators", CallType.GET, new JsonArrayResultHandler(), true);
     this.indicatorList = new IndicatorList(data);
     return this.indicatorList;
   }
@@ -255,7 +210,7 @@ public class Environment implements Runnable {
   public ZoneList loadZones() {
     logger.debug("Loading zones");
     JSONArray data = HttpConnection.getInstance().execute("lists/"
-            + "zones", CallType.GET, new JsonArrayResultHandler(), session);
+            + "zones", CallType.GET, new JsonArrayResultHandler(), true);
     this.zoneList = new ZoneList(data);
     return this.zoneList;
   }
@@ -277,7 +232,7 @@ public class Environment implements Runnable {
   public EconomyList loadEconomies() {
     logger.debug("Loading economies");
     JSONArray data = HttpConnection.getInstance().execute("lists/"
-            + "economies", CallType.GET, new JsonArrayResultHandler(), session);
+            + "economies", CallType.GET, new JsonArrayResultHandler(), true);
     this.economyList = new EconomyList(data);
     return this.economyList;
   }
@@ -299,7 +254,7 @@ public class Environment implements Runnable {
   public BuildingList loadBuildings() {
     logger.debug("Loading buildings");
     JSONArray data = HttpConnection.getInstance().execute("lists/"
-            + "buildings", CallType.GET, new JsonArrayResultHandler(), session);
+            + "buildings", CallType.GET, new JsonArrayResultHandler(), true);
     this.buildingList = new BuildingList(data);
     return this.buildingList;
   }
@@ -320,7 +275,7 @@ public class Environment implements Runnable {
   public FunctionMap loadFunctions() {
     logger.debug("Loading functions");
     JSONArray data = HttpConnection.getInstance().execute("lists/functions",
-            CallType.GET, new JsonArrayResultHandler(), session);
+            CallType.GET, new JsonArrayResultHandler(), true);
     this.functionMap = new FunctionMap(data);
     return this.functionMap;
   }
@@ -341,7 +296,7 @@ public class Environment implements Runnable {
   public LandMap loadLands() {
     logger.debug("Loading lands");
     JSONArray data = HttpConnection.getInstance().execute("lists/lands",
-            CallType.GET, new JsonArrayResultHandler(), session);
+            CallType.GET, new JsonArrayResultHandler(), true);
     this.landMap = new LandMap(data);
     return this.landMap;
   }
@@ -362,7 +317,7 @@ public class Environment implements Runnable {
   public ActionList loadActions() {
     logger.debug("Loading actions");
     JSONArray data = HttpConnection.getInstance().execute("lists/actionmenus/",
-        CallType.GET, new JsonArrayResultHandler(), session);
+        CallType.GET, new JsonArrayResultHandler(), true);
     this.actionList = new ActionList(data);
     return this.actionList;
   }
@@ -436,7 +391,7 @@ public class Environment implements Runnable {
   private void getMapWidth() {
     if (mapWidth == 0) {
       mapWidth = HttpConnection.getInstance().execute("lists/settings/31/",
-              CallType.GET, new JsonObjectResultHandler(), session).getInt("value");
+              CallType.GET, new JsonObjectResultHandler(), true).getInt("value");
     }
   }
   

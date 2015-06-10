@@ -22,9 +22,9 @@ public class HttpConnection {
   private static final Logger logger = LoggerFactory.getLogger(HttpConnection.class);
   protected HttpClient client;
   protected BasicResponseHandler handler;
-
-  private String serverToken;
-
+  
+  private HttpConnectionData data;
+  
   private static final String API_URL_BASE = "https://server2.tygron.com:3022/api/";
   private static final String API_JSON_SUFFIX = "?f=JSON";
   private static final String API_DELIMITER = "/";
@@ -46,7 +46,15 @@ public class HttpConnection {
   public static void setSettings(Settings settings) {
     HttpConnection.settings = settings;
   }
+  
+  public void setData(HttpConnectionData data) {
+    this.data = data;
+  }
 
+  /**
+   * Returns the HttpInstance Object.
+   * @return HttpInstance object.
+   */
   public static HttpConnection getInstance() {
     if (instance == null) {
       if (settings == null) {
@@ -57,20 +65,16 @@ public class HttpConnection {
     return instance;
   }
 
-  public void setServerToken(String serverToken) {
-    this.serverToken = serverToken;
-  }
-
   public <T> T execute(String eventName, CallType type, ResultHandler<T> resultHandler) {
-    return execute(eventName, type, resultHandler, null, null);
+    return execute(eventName, type, resultHandler, false, null);
   }
 
   public <T> T execute(String eventName, CallType type, ResultHandler<T> resultHandler, JSONArray parameters) {
-    return execute(eventName, type, resultHandler, null, parameters);
+    return execute(eventName, type, resultHandler, false, parameters);
   }
 
-  public <T> T execute(String eventName, CallType type, ResultHandler<T> resultHandler, Session session) {
-    return execute(eventName, type, resultHandler, session, null);
+  public <T> T execute(String eventName, CallType type, ResultHandler<T> resultHandler, boolean isSession) {
+    return execute(eventName, type, resultHandler, isSession, null);
   }
   
   /**
@@ -83,10 +87,10 @@ public class HttpConnection {
    * @param parameters The parameters this request should use, can be null
    * @return a result handled by this request
    */
-  public <T> T execute(String eventName, CallType type, ResultHandler<T> resultHandler, Session session, JSONArray parameters) {
+  public <T> T execute(String eventName, CallType type, ResultHandler<T> resultHandler, boolean isSession, JSONArray parameters) {
     try {
       HttpRequestBase requester = type.asRequest(parameters);
-      String url = getApiUrl(eventName, session);
+      String url = getApiUrl(eventName, isSession);
       requester.setURI(new URI(url));
       String resultString = execute(requester);
       return resultHandler.handleResult(resultString);
@@ -111,14 +115,14 @@ public class HttpConnection {
   /**
    * Calls the update method on Tygron's servers.
    * @param resultHandler The handler used to parse Tygron's result.
-   * @param session The session this call should use
+   * @param isSession Whether this is a call to a session request.
    * @param parameters The parameters this request should use
    * @return new updates of the data types requested
    */
-  public JSONObject getUpdate(ResultHandler<JSONObject> resultHandler, Session session, JSONObject parameters) {
+  public JSONObject getUpdate(ResultHandler<JSONObject> resultHandler, boolean isSession, JSONObject parameters) {
     try {
       HttpRequestBase requester = CallType.POST.asRequest(parameters);
-      String url = getApiUrl("update/", session);
+      String url = getApiUrl("update/", isSession);
       requester.setURI(new URI(url));
       String resultString = execute(requester);
       return resultHandler.handleResult(resultString);
@@ -133,11 +137,11 @@ public class HttpConnection {
    * @param session a session, may be null
    * @return Tygron's response
    */
-  protected String getApiUrl(String eventName, Session session) {
-    if (session == null) {
+  protected String getApiUrl(String eventName, boolean isSession) {
+    if (!isSession) {
       return API_URL_BASE + eventName + API_JSON_SUFFIX;
     } else {
-      return API_URL_BASE + API_SLOTS + session.getId() + API_DELIMITER + eventName + API_JSON_SUFFIX;
+      return API_URL_BASE + API_SLOTS + data.getSessionId() + API_DELIMITER + eventName + API_JSON_SUFFIX;
     }
   }
 
@@ -155,8 +159,12 @@ public class HttpConnection {
     request.setHeader("Content-Type", "application/json");
     request.setHeader("Authorization", "Basic " + getAuthString());
 
-    if (serverToken != null) {
-      request.setHeader("serverToken", serverToken);
+    if (data != null && data.getServerToken() != null) {
+      request.setHeader("serverToken", data.getServerToken());
+    }
+    
+    if (data != null && data.getClientToken() != null) {
+      request.setHeader("clientToken", data.getClientToken());
     }
   }
 }

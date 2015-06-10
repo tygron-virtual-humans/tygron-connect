@@ -59,7 +59,7 @@ public class InterfaceImplTest {
     when(envMock.loadBuildings()).thenReturn(null);
     when(envMock.loadEconomies()).thenReturn(null);
     when(envMock.loadIndicators()).thenReturn(null);
-    doNothing().when(envMock).setStakeholder(any(Integer.class));
+    doNothing().when(session).setStakeholder(any(Integer.class));
     
     doReturn(envMock).when(session).getEnvironment();
     
