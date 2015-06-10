@@ -22,6 +22,8 @@ public class Function {
   private static List<CategoryType> parkType = Arrays.asList(CategoryType.PARK, 
       CategoryType.GARDEN);
   
+  private static List<CategoryType> officeType = Arrays.asList(CategoryType.OFFICES);
+  
   private int id;
   private int version;
   private int maxFloors;
@@ -86,6 +88,9 @@ public class Function {
         break;
       case 2:
         categoryList = parkingType;
+        break;
+      case 3:
+        categoryList = officeType;
         break;
       default:
         categoryList = new ArrayList<Function.CategoryType>();
