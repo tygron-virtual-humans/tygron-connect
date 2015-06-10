@@ -45,7 +45,7 @@ public class DemoBuilding {
     } 
     
     environment.allowGameInteraction(true);
-    environment.setStakeholder(1);
+    session.setStakeholder(1);
     
     logger.info("Demolishing done: " + new DemolishAction(session).demolish(5000));
     
@@ -61,6 +61,6 @@ public class DemoBuilding {
       logger.info("Parking lot done " + i +  ": " + new BuildAction(session).build(50, 2));
     }
     
-    environment.releaseStakeholder();
+    session.releaseStakeholder();
   }
 }

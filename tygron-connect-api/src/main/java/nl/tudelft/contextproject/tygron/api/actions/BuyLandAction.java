@@ -56,11 +56,11 @@ public class BuyLandAction {
       splitLand.add(PolygonUtil.polygonIntersection(polygon, suitableLand));
     }
     
-    Stakeholder buyer = environment.getStakeholders().get(environment.getStakeholderId());
+    Stakeholder buyer = environment.getStakeholders().get(session.getStakeholderId());
     for (Polygon landPiece : splitLand) {
       BuyLandRequest buyLandRequest = new BuyLandRequest(buyer, landPiece, cost);
       HttpConnection.getInstance().execute("event/PlayerEventType/MAP_BUY_LAND/",
-              CallType.POST, new StringResultHandler(), session, buyLandRequest);
+              CallType.POST, new StringResultHandler(), true, buyLandRequest);
     }
     environment.loadLands();
     return true;
@@ -82,7 +82,7 @@ public class BuyLandAction {
     List<Polygon> result = new ArrayList<Polygon>();
     for (Stakeholder stakeholder : environment.getStakeholders()) {
       Polygon land = new Polygon();
-      if (stakeholder.getId() != environment.getStakeholderId()) {
+      if (stakeholder.getId() != session.getStakeholderId()) {
         land = PolygonUtil.polygonUnion(land, environment.getAvailableLand(stakeholder));
       }
       result.add(land);

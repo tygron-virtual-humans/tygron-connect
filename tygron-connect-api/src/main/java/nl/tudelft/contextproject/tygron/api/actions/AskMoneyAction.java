@@ -30,9 +30,9 @@ public class AskMoneyAction {
   public void askMoney(int giverId, double amount) {
     logger.debug("Asking money from stakeholder #" + giverId);
     if (environment.getBudget(giverId) >= amount) {
-      AskMoneyRequest askMoneyRequest = new AskMoneyRequest(environment.getStakeholderId(), giverId, amount);
+      AskMoneyRequest askMoneyRequest = new AskMoneyRequest(session.getStakeholderId(), giverId, amount);
       HttpConnection.getInstance().execute("event/PlayerEventType/MONEY_TRANSFER_ASK/",
-          CallType.POST, new StringResultHandler(), session, askMoneyRequest);
+          CallType.POST, new StringResultHandler(), true, askMoneyRequest);
     } else {
       logger.debug("Stakeholder #" + giverId + " has less money than asked");
     }

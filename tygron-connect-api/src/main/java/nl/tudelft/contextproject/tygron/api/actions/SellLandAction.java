@@ -37,7 +37,7 @@ public class SellLandAction {
    */
   public boolean sellLand(double surface, double price) {
     logger.debug("Selling land");
-    Stakeholder seller = environment.getStakeholders().get(environment.getStakeholderId());
+    Stakeholder seller = environment.getStakeholders().get(session.getStakeholderId());
     
     Polygon availableLand = environment.getAvailableLand(seller);
     
@@ -52,13 +52,13 @@ public class SellLandAction {
     Polygon suitableLand = environment.getSuitableLand(availableLand, surface);
     
     List<Stakeholder> list = new ArrayList<Stakeholder>(environment.getStakeholders());
-    list.remove(environment.getStakeholderId());
+    list.remove(session.getStakeholderId());
     Random random = new Random();
     Stakeholder buyer = list.get(random.nextInt(list.size()));
     
     SellLandRequest sellLandRequest = new SellLandRequest(seller, buyer, suitableLand, price);
     HttpConnection.getInstance().execute("event/PlayerEventType/MAP_SELL_LAND/",
-            CallType.POST, new StringResultHandler(), session, sellLandRequest);
+            CallType.POST, new StringResultHandler(), true, sellLandRequest);
     environment.loadLands();
     return true;
   }

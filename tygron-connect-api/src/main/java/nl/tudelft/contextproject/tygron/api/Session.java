@@ -1,6 +1,7 @@
 package nl.tudelft.contextproject.tygron.api;
 
 import nl.tudelft.contextproject.tygron.handlers.BooleanResultHandler;
+import nl.tudelft.contextproject.tygron.objects.PopUpHandler;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -30,6 +31,8 @@ public class Session {
   private String serverToken;
   private List<String> compatibleOperations;
   private int id;
+  
+  private int stakeholderId;
 
   /**
    * Tygron Session Object.
@@ -39,7 +42,7 @@ public class Session {
     clientToken = "";
     serverToken = "";
 
-    environment = new Environment(this);
+    environment = new Environment();
   }
 
   /**
@@ -63,7 +66,7 @@ public class Session {
       compatibleOperations.add(jsonArray.get(i).toString());
     }
 
-    environment = new Environment(this);
+    environment = new Environment();
   }
 
   /**
@@ -236,6 +239,55 @@ public class Session {
       put(session.getId());
       put(session.getClientToken());
       put(keepAlive);
+    }
+  }
+  
+  
+  /**
+   * Select a stakeholder to play, can only be done once.
+   * @param stakeholderId the stakeholder id to select.
+   * @throws Exception if stakeholder fails
+   */
+  public void setStakeholder(int stakeholderId) {
+    this.stakeholderId = stakeholderId;
+    boolean retValue = HttpConnection.getInstance().execute("event/PlayerEventType/STAKEHOLDER_SELECT",
+            CallType.POST, new BooleanResultHandler(), true,
+            new StakeholderSelectRequest(stakeholderId, getClientToken()));
+    logger.info("Setting stakeholder to #" + stakeholderId + ". Operation " 
+        + ((retValue) ? "succes!" : "failed!" ));
+    if (!retValue) {
+      throw new RuntimeException("Stakeholder could not be selected!");
+    } else {
+      environment.setPopupHandler(new PopUpHandler(environment, stakeholderId));
+    }
+  }
+  
+  class StakeholderSelectRequest extends JSONArray {
+    public StakeholderSelectRequest(int stakeholderId, String sessionToken) {
+      this.put(stakeholderId);
+      this.put(sessionToken);
+    }
+  }
+  
+  public int getStakeholderId() {
+    return stakeholderId;
+  }
+  
+  /**
+   * Releases the stakeholder that is currently selected.
+   */
+  public void releaseStakeholder() {
+    logger.info("Releasing stakeholder #" + stakeholderId);
+    HttpConnection.getInstance().execute("event/LogicEventType/STAKEHOLDER_RELEASE/",
+            CallType.POST, new BooleanResultHandler(), true,
+            new StakeholderReleaseRequest(stakeholderId));
+    stakeholderId = -1;
+    environment.setPopupHandler(null);
+  }
+  
+  class StakeholderReleaseRequest extends JSONArray {
+    public StakeholderReleaseRequest(int stakeholderId) {
+      this.put(stakeholderId);
     }
   }
 }
