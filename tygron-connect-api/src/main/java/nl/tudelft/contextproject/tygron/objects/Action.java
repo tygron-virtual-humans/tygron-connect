@@ -32,7 +32,7 @@ public class Action {
     specialOptions = new ArrayList<String>();
     JSONArray optionList = input.getJSONArray("specialOptions");
     for (int i = 0; i < optionList.length(); i++) {
-      String optionType = optionList.getJSONObject(i).getString("SpecialOption.Type");
+      String optionType = optionList.getString(i);
       specialOptions.add(optionType);
     }
       
@@ -68,5 +68,13 @@ public class Action {
     return activeForStakeholder;
   }
   
-  
+  @Override
+  public String toString() {
+    JSONObject str = new JSONObject();
+    str.put("name", this.name);
+    str.put("functionTypes", this.functionTypes);
+    str.put("specialOptions", this.specialOptions);
+    str.put("activeForStakeholder", this.activeForStakeholder);
+    return str.toString();
+  }
 }
