@@ -14,6 +14,8 @@ import com.esri.core.geometry.SpatialReference;
 import com.esri.core.geometry.WktImportFlags;
 
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class PolygonUtil {
 
@@ -159,6 +161,9 @@ public class PolygonUtil {
   }
   
   public static String toString(Polygon polygon) {
-    return OperatorExportToWkt.local().execute(0, polygon, null);
+    String result = OperatorExportToWkt.local().execute(0, polygon, null);
+    result = result.replaceAll(",", ".");
+    result = result.replaceAll("\\. ", ", ");    
+    return result;
   }
 }
