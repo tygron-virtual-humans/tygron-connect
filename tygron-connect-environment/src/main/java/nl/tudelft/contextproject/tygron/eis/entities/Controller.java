@@ -15,6 +15,7 @@ public class Controller {
   private IndicatorEntity indicators;
   private StakeholderEntity stakeholders;
   private EconomyEntity economies;
+  private BuildingEntity buildings;
   private Environment env;
   private Session session;
 
@@ -30,6 +31,7 @@ public class Controller {
     indicators = new IndicatorEntity(env.loadIndicators());
     stakeholders = new StakeholderEntity(env.loadStakeholders());
     economies = new EconomyEntity(env.loadEconomies());
+    buildings = new BuildingEntity(env.loadBuildings());
   }
 
   /**
@@ -61,6 +63,16 @@ public class Controller {
   public List<TygronPercept> initIndicator() {
     return stakeholders.initIndicator();
   }
+  
+  /**
+   * Percepts the own stakeholder once.
+   * 
+   * @return the selfstakeholder
+   */
+  @AsPercept(name = "stakeholderSelf", filter = Filter.Type.ONCE)
+  public TygronPercept stakeholderSelf() {
+    return new TygronPercept(env.getStakeholderId());
+  }
 
   /**
    * Percepts the initIndicators on change.
@@ -70,6 +82,16 @@ public class Controller {
   @AsPercept(name = "economy", multiplePercepts = true, multipleArguments = true, filter = Filter.Type.ON_CHANGE)
   public List<TygronPercept> economies() {
     return economies.economies();
+  }
+  
+  /**
+   * Percepts the buildings on change.
+   * 
+   * @return the list of buildings
+   */
+  @AsPercept(name = "building", multiplePercepts = true, multipleArguments = true, filter = Filter.Type.ON_CHANGE)
+  public List<TygronPercept> buildings() {
+    return buildings.buildings();
   }
   
   /**
