@@ -30,10 +30,10 @@ public class GiveMoneyAction {
    */
   public void giveMoney(int receiverId, double amount) {
     logger.debug("Giving money to stakeholder #" + receiverId);
-    if (environment.getBudget(environment.getStakeholderId()) >= amount) {
-      GiveMoneyRequest giveMoneyRequest = new GiveMoneyRequest(environment.getStakeholderId(), receiverId, amount);
+    if (environment.getBudget(session.getStakeholderId()) >= amount) {
+      GiveMoneyRequest giveMoneyRequest = new GiveMoneyRequest(session.getStakeholderId(), receiverId, amount);
       HttpConnection.getInstance().execute("event/PlayerEventType/MONEY_TRANSFER_GIVE/",
-          CallType.POST, new StringResultHandler(), session, giveMoneyRequest);
+          CallType.POST, new StringResultHandler(), true, giveMoneyRequest);
     } else {
       logger.debug("Selected stakeholder has less money than given");
     }

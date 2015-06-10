@@ -40,8 +40,11 @@ public class JoinableSession {
     Session session = new Session(this, data);
 
     // Set server token and session id in connection
-    HttpConnection.getInstance().setClientToken(session.getClientToken());
-    HttpConnection.getInstance().setServerToken(session.getServerToken());
+    HttpConnectionData httpdata = new HttpConnectionData();
+    httpdata.setServerToken(session.getServerToken());
+    httpdata.setClientToken(session.getClientToken());
+    httpdata.setSessionId(session.getId());
+    HttpConnection.getInstance().setData(httpdata);
 
     session.getEnvironment().start();
     return session;
