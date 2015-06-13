@@ -325,7 +325,7 @@ public class PopUpHandler {
    * @param buildingId The building's id.
    */
   public void changeZones(int buildingId) {
-    Building building = environment.getBuildings().get(buildingId);
+    Building building = environment.getBuildings().getId(buildingId);
     Function function = environment.getFunctions().get(building.getFunctionId());
     
     for (Zone zone : environment.getZones()) {

@@ -27,8 +27,10 @@ public class BuildingList extends ArrayList<Building> {
   
   /**
    * Gets the building with the provided id.
+   * @param id The id.
+   * @return The building with the provided id.
    */
-  public Building get(int id) {
+  public Building getId(int id) {
     for (Building building : this) {
       if (building.getId() == id) {
         return building;
