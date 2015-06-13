@@ -3,6 +3,9 @@ package nl.tudelft.contextproject.tygron.objects;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
+
+import com.esri.core.geometry.Polygon;
+
 import nl.tudelft.contextproject.tygron.CachedFileReader;
 import nl.tudelft.contextproject.util.PolygonUtil;
 
@@ -10,8 +13,6 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
-
-import com.esri.core.geometry.Polygon;
 
 public class LandTest {
   LandMap lands;
