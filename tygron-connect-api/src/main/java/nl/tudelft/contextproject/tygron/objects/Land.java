@@ -42,13 +42,4 @@ public class Land {
   public Polygon getPolygon() {
     return polygon;
   }
-  
-  @Override
-  public String toString() {
-    JSONObject str = new JSONObject();
-    str.put("ownerID", this.ownerId);
-    str.put("polygon", this.polygon);
-    str.put("id", this.id);
-    return str.toString();
-  }
 }
