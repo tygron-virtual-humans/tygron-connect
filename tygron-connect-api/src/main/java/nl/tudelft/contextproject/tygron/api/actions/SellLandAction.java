@@ -34,6 +34,7 @@ public class SellLandAction {
    * Sell a piece of land.
    * @param surface The desired surface of the land.
    * @param price The amount of money per unit of land.
+   * @return Whether the request to sell was sent or not.
    */
   public boolean sellLand(double surface, double price) {
     logger.debug("Selling land");

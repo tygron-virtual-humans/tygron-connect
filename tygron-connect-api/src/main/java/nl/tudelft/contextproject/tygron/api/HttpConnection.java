@@ -35,7 +35,7 @@ public class HttpConnection {
    * @param settings the settings
    */
   private HttpConnection(Settings settings) {
-    this.settings = settings;
+    setSettings(settings);
     this.client = HttpClients.custom().build();
     this.handler = new BasicResponseHandler();
   }
@@ -47,6 +47,10 @@ public class HttpConnection {
     HttpConnection.settings = settings;
   }
 
+  /**
+   * Get the singleton connection.
+   * @return The connection.
+   */
   public static HttpConnection getInstance() {
     if (instance == null) {
       if (settings == null) {
@@ -83,7 +87,8 @@ public class HttpConnection {
    * @param parameters The parameters this request should use, can be null
    * @return a result handled by this request
    */
-  public <T> T execute(String eventName, CallType type, ResultHandler<T> resultHandler, Session session, JSONArray parameters) {
+  public <T> T execute(String eventName, CallType type, 
+      ResultHandler<T> resultHandler, Session session, JSONArray parameters) {
     try {
       HttpRequestBase requester = type.asRequest(parameters);
       String url = getApiUrl(eventName, session);

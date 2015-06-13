@@ -27,6 +27,10 @@ public class JoinableSession {
     id = data.getInt("id");
   }
 
+  /**
+   * Join this session.
+   * @return The copy of this session.
+   */
   public Session join() {
     logger.info("Joining session in slot " + this.getId());
     JoinSessionRequest joinSessionRequest = new JoinSessionRequest(this.getId(), "VIEWER", "Tygron-API-Agent");

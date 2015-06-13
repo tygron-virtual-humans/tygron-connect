@@ -30,6 +30,7 @@ public class DemolishAction {
   /**
    * Demolishes a piece of land.
    * @param surface The desired surface of the land to demolish.
+   * @return Whether the desired surface was demolished.
    */
   public boolean demolish(double surface) {
     logger.debug("Demolishing");
