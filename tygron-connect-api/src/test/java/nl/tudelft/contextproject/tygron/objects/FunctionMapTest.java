@@ -1,6 +1,8 @@
 package nl.tudelft.contextproject.tygron.objects;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import nl.tudelft.contextproject.tygron.CachedFileReader;
 
@@ -50,5 +52,50 @@ public class FunctionMapTest {
   @Test
   public void getVersion() {
     assertEquals(228,functionMap.get(826).getVersion());
+  }
+  
+  @Test
+  public void getCategoryValue() {
+    assertEquals("OTHER",functionMap.get(826).getCategoryValue().toString());
+  }
+  
+  @Test
+  public void isRightTypeCase0() {
+    assertTrue(functionMap.get(834).isRightType(0));
+  }
+
+  @Test
+  public void isRightTypeCase1() {
+    assertTrue(functionMap.get(9).isRightType(1));
+  }
+  
+  @Test
+  public void isRightTypeCase2() {
+    assertTrue(functionMap.get(156).isRightType(2));
+  }
+  
+  @Test
+  public void isRightTypeCase3() {
+    assertTrue(functionMap.get(242).isRightType(3));
+  }
+  
+  @Test
+  public void isRightTypeCaseMinus() {
+    assertFalse(functionMap.get(826).isRightType(-1));
+  }
+  
+  @Test
+  public void hasEnoughFloorsTrue() {
+    assertTrue(functionMap.get(826).hasEnoughFloors(1));
+  }
+  
+  @Test
+  public void hasEnoughFloorsHigher() {
+    assertFalse(functionMap.get(826).hasEnoughFloors(2));
+  }
+  
+  @Test
+  public void hasEnoughFloorsLower() {
+    assertFalse(functionMap.get(826).hasEnoughFloors(0));
   }
 }
