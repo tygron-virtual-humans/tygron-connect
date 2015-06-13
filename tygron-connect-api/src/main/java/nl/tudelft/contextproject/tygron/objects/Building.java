@@ -92,12 +92,4 @@ public class Building {
   public boolean demolished() {
     return this.state.matches("(.*)DEMOLISH(.*)") || this.state.equals("NOTHING");
   }
-  
-  @Override
-  public String toString() {
-    JSONObject str = new JSONObject();
-    str.put("id", this.id);
-    str.put("name", this.name);
-    return str.toString();
-  }
 }
