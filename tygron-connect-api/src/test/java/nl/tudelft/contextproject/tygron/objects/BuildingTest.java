@@ -10,7 +10,6 @@ import static org.junit.Assert.fail;
 import com.esri.core.geometry.Polygon;
 
 import nl.tudelft.contextproject.tygron.CachedFileReader;
-import nl.tudelft.contextproject.tygron.api.Session;
 import nl.tudelft.contextproject.tygron.objects.Building;
 import nl.tudelft.contextproject.tygron.objects.BuildingList;
 import nl.tudelft.contextproject.util.PolygonUtil;
@@ -19,16 +18,9 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
 
-@RunWith(value = MockitoJUnitRunner.class)
 public class BuildingTest {
   BuildingList building;
-
-  @Mock
-  private Session sessionMock;
 
   /**
    * Creates a building from a cached file.
@@ -36,9 +28,9 @@ public class BuildingTest {
   @Before
   public void setupBuilding() {
     String file = "/serverResponses/testmap/lists/building.json";
-    String buildingContents = CachedFileReader.getFileContents(file);
-    JSONArray buildingResult = new JSONArray(buildingContents);
-    building = new BuildingList(buildingResult);
+    String contents = CachedFileReader.getFileContents(file);
+    JSONArray result = new JSONArray(contents);
+    building = new BuildingList(result);
   }
 
   @Test
@@ -89,6 +81,11 @@ public class BuildingTest {
   @Test
   public void demolishedFalseTest() {
     assertFalse(building.get(0).demolished());
+  }
+  
+  @Test
+  public void demolishedTrueTest2() {
+    assertTrue(building.get(2).demolished());
   }
   
   @Test(expected = Exception.class)

@@ -14,14 +14,14 @@ public class ActionTest {
   ActionList actions;
 
   /**
-   * Creates a building from a cached file.
+   * Creates a action list from a cached file.
    */
   @Before
-  public void setupActions() {
+  public void setup() {
     String file = "/serverResponses/testmap/lists/action.json";
-    String actionContents = CachedFileReader.getFileContents(file);
-    JSONArray actionResult = new JSONArray(actionContents);
-    actions = new ActionList(actionResult);
+    String contents = CachedFileReader.getFileContents(file);
+    JSONArray result = new JSONArray(contents);
+    actions = new ActionList(result);
   }
 
   @Test
