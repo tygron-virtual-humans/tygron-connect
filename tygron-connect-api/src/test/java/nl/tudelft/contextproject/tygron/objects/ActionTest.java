@@ -19,9 +19,9 @@ public class ActionTest {
   @Before
   public void setupActions() {
     String file = "/serverResponses/testmap/lists/action.json";
-    String buildingContents = CachedFileReader.getFileContents(file);
-    JSONArray buildingResult = new JSONArray(buildingContents);
-    actions = new ActionList(buildingResult);
+    String actionContents = CachedFileReader.getFileContents(file);
+    JSONArray actionResult = new JSONArray(actionContents);
+    actions = new ActionList(actionResult);
   }
 
   @Test
