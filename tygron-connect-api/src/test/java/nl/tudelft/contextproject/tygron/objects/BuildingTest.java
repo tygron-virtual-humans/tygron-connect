@@ -1,6 +1,9 @@
 package nl.tudelft.contextproject.tygron.objects;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -68,10 +71,41 @@ public class BuildingTest {
     }
   }
   
+  @Test
+  public void functionIdTest() {
+    assertEquals(436, building.get(0).getFunctionId());
+  }
+  
+  @Test
+  public void stateTest() {
+    assertEquals("READY", building.get(0).getState());
+  }
+  
+  @Test
+  public void demolishedTrueTest() {
+    assertTrue(building.get(1).demolished());
+  }
+  
+  @Test
+  public void demolishedFalseTest() {
+    assertFalse(building.get(0).demolished());
+  }
+  
   @Test(expected = Exception.class)
   public void polyfailTest() {
-    JSONObject jobject = new JSONObject("{\"polygons\":99,\"name\":\"i\",\"id\":0}");
+    JSONObject jobject = new JSONObject("{\"polygons\":99,\"name\":\"i\",\"id\":0,"
+        + "\"state\":\"DEMOLISHED\",\"floors\":3,\"functionID\":21}");
     @SuppressWarnings("unused")
     Building building = new Building(jobject);
+  }
+  
+  @Test
+  public void getIndexTest() {
+    assertNotNull(building.getId(0));
+  }
+  
+  @Test
+  public void getIndexFailTest() {
+    assertNull(building.getId(1));
   }
 }
