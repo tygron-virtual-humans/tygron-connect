@@ -100,6 +100,7 @@ public class Environment implements Runnable {
   
   /**
    * Allows or disables game interaction.
+   * @param set Whether to allow game interaction.
    */
   public void allowGameInteraction(boolean set) {
     String allowInteraction = "event/LogicEventType/SETTINGS_ALLOW_GAME_INTERACTION/";
@@ -152,7 +153,6 @@ public class Environment implements Runnable {
   /**
    * Select a stakeholder to play, can only be done once.
    * @param stakeholderId the stakeholder id to select.
-   * @throws Exception if stakeholder fails
    */
   public void setStakeholder(int stakeholderId) {
     this.stakeholderId = stakeholderId;

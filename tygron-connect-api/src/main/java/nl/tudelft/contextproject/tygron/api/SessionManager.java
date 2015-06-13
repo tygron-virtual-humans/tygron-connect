@@ -78,9 +78,9 @@ public class SessionManager {
     }
     
     // if a session could not be joined/created let's print this
-    if(session.getId() == -1){
-    	logger.info("Could not create or join session. Do you have access to the selected map?");
-    	throw new RuntimeException();
+    if (session.getId() == -1) {
+      logger.info("Could not create or join session. Do you have access to the selected map?");
+      throw new RuntimeException();
     }
 
     // Join / startup the session

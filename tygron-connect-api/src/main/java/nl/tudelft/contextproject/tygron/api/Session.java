@@ -44,7 +44,8 @@ public class Session {
 
   /**
    * Tygron Session Object with data.
-   * @param data the json data
+   * @param session The session to copy.
+   * @param data The json data.
    */
   public Session(JoinableSession session, JSONObject data) {
     id = session.getId();

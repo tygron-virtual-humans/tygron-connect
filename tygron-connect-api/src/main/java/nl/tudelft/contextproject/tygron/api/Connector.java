@@ -1,12 +1,11 @@
 package nl.tudelft.contextproject.tygron.api;
 
+import nl.tudelft.contextproject.tygron.handlers.JsonObjectResultHandler;
+import nl.tudelft.contextproject.tygron.objects.User;
+
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import nl.tudelft.contextproject.tygron.Settings;
-import nl.tudelft.contextproject.tygron.handlers.JsonObjectResultHandler;
-import nl.tudelft.contextproject.tygron.objects.User;
 
 /**
  * The TygronConnector is the bridge between the Tygron API and JAVA.
@@ -26,7 +25,8 @@ public class Connector {
     logger.info("Connector loading.");
 
     // Now load user, it depends on http
-    JSONObject userObj = HttpConnection.getInstance().execute("services/myuser", CallType.GET, new JsonObjectResultHandler());
+    JSONObject userObj = HttpConnection.getInstance().execute("services/myuser", 
+        CallType.GET, new JsonObjectResultHandler());
     user = new User(userObj);
 
     logger.info("Using user #" + user.getId() + " " + user.getUserName() + " " + user.getFirstName() + " "
