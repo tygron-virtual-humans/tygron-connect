@@ -1,12 +1,16 @@
 package nl.tudelft.contextproject.tygron.objects;
 
 import static org.junit.Assert.assertEquals;
+
 import nl.tudelft.contextproject.tygron.CachedFileReader;
 import nl.tudelft.contextproject.tygron.objects.StakeholderList;
 
 import org.json.JSONArray;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class StakeholderTest {
   StakeholderList stakeholderList;
@@ -49,5 +53,24 @@ public class StakeholderTest {
   @Test
   public void getOwnedLandsTest() {
     assertEquals("[0, 1, 2]", stakeholderList.get(0).getOwnedLands().toString());
+  }
+  
+  @Test
+  public void allowedFunctionTest() {
+    List<Integer> allowedFunctions = new ArrayList<Integer>();
+    allowedFunctions.add(2);
+    Stakeholder stakeholder = stakeholderList.get(0);
+    stakeholder.addAllowedFunctions(allowedFunctions);
+    assertEquals(new Integer(2), stakeholder.getAllowedFunctions().get(0));
+  }
+  
+  @Test
+  public void typeTest() {
+    assertEquals("MUNICIPALITY", stakeholderList.get(0).getType());
+  }
+  
+  @Test
+  public void indicatorTest() {
+    assertEquals(new Double(0.15), stakeholderList.get(0).getIndicatorWeights().get(0));
   }
 }

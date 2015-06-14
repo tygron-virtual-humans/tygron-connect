@@ -3,8 +3,11 @@ package nl.tudelft.contextproject.tygron.objects;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import com.esri.core.geometry.Polygon;
+
 import nl.tudelft.contextproject.tygron.CachedFileReader;
 import nl.tudelft.contextproject.tygron.objects.ZoneList;
+import nl.tudelft.contextproject.util.PolygonUtil;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -33,8 +36,13 @@ public class ZoneTest {
   }
 
   @Test
-  public void allowedFunctionsTest() {
+  public void allowedFunctionsEmptyTest() {
     assertTrue(zoneList.get(0).getAllowedFunctions().isEmpty());
+  }
+  
+  @Test
+  public void allowedFunctionsTest() {
+    assertEquals("LUXE", zoneList.get(1).getAllowedFunctions().get(0));
   }
 
   @Test
@@ -107,5 +115,13 @@ public class ZoneTest {
   @Test
   public void getCategoryVersionTest() {
     assertEquals(4, zoneList.get(0).getCategoryVersion());
+  }
+  
+  @Test
+  public void polygonTest() {
+    Polygon polygon1 = PolygonUtil.createPolygonFromWkt("MULTIPOLYGON (((665.733 -329.601, "
+        + "-244.292 -23.896, 77.336 933.526, 987.36 627.82, 665.733 -329.601)))");
+    Polygon polygon2 = zoneList.get(0).getPolygon();
+    assertTrue(PolygonUtil.polygonEquals(polygon1, polygon2));
   }
 }
