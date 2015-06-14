@@ -13,6 +13,7 @@ import nl.tudelft.contextproject.tygron.objects.EconomyList;
 import nl.tudelft.contextproject.tygron.objects.FunctionMap;
 import nl.tudelft.contextproject.tygron.objects.LandMap;
 import nl.tudelft.contextproject.tygron.objects.PopUpHandler;
+import nl.tudelft.contextproject.tygron.objects.ServerWords;
 import nl.tudelft.contextproject.tygron.objects.Stakeholder;
 import nl.tudelft.contextproject.tygron.objects.StakeholderList;
 import nl.tudelft.contextproject.tygron.objects.ZoneList;
@@ -55,6 +56,7 @@ public class Environment implements Runnable {
   private FunctionMap functionMap;
   private LandMap landMap;
   private ActionList actionList;
+  private ServerWords serverWords;
   
   private int mapWidth;
 
@@ -369,6 +371,19 @@ public class Environment implements Runnable {
   
   public ActionList getActions() {
     return this.actionList;
+  }
+  
+  /**
+   * Gets all the server words from the API.
+   * @return List of server words.
+   */
+  public ServerWords getServerWords() {
+    if (serverWords == null) {
+      JSONArray data = HttpConnection.getInstance().execute("lists/serverwords/",
+          CallType.GET, new JsonArrayResultHandler(), session);
+      serverWords = new ServerWords(data);
+    }
+    return serverWords;
   }
   
   /**

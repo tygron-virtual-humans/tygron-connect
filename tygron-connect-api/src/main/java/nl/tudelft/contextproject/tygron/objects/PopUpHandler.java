@@ -91,8 +91,7 @@ public class PopUpHandler {
    * @return The server word translation
    */
   private String getServerWord(int wordId) {
-    return HttpConnection.getInstance().execute("lists/serverwords/" + wordId + "/",
-            CallType.GET, new JsonObjectResultHandler(), session).getString("translation");
+    return environment.getServerWords().get(wordId);
   }
   
   /**
