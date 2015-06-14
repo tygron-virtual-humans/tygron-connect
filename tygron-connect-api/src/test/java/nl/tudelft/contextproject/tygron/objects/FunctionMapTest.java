@@ -14,10 +14,10 @@ public class FunctionMapTest {
   FunctionMap functionMap;
   
   /**
-   * Creates an economy from a cached file.
+   * Creates an function map from a cached file.
    */
   @Before
-  public void setupEconomy() {
+  public void setup() {
     String contents = CachedFileReader.getFileContents("/serverResponses"
         + "/testmap/lists/functions.json");
     JSONArray json = new JSONArray(contents);

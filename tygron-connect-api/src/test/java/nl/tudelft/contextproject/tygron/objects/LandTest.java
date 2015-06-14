@@ -18,10 +18,10 @@ public class LandTest {
   LandMap lands;
 
   /**
-   * Creates a building from a cached file.
+   * Creates a land list from a cached file.
    */
   @Before
-  public void setupLands() {
+  public void setup() {
     String file = "/serverResponses/testmap/lists/land.json";
     String contents = CachedFileReader.getFileContents(file);
     JSONArray result = new JSONArray(contents);

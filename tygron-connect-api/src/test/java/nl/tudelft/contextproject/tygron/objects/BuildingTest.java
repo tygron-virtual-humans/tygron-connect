@@ -23,7 +23,7 @@ public class BuildingTest {
   BuildingList building;
 
   /**
-   * Creates a building from a cached file.
+   * Creates a building list from a cached file.
    */
   @Before
   public void setupBuilding() {
