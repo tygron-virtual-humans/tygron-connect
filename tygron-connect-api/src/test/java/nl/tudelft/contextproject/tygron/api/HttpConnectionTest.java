@@ -7,6 +7,7 @@ import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.atLeast;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+
 import nl.tudelft.contextproject.tygron.Settings;
 import nl.tudelft.contextproject.tygron.handlers.JsonObjectResultHandler;
 import nl.tudelft.contextproject.tygron.handlers.StringResultHandler;
@@ -25,103 +26,110 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
 public class HttpConnectionTest {
-    @Mock
-    JSONArray parameters;
+  @Mock
+  JSONArray parameters;
 
-    @Mock
-    Settings settings;
+  @Mock
+  Settings settings;
 
-    @Mock
-    HttpUriRequest request;
+  @Mock
+  HttpUriRequest request;
 
-    @Mock
-    Session session;
+  @Mock
+  Session session;
 
-    @Mock
-    HttpClient client;
+  @Mock
+  HttpClient client;
 
-    @Mock
-    HttpResponse response;
+  @Mock
+  HttpResponse response;
 
-    @Mock
-    BasicResponseHandler handler;
+  @Mock
+  BasicResponseHandler handler;
 
-    @Mock
-    BasicResponseHandler objHandler;
+  @Mock
+  BasicResponseHandler objHandler;
 
-    HttpConnection connection;
+  HttpConnection connection;
 
-    String responseString = "{\"responseResponse\": \"response\"}";
+  String responseString = "{\"responseResponse\": \"response\"}";
 
+  /**
+   * Sets up the tests.
+   * @throws Exception throws exception on failure
+   */
+  @Before
+  public void setupMock() throws Exception {
+    when(parameters.toString()).thenReturn("[]");
 
-    @Before
-    public void setupMock() throws Exception {
-        when(parameters.toString()).thenReturn("[]");
+    when(settings.getUserName()).thenReturn("username");
+    when(settings.getPassword()).thenReturn("password");
 
-        when(settings.getUserName()).thenReturn("username");
-        when(settings.getPassword()).thenReturn("password");
+    when(session.getId()).thenReturn(17);
 
-        when(session.getId()).thenReturn(17);
+    HttpConnection.setSettings(settings);
+    connection = HttpConnection.getInstance();
 
-        HttpConnection.setSettings(settings);
-        connection = HttpConnection.getInstance();
+    when(handler.handleResponse(any(HttpResponse.class))).thenReturn(
+        responseString);
+    connection.handler = handler;
 
-        when(handler.handleResponse(any(HttpResponse.class))).thenReturn(responseString);
-        connection.handler = handler;
+    when(client.execute(any(HttpUriRequest.class))).thenReturn(response);
+    connection.client = client;
+  }
 
-        when(client.execute(any(HttpUriRequest.class))).thenReturn(response);
-        connection.client = client;
-    }
+  @Test
+  public void testAuthString() {
+    connection.getAuthString();
+    verify(settings).getUserName();
+    verify(settings).getPassword();
+  }
 
-    @Test
-    public void testAuthString() {
-        connection.getAuthString();
-        verify(settings).getUserName();
-        verify(settings).getPassword();
-    }
+  @Test
+  public void testDefaultHeaders() {
+    connection.addDefaultHeaders(request);
+    verify(request, atLeast(3)).setHeader(anyString(), anyString());
+  }
 
-    @Test
-    public void testDefaultHeaders() {
-        connection.addDefaultHeaders(request);
-        verify(request, atLeast(3)).setHeader(anyString(), anyString());
-    }
+  @Test
+  public void testDefaultHeadersWithToken() {
+    String token = "test token";
+    connection.setServerToken(token);
+    connection.addDefaultHeaders(request);
+    verify(request).setHeader(eq("serverToken"), eq(token));
+  }
 
-    @Test
-    public void testDefaultHeadersWithToken() {
-        String token = "test token";
-        connection.setServerToken(token);
-        connection.addDefaultHeaders(request);
-        verify(request).setHeader(eq("serverToken"), eq(token));
-    }
+  @Test
+  public void testApiUrlWithSession() {
+    String url = connection.getApiUrl("event", session);
+    verify(session).getId();
+    assertEquals("https://server2.tygron.com:3022/api/slots/17/event?f=JSON",
+        url);
+  }
 
-    @Test
-    public void testApiUrlWithSession() {
-        String url = connection.getApiUrl("event", session);
-        verify(session).getId();
-        assertEquals("https://server2.tygron.com:3022/api/slots/17/event?f=JSON", url);
-    }
+  @Test
+  public void testApiUrl() {
+    String url = connection.getApiUrl("event", null);
+    assertEquals("https://server2.tygron.com:3022/api/event?f=JSON", url);
+  }
 
-    @Test
-    public void testApiUrl() {
-        String url = connection.getApiUrl("event", null);
-        assertEquals("https://server2.tygron.com:3022/api/event?f=JSON", url);
-    }
+  @Test
+  public void testApiExecute() {
+    String result = connection.execute(request);
+    assertEquals(responseString, result);
+  }
 
-    @Test
-    public void testApiExecute() {
-        String result = connection.execute(request);
-        assertEquals(responseString, result);
-    }
+  @Test
+  public void testApiExecuteParams() {
+    String result = connection.execute("event", CallType.GET,
+        new StringResultHandler());
+    assertEquals(responseString, result);
+  }
 
-    @Test
-    public void testApiExecuteParams() {
-        String result = connection.execute("event", CallType.GET, new StringResultHandler());
-        assertEquals(responseString, result);
-    }
-
-    @Test
-    public void testUpdate() {
-        JSONObject obj = connection.getUpdate(new JsonObjectResultHandler(), session, new JSONObject());
-        assertEquals("response", obj.getString("responseResponse"));
-    }
+  @Test
+  public void testUpdate() {
+    JSONObject obj = connection.getUpdate(new JsonObjectResultHandler(),
+        session, new JSONObject());
+    assertEquals("response", obj.getString("responseResponse"));
+  }
 }

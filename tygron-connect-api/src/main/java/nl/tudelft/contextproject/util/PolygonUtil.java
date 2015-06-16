@@ -158,6 +158,11 @@ public class PolygonUtil {
     return createPolygonFromWkt(builder.toString());
   }
   
+  /**
+   * Return a string representation of a multipolygon.
+   * @param polygon the polygon that needs to be stringyfied
+   * @return a stringified polygon
+   */
   public static String toString(Polygon polygon) {
     String result = OperatorExportToWkt.local().execute(0, polygon, null);
     result = result.replaceAll(",", ".");
