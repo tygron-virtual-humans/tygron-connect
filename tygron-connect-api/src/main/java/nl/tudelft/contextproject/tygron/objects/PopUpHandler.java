@@ -293,6 +293,7 @@ public class PopUpHandler {
   private void permitRequestAsk(PopUp popUp) {
     answer(popUp, 0);
     requestsOpen++;
+    loadPopUps();
   }
   
   private void permitRequestReceived(PopUp popUp) {
@@ -303,6 +304,7 @@ public class PopUpHandler {
   private void zoneDiverged(PopUp popUp) {
     changeZones(popUp.getLinkId());
     // TODO Send info to stakeholder
+    loadPopUps();
   }
 
   private void permitRequestRefused(PopUp popUp) {
@@ -320,6 +322,7 @@ public class PopUpHandler {
   private void planPerformAsk(PopUp popUp) {
     answer(popUp, 0);
     // TODO Send info to stakeholder
+    loadPopUps();
   }
   
   private void answer(PopUp popUp, int answer) {
