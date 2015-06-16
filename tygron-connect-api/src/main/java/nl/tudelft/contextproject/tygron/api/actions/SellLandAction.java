@@ -7,7 +7,9 @@ import nl.tudelft.contextproject.tygron.api.Environment;
 import nl.tudelft.contextproject.tygron.api.HttpConnection;
 import nl.tudelft.contextproject.tygron.api.Session;
 import nl.tudelft.contextproject.tygron.handlers.StringResultHandler;
+import nl.tudelft.contextproject.tygron.objects.LandMap;
 import nl.tudelft.contextproject.tygron.objects.Stakeholder;
+import nl.tudelft.contextproject.tygron.objects.StakeholderList;
 import nl.tudelft.contextproject.util.PolygonUtil;
 
 import org.json.JSONArray;
@@ -38,7 +40,7 @@ public class SellLandAction {
    */
   public boolean sellLand(double surface, double price) {
     logger.debug("Selling land");
-    Stakeholder seller = environment.getStakeholders().get(environment.getStakeholderId());
+    Stakeholder seller = environment.get(StakeholderList.class).get(environment.getStakeholderId());
     
     Polygon availableLand = environment.getAvailableLand(seller);
     
@@ -52,7 +54,7 @@ public class SellLandAction {
     
     Polygon suitableLand = environment.getSuitableLand(availableLand, surface);
     
-    List<Stakeholder> list = new ArrayList<Stakeholder>(environment.getStakeholders());
+    List<Stakeholder> list = new ArrayList<>(environment.get(StakeholderList.class));
     list.remove(environment.getStakeholderId());
     Random random = new Random();
     Stakeholder buyer = list.get(random.nextInt(list.size()));
@@ -60,7 +62,7 @@ public class SellLandAction {
     SellLandRequest sellLandRequest = new SellLandRequest(seller, buyer, suitableLand, price);
     HttpConnection.getInstance().execute("event/PlayerEventType/MAP_SELL_LAND/",
             CallType.POST, new StringResultHandler(), session, sellLandRequest);
-    environment.loadLands();
+    environment.get(LandMap.class);
     return true;
   }
   
