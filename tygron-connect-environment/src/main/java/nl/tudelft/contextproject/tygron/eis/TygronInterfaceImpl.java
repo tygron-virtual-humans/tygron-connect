@@ -14,6 +14,7 @@ import nl.tudelft.contextproject.tygron.eis.entities.Controller;
 import nl.tudelft.contextproject.tygron.eis.translators.ConfigurationTranslator;
 import nl.tudelft.contextproject.tygron.eis.translators.HashMapTranslator;
 import nl.tudelft.contextproject.tygron.eis.translators.ParamEnumTranslator;
+
 import eis.eis2java.environment.AbstractEnvironment;
 import eis.eis2java.exception.TranslationException;
 import eis.eis2java.translation.Translator;

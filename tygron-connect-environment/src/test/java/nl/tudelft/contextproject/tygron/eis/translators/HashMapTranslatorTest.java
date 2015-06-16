@@ -2,17 +2,18 @@ package nl.tudelft.contextproject.tygron.eis.translators;
 
 import static org.junit.Assert.assertEquals;
 
-import java.util.HashMap;
-import java.util.Map.Entry;
+import eis.iilang.Identifier;
+import eis.iilang.Numeral;
+import eis.iilang.Parameter;
+import eis.iilang.ParameterList;
 
 import org.junit.Before;
 import org.junit.Test;
 
 import eis.eis2java.exception.TranslationException;
-import eis.iilang.Identifier;
-import eis.iilang.Numeral;
-import eis.iilang.Parameter;
-import eis.iilang.ParameterList;
+
+import java.util.HashMap;
+import java.util.Map.Entry;
 
 public class HashMapTranslatorTest {
 

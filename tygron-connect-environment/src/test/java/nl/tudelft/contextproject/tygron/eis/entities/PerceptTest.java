@@ -2,6 +2,7 @@ package nl.tudelft.contextproject.tygron.eis.entities;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.when;
+
 import nl.tudelft.contextproject.tygron.CachedFileReader;
 import nl.tudelft.contextproject.tygron.api.Environment;
 import nl.tudelft.contextproject.tygron.api.Session;
