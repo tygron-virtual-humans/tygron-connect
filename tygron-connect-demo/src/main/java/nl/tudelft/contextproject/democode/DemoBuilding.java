@@ -47,18 +47,18 @@ public class DemoBuilding {
     environment.allowGameInteraction(true);
     environment.setStakeholder(1);
     
-    logger.info("Demolishing done: " + new DemolishAction(session).demolish(5000));
+    logger.info("Demolishing done: " + new DemolishAction(environment).demolish(5000));
     
-    logger.info("Buying land done: " + new BuyLandAction(session).buyLand(5000, 200));
+    logger.info("Buying land done: " + new BuyLandAction(environment).buyLand(5000, 200));
     
     for (int i = 0; i < 10; i++) {
-      logger.info("Building done " + i +  ": " + new BuildAction(session).build(50, 0));
+      logger.info("Building done " + i +  ": " + new BuildAction(environment).build(50, 0));
     }
     for (int i = 0; i < 10; i++) {
-      logger.info("Park done " + i +  ": " + new BuildAction(session).build(50, 1));
+      logger.info("Park done " + i +  ": " + new BuildAction(environment).build(50, 1));
     }
     for (int i = 0; i < 10; i++) {
-      logger.info("Parking lot done " + i +  ": " + new BuildAction(session).build(50, 2));
+      logger.info("Parking lot done " + i +  ": " + new BuildAction(environment).build(50, 2));
     }
     
     environment.releaseStakeholder();

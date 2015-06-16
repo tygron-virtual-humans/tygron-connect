@@ -133,7 +133,7 @@ public class Controller {
    */
   @AsAction(name = "build")
   public void build(int surface, int type) {
-    new BuildAction(session).build(surface, type);
+    new BuildAction(env).build(surface, type);
   }
   
   /**
@@ -143,7 +143,7 @@ public class Controller {
    */
   @AsAction(name = "buyLand")
   public void buyLand(int surface, int cost) {
-    new BuyLandAction(session).buyLand(surface, cost);
+    new BuyLandAction(env).buyLand(surface, cost);
   }
   
   /**
@@ -153,7 +153,7 @@ public class Controller {
    */
   @AsAction(name = "askMoney")
   public void ask(int stakeholder, int amount) {
-    new AskMoneyAction(session).askMoney(stakeholder, amount);
+    new AskMoneyAction(env).askMoney(stakeholder, amount);
   }
   
   /**
@@ -163,7 +163,7 @@ public class Controller {
    */
   @AsAction(name = "giveMoney")
   public void give(int stakeholder, int amount) {
-    new GiveMoneyAction(session).giveMoney(stakeholder, amount);
+    new GiveMoneyAction(env).giveMoney(stakeholder, amount);
   }
 
 }
