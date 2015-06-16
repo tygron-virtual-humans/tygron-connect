@@ -20,7 +20,7 @@ public abstract class Loader<T> {
 
   public T get() {
     if (cached == null) {
-      return load();
+      cached = load();
     }
     return cached;
   }
