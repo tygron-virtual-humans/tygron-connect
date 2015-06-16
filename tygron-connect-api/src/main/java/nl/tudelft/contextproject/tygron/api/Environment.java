@@ -537,5 +537,9 @@ public class Environment implements Runnable {
     }
     return -1;
   }
+  
+  public int requestsOpen() {
+    return popUpHandler.requestsOpen();
+  }
 }
 
