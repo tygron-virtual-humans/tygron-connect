@@ -2,10 +2,11 @@ package nl.tudelft.contextproject.tygron.eis.entities;
 
 import nl.tudelft.contextproject.tygron.api.Environment;
 import nl.tudelft.contextproject.tygron.api.Session;
+import nl.tudelft.contextproject.tygron.api.actions.AskMoneyAction;
 import nl.tudelft.contextproject.tygron.api.actions.BuildAction;
 import nl.tudelft.contextproject.tygron.api.actions.BuyLandAction;
+import nl.tudelft.contextproject.tygron.api.actions.GiveMoneyAction;
 import nl.tudelft.contextproject.tygron.eis.TygronPercept;
-
 import eis.eis2java.annotation.AsAction;
 import eis.eis2java.annotation.AsPercept;
 import eis.eis2java.translation.Filter;
@@ -24,7 +25,7 @@ public class Controller {
    * Controller constructor.
    * 
    * @param controller
-   *          the session object
+   *          the session object.
    */
   public Controller(Session controller) {
     session = controller;
@@ -38,7 +39,7 @@ public class Controller {
   /**
    * Percept the stakeholders from the environment.
    * 
-   * @return the stakeholders
+   * @return the stakeholders.
    */
   @AsPercept(name = "stakeholder", multiplePercepts = true, multipleArguments = true, filter = Filter.Type.ONCE)
   public List<TygronPercept> stakeholder() {
@@ -48,7 +49,7 @@ public class Controller {
   /**
    * Percepts the indicators on change.
    * 
-   * @return the list of indicators
+   * @return the list of indicators.
    */
   @AsPercept(name = "indicator", multiplePercepts = true, multipleArguments = true, filter = Filter.Type.ON_CHANGE)
   public List<TygronPercept> progressIndicator() {
@@ -58,7 +59,7 @@ public class Controller {
   /**
    * Percepts the initIndicators once.
    * 
-   * @return the list of indicators
+   * @return the list of indicators.
    */
   @AsPercept(name = "initIndicator", multiplePercepts = true, multipleArguments = true, filter = Filter.Type.ONCE)
   public List<TygronPercept> initIndicator() {
@@ -68,7 +69,7 @@ public class Controller {
   /**
    * Percepts the own stakeholder once.
    * 
-   * @return the selfstakeholder
+   * @return the selfstakeholder.
    */
   @AsPercept(name = "stakeholderSelf", filter = Filter.Type.ONCE)
   public TygronPercept stakeholderSelf() {
@@ -78,7 +79,7 @@ public class Controller {
   /**
    * Percepts the initIndicators on change.
    * 
-   * @return the list of indicators
+   * @return the list of indicators.
    */
   @AsPercept(name = "economy", multiplePercepts = true, multipleArguments = true, filter = Filter.Type.ON_CHANGE)
   public List<TygronPercept> economies() {
@@ -88,7 +89,7 @@ public class Controller {
   /**
    * Percepts the buildings on change.
    * 
-   * @return the list of buildings
+   * @return the list of buildings.
    */
   @AsPercept(name = "building", multiplePercepts = true, multipleArguments = true, filter = Filter.Type.ON_CHANGE)
   public List<TygronPercept> buildings() {
@@ -97,8 +98,8 @@ public class Controller {
   
   /**
    * Build action.
-   * @param surface the surface to build
-   * @param type the type of the building
+   * @param surface the surface to build.
+   * @param type the type of the building.
    */
   @AsAction(name = "build")
   public void build(int surface, int type) {
@@ -107,12 +108,32 @@ public class Controller {
   
   /**
    * Buy land action.
-   * @param surface the surface to buy
-   * @param cost the price to buy it
+   * @param surface the surface to buy.
+   * @param cost the price to buy it.
    */
   @AsAction(name = "buyLand")
   public void buyLand(int surface, int cost) {
     new BuyLandAction(session).buyLand(surface, cost);
+  }
+  
+  /**
+   * Ask money action.
+   * @param stakeholder the stakeholder to ask money from.
+   * @param the amount of money.
+   */
+  @AsAction(name = "askMoney")
+  public void ask(int stakeholder, int amount) {
+    new AskMoneyAction(session).askMoney(stakeholder, amount);
+  }
+  
+  /**
+   * Give money action.
+   * @param stakeholder the stakeholder to give money to.
+   * @param the amount of money.
+   */
+  @AsAction(name = "giveMoney")
+  public void give(int stakeholder, int amount) {
+    new GiveMoneyAction(session).giveMoney(stakeholder, amount);
   }
 
 }
