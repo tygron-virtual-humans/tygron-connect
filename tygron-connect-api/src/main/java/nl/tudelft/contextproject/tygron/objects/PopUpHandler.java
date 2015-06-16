@@ -3,7 +3,6 @@ package nl.tudelft.contextproject.tygron.objects;
 import nl.tudelft.contextproject.tygron.api.CallType;
 import nl.tudelft.contextproject.tygron.api.Environment;
 import nl.tudelft.contextproject.tygron.api.HttpConnection;
-import nl.tudelft.contextproject.tygron.api.Session;
 import nl.tudelft.contextproject.tygron.handlers.JsonObjectResultHandler;
 import nl.tudelft.contextproject.tygron.objects.PopUp.TypeValue;
 import nl.tudelft.contextproject.util.PolygonUtil;
@@ -33,7 +32,6 @@ public class PopUpHandler {
     PERMIT_REQUEST_APPROVED, PERMIT_REQUEST_REFUSED, ZONING_DIVERGED, PLAN_PERFORM_ASK
   }
   
-  private Session session;
   private Environment environment;
   
   private int version;
@@ -46,9 +44,8 @@ public class PopUpHandler {
    * @param session The session
    * @param stakeholderId The id of the player's stakeholder
    */
-  public PopUpHandler(Session session, int stakeholderId) {
-    this.session = session;
-    this.environment = session.getEnvironment();
+  public PopUpHandler(Environment env, int stakeholderId) {
+    this.environment = env;
     this.stakeholderId = stakeholderId;
     this.version = 0;
     this.requestsOpen = 0;
@@ -112,7 +109,7 @@ public class PopUpHandler {
    */
   public void loadPopUps() {
     JSONObject dataObject = HttpConnection.getInstance().getUpdate(new JsonObjectResultHandler(),
-            session, getRequestObject());
+            true, getRequestObject());
     if (dataObject != null) {
       JSONObject items = dataObject.getJSONObject("items");
       if (items.has("POPUPS")) {

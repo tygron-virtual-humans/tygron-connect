@@ -30,7 +30,6 @@ public class Environment implements Runnable {
   private final double errorMargin = 0.10;
 
   // Environment oriented
-  private Session session;
   private PopUpHandler popUpHandler;
 
   // Session data oriented
@@ -46,8 +45,7 @@ public class Environment implements Runnable {
    * Creates an environment that communicates with the session API.
    * @param session The session.
    */
-  public Environment(Session session) {
-    this.session = session;
+  public Environment() {
     stakeholderId = -1;
     environmentThread = new Thread(this);
 
@@ -103,7 +101,7 @@ public class Environment implements Runnable {
     JSONArray param = new JSONArray();
     param.put(set);
     HttpConnection.getInstance().execute(allowInteraction, CallType.POST,
-            new JsonObjectResultHandler(), session, param);
+            new JsonObjectResultHandler(), true, param);
   }
   
   /**
@@ -136,14 +134,14 @@ public class Environment implements Runnable {
   public void setStakeholder(int stakeholderId) {
     this.stakeholderId = stakeholderId;
     boolean retValue = HttpConnection.getInstance().execute("event/PlayerEventType/STAKEHOLDER_SELECT",
-            CallType.POST, new BooleanResultHandler(), session,
-            new StakeholderSelectRequest(stakeholderId, session.getClientToken()));
+            CallType.POST, new BooleanResultHandler(), true,
+            new StakeholderSelectRequest(stakeholderId, HttpConnection.getInstance().getData().getClientToken()));
     logger.info("Setting stakeholder to #" + stakeholderId + ". Operation " 
         + ((retValue) ? "success!" : "failed!" ));
     if (!retValue) {
       throw new RuntimeException("Stakeholder could not be selected!");
     } else {
-      popUpHandler = new PopUpHandler(session, stakeholderId);
+      popUpHandler = new PopUpHandler(this, stakeholderId);
     }
   }
   
@@ -164,7 +162,7 @@ public class Environment implements Runnable {
   public void releaseStakeholder() {
     logger.info("Releasing stakeholder #" + stakeholderId);
     HttpConnection.getInstance().execute("event/LogicEventType/STAKEHOLDER_RELEASE/",
-            CallType.POST, new BooleanResultHandler(), session,
+            CallType.POST, new BooleanResultHandler(), true,
             new StakeholderReleaseRequest(stakeholderId));
     stakeholderId = -1;
     popUpHandler = null;
@@ -270,7 +268,7 @@ public class Environment implements Runnable {
   private void getMapWidth() {
     if (mapWidth == 0) {
       mapWidth = HttpConnection.getInstance().execute("lists/settings/31/",
-              CallType.GET, new JsonObjectResultHandler(), session).getInt("value");
+              CallType.GET, new JsonObjectResultHandler(), true).getInt("value");
     }
   }
   

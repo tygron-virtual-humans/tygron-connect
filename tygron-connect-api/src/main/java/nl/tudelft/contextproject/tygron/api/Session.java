@@ -39,7 +39,7 @@ public class Session {
     clientToken = "";
     serverToken = "";
 
-    environment = new Environment(this);
+    environment = new Environment();
   }
 
   /**
@@ -64,7 +64,7 @@ public class Session {
       compatibleOperations.add(jsonArray.get(i).toString());
     }
 
-    environment = new Environment(this);
+    environment = new Environment();
   }
 
   /**
