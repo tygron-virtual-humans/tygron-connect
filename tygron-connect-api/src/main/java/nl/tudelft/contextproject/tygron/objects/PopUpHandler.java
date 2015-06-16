@@ -245,21 +245,18 @@ public class PopUpHandler {
           planPerformAsk(popUp);
           break;
         case LAND_SELL_REQUEST_SENT:
-          requestSent();
+          landRequestSent();
           break;
         case LAND_BUY__REQUEST_SENT:
-          requestSent();
+          landRequestSent();
           break;
-        case PERMIT_REQUEST_SENT:
-          requestSent();
-          break;
-        default: // Do nothing
+        default: // Do nothing (PERMIT_REQUEST_SENT)
           break;
       }
     }
   }
   
-  private void requestSent() {
+  private void landRequestSent() {
     requestsOpen++;
   }
 
@@ -295,6 +292,8 @@ public class PopUpHandler {
   
   private void permitRequestAsk(PopUp popUp) {
     answer(popUp, 0);
+    requestsOpen++;
+    loadPopUps();
   }
   
   private void permitRequestReceived(PopUp popUp) {
@@ -305,6 +304,7 @@ public class PopUpHandler {
   private void zoneDiverged(PopUp popUp) {
     changeZones(popUp.getLinkId());
     // TODO Send info to stakeholder
+    loadPopUps();
   }
 
   private void permitRequestRefused(PopUp popUp) {
@@ -322,6 +322,7 @@ public class PopUpHandler {
   private void planPerformAsk(PopUp popUp) {
     answer(popUp, 0);
     // TODO Send info to stakeholder
+    loadPopUps();
   }
   
   private void answer(PopUp popUp, int answer) {
