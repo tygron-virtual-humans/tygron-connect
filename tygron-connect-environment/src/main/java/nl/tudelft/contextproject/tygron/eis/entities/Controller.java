@@ -97,6 +97,36 @@ public class Controller {
   }
   
   /**
+   * Percepts the available land on change.
+   * 
+   * @return the available land.
+   */
+  @AsPercept(name = "availableLand", filter = Filter.Type.ON_CHANGE)
+  public double availableLand() {
+    return env.getAvailableSurface();
+  }
+  
+  /**
+   * Percepts all the land of the stakeholder on change.
+   * 
+   * @return the land of this stakeholder.
+   */
+  @AsPercept(name = "allLand", filter = Filter.Type.ON_CHANGE)
+  public double allLand() {
+    return env.getAllSurface();
+  }
+  
+  /**
+   * Percepts the number of permits on change.
+   * 
+   * @return the number of permits of this stakeholder.
+   */
+  @AsPercept(name = "permits", filter = Filter.Type.ON_CHANGE)
+  public double permits() {
+    return env.requestsOpen();
+  }
+  
+  /**
    * Build action.
    * @param surface the surface to build.
    * @param type the type of the building.
