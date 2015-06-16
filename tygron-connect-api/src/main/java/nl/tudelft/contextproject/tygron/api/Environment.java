@@ -52,14 +52,14 @@ public class Environment implements Runnable {
     environmentThread = new Thread(this);
 
     loaderMap = new HashMap<>();
-    putLoader(new BuildingListLoader(session));
-    putLoader(new EconomyListLoader(session));
-    putLoader(new FunctionMapLoader(session));
-    putLoader(new IndicatorListLoader(session));
-    putLoader(new LandMapLoader(session));
-    putLoader(new StakeholderListLoader(session));
-    putLoader(new ZoneListLoader(session));
-    putLoader(new ServerWordsLoader(session));
+    putLoader(new BuildingListLoader());
+    putLoader(new EconomyListLoader());
+    putLoader(new FunctionMapLoader());
+    putLoader(new IndicatorListLoader());
+    putLoader(new LandMapLoader());
+    putLoader(new StakeholderListLoader());
+    putLoader(new ZoneListLoader());
+    putLoader(new ServerWordsLoader());
   }
 
   public void putLoader(Loader<?> loader) {

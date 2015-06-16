@@ -11,15 +11,11 @@ import org.slf4j.LoggerFactory;
 public class EconomyListLoader extends Loader<EconomyList> {
   private static final Logger logger = LoggerFactory.getLogger(EconomyListLoader.class);
 
-  public EconomyListLoader(Session session) {
-    super(session);
-  }
-
   @Override
   public EconomyList load() {
     logger.debug("Loading economies");
     return HttpConnection.getInstance().execute("lists/"
-            + "economies", CallType.GET, new EconomyListResultHandler(), session);
+            + "economies", CallType.GET, new EconomyListResultHandler(), true);
   }
 
   @Override

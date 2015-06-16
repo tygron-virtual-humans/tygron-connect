@@ -10,6 +10,9 @@ public abstract class Loader<T> {
   public Loader(Session session) {
     this.session = session;
   }
+  
+  public Loader() {
+  }  
 
   protected abstract T load();
 
