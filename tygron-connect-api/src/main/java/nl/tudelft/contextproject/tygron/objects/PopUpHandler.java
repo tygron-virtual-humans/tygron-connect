@@ -312,10 +312,10 @@ public class PopUpHandler {
     if (popUp.getType() == TypeValue.INTERACTION_WITH_DATE) {
       parameters.put(0);
       HttpConnection.getInstance().execute("event/PlayerEventType/POPUP_ANSWER_WITH_DATE/",
-          CallType.POST, new JsonObjectResultHandler(), session, parameters);
+          CallType.POST, new JsonObjectResultHandler(), true, parameters);
     } else {
       HttpConnection.getInstance().execute("event/PlayerEventType/POPUP_ANSWER/", 
-          CallType.POST, new JsonObjectResultHandler(), session, parameters);
+          CallType.POST, new JsonObjectResultHandler(), true, parameters);
     }
   }
   
@@ -335,7 +335,7 @@ public class PopUpHandler {
         parameters.put(zone.getId());
         parameters.put(function.getCategoryValue().toString());
         HttpConnection.getInstance().execute("event/PlayerEventType/ZONE_ADD_FUNCTION_CATEGORY/", CallType.POST,
-                new JsonObjectResultHandler(), session, parameters);
+                new JsonObjectResultHandler(), true, parameters);
         
         // Change max floors allowed in zone
         parameters = new JSONArray();
@@ -343,7 +343,7 @@ public class PopUpHandler {
         parameters.put(zone.getId());
         parameters.put(max(zone.getAllowedFloors(), building.getFloors()));
         HttpConnection.getInstance().execute("event/PlayerEventType/ZONE_SET_MAX_FLOORS/", CallType.POST,
-                new JsonObjectResultHandler(), session, parameters);
+                new JsonObjectResultHandler(), true, parameters);
       }
     }
   }

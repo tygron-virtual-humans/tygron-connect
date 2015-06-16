@@ -81,7 +81,7 @@ public class BuildAction {
       BuildRequest buildRequest = new BuildRequest(stakeholder, 
           function, neededFloors, selectedLand);
       HttpConnection.getInstance().execute("event/PlayerEventType/BUILDING_PLAN_CONSTRUCTION/",
-              CallType.POST, new StringResultHandler(), session, buildRequest);
+              CallType.POST, new StringResultHandler(), true, buildRequest);
       environment.loadBuildings();
       return true;
     } else {

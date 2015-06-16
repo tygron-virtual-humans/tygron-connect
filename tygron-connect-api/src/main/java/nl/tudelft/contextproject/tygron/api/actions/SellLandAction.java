@@ -59,7 +59,7 @@ public class SellLandAction {
     
     SellLandRequest sellLandRequest = new SellLandRequest(seller, buyer, suitableLand, price);
     HttpConnection.getInstance().execute("event/PlayerEventType/MAP_SELL_LAND/",
-            CallType.POST, new StringResultHandler(), session, sellLandRequest);
+            CallType.POST, new StringResultHandler(), true, sellLandRequest);
     environment.loadLands();
     return true;
   }

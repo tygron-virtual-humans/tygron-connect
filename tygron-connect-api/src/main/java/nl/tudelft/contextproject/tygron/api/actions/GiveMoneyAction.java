@@ -33,7 +33,7 @@ public class GiveMoneyAction {
     if (environment.getBudget(environment.getStakeholderId()) >= amount) {
       GiveMoneyRequest giveMoneyRequest = new GiveMoneyRequest(environment.getStakeholderId(), receiverId, amount);
       HttpConnection.getInstance().execute("event/PlayerEventType/MONEY_TRANSFER_GIVE/",
-          CallType.POST, new StringResultHandler(), session, giveMoneyRequest);
+          CallType.POST, new StringResultHandler(), true, giveMoneyRequest);
     } else {
       logger.debug("Selected stakeholder has less money than given");
     }
