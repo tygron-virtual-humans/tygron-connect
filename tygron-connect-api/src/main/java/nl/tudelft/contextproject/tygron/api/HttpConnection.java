@@ -34,8 +34,7 @@ public class HttpConnection {
    * Creates a Tygron connection using some settings.
    * @param settings the settings
    */
-  private HttpConnection(Settings settings) {
-    setSettings(settings);
+  private HttpConnection() {
     this.client = HttpClients.custom().build();
     this.handler = new BasicResponseHandler();
   }
@@ -48,15 +47,15 @@ public class HttpConnection {
   }
 
   /**
-   * Get the singleton connection.
-   * @return The connection.
+   * Return the HttpConnection instance.
+   * @return the http connection instance
    */
   public static HttpConnection getInstance() {
     if (instance == null) {
       if (settings == null) {
         settings = new Settings();
       }
-      instance = new HttpConnection(settings);
+      instance = new HttpConnection();
     }
     return instance;
   }

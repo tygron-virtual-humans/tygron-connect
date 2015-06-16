@@ -1,14 +1,14 @@
 package nl.tudelft.contextproject.democode;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.esri.core.geometry.Geometry;
 import com.esri.core.geometry.OperatorContains;
 import com.esri.core.geometry.OperatorImportFromWkt;
 import com.esri.core.geometry.Polygon;
 import com.esri.core.geometry.SpatialReference;
 import com.esri.core.geometry.WktImportFlags;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class DemoGeometryLoader {
 

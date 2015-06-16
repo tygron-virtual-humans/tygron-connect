@@ -2,6 +2,7 @@ package nl.tudelft.contextproject.tygron.api;
 
 import nl.tudelft.contextproject.tygron.handlers.IntegerResultHandler;
 import nl.tudelft.contextproject.tygron.handlers.JsonArrayResultHandler;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.slf4j.Logger;

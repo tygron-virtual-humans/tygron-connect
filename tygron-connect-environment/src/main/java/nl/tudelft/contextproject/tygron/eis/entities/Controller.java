@@ -5,6 +5,7 @@ import nl.tudelft.contextproject.tygron.api.Session;
 import nl.tudelft.contextproject.tygron.api.actions.BuildAction;
 import nl.tudelft.contextproject.tygron.api.actions.BuyLandAction;
 import nl.tudelft.contextproject.tygron.eis.TygronPercept;
+
 import eis.eis2java.annotation.AsAction;
 import eis.eis2java.annotation.AsPercept;
 import eis.eis2java.translation.Filter;
@@ -100,7 +101,7 @@ public class Controller {
    * @param type the type of the building
    */
   @AsAction(name = "build")
-  public void build(int surface, int type){
+  public void build(int surface, int type) {
     new BuildAction(session).build(surface, type);
   }
   
@@ -110,7 +111,7 @@ public class Controller {
    * @param cost the price to buy it
    */
   @AsAction(name = "buyLand")
-  public void buyLand(int surface, int cost){
+  public void buyLand(int surface, int cost) {
     new BuyLandAction(session).buyLand(surface, cost);
   }
 

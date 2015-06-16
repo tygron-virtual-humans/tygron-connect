@@ -1,5 +1,10 @@
 package nl.tudelft.contextproject.tygron.api;
 
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.when;
+
 import nl.tudelft.contextproject.tygron.CachedFileReader;
 import nl.tudelft.contextproject.tygron.handlers.BooleanResultHandler;
 import org.json.JSONObject;
@@ -13,11 +18,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.eq;
-import static org.mockito.Mockito.when;
-
 @RunWith(value = MockitoJUnitRunner.class)
 public class SessionTest {
   Session session;
@@ -30,6 +30,9 @@ public class SessionTest {
 
   String closeSessionEvent = "services/event/IOServicesEventType/CLOSE_SESSION/";
 
+  /**
+   * Test the create session.
+   */
   @Before
   public void createSession() {
 
@@ -41,7 +44,8 @@ public class SessionTest {
     JSONObject loginResult = new JSONObject(loginContents);
     session = new Session(joinableSession, loginResult);
 
-    when(connection.execute(eq(closeSessionEvent), eq(CallType.POST), any(BooleanResultHandler.class), any(Session.CloseSessionRequest.class))).thenReturn(true);
+    when(connection.execute(eq(closeSessionEvent), eq(CallType.POST), 
+        any(BooleanResultHandler.class), any(Session.CloseSessionRequest.class))).thenReturn(true);
   }
 
   @Test
@@ -82,7 +86,17 @@ public class SessionTest {
   @Test
   public void testOperations() {
     List<String> operations = new ArrayList<>();
-    Collections.addAll(operations, "ACHIEVEMENTS", "ACTION_MENUS", "ASSISTANT_ACTOR_DATA", "LOANS", "BEHAVIOR_TERRAINS", "BUILDINGS", "CHAIN_ELEMENTS", "CINEMATIC_DATAS", "CLIENT_EVENTS", "CLIENT_WORDS", "CONTRIBUTORS", "COSTS", "DIKES", "ECONOMIES", "EVENT_BUNDLES", "FUNCTIONS", "FUNCTION_OVERRIDES", "GAME_LEVELS", "HEIGHTS", "HOTSPOTS", "INCOMES", "INDICATORS", "KEY_BINDINGS", "LANDS", "MEASURES", "MESSAGES", "MODEL_DATAS", "MODEL_SETS", "MONEY_TRANSFERS", "OVERLAYS", "PARTICLE_EMITTERS", "PIPE_CLUSTERS", "PIPES", "PIPE_DEFINITIONS", "PIPE_JUNCTIONS", "PIPE_LOADS", "PIPE_SETTINGS", "POPUPS", "PRODUCTS", "PRODUCT_STORAGES", "QUALITATIVE_FUNCTION_SCORES", "SCORES", "SERVER_WORDS", "LOGS", "SETTINGS", "SHRINK_SETTINGS", "SIMTIME_SETTINGS", "SOUNDS", "SPECIAL_EFFECTS", "SPECIAL_OPTIONS", "STAKEHOLDERS", "STRATEGIES", "TAX_PLANS", "TIMES", "UNITS", "UNIT_DATAS", "UNIT_DATA_OVERRIDES", "UPGRADE_TYPES", "VACANCY_SETTINGS", "VIDEOS", "WATER_TERRAINS", "WAY_POINTS", "WEATHERS", "ZONES", "ZOOMLEVELS");
+    Collections.addAll(operations, "ACHIEVEMENTS", "ACTION_MENUS", "ASSISTANT_ACTOR_DATA", "LOANS", 
+        "BEHAVIOR_TERRAINS", "BUILDINGS", "CHAIN_ELEMENTS", "CINEMATIC_DATAS", "CLIENT_EVENTS", 
+        "CLIENT_WORDS", "CONTRIBUTORS", "COSTS", "DIKES", "ECONOMIES", "EVENT_BUNDLES", "FUNCTIONS", 
+        "FUNCTION_OVERRIDES", "GAME_LEVELS", "HEIGHTS", "HOTSPOTS", "INCOMES", "INDICATORS", "KEY_BINDINGS", 
+        "LANDS", "MEASURES", "MESSAGES", "MODEL_DATAS", "MODEL_SETS", "MONEY_TRANSFERS", "OVERLAYS", 
+        "PARTICLE_EMITTERS", "PIPE_CLUSTERS", "PIPES", "PIPE_DEFINITIONS", "PIPE_JUNCTIONS", "PIPE_LOADS", 
+        "PIPE_SETTINGS", "POPUPS", "PRODUCTS", "PRODUCT_STORAGES", "QUALITATIVE_FUNCTION_SCORES", "SCORES", 
+        "SERVER_WORDS", "LOGS", "SETTINGS", "SHRINK_SETTINGS", "SIMTIME_SETTINGS", "SOUNDS", "SPECIAL_EFFECTS", 
+        "SPECIAL_OPTIONS", "STAKEHOLDERS", "STRATEGIES", "TAX_PLANS", "TIMES", "UNITS", "UNIT_DATAS", 
+        "UNIT_DATA_OVERRIDES", "UPGRADE_TYPES", "VACANCY_SETTINGS", "VIDEOS", "WATER_TERRAINS", "WAY_POINTS", 
+        "WEATHERS", "ZONES", "ZOOMLEVELS");
     assertEquals(operations, session.getCompatibleOperations());
   }
 
