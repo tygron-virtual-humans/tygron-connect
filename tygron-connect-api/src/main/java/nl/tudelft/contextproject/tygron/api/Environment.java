@@ -387,15 +387,44 @@ public class Environment implements Runnable {
   }
   
   /**
+   * Calculates the surface of the current stakeholder's land.
+   * @return The surface of the land.
+   */
+  public double getAllSurface() {
+    Stakeholder stakeholder = stakeholderList.get(stakeholderId);
+    return getAllLand(stakeholder).calculateArea2D();
+  }
+  
+  /**
+   * Gets the polygon of the stakeholder's land.
+   * @param stakeholder The stakeholder.
+   * @return The polygon respresenting the land.
+   */
+  public Polygon getAllLand(Stakeholder stakeholder) {
+    Polygon land = new Polygon();
+    for (Integer landId : stakeholder.getOwnedLands()) {
+      land = PolygonUtil.polygonUnion(land, landMap.get(landId).getPolygon());
+    }
+    
+    return land;
+  }
+  
+  /**
+   * Calculates the available surface of the current stakeholder.
+   * @return The available surface.
+   */
+  public double getAvailableSurface() {
+    Stakeholder stakeholder = stakeholderList.get(stakeholderId);
+    return getAvailableLand(stakeholder).calculateArea2D();
+  }
+  
+  /**
    * Get all of the stakeholder's land that is free from buildings.
    * @param stakeholder The stakeholder.
    * @return The stakeholder's free land.
    */
   public Polygon getAvailableLand(Stakeholder stakeholder) {
-    Polygon land = new Polygon();
-    for (Integer landId : stakeholder.getOwnedLands()) {
-      land = PolygonUtil.polygonUnion(land, landMap.get(landId).getPolygon());
-    }
+    Polygon land = getAllLand(stakeholder);
       
     for (Building building : buildingList) {
       if (!building.demolished()) {
