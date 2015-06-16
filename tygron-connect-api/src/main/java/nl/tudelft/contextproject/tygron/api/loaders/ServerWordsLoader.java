@@ -29,6 +29,6 @@ public class ServerWordsLoader extends Loader<ServerWords> {
 
   @Override
   public RefreshInterval getRefreshInterval() {
-    return RefreshInterval.NONE;
+    return RefreshInterval.NEVER;
   }
 }

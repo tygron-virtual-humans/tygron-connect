@@ -29,6 +29,6 @@ public class ActionListLoader extends Loader<ActionList> {
 
   @Override
   public RefreshInterval getRefreshInterval() {
-    return RefreshInterval.NONE;
+    return RefreshInterval.NEVER;
   }
 }
