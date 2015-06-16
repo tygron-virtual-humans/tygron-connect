@@ -153,7 +153,7 @@ public class Controller {
   /**
    * Ask money action.
    * @param stakeholder the stakeholder to ask money from.
-   * @param the amount of money.
+   * @param amount the amount of money.
    */
   @AsAction(name = "askMoney")
   public void ask(int stakeholder, int amount) {
@@ -163,7 +163,7 @@ public class Controller {
   /**
    * Give money action.
    * @param stakeholder the stakeholder to give money to.
-   * @param the amount of money.
+   * @param amount the amount of money.
    */
   @AsAction(name = "giveMoney")
   public void give(int stakeholder, int amount) {

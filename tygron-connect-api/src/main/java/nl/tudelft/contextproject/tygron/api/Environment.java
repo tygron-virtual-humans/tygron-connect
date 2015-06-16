@@ -175,6 +175,15 @@ public class Environment implements Runnable {
       this.put(stakeholderId);
     }
   }
+
+  /**
+   * Calculates the surface of the current stakeholder's land.
+   * @return The surface of the land.
+   */
+  public double getAllSurface() {
+    Stakeholder stakeholder = get(StakeholderList.class).get(stakeholderId);
+    return getAllLand(stakeholder).calculateArea2D();
+  }
   
   /**
    * Get all of the stakeholder's land that is free from buildings.
