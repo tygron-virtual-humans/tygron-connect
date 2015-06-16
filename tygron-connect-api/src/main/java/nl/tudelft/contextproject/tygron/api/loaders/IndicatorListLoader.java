@@ -26,4 +26,9 @@ public class IndicatorListLoader extends Loader<IndicatorList> {
   public Class<IndicatorList> getDataClass() {
     return IndicatorList.class;
   }
+
+  @Override
+  public RefreshInterval getRefreshInterval() {
+    return RefreshInterval.NORMAL;
+  }
 }

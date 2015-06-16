@@ -26,4 +26,9 @@ public class FunctionMapLoader extends Loader<FunctionMap> {
   public Class<FunctionMap> getDataClass() {
     return FunctionMap.class;
   }
+
+  @Override
+  public RefreshInterval getRefreshInterval() {
+    return RefreshInterval.NONE;
+  }
 }

@@ -26,4 +26,9 @@ public class ActionListLoader extends Loader<ActionList> {
   public Class<ActionList> getDataClass() {
     return ActionList.class;
   }
+
+  @Override
+  public RefreshInterval getRefreshInterval() {
+    return RefreshInterval.NONE;
+  }
 }

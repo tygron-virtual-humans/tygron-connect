@@ -26,4 +26,9 @@ public class LandMapLoader extends Loader<LandMap> {
   public Class<LandMap> getDataClass() {
     return LandMap.class;
   }
+
+  @Override
+  public RefreshInterval getRefreshInterval() {
+    return RefreshInterval.NORMAL;
+  }
 }

@@ -26,4 +26,9 @@ public class ZoneListLoader extends Loader<ZoneList> {
   public Class<ZoneList> getDataClass() {
     return ZoneList.class;
   }
+
+  @Override
+  public RefreshInterval getRefreshInterval() {
+    return RefreshInterval.NORMAL;
+  }
 }

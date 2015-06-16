@@ -26,4 +26,9 @@ public class BuildingListLoader extends Loader<BuildingList> {
   public Class<BuildingList> getDataClass() {
     return BuildingList.class;
   }
+
+  @Override
+  public RefreshInterval getRefreshInterval() {
+    return RefreshInterval.NORMAL;
+  }
 }
