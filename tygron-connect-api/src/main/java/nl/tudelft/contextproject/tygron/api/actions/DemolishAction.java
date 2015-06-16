@@ -5,7 +5,6 @@ import com.esri.core.geometry.Polygon;
 import nl.tudelft.contextproject.tygron.api.CallType;
 import nl.tudelft.contextproject.tygron.api.Environment;
 import nl.tudelft.contextproject.tygron.api.HttpConnection;
-import nl.tudelft.contextproject.tygron.api.Session;
 import nl.tudelft.contextproject.tygron.handlers.StringResultHandler;
 import nl.tudelft.contextproject.tygron.objects.Building;
 import nl.tudelft.contextproject.tygron.objects.Stakeholder;
@@ -19,12 +18,10 @@ public class DemolishAction {
   
   private static final Logger logger = LoggerFactory.getLogger(DemolishAction.class);
   
-  private Session session;
   private Environment environment;
   
-  public DemolishAction(Session session) {
-    this.session = session;
-    this.environment = session.getEnvironment();
+  public DemolishAction(Environment environment) {
+    this.environment = environment;
   }
   
   /**

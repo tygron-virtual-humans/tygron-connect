@@ -3,7 +3,6 @@ package nl.tudelft.contextproject.tygron.api.actions;
 import nl.tudelft.contextproject.tygron.api.CallType;
 import nl.tudelft.contextproject.tygron.api.Environment;
 import nl.tudelft.contextproject.tygron.api.HttpConnection;
-import nl.tudelft.contextproject.tygron.api.Session;
 import nl.tudelft.contextproject.tygron.handlers.StringResultHandler;
 
 import org.json.JSONArray;
@@ -14,12 +13,10 @@ public class AskMoneyAction {
   
   private static final Logger logger = LoggerFactory.getLogger(AskMoneyAction.class);
   
-  private Session session;
   private Environment environment;
   
-  public AskMoneyAction(Session session) {
-    this.session = session;
-    this.environment = session.getEnvironment();
+  public AskMoneyAction(Environment environment) {
+    this.environment = environment;
   }
   
   /**
