@@ -10,6 +10,10 @@ import nl.tudelft.contextproject.tygron.eis.TygronPercept;
 import eis.eis2java.annotation.AsAction;
 import eis.eis2java.annotation.AsPercept;
 import eis.eis2java.translation.Filter;
+import nl.tudelft.contextproject.tygron.objects.BuildingList;
+import nl.tudelft.contextproject.tygron.objects.EconomyList;
+import nl.tudelft.contextproject.tygron.objects.StakeholderList;
+import nl.tudelft.contextproject.tygron.objects.indicators.IndicatorList;
 
 import java.util.List;
 
@@ -30,10 +34,10 @@ public class Controller {
   public Controller(Session controller) {
     session = controller;
     env = controller.getEnvironment();
-    indicators = new IndicatorEntity(env.loadIndicators());
-    stakeholders = new StakeholderEntity(env.loadStakeholders());
-    economies = new EconomyEntity(env.loadEconomies());
-    buildings = new BuildingEntity(env.loadBuildings());
+    indicators = new IndicatorEntity(env.get(IndicatorList.class));
+    stakeholders = new StakeholderEntity(env.get(StakeholderList.class));
+    economies = new EconomyEntity(env.get(EconomyList.class));
+    buildings = new BuildingEntity(env.get(BuildingList.class));
   }
 
   /**
@@ -149,7 +153,7 @@ public class Controller {
   /**
    * Ask money action.
    * @param stakeholder the stakeholder to ask money from.
-   * @param the amount of money.
+   * @param amount the amount of money.
    */
   @AsAction(name = "askMoney")
   public void ask(int stakeholder, int amount) {
@@ -159,7 +163,7 @@ public class Controller {
   /**
    * Give money action.
    * @param stakeholder the stakeholder to give money to.
-   * @param the amount of money.
+   * @param amount the amount of money.
    */
   @AsAction(name = "giveMoney")
   public void give(int stakeholder, int amount) {
