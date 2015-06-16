@@ -23,7 +23,7 @@ public class HttpConnection {
   protected HttpClient client;
   protected BasicResponseHandler handler;
 
-  private HttpConnectionData data;
+ 
 
   private static final String API_URL_BASE = "https://server2.tygron.com:3022/api/";
   private static final String API_JSON_SUFFIX = "?f=JSON";
@@ -41,17 +41,18 @@ public class HttpConnection {
 
   private static HttpConnection instance;
   private static Settings settings;
-
+  private static HttpConnectionData data;
+  
   public static void setSettings(Settings settings) {
     HttpConnection.settings = settings;
   }
   
-  public void setData(HttpConnectionData data) {
-    this.data = data;
+  public static void setData(HttpConnectionData newData) {
+    data = newData;
   }  
 
-  public HttpConnectionData getData() {
-    return this.data;
+  public static HttpConnectionData getData() {
+    return data;
   }  
   
   /**
