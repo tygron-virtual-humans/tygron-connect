@@ -60,7 +60,7 @@ public class BuyLandAction {
     for (Polygon landPiece : splitLand) {
       BuyLandRequest buyLandRequest = new BuyLandRequest(buyer, landPiece, cost);
       HttpConnection.getInstance().execute("event/PlayerEventType/MAP_BUY_LAND/",
-              CallType.POST, new StringResultHandler(), session, buyLandRequest);
+              CallType.POST, new StringResultHandler(), true, buyLandRequest);
     }
     environment.loadLands();
     return true;

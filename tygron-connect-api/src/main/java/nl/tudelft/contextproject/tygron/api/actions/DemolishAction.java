@@ -50,7 +50,7 @@ public class DemolishAction {
     
     DemolishRequest demolishRequest = new DemolishRequest(stakeholder, suitableLand);
     HttpConnection.getInstance().execute("event/PlayerEventType/BUILDING_PLAN_DEMOLISH_COORDINATES/",
-            CallType.POST, new StringResultHandler(), session, demolishRequest);
+            CallType.POST, new StringResultHandler(), true, demolishRequest);
     environment.loadBuildings();
     return true;
   }

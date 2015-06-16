@@ -92,14 +92,6 @@ public class HttpConnectionTest {
   }
 
   @Test
-  public void testDefaultHeadersWithToken() {
-    String token = "test token";
-    connection.setServerToken(token);
-    connection.addDefaultHeaders(request);
-    verify(request).setHeader(eq("serverToken"), eq(token));
-  }
-
-  @Test
   public void testApiUrlWithSession() {
     String url = connection.getApiUrl("event", session);
     verify(session).getId();
