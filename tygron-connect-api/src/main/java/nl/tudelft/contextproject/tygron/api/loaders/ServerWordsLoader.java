@@ -26,4 +26,9 @@ public class ServerWordsLoader extends Loader<ServerWords> {
   public Class<ServerWords> getDataClass() {
     return ServerWords.class;
   }
+
+  @Override
+  public RefreshInterval getRefreshInterval() {
+    return RefreshInterval.NONE;
+  }
 }

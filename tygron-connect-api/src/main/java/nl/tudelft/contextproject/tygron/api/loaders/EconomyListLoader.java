@@ -26,4 +26,9 @@ public class EconomyListLoader extends Loader<EconomyList> {
   public Class<EconomyList> getDataClass() {
     return EconomyList.class;
   }
+
+  @Override
+  public RefreshInterval getRefreshInterval() {
+    return RefreshInterval.NORMAL;
+  }
 }
