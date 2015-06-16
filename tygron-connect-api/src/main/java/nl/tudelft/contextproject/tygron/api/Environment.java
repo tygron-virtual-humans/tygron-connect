@@ -2,21 +2,16 @@ package nl.tudelft.contextproject.tygron.api;
 
 import com.esri.core.geometry.Polygon;
 
+import nl.tudelft.contextproject.tygron.api.loaders.*;
 import nl.tudelft.contextproject.tygron.handlers.BooleanResultHandler;
-import nl.tudelft.contextproject.tygron.handlers.JsonArrayResultHandler;
 import nl.tudelft.contextproject.tygron.handlers.JsonObjectResultHandler;
 import nl.tudelft.contextproject.tygron.objects.Action;
 import nl.tudelft.contextproject.tygron.objects.ActionList;
 import nl.tudelft.contextproject.tygron.objects.Building;
 import nl.tudelft.contextproject.tygron.objects.BuildingList;
-import nl.tudelft.contextproject.tygron.objects.EconomyList;
-import nl.tudelft.contextproject.tygron.objects.FunctionMap;
 import nl.tudelft.contextproject.tygron.objects.LandMap;
 import nl.tudelft.contextproject.tygron.objects.PopUpHandler;
-import nl.tudelft.contextproject.tygron.objects.ServerWords;
 import nl.tudelft.contextproject.tygron.objects.Stakeholder;
-import nl.tudelft.contextproject.tygron.objects.StakeholderList;
-import nl.tudelft.contextproject.tygron.objects.ZoneList;
 import nl.tudelft.contextproject.tygron.objects.indicators.Indicator;
 import nl.tudelft.contextproject.tygron.objects.indicators.IndicatorFinance;
 import nl.tudelft.contextproject.tygron.objects.indicators.IndicatorList;
@@ -27,14 +22,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Random;
-import java.util.Set;
 
 /**
  * Contains all data relative to the session.
- * 
  */
 public class Environment implements Runnable {
 
@@ -48,15 +40,7 @@ public class Environment implements Runnable {
   private PopUpHandler popUpHandler;
 
   // Session data oriented
-  private StakeholderList stakeholderList;
-  private IndicatorList indicatorList;
-  private ZoneList zoneList;
-  private EconomyList economyList;
-  private BuildingList buildingList;
-  private FunctionMap functionMap;
-  private LandMap landMap;
-  private ActionList actionList;
-  private ServerWords serverWords;
+  Map<Class<?>, Loader<?>> loaderMap;
   
   private int mapWidth;
 
@@ -71,15 +55,31 @@ public class Environment implements Runnable {
   public Environment(Session session) {
     this.session = session;
     stakeholderId = -1;
+    environmentThread = new Thread(this);
+
+    loaderMap = new HashMap<>();
+    putLoader(new BuildingListLoader(session));
+    putLoader(new EconomyListLoader(session));
+    putLoader(new FunctionMapLoader(session));
+    putLoader(new IndicatorListLoader(session));
+    putLoader(new LandMapLoader(session));
+    putLoader(new StakeholderListLoader(session));
+    putLoader(new ZoneListLoader(session));
+    putLoader(new ServerWordsLoader(session));
+  }
+
+  public void putLoader(Loader<?> loader) {
+    loaderMap.put(loader.getDataClass(), loader);
+  }
+
+  public <T> Loader<T> getLoader(Class<T> loader) {
+    return (Loader<T>) loaderMap.get(loader);
   }
 
   /**
    * Starts the update loop for this environment.
    */
   public void start() {
-    if (environmentThread == null) {
-      environmentThread = new Thread(this);
-    }
     environmentThread.start();
   }
 
@@ -116,40 +116,19 @@ public class Environment implements Runnable {
    * Reloads all data.
    */
   public void reload() {
-    loadStakeholders();
-    loadIndicators();
-    loadZones();
-    loadEconomies();
-    loadBuildings();
-    loadFunctions();
-    loadLands();
+    for (Map.Entry<Class<?>, Loader<?>> loaderEntry : loaderMap.entrySet()) {
+      Loader<?> loader = loaderEntry.getValue();
+      if (!loader.getRefreshInterval().equals(Loader.RefreshInterval.NEVER)) {
+        loader.reload();
+      }
+    }
     if (popUpHandler != null) {
       popUpHandler.loadPopUps();
     }
   }
-  /**
-   * Load the stake holders into this session.
-   * 
-   * @return the list of stakeholders.
-   */
-  public StakeholderList loadStakeholders() {
-    logger.debug("Loading stakeholders");
-    JSONArray data = HttpConnection.getInstance().execute("lists/"
-            + "stakeholders/", CallType.GET, new JsonArrayResultHandler(), session);
-    this.stakeholderList = new StakeholderList(data);
-    
-    setActions();
-    
-    return this.stakeholderList;
-  }
 
-  /**
-   * Return the stake holder list
-   * 
-   * @return the list of stakeholders.
-   */
-  public StakeholderList getStakeholders() {
-    return this.stakeholderList;
+  public <T> T get(Class<T> dataClass) {
+    return getLoader(dataClass).get();
   }
   
   /**
@@ -162,7 +141,7 @@ public class Environment implements Runnable {
             CallType.POST, new BooleanResultHandler(), session,
             new StakeholderSelectRequest(stakeholderId, session.getClientToken()));
     logger.info("Setting stakeholder to #" + stakeholderId + ". Operation " 
-        + ((retValue) ? "succes!" : "failed!" ));
+        + ((retValue) ? "success!" : "failed!" ));
     if (!retValue) {
       throw new RuntimeException("Stakeholder could not be selected!");
     } else {
@@ -200,193 +179,6 @@ public class Environment implements Runnable {
   }
   
   /**
-   * Load actions and assign their functions to stakeholders.
-   */
-  private void setActions() {
-    ActionList actionList = loadActions();
-    for (Action action : actionList) {
-      Map<Integer, Boolean> activeForStakeholder = action.getActiveForStakeholder();
-      Set<Integer> stakeholders = activeForStakeholder.keySet();
-      Map<Integer, List<Integer>> functionMap = new HashMap<Integer, List<Integer>>();
-      for (Integer stakeholderId : stakeholders) {
-        if (activeForStakeholder.get(stakeholderId)) {
-          functionMap.put(stakeholderId, action.getFunctionTypes());
-        }
-      }
-      
-      setFunctions(functionMap);
-    }
-  }
-  
-  private void setFunctions(Map<Integer, List<Integer>> functionsMap) {
-    for (Stakeholder stakeholder : stakeholderList) {
-      List<Integer> functions = functionsMap.get(stakeholder.getId());
-      if (functions != null) {
-        stakeholder.addAllowedFunctions(functions);
-      }
-    }
-  }
-
-  /**
-   * Load the indicators into this session.
-   * 
-   * @return the list of indicators.
-   */
-  public IndicatorList loadIndicators() {
-    logger.debug("Loading indicators");
-    JSONArray data = HttpConnection.getInstance().execute("lists/"
-            + "indicators", CallType.GET, new JsonArrayResultHandler(), session);
-    this.indicatorList = new IndicatorList(data);
-    return this.indicatorList;
-  }
-
-  /**
-   * Return the indicator list
-   * 
-   * @return the list of indicators.
-   */
-  public IndicatorList getIndicators() {
-    return this.indicatorList;
-  }
-
-  /**
-   * Load the zones into this session.
-   * 
-   * @return the list of zones.
-   */
-  public ZoneList loadZones() {
-    logger.debug("Loading zones");
-    JSONArray data = HttpConnection.getInstance().execute("lists/"
-            + "zones", CallType.GET, new JsonArrayResultHandler(), session);
-    this.zoneList = new ZoneList(data);
-    return this.zoneList;
-  }
-
-  /**
-   * Return the zone list
-   * 
-   * @return the list of zones.
-   */
-  public ZoneList getZones() {
-    return this.zoneList;
-  }
-
-  /**
-   * Load the economies into this session.
-   * 
-   * @return the list of economics.
-   */
-  public EconomyList loadEconomies() {
-    logger.debug("Loading economies");
-    JSONArray data = HttpConnection.getInstance().execute("lists/"
-            + "economies", CallType.GET, new JsonArrayResultHandler(), session);
-    this.economyList = new EconomyList(data);
-    return this.economyList;
-  }
-
-  /**
-   * Return the economies list
-   * 
-   * @return the list of economics.
-   */
-  public EconomyList getEconomies() {
-    return this.economyList;
-  }
-
-  /**
-   * Load the buildings into this session.
-   * 
-   * @return the list of buildings.
-   */
-  public BuildingList loadBuildings() {
-    logger.debug("Loading buildings");
-    JSONArray data = HttpConnection.getInstance().execute("lists/"
-            + "buildings", CallType.GET, new JsonArrayResultHandler(), session);
-    this.buildingList = new BuildingList(data);
-    return this.buildingList;
-  }
-
-  /**
-   * Return the buildings list.
-   * 
-   * @return the list of buildings.
-   */
-  public BuildingList getBuildings() {
-    return this.buildingList;
-  }
-  
-  /**
-   * Loads all functions into this session.
-   * @return A map of the functions.
-   */
-  public FunctionMap loadFunctions() {
-    logger.debug("Loading functions");
-    JSONArray data = HttpConnection.getInstance().execute("lists/functions",
-            CallType.GET, new JsonArrayResultHandler(), session);
-    this.functionMap = new FunctionMap(data);
-    return this.functionMap;
-  }
-  
-  /**
-   * Return the functions map.
-   * 
-   * @return the map of functions.
-   */
-  public FunctionMap getFunctions() {
-    return functionMap;
-  }
-  
-  /**
-   * Loads all lands into this session.
-   * @return A map of the lands.
-   */
-  public LandMap loadLands() {
-    logger.debug("Loading lands");
-    JSONArray data = HttpConnection.getInstance().execute("lists/lands",
-            CallType.GET, new JsonArrayResultHandler(), session);
-    this.landMap = new LandMap(data);
-    return this.landMap;
-  }
-  
-  /**
-   * Return the lands map.
-   * 
-   * @return the map of lands.
-   */
-  public LandMap getLands() {
-    return landMap;
-  }
-  
-  /**
-   * Loads all possible actions into this session.
-   * @return A list of the actions.
-   */
-  public ActionList loadActions() {
-    logger.debug("Loading actions");
-    JSONArray data = HttpConnection.getInstance().execute("lists/actionmenus/",
-        CallType.GET, new JsonArrayResultHandler(), session);
-    this.actionList = new ActionList(data);
-    return this.actionList;
-  }
-  
-  public ActionList getActions() {
-    return this.actionList;
-  }
-  
-  /**
-   * Gets all the server words from the API.
-   * @return List of server words.
-   */
-  public ServerWords getServerWords() {
-    if (serverWords == null) {
-      JSONArray data = HttpConnection.getInstance().execute("lists/serverwords/",
-          CallType.GET, new JsonArrayResultHandler(), session);
-      serverWords = new ServerWords(data);
-    }
-    return serverWords;
-  }
-  
-  /**
    * Get all of the stakeholder's land that is free from buildings.
    * @param stakeholder The stakeholder.
    * @return The stakeholder's free land.
@@ -394,10 +186,10 @@ public class Environment implements Runnable {
   public Polygon getAvailableLand(Stakeholder stakeholder) {
     Polygon land = new Polygon();
     for (Integer landId : stakeholder.getOwnedLands()) {
-      land = PolygonUtil.polygonUnion(land, landMap.get(landId).getPolygon());
+      land = PolygonUtil.polygonUnion(land, get(LandMap.class).get(landId).getPolygon());
     }
       
-    for (Building building : buildingList) {
+    for (Building building : get(BuildingList.class)) {
       if (!building.demolished()) {
         land = PolygonUtil.polygonDifference(land, building.getPolygon());
       }
@@ -465,7 +257,7 @@ public class Environment implements Runnable {
    * @return Can stakeholder ask for money.
    */
   public boolean canAskMoney() {
-    for (Action action : actionList) {
+    for (Action action : get(ActionList.class)) {
       Map<Integer, Boolean> activeForStakeholder = action.getActiveForStakeholder();
       boolean active = activeForStakeholder.containsKey(stakeholderId) 
           ? activeForStakeholder.get(stakeholderId) : false;
@@ -481,7 +273,7 @@ public class Environment implements Runnable {
    * @return Can stakeholder give money.
    */
   public boolean canGiveMoney() {
-    for (Action action : actionList) {
+    for (Action action : get(ActionList.class)) {
       Map<Integer, Boolean> activeForStakeholder = action.getActiveForStakeholder();
       boolean active = activeForStakeholder.containsKey(stakeholderId) 
           ? activeForStakeholder.get(stakeholderId) : false;
@@ -498,7 +290,7 @@ public class Environment implements Runnable {
    * @return The current budget.
    */
   public double getBudget(int stakeholderId) {
-    for (Indicator indicator : indicatorList) {
+    for (Indicator indicator : get(IndicatorList.class)) {
       if (indicator.getType().equals("FINANCE")) {
         IndicatorFinance indicatorFinance = (IndicatorFinance) indicator;
         if (indicatorFinance.getActorId() == stakeholderId) {
