@@ -19,6 +19,8 @@ import java.util.Set;
 
 public class PopUpHandler {
   
+  private int requestsOpen;
+  
   // When selling land, 0 is YES, 1 is NO, 2 is GIVE FOR FREE
   // When requesting confirmation, 0 is OK
   // When requesting a building permit, 0 is YES, 1 is NO
@@ -49,6 +51,7 @@ public class PopUpHandler {
     this.environment = session.getEnvironment();
     this.stakeholderId = stakeholderId;
     this.version = 0;
+    this.requestsOpen = 0;
     this.wordsMap = new HashMap<EventValue, String>();
     loadServerWords();
   }
@@ -241,18 +244,33 @@ public class PopUpHandler {
         case PLAN_PERFORM_ASK:
           planPerformAsk(popUp);
           break;
-        default: // Do nothing (LAND_SELL_REQUEST_SENT, LAND_BUY__REQUEST_SENT, PERMIT_REQUEST_SENT)
+        case LAND_SELL_REQUEST_SENT:
+          requestSent();
+          break;
+        case LAND_BUY__REQUEST_SENT:
+          requestSent();
+          break;
+        case PERMIT_REQUEST_SENT:
+          requestSent();
+          break;
+        default: // Do nothing
           break;
       }
     }
   }
+  
+  private void requestSent() {
+    requestsOpen++;
+  }
 
   private void landTransactionApproved(PopUp popUp) {
+    requestsOpen--;
     answer(popUp, 0);
     // TODO Send info to stakeholder
   }
   
   private void landTransactionRefused(PopUp popUp) {
+    requestsOpen--;
     answer(popUp, 0);
     // TODO Send info to stakeholder
   }
@@ -290,11 +308,13 @@ public class PopUpHandler {
   }
 
   private void permitRequestRefused(PopUp popUp) {
+    requestsOpen--;
     answer(popUp, 0);
     // TODO Send info to stakeholder
   }
 
   private void permitRequestApproved(PopUp popUp) {
+    requestsOpen--;
     answer(popUp, 0);
     // TODO Send info to stakeholder
   }
@@ -346,6 +366,10 @@ public class PopUpHandler {
                 new JsonObjectResultHandler(), session, parameters);
       }
     }
+  }
+  
+  public int requestsOpen() {
+    return requestsOpen;
   }
   
   public List<PopUp> getList() {
