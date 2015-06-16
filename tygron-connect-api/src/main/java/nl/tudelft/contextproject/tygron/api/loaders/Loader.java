@@ -6,11 +6,9 @@ import nl.tudelft.contextproject.tygron.api.Session;
 public abstract class Loader<T> {
   private T cached;
 
-  HttpConnection connection;
   Session session;
 
-  public Loader(HttpConnection connection, Session session) {
-    this.connection = connection;
+  public Loader(Session session) {
     this.session = session;
   }
 
@@ -23,7 +21,7 @@ public abstract class Loader<T> {
 
   public T get() {
     if (cached == null) {
-      throw new RuntimeException("Get called on a not-cached object");
+      return load();
     }
     return cached;
   }

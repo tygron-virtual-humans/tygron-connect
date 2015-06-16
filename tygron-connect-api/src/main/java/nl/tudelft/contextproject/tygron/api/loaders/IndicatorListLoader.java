@@ -11,14 +11,14 @@ import org.slf4j.LoggerFactory;
 public class IndicatorListLoader extends Loader<IndicatorList> {
   private static final Logger logger = LoggerFactory.getLogger(IndicatorListLoader.class);
 
-  public IndicatorListLoader(HttpConnection connection, Session session) {
-    super(connection, session);
+  public IndicatorListLoader(Session session) {
+    super(session);
   }
 
   @Override
   public IndicatorList load() {
     logger.debug("Loading indicators");
-    return connection.execute("lists/"
+    return HttpConnection.getInstance().execute("lists/"
             + "indicators", CallType.GET, new IndicatorListResultHandler(), session);
   }
 
