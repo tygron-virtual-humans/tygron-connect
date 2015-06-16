@@ -29,7 +29,7 @@ public abstract class Loader<T> {
 
   public abstract RefreshInterval getRefreshInterval();
 
-  enum RefreshInterval {
+  public enum RefreshInterval {
     NEVER, NORMAL
   }
 }
