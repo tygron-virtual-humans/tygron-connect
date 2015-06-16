@@ -6,7 +6,9 @@ import nl.tudelft.contextproject.tygron.api.CallType;
 import nl.tudelft.contextproject.tygron.api.Environment;
 import nl.tudelft.contextproject.tygron.api.HttpConnection;
 import nl.tudelft.contextproject.tygron.handlers.StringResultHandler;
+import nl.tudelft.contextproject.tygron.objects.LandMap;
 import nl.tudelft.contextproject.tygron.objects.Stakeholder;
+import nl.tudelft.contextproject.tygron.objects.StakeholderList;
 import nl.tudelft.contextproject.util.PolygonUtil;
 
 import org.json.JSONArray;
@@ -48,18 +50,18 @@ public class BuyLandAction {
     Polygon suitableLand = environment.getSuitableLand(availableLand, surface);
     
     // Split the land per landowner.
-    List<Polygon> splitLand = new ArrayList<Polygon>();
+    List<Polygon> splitLand = new ArrayList<>();
     for (Polygon polygon : availableLandList) {
       splitLand.add(PolygonUtil.polygonIntersection(polygon, suitableLand));
     }
     
-    Stakeholder buyer = environment.getStakeholders().get(environment.getStakeholderId());
+    Stakeholder buyer = environment.get(StakeholderList.class).get(environment.getStakeholderId());
     for (Polygon landPiece : splitLand) {
       BuyLandRequest buyLandRequest = new BuyLandRequest(buyer, landPiece, cost);
       HttpConnection.getInstance().execute("event/PlayerEventType/MAP_BUY_LAND/",
               CallType.POST, new StringResultHandler(), true, buyLandRequest);
     }
-    environment.loadLands();
+    environment.get(LandMap.class);
     return true;
   }
   
@@ -77,7 +79,7 @@ public class BuyLandAction {
    */
   private List<Polygon> getBuyableLand() {
     List<Polygon> result = new ArrayList<Polygon>();
-    for (Stakeholder stakeholder : environment.getStakeholders()) {
+    for (Stakeholder stakeholder : environment.get(StakeholderList.class)) {
       Polygon land = new Polygon();
       if (stakeholder.getId() != environment.getStakeholderId()) {
         land = PolygonUtil.polygonUnion(land, environment.getAvailableLand(stakeholder));

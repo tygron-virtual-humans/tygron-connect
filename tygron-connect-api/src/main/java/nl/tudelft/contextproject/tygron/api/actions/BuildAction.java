@@ -6,8 +6,7 @@ import nl.tudelft.contextproject.tygron.api.CallType;
 import nl.tudelft.contextproject.tygron.api.Environment;
 import nl.tudelft.contextproject.tygron.api.HttpConnection;
 import nl.tudelft.contextproject.tygron.handlers.StringResultHandler;
-import nl.tudelft.contextproject.tygron.objects.Function;
-import nl.tudelft.contextproject.tygron.objects.Stakeholder;
+import nl.tudelft.contextproject.tygron.objects.*;
 import nl.tudelft.contextproject.util.PolygonUtil;
 
 import org.json.JSONArray;
@@ -35,7 +34,7 @@ public class BuildAction {
    * @return Whether the build request was sent or not.
    */
   public boolean build(double surface, int type) {
-    Stakeholder stakeholder = environment.getStakeholders().get(environment.getStakeholderId());
+    Stakeholder stakeholder = environment.get(StakeholderList.class).get(environment.getStakeholderId());
     logger.debug("Building project started");
     Polygon availableLand = environment.getAvailableLand(stakeholder);
     double availableSurface = availableLand.calculateArea2D();
@@ -79,7 +78,7 @@ public class BuildAction {
           function, neededFloors, selectedLand);
       HttpConnection.getInstance().execute("event/PlayerEventType/BUILDING_PLAN_CONSTRUCTION/",
               CallType.POST, new StringResultHandler(), true, buildRequest);
-      environment.loadBuildings();
+      environment.get(BuildingList.class);
       return true;
     } else {
       logger.info("Not enough land for building");
@@ -114,7 +113,7 @@ public class BuildAction {
     List<Integer> functions = stakeholder.getAllowedFunctions();
     int result = 0;
     for (int functionId : functions) {
-      Function function = environment.getFunctions().get(functionId);
+      Function function = environment.get(FunctionMap.class).get(functionId);
       if (function.isRightType(type)) {
         int maxFloors = function.getMax_floors();
         result = max(maxFloors, result);
@@ -134,7 +133,7 @@ public class BuildAction {
     List<Integer> functions = stakeholder.getAllowedFunctions();
     List<Function> functionList = new ArrayList<>();
     for (Integer functionId : functions) {
-      Function function = environment.getFunctions().get(functionId);
+      Function function = environment.get(FunctionMap.class).get(functionId);
       if (function.hasEnoughFloors(floors) && function.isRightType(type)) {
         functionList.add(function);
       }

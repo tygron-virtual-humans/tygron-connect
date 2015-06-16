@@ -94,7 +94,7 @@ public class PopUpHandler {
    * @return The server word translation
    */
   private String getServerWord(int wordId) {
-    return environment.getServerWords().get(wordId);
+    return environment.get(ServerWords.class).get(wordId);
   }
   
   /**
@@ -345,10 +345,10 @@ public class PopUpHandler {
    * @param buildingId The building's id.
    */
   public void changeZones(int buildingId) {
-    Building building = environment.getBuildings().getId(buildingId);
-    Function function = environment.getFunctions().get(building.getFunctionId());
+    Building building = environment.get(BuildingList.class).getId(buildingId);
+    Function function = environment.get(FunctionMap.class).get(building.getFunctionId());
     
-    for (Zone zone : environment.getZones()) {
+    for (Zone zone : environment.get(ZoneList.class)) {
       if (PolygonUtil.polygonIntersects(zone.getPolygon(), building.getPolygon())) {
         // Add function category to zone.
         JSONArray parameters = new JSONArray();

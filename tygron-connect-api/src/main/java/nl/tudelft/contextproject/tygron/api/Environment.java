@@ -124,6 +124,10 @@ public class Environment implements Runnable {
   public <T> T get(Class<T> dataClass) {
     return getLoader(dataClass).get();
   }
+
+  public <T> T reload(Class<T> dataClass) {
+    return getLoader(dataClass).reload();
+  }
   
   /**
    * Select a stakeholder to play, can only be done once.

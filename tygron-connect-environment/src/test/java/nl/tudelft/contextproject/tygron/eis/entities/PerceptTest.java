@@ -22,6 +22,7 @@ import java.util.List;
 
 @RunWith(value = MockitoJUnitRunner.class)
 public class PerceptTest {
+/*
   private Controller controller;
   
   @Mock
@@ -29,9 +30,11 @@ public class PerceptTest {
   @Mock
   private Session sessionMock;
 
-  /**
+  */
+/**
    * Init all test objects.
-   */
+   *//*
+
   @Before
   public void setupController() {
     String indicatorContents = CachedFileReader.getFileContents("/serverResponses/testmap/lists/indicators.json");
@@ -67,5 +70,6 @@ public class PerceptTest {
     assertEquals("finance", controller.progressIndicator().get(0).get(1));
     assertEquals("budget municipality", controller.progressIndicator().get(0).get(2));
   }
+*/
 
 }

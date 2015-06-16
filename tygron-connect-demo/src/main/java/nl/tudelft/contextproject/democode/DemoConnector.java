@@ -3,6 +3,10 @@ package nl.tudelft.contextproject.democode;
 import nl.tudelft.contextproject.tygron.api.Connector;
 import nl.tudelft.contextproject.tygron.api.Session;
 
+import nl.tudelft.contextproject.tygron.objects.BuildingList;
+import nl.tudelft.contextproject.tygron.objects.EconomyList;
+import nl.tudelft.contextproject.tygron.objects.StakeholderList;
+import nl.tudelft.contextproject.tygron.objects.indicators.IndicatorList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -30,18 +34,18 @@ public class DemoConnector {
     logger.info(sess.getCompatibleOperations().toString());
     
     logger.info("Loading stake holders:");
-    logger.info(sess.getEnvironment().loadStakeholders().toString());
+    logger.info(sess.getEnvironment().get(StakeholderList.class).toString());
     
     logger.info("Loading indicators:");
-    logger.info(sess.getEnvironment().loadIndicators().toString());
+    logger.info(sess.getEnvironment().get(IndicatorList.class).toString());
     
     logger.info("Loading economies:");
-    logger.info(sess.getEnvironment().loadEconomies().toString());   
+    logger.info(sess.getEnvironment().get(EconomyList.class).toString());
     
     logger.info("Loading buildings:");
-    logger.info(sess.getEnvironment().loadBuildings().toString());       
+    logger.info(sess.getEnvironment().get(BuildingList.class).toString());
     
-    logger.info("Setting stake holder:");
+    logger.info("Setting stakeholder:");
     sess.getEnvironment().setStakeholder(1); 
    
     sess.closeSession(false);
