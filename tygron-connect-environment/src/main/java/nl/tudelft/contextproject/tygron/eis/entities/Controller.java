@@ -122,7 +122,7 @@ public class Controller {
    * @return the number of permits of this stakeholder.
    */
   @AsPercept(name = "permits", filter = Filter.Type.ON_CHANGE)
-  public double permits() {
+  public int permits() {
     return env.requestsOpen();
   }
   
