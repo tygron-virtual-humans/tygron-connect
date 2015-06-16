@@ -11,14 +11,14 @@ import org.slf4j.LoggerFactory;
 public class StakeholderListLoader extends Loader<StakeholderList> {
   private static final Logger logger = LoggerFactory.getLogger(StakeholderListLoader.class);
 
-  public StakeholderListLoader(HttpConnection connection, Session session) {
-    super(connection, session);
+  public StakeholderListLoader(Session session) {
+    super(session);
   }
 
   @Override
   public StakeholderList load() {
     logger.debug("Loading stakeholders");
-    return connection.execute("lists/"
+    return HttpConnection.getInstance().execute("lists/"
         + "stakeholders/", CallType.GET, new StakeholderListResultHandler(), session);
   }
 

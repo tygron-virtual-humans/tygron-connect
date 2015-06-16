@@ -11,14 +11,14 @@ import org.slf4j.LoggerFactory;
 public class FunctionMapLoader extends Loader<FunctionMap> {
   private static final Logger logger = LoggerFactory.getLogger(FunctionMapLoader.class);
 
-  public FunctionMapLoader(HttpConnection connection, Session session) {
-    super(connection, session);
+  public FunctionMapLoader(Session session) {
+    super(session);
   }
 
   @Override
   protected FunctionMap load() {
     logger.debug("Loading functions");
-    return connection.execute("lists/functions",
+    return HttpConnection.getInstance().execute("lists/functions",
         CallType.GET, new FunctionMapResultHandler(), session);
   }
 
