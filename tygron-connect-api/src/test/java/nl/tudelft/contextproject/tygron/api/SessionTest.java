@@ -25,9 +25,6 @@ public class SessionTest {
   @Mock
   HttpConnection connection;
 
-  @Mock
-  JoinableSession joinableSession;
-
   String closeSessionEvent = "services/event/IOServicesEventType/CLOSE_SESSION/";
 
   /**
@@ -36,13 +33,10 @@ public class SessionTest {
   @Before
   public void createSession() {
 
-    when(joinableSession.getId()).thenReturn(0);
-    when(joinableSession.getType()).thenReturn(null);
-
     String file = "/serverResponses/login.json";
     String loginContents = CachedFileReader.getFileContents(file);
     JSONObject loginResult = new JSONObject(loginContents);
-    session = new Session(joinableSession, loginResult);
+    session = new Session(0, loginResult);
 
     when(connection.execute(eq(closeSessionEvent), eq(CallType.POST), 
         any(BooleanResultHandler.class), any(Session.CloseSessionRequest.class))).thenReturn(true);
@@ -60,13 +54,6 @@ public class SessionTest {
     assertEquals("db45ba46-6c7f-4021-92e2-8865674e3837", session.getClientToken());
     session.setClientToken("token change");
     assertEquals("token change", session.getClientToken());
-  }
-
-  @Test
-  public void typeTest() {
-    assertEquals(null, session.getType());
-    session.setType("type change");
-    assertEquals("type change", session.getType());
   }
 
   @Test
