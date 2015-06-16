@@ -245,21 +245,18 @@ public class PopUpHandler {
           planPerformAsk(popUp);
           break;
         case LAND_SELL_REQUEST_SENT:
-          requestSent();
+          landRequestSent();
           break;
         case LAND_BUY__REQUEST_SENT:
-          requestSent();
+          landRequestSent();
           break;
-        case PERMIT_REQUEST_SENT:
-          requestSent();
-          break;
-        default: // Do nothing
+        default: // Do nothing (PERMIT_REQUEST_SENT)
           break;
       }
     }
   }
   
-  private void requestSent() {
+  private void landRequestSent() {
     requestsOpen++;
   }
 
@@ -295,6 +292,7 @@ public class PopUpHandler {
   
   private void permitRequestAsk(PopUp popUp) {
     answer(popUp, 0);
+    requestsOpen++;
   }
   
   private void permitRequestReceived(PopUp popUp) {
