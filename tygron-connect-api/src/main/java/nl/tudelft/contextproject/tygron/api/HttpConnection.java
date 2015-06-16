@@ -23,7 +23,7 @@ public class HttpConnection {
   protected HttpClient client;
   protected BasicResponseHandler handler;
 
-  private String serverToken;
+  private HttpConnectionData data;
 
   private static final String API_URL_BASE = "https://server2.tygron.com:3022/api/";
   private static final String API_JSON_SUFFIX = "?f=JSON";
@@ -45,6 +45,10 @@ public class HttpConnection {
   public static void setSettings(Settings settings) {
     HttpConnection.settings = settings;
   }
+  
+  public void setData(HttpConnectionData data) {
+    this.data = data;
+  }  
 
   /**
    * Return the HttpConnection instance.
@@ -60,18 +64,18 @@ public class HttpConnection {
     return instance;
   }
 
-  public void setServerToken(String serverToken) {
-    this.serverToken = serverToken;
-  }
-
   public <T> T execute(String eventName, CallType type, ResultHandler<T> resultHandler) {
-    return execute(eventName, type, resultHandler, null, null);
+    return execute(eventName, type, resultHandler, false, null);
   }
 
   public <T> T execute(String eventName, CallType type, ResultHandler<T> resultHandler, JSONArray parameters) {
-    return execute(eventName, type, resultHandler, null, parameters);
+    return execute(eventName, type, resultHandler, false, parameters);
   }
 
+  public <T> T execute(String eventName, CallType type, ResultHandler<T> resultHandler, boolean isSession) {
+    return execute(eventName, type, resultHandler, isSession, null);
+  }
+  
   public <T> T execute(String eventName, CallType type, ResultHandler<T> resultHandler, Session session) {
     return execute(eventName, type, resultHandler, session, null);
   }
@@ -91,6 +95,18 @@ public class HttpConnection {
     try {
       HttpRequestBase requester = type.asRequest(parameters);
       String url = getApiUrl(eventName, session);
+      requester.setURI(new URI(url));
+      String resultString = execute(requester);
+      return resultHandler.handleResult(resultString);
+    } catch (URISyntaxException e) {
+      throw new RuntimeException(e);
+    }
+  }
+  
+  public <T> T execute(String eventName, CallType type, ResultHandler<T> resultHandler, boolean isSession, JSONArray parameters) {
+    try {
+      HttpRequestBase requester = type.asRequest(parameters);
+      String url = getApiUrl(eventName, isSession);
       requester.setURI(new URI(url));
       String resultString = execute(requester);
       return resultHandler.handleResult(resultString);
@@ -145,6 +161,20 @@ public class HttpConnection {
     }
   }
 
+  /**
+   * Returns Tygron's API url endpoint for a given event name and session.
+   * @param eventName the event that should be called
+   * @param session a session, may be null
+   * @return Tygron's response
+   */
+  protected String getApiUrl(String eventName, boolean isSession) {
+    if (!isSession) {
+      return API_URL_BASE + eventName + API_JSON_SUFFIX;
+    } else {
+      return API_URL_BASE + API_SLOTS + data.getSessionId() + API_DELIMITER + eventName + API_JSON_SUFFIX;
+    }
+  }
+  
   protected String getAuthString() {
     String headerValue = settings.getUserName() + ":" + settings.getPassword();
     return Base64.encodeBase64String(headerValue.getBytes());
@@ -154,13 +184,21 @@ public class HttpConnection {
    * Adds the required headers (authentication) for Tygron communication.
    * @param request the request to attach the headers to
    */
+  /**
+   * Adds the required headers (authentication) for Tygron communication.
+   * @param request the request to attach the headers to
+   */
   protected void addDefaultHeaders(HttpUriRequest request) {
     request.setHeader("Accept", "application/json");
     request.setHeader("Content-Type", "application/json");
     request.setHeader("Authorization", "Basic " + getAuthString());
 
-    if (serverToken != null) {
-      request.setHeader("serverToken", serverToken);
+    if (data != null && data.getServerToken() != null) {
+      request.setHeader("serverToken", data.getServerToken());
+    }
+    
+    if (data != null && data.getClientToken() != null) {
+      request.setHeader("clientToken", data.getClientToken());
     }
   }
 }
