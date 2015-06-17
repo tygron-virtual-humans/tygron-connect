@@ -27,15 +27,18 @@ In this document we will go over the details of how the system is going to be bu
 \section{Design goals}
 Throughout the project, the contributors will keep certain design goals in mind when creating code for our project.
 
+\subsection{Availability}
+Since a group is reliant on us to perform, it is important that they are able to receive new versions of our software when they need it. To achieve that, we will create tooling so that that group can download cutting-edge new releases. We will be able to incorporate feedback when they have requests.
+
 \subsection{Extensibility}
 Keeping in mind that the Tygron Engine is not final and may be changed by Tygron in the future, we will design our Connector in such a way that features can easily be added, removed or modified when the Tygron Engine changes.
 
-%TODO how will we achieve this goal? 
+Adding Tygron objects to our Environment is simple due to the way our Loaders work. To add percepts for the Agent, only a Loader has to be created and registered. 
 
 \subsection{Performance}
 The Connector should have low latency, so that agents can ask for environment information and be able to process this information without our Connector being the bottleneck. 
 
-%TODO how will we achieve this goal? 
+To achieve this, we have a separate thread that asynchronously requests environment data from the server so that the agent can perform without having to wait for these results.
 
 \subsection{Code quality}
 The Connector's code will be of high-quality, which means that code will be dynamically and statically tested. To check the quality of our code we will be using various tools which give indications of code quality. 

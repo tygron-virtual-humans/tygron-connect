@@ -37,7 +37,7 @@ import java.util.Random;
 /**
  * Contains all data relative to the session.
  */
-public class Environment implements Runnable {
+public class Environment {
 
   private static final Logger logger = LoggerFactory.getLogger(Environment.class);
   
@@ -61,7 +61,7 @@ public class Environment implements Runnable {
    */
   public Environment() {
     stakeholderId = -1;
-    environmentThread = new Thread(this);
+    environmentThread = new Thread(new Poller());
 
     loaderMap = new HashMap<>();
     putLoader(new BuildingListLoader());
@@ -87,23 +87,6 @@ public class Environment implements Runnable {
    */
   public void start() {
     environmentThread.start();
-  }
-
-  /**
-   * Main update run for the environment.
-   */
-  @Override
-  public void run() {
-    logger.debug("Running Environment update loop...");
-    while (true) {
-      reload();
-      try {
-        Thread.sleep(10000);
-      } catch (InterruptedException e) {
-        logger.error("Environment crashed!");
-        throw new RuntimeException(e);
-      }
-    }
   }
   
   /**
@@ -244,7 +227,7 @@ public class Environment implements Runnable {
    * @return A piece of land with a certain surface.
    */
   public Polygon getSuitableLand(Polygon availableLand, double surface) {
-    getMapWidth();
+    loadMapWidth();
     Random random = new Random();
     Polygon selectedLand;
     Polygon intersection;
@@ -279,7 +262,7 @@ public class Environment implements Runnable {
       getSuitableLand(availableLand, surface);
   }
   
-  private void getMapWidth() {
+  private void loadMapWidth() {
     if (mapWidth == 0) {
       mapWidth = HttpConnection.getInstance().execute("lists/settings/31/",
               CallType.GET, new JsonObjectResultHandler(), true).getInt("value");
@@ -330,7 +313,7 @@ public class Environment implements Runnable {
    */
   public double getBudget(int stakeholderId) {
     for (Indicator indicator : get(IndicatorList.class)) {
-      if (indicator.getType().equals("FINANCE")) {
+      if ("FINANCE".equals(indicator.getType())) {
         IndicatorFinance indicatorFinance = (IndicatorFinance) indicator;
         if (indicatorFinance.getActorId() == stakeholderId) {
           return indicatorFinance.getCurrent();
@@ -342,6 +325,25 @@ public class Environment implements Runnable {
   
   public int requestsOpen() {
     return popUpHandler.requestsOpen();
+  }
+
+  class Poller implements Runnable {
+    /**
+     * Main update run for the environment.
+     */
+    @Override
+    public void run() {
+      logger.debug("Running Environment update loop...");
+      while (true) {
+        reload();
+        try {
+          Thread.sleep(10000);
+        } catch (InterruptedException e) {
+          logger.error("Environment crashed!");
+          throw new RuntimeException(e);
+        }
+      }
+    }
   }
 }
 
