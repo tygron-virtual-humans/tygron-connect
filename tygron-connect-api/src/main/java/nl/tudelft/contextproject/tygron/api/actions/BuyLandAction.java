@@ -32,6 +32,7 @@ public class BuyLandAction {
    * Buys a piece of land.
    * @param surface The desired surface of the land.
    * @param cost The amount of money per unit of land.
+   * @return Whether the action was a success.
    */
   public boolean buyLand(double surface, double cost) {
     logger.debug("Buying land");

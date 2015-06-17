@@ -91,7 +91,8 @@ public class HttpConnection {
    * @param parameters The parameters this request should use, can be null
    * @return a result handled by this request
    */
-  public <T> T execute(String eventName, CallType type, ResultHandler<T> resultHandler, boolean isSession, JSONArray parameters) {
+  public <T> T execute(String eventName, CallType type,
+      ResultHandler<T> resultHandler, boolean isSession, JSONArray parameters) {
     try {
       HttpRequestBase requester = type.asRequest(parameters);
       String url = getApiUrl(eventName, isSession);
@@ -138,7 +139,7 @@ public class HttpConnection {
   /**
    * Returns Tygron's API url endpoint for a given event name and session.
    * @param eventName the event that should be called
-   * @param session a session, may be null
+   * @param isSession Whether this is a call to the session part of the API.
    * @return Tygron's response
    */
   protected String getApiUrl(String eventName, boolean isSession) {

@@ -6,7 +6,11 @@ import nl.tudelft.contextproject.tygron.api.CallType;
 import nl.tudelft.contextproject.tygron.api.Environment;
 import nl.tudelft.contextproject.tygron.api.HttpConnection;
 import nl.tudelft.contextproject.tygron.handlers.StringResultHandler;
-import nl.tudelft.contextproject.tygron.objects.*;
+import nl.tudelft.contextproject.tygron.objects.BuildingList;
+import nl.tudelft.contextproject.tygron.objects.Function;
+import nl.tudelft.contextproject.tygron.objects.FunctionMap;
+import nl.tudelft.contextproject.tygron.objects.Stakeholder;
+import nl.tudelft.contextproject.tygron.objects.StakeholderList;
 import nl.tudelft.contextproject.util.PolygonUtil;
 
 import org.json.JSONArray;

@@ -2,7 +2,6 @@ package nl.tudelft.contextproject.tygron.api.loaders;
 
 import nl.tudelft.contextproject.tygron.api.CallType;
 import nl.tudelft.contextproject.tygron.api.HttpConnection;
-import nl.tudelft.contextproject.tygron.api.Session;
 import nl.tudelft.contextproject.tygron.handlers.objects.StakeholderListResultHandler;
 import nl.tudelft.contextproject.tygron.objects.Action;
 import nl.tudelft.contextproject.tygron.objects.ActionList;

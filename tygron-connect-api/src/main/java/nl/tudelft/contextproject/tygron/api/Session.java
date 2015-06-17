@@ -43,7 +43,7 @@ public class Session {
 
   /**
    * Tygron Session Object with data.
-   * @param session The session to copy.
+   * @param sessionId The sessionID this session has.
    * @param data The json data.
    */
   public Session(int sessionId, JSONObject data) {
