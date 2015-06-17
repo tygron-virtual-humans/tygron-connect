@@ -3,16 +3,18 @@ package nl.tudelft.contextproject.tygron.eis;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.any;
-import static org.mockito.Mockito.spy;
-import static org.mockito.Mockito.when;
+import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.when;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.Map;
+import eis.exceptions.ManagementException;
+import eis.iilang.Action;
+import eis.iilang.EnvironmentState;
+import eis.iilang.Identifier;
+import eis.iilang.Numeral;
+import eis.iilang.Parameter;
 
 import nl.tudelft.contextproject.tygron.api.Connector;
 import nl.tudelft.contextproject.tygron.api.Environment;
@@ -27,13 +29,9 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import eis.exceptions.ManagementException;
-import eis.iilang.Action;
-import eis.iilang.EnvironmentState;
-import eis.iilang.Identifier;
-import eis.iilang.Numeral;
-import eis.iilang.Parameter;
-import eis.iilang.ParameterList;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.Map;
 
 @RunWith(value = MockitoJUnitRunner.class)
 public class TygronInterfaceImplTest {
@@ -50,6 +48,9 @@ public class TygronInterfaceImplTest {
   @Mock
   private Environment envMock;
   
+  /**
+   * Initialize the tests.
+   */
   @Before
   public void start() {
     impl = spy(new TygronInterfaceImpl());
