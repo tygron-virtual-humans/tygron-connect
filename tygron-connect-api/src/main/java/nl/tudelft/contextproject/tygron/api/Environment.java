@@ -2,10 +2,25 @@ package nl.tudelft.contextproject.tygron.api;
 
 import com.esri.core.geometry.Polygon;
 
-import nl.tudelft.contextproject.tygron.api.loaders.*;
+import nl.tudelft.contextproject.tygron.api.loaders.BuildingListLoader;
+import nl.tudelft.contextproject.tygron.api.loaders.EconomyListLoader;
+import nl.tudelft.contextproject.tygron.api.loaders.FunctionMapLoader;
+import nl.tudelft.contextproject.tygron.api.loaders.IndicatorListLoader;
+import nl.tudelft.contextproject.tygron.api.loaders.LandMapLoader;
+import nl.tudelft.contextproject.tygron.api.loaders.Loader;
+import nl.tudelft.contextproject.tygron.api.loaders.ServerWordsLoader;
+import nl.tudelft.contextproject.tygron.api.loaders.StakeholderListLoader;
+import nl.tudelft.contextproject.tygron.api.loaders.ZoneListLoader;
 import nl.tudelft.contextproject.tygron.handlers.BooleanResultHandler;
 import nl.tudelft.contextproject.tygron.handlers.JsonObjectResultHandler;
-import nl.tudelft.contextproject.tygron.objects.*;
+import nl.tudelft.contextproject.tygron.objects.Action;
+import nl.tudelft.contextproject.tygron.objects.ActionList;
+import nl.tudelft.contextproject.tygron.objects.Building;
+import nl.tudelft.contextproject.tygron.objects.BuildingList;
+import nl.tudelft.contextproject.tygron.objects.LandMap;
+import nl.tudelft.contextproject.tygron.objects.PopUpHandler;
+import nl.tudelft.contextproject.tygron.objects.Stakeholder;
+import nl.tudelft.contextproject.tygron.objects.StakeholderList;
 import nl.tudelft.contextproject.tygron.objects.indicators.Indicator;
 import nl.tudelft.contextproject.tygron.objects.indicators.IndicatorFinance;
 import nl.tudelft.contextproject.tygron.objects.indicators.IndicatorList;
@@ -43,7 +58,6 @@ public class Environment implements Runnable {
 
   /**
    * Creates an environment that communicates with the session API.
-   * @param session The session.
    */
   public Environment() {
     stakeholderId = -1;
@@ -135,7 +149,7 @@ public class Environment implements Runnable {
     this.stakeholderId = stakeholderId;
     boolean retValue = HttpConnection.getInstance().execute("event/PlayerEventType/STAKEHOLDER_SELECT",
             CallType.POST, new BooleanResultHandler(), true,
-            new StakeholderSelectRequest(stakeholderId, HttpConnection.getInstance().getData().getClientToken()));
+            new StakeholderSelectRequest(stakeholderId, HttpConnection.getData().getClientToken()));
     logger.info("Setting stakeholder to #" + stakeholderId + ". Operation " 
         + ((retValue) ? "success!" : "failed!" ));
     if (!retValue) {

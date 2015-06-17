@@ -41,7 +41,7 @@ public class PopUpHandler {
   
   /**
    * A list containing all new, active popups.
-   * @param session The session
+   * @param env The environment
    * @param stakeholderId The id of the player's stakeholder
    */
   public PopUpHandler(Environment env, int stakeholderId) {
