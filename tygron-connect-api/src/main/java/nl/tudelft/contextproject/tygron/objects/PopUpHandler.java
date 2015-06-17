@@ -341,7 +341,7 @@ public class PopUpHandler {
    * Change zones to include the given building's category and floors.
    * @param buildingId The building's id.
    */
-  public void changeZones(int buildingId) {
+  private void changeZones(int buildingId) {
     Building building = environment.get(BuildingList.class).getId(buildingId);
     Function function = environment.get(FunctionMap.class).get(building.getFunctionId());
     
