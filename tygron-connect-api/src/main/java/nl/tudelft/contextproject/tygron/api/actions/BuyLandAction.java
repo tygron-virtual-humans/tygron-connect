@@ -66,7 +66,7 @@ public class BuyLandAction {
     return true;
   }
   
-  class BuyLandRequest extends JSONArray {
+  static class BuyLandRequest extends JSONArray {
     public BuyLandRequest(Stakeholder buyer, Polygon polygon, double cost) {
       this.put(buyer.getId());
       this.put(PolygonUtil.toString(polygon));

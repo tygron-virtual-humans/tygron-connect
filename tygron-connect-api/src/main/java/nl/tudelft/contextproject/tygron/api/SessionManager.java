@@ -105,7 +105,7 @@ public class SessionManager {
     return slotNumber;
   }
 
-  class StartSessionRequest extends JSONArray {
+  static class StartSessionRequest extends JSONArray {
     public StartSessionRequest(String type, String mapName) {
       this.put(type);
       this.put(mapName);

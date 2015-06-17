@@ -63,7 +63,7 @@ public class SellLandAction {
     return true;
   }
   
-  class SellLandRequest extends JSONArray {
+  static class SellLandRequest extends JSONArray {
     public SellLandRequest(Stakeholder buyer, Stakeholder seller, Polygon polygon, double price) {
       this.put(buyer.getId());
       this.put(seller.getId());

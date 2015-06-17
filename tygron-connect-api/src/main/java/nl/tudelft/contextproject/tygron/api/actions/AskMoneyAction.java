@@ -35,7 +35,7 @@ public class AskMoneyAction {
     }
   }
   
-  class AskMoneyRequest extends JSONArray {
+  static class AskMoneyRequest extends JSONArray {
     public AskMoneyRequest(int askerId, int giverId, double amount) {
       this.put(askerId);
       this.put("SUBSIDY");

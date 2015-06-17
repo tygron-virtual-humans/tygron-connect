@@ -32,7 +32,9 @@ public class SettingsLoader {
     } else {
       File configFile = new File(path);
       logger.info("Using config file " + configFile.getAbsolutePath());
-      readConfig(new FileInputStream(configFile));
+      FileInputStream stream = new FileInputStream(configFile);
+      readConfig(stream);
+      stream.close();
     }
   }
 

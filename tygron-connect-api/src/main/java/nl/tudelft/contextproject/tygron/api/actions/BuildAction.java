@@ -90,7 +90,7 @@ public class BuildAction {
     }
   }
   
-  class BuildRequest extends JSONArray {
+  static class BuildRequest extends JSONArray {
     public BuildRequest(Stakeholder stakeholder, Function function, int floors, Polygon polygon) {
       this.put(stakeholder.getId());
       this.put(function.getId());

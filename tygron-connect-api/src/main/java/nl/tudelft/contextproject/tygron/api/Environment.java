@@ -78,6 +78,7 @@ public class Environment implements Runnable {
     loaderMap.put(loader.getDataClass(), loader);
   }
 
+  @SuppressWarnings("unchecked")
   public <T> Loader<T> getLoader(Class<T> loader) {
     return (Loader<T>) loaderMap.get(loader);
   }
@@ -133,12 +134,12 @@ public class Environment implements Runnable {
     }
   }
 
-  public <T> T get(Class<T> dataClass) {
-    return getLoader(dataClass).get();
-  }
-
   public <T> T reload(Class<T> dataClass) {
     return getLoader(dataClass).reload();
+  }
+  
+  public <T> T get(Class<T> dataClass) {
+    return getLoader(dataClass).get();
   }
   
   /**
@@ -151,7 +152,7 @@ public class Environment implements Runnable {
             CallType.POST, new BooleanResultHandler(), true,
             new StakeholderSelectRequest(stakeholderId, HttpConnection.getData().getClientToken()));
     logger.info("Setting stakeholder to #" + stakeholderId + ". Operation " 
-        + ((retValue) ? "success!" : "failed!" ));
+        + (retValue ? "success!" : "failed!" ));
     if (!retValue) {
       throw new RuntimeException("Stakeholder could not be selected!");
     } else {
@@ -159,7 +160,7 @@ public class Environment implements Runnable {
     }
   }
   
-  class StakeholderSelectRequest extends JSONArray {
+  static class StakeholderSelectRequest extends JSONArray {
     public StakeholderSelectRequest(int stakeholderId, String sessionToken) {
       this.put(stakeholderId);
       this.put(sessionToken);
@@ -182,7 +183,7 @@ public class Environment implements Runnable {
     popUpHandler = null;
   }
   
-  class StakeholderReleaseRequest extends JSONArray {
+  static class StakeholderReleaseRequest extends JSONArray {
     public StakeholderReleaseRequest(int stakeholderId) {
       this.put(stakeholderId);
     }

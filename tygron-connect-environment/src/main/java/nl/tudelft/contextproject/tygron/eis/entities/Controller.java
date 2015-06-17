@@ -23,7 +23,6 @@ public class Controller {
   private EconomyEntity economies;
   private BuildingEntity buildings;
   private Environment env;
-  private Session session;
 
   /**
    * Controller constructor.
@@ -32,7 +31,6 @@ public class Controller {
    *          the session object.
    */
   public Controller(Session controller) {
-    session = controller;
     env = controller.getEnvironment();
     indicators = new IndicatorEntity(env.reload(IndicatorList.class));
     stakeholders = new StakeholderEntity(env.reload(StakeholderList.class));

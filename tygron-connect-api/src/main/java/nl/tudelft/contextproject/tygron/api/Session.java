@@ -100,7 +100,7 @@ public class Session {
     return apiCallResult;
   }
 
-  class KillSessionRequest extends JSONArray {
+  static class KillSessionRequest extends JSONArray {
     public KillSessionRequest(int slotId) {
       this.put(slotId);
     }
@@ -217,7 +217,7 @@ public class Session {
     return this.compatibleOperations;
   }
 
-  class CloseSessionRequest extends JSONArray {
+  static class CloseSessionRequest extends JSONArray {
     public CloseSessionRequest(Session session, boolean keepAlive) {
       put(session.getId());
       put(session.getClientToken());
