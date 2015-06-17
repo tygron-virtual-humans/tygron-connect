@@ -23,20 +23,24 @@ public class Connector {
    */
   public Connector() {
     logger.info("Connector loading.");
-
-    // Now load user, it depends on http
-    JSONObject userObj = HttpConnection.getInstance().execute("services/myuser", 
-        CallType.GET, new JsonObjectResultHandler());
-    user = new User(userObj);
-
-    logger.info("Using user #" + user.getId() + " " + user.getUserName() + " " + user.getFirstName() + " "
-        + user.getLastName());
-
-    // Create a new session manager
+    loadUserData();
     sessionManager = new SessionManager();
     logger.info("Connector loading complete.");
   }
   
+  /**
+   * Load main API user data.
+   */
+  public void loadUserData() {
+    JSONObject userObj = HttpConnection.getInstance().execute("services/myuser", 
+        CallType.GET, new JsonObjectResultHandler());
+    System.out.println(userObj);
+    user = new User(userObj);
+    
+    
+    logger.info("Using user #" + user.getId() + " " + user.getUserName() + " " + user.getFirstName() + " "
+        + user.getLastName());
+  }
 
   /**
    * Connect to a session on a mapname.
