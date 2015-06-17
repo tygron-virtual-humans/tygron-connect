@@ -15,12 +15,12 @@ import eis.iilang.EnvironmentState;
 import eis.iilang.Identifier;
 import eis.iilang.Numeral;
 import eis.iilang.Parameter;
-
 import nl.tudelft.contextproject.tygron.api.Connector;
 import nl.tudelft.contextproject.tygron.api.Environment;
 import nl.tudelft.contextproject.tygron.api.Session;
 import nl.tudelft.contextproject.tygron.objects.BuildingList;
 import nl.tudelft.contextproject.tygron.objects.EconomyList;
+import nl.tudelft.contextproject.tygron.objects.StakeholderList;
 import nl.tudelft.contextproject.tygron.objects.indicators.IndicatorList;
 
 import org.junit.Before;
@@ -64,6 +64,7 @@ public class TygronInterfaceImplTest {
     when(envMock.reload(BuildingList.class)).thenReturn(null);
     when(envMock.reload(EconomyList.class)).thenReturn(null);
     when(envMock.reload(IndicatorList.class)).thenReturn(null);
+    when(envMock.reload(StakeholderList.class)).thenReturn(null);
     doNothing().when(envMock).setStakeholder(any(Integer.class));
     
     doReturn(envMock).when(session).getEnvironment();
