@@ -13,8 +13,7 @@ public class StakeholderList extends ArrayList<Stakeholder> {
 
   /**
    * Constructs a TygronStakeholderList from a tygron response.
-   * @param input
-   * input response
+   * @param input input response
    */
   public StakeholderList(JSONArray input) {
     for (int i = 0; i < input.length(); i++) {

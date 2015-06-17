@@ -13,8 +13,7 @@ public class BuildingList extends ArrayList<Building> {
 
   /**
    * Constructs a building list from a tygron response.
-   * @param input
-   * input response
+   * @param input input response
    */
   public BuildingList(JSONArray input) {
     for (int i = 0; i < input.length(); i++) {

@@ -13,8 +13,7 @@ public class ZoneList extends ArrayList<Zone> {
 
   /**
    * Constructs a ZoneList from a tygron response.
-   * @param input
-   * input response
+   * @param input input response
    */
   public ZoneList(JSONArray input) {
     for (int i = 0; i < input.length(); i++) {
