@@ -40,7 +40,7 @@ public class BuyLandAction {
     List<Polygon> availableLandList = getBuyableLand();
     Polygon availableLand = PolygonUtil.polygonUnion(availableLandList);
     
-    if (availableLand.isEmpty()) {
+    if (availableLand.isEmpty() || availableLand.calculateArea2D() < 0.05) {
       logger.info("No land available for buying");
       return false;
     } else if (availableLand.calculateArea2D() < surface) {
@@ -83,7 +83,9 @@ public class BuyLandAction {
     for (Stakeholder stakeholder : environment.get(StakeholderList.class)) {
       Polygon land = new Polygon();
       if (stakeholder.getId() != environment.getStakeholderId()) {
-        land = PolygonUtil.polygonUnion(land, environment.getAvailableLand(stakeholder));
+        Polygon stakeholderLand = environment.getAvailableLand(stakeholder);
+        logger.debug(PolygonUtil.toString(stakeholderLand));
+        land = PolygonUtil.polygonUnion(land, stakeholderLand);
       }
       result.add(land);
     }
