@@ -20,7 +20,7 @@ public class Function {
   private static List<CategoryType> parkingType = Arrays.asList(CategoryType.PAVED_AREA);
   
   private static List<CategoryType> parkType = Arrays.asList(CategoryType.PARK, 
-      CategoryType.GARDEN);
+      CategoryType.GARDEN, CategoryType.NATURE);
   
   private static List<CategoryType> officeType = Arrays.asList(CategoryType.OFFICES);
   
