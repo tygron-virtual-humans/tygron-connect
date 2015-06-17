@@ -2,6 +2,7 @@ package nl.tudelft.contextproject.tygron.objects;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+
 import nl.tudelft.contextproject.tygron.CachedFileReader;
 import nl.tudelft.contextproject.tygron.api.CallType;
 import nl.tudelft.contextproject.tygron.api.Environment;
@@ -25,6 +26,9 @@ import org.powermock.modules.junit4.PowerMockRunner;
 public class PopUpTest {
   PopUpHandler popUpHandler;
   ServerWords serverWords;
+  BuildingList buildingList;
+  FunctionMap functionMap;
+  ZoneList zoneList;
   
   @Mock
   HttpConnection connection;
@@ -54,6 +58,27 @@ public class PopUpTest {
     serverWords = new ServerWords(serverWordsResult);
     Mockito.when(environment.get(ServerWords.class)).thenReturn(serverWords);
     
+    // Load buildings
+    String buildingsFile = "/serverResponses/testmap/lists/building.json";
+    String buildingsContents = CachedFileReader.getFileContents(buildingsFile);
+    JSONArray buildingsResult = new JSONArray(buildingsContents);
+    buildingList = new BuildingList(buildingsResult);
+    Mockito.when(environment.get(BuildingList.class)).thenReturn(buildingList);
+    
+    // Load functions
+    String functionsFile = "/serverResponses/testmap/lists/functions.json";
+    String functionsContents = CachedFileReader.getFileContents(functionsFile);
+    JSONArray functionsResult = new JSONArray(functionsContents);
+    functionMap = new FunctionMap(functionsResult);
+    Mockito.when(environment.get(FunctionMap.class)).thenReturn(functionMap);
+    
+    // Load zones
+    String zonesFile = "/serverResponses/testmap/lists/zone.json";
+    String zonesContents = CachedFileReader.getFileContents(zonesFile);
+    JSONArray zonesResult = new JSONArray(zonesContents);
+    zoneList = new ZoneList(zonesResult);
+    Mockito.when(environment.get(ZoneList.class)).thenReturn(zoneList);
+    
     Mockito.when(connection.execute(Mockito.anyString(), Mockito.eq(CallType.POST), 
         Mockito.any(JsonObjectResultHandler.class), Mockito.eq(true),  Mockito.any(JSONArray.class))).thenReturn(null);
     
@@ -64,7 +89,7 @@ public class PopUpTest {
   public void requestsOpenTest() {
     assertEquals(0, popUpHandler.requestsOpen());
     popUpHandler.loadPopUps();
-    assertEquals(5, popUpHandler.requestsOpen());
+    assertEquals(1, popUpHandler.requestsOpen());
   }
   
   @Test
@@ -74,6 +99,44 @@ public class PopUpTest {
     assertEquals(13, popUpHandler.getList().size());
   }
   
+  @Test
+  public void getListNull() {
+    Mockito.when(connection.getUpdate(Mockito.any(JsonObjectResultHandler.class),
+        Mockito.eq(true), Mockito.any(JSONObject.class))).thenReturn(null);
+    
+    popUpHandler.loadPopUps();
+    assertTrue(popUpHandler.getList().isEmpty());
+  }
   
+  @Test
+  public void getListEmpty() {
+    JSONObject popUpResult = new JSONObject("{\"items\":{}}");
+    Mockito.when(connection.getUpdate(Mockito.any(JsonObjectResultHandler.class),
+        Mockito.eq(true), Mockito.any(JSONObject.class))).thenReturn(popUpResult);
+    
+    popUpHandler.loadPopUps();
+    assertTrue(popUpHandler.getList().isEmpty());
+  }
+  
+  @Test
+  public void getLinkType() {
+    popUpHandler.loadPopUps();
+    PopUp popUp = popUpHandler.getList().get(0);
+    assertEquals("SPECIAL_OPTIONS", popUp.getLinkType());
+  }
+  
+  @Test
+  public void getPointTest() {
+    popUpHandler.loadPopUps();
+    PopUp popUp = popUpHandler.getList().get(0);
+    assertEquals("POINT (81.742314 169.256918)", popUp.getPoint());
+  }
+  
+  @Test
+  public void getTitleTest() {
+    popUpHandler.loadPopUps();
+    PopUp popUp = popUpHandler.getList().get(1);
+    assertEquals("Housing Corporation wants to purchase land", popUp.getTitle());
+  }
   
 }

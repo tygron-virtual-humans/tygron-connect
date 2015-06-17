@@ -255,17 +255,17 @@ public class PopUpHandler {
   }
   
   private void landRequestSent() {
-    requestsOpen++;
+    incr();
   }
 
   private void landTransactionApproved(PopUp popUp) {
-    requestsOpen--;
+    decr();
     answer(popUp, 0);
     // TODO Send info to stakeholder
   }
   
   private void landTransactionRefused(PopUp popUp) {
-    requestsOpen--;
+    decr();
     answer(popUp, 0);
     // TODO Send info to stakeholder
   }
@@ -290,7 +290,7 @@ public class PopUpHandler {
   
   private void permitRequestAsk(PopUp popUp) {
     answer(popUp, 0);
-    requestsOpen++;
+    incr();
   }
   
   private void permitRequestReceived(PopUp popUp) {
@@ -304,13 +304,13 @@ public class PopUpHandler {
   }
 
   private void permitRequestRefused(PopUp popUp) {
-    requestsOpen--;
+    decr();
     answer(popUp, 0);
     // TODO Send info to stakeholder
   }
 
   private void permitRequestApproved(PopUp popUp) {
-    requestsOpen--;
+    decr();
     answer(popUp, 0);
     // TODO Send info to stakeholder
   }
@@ -370,6 +370,16 @@ public class PopUpHandler {
   
   public List<PopUp> getList() {
     return list;
+  }
+  
+  private void incr() {
+    requestsOpen++;
+  }
+  
+  private void decr() {
+    if (requestsOpen > 0) {
+      requestsOpen--;
+    }
   }
   
   private int max(int i1, int i2) {
