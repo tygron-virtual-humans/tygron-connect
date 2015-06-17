@@ -120,7 +120,7 @@ public class BuildAction {
       Function function = environment.get(FunctionMap.class).get(functionId);
       if (function.isRightType(type)) {
         int maxFloors = function.getMax_floors();
-        result = max(maxFloors, result);
+        result = Math.max(maxFloors, result);
       }
     }
     return result;
@@ -146,12 +146,5 @@ public class BuildAction {
     // Pick a random function
     Random random = new Random();
     return functionList.get(random.nextInt(functionList.size()));
-  }
-  
-  private int max(int i1, int i2) {
-    if (i1 > i2) {
-      return i1;
-    }
-    return i2;
   }
 }
