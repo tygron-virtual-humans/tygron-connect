@@ -35,7 +35,8 @@ public class JoinableSession {
 
     JSONObject data = HttpConnection.getInstance().execute("services/event/IOServicesEventType/JOIN_SESSION/",
             CallType.POST, new JsonObjectResultHandler(), joinSessionRequest);
-    Session session = new Session(this.id, data);
+    
+    Session session = createSession(data);
 
     // Set server token and session id in connection
     HttpConnectionData httpdata = new HttpConnectionData();
@@ -44,10 +45,13 @@ public class JoinableSession {
     httpdata.setSessionId(session.getId());
     HttpConnection.setData(httpdata);
     
-    session.getEnvironment().start();
     return session;
   }
 
+  public Session createSession(JSONObject data) {
+    return new Session(this.id, data);
+  }
+  
   static class JoinSessionRequest extends JSONArray {
     public JoinSessionRequest(int slotId, String type, String address, String computerName, String rejoinToken) {
       this.put(slotId);

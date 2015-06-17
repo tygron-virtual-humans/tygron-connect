@@ -85,7 +85,9 @@ public class SessionManager {
     }
 
     // Join / startup the session
-    return session.join();
+    Session sess = session.join();
+    sess.getEnvironment().start();
+    return sess;
   }
 
   /**
