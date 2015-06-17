@@ -34,10 +34,10 @@ public class Controller {
   public Controller(Session controller) {
     session = controller;
     env = controller.getEnvironment();
-    indicators = new IndicatorEntity(env.get(IndicatorList.class));
-    stakeholders = new StakeholderEntity(env.get(StakeholderList.class));
-    economies = new EconomyEntity(env.get(EconomyList.class));
-    buildings = new BuildingEntity(env.get(BuildingList.class));
+    indicators = new IndicatorEntity(env.reload(IndicatorList.class));
+    stakeholders = new StakeholderEntity(env.reload(StakeholderList.class));
+    economies = new EconomyEntity(env.reload(EconomyList.class));
+    buildings = new BuildingEntity(env.reload(BuildingList.class));
   }
 
   /**
@@ -76,8 +76,8 @@ public class Controller {
    * @return the selfstakeholder.
    */
   @AsPercept(name = "stakeholderSelf", filter = Filter.Type.ONCE)
-  public TygronPercept stakeholderSelf() {
-    return new TygronPercept(env.getStakeholderId());
+  public int stakeholderSelf() {
+    return env.getStakeholderId();
   }
 
   /**
