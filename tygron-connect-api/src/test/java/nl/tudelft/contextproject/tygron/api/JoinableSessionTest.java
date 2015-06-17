@@ -1,6 +1,7 @@
 package nl.tudelft.contextproject.tygron.api;
 
 import static org.junit.Assert.assertEquals;
+
 import nl.tudelft.contextproject.tygron.CachedFileReader;
 import nl.tudelft.contextproject.tygron.handlers.JsonObjectResultHandler;
 
