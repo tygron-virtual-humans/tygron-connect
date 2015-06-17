@@ -11,15 +11,11 @@ import org.slf4j.LoggerFactory;
 public class BuildingListLoader extends Loader<BuildingList> {
   private static final Logger logger = LoggerFactory.getLogger(BuildingListLoader.class);
 
-  public BuildingListLoader(Session session) {
-    super(session);
-  }
-
   @Override
   protected BuildingList load() {
     logger.debug("Loading buildings");
     return HttpConnection.getInstance().execute("lists/"
-            + "buildings", CallType.GET, new BuildingListResultHandler(), session);
+            + "buildings", CallType.GET, new BuildingListResultHandler(), true);
   }
 
   @Override

@@ -3,7 +3,6 @@ package nl.tudelft.contextproject.tygron.api;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
-import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.atLeast;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -40,6 +39,9 @@ public class HttpConnectionTest {
 
   @Mock
   HttpClient client;
+  
+  @Mock
+  HttpConnectionData data;
 
   @Mock
   HttpResponse response;
@@ -64,10 +66,15 @@ public class HttpConnectionTest {
 
     when(settings.getUserName()).thenReturn("username");
     when(settings.getPassword()).thenReturn("password");
+    
+    when(data.getClientToken()).thenReturn("clientToken");
+    when(data.getServerToken()).thenReturn("serverToken");
 
     when(session.getId()).thenReturn(17);
 
     HttpConnection.setSettings(settings);
+    HttpConnection.setData(data);
+    
     connection = HttpConnection.getInstance();
 
     when(handler.handleResponse(any(HttpResponse.class))).thenReturn(
@@ -92,16 +99,8 @@ public class HttpConnectionTest {
   }
 
   @Test
-  public void testApiUrlWithSession() {
-    String url = connection.getApiUrl("event", session);
-    verify(session).getId();
-    assertEquals("https://server2.tygron.com:3022/api/slots/17/event?f=JSON",
-        url);
-  }
-
-  @Test
   public void testApiUrl() {
-    String url = connection.getApiUrl("event", null);
+    String url = connection.getApiUrl("event", false);
     assertEquals("https://server2.tygron.com:3022/api/event?f=JSON", url);
   }
 
@@ -121,7 +120,7 @@ public class HttpConnectionTest {
   @Test
   public void testUpdate() {
     JSONObject obj = connection.getUpdate(new JsonObjectResultHandler(),
-        session, new JSONObject());
+        true, new JSONObject());
     assertEquals("response", obj.getString("responseResponse"));
   }
 }

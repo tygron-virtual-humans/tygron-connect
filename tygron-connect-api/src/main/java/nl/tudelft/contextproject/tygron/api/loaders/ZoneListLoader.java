@@ -11,15 +11,11 @@ import org.slf4j.LoggerFactory;
 public class ZoneListLoader extends Loader<ZoneList> {
   private static final Logger logger = LoggerFactory.getLogger(ZoneListLoader.class);
 
-  public ZoneListLoader(Session session) {
-    super(session);
-  }
-
   @Override
   public ZoneList load() {
     logger.debug("Loading zones");
     return HttpConnection.getInstance().execute("lists/"
-            + "zones", CallType.GET, new ZoneListResultHandler(), session);
+            + "zones", CallType.GET, new ZoneListResultHandler(), true);
   }
 
   @Override

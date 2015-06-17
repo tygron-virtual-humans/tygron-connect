@@ -25,7 +25,6 @@ public class Session {
   private String name;
   private String platform;
   private String state;
-  private String type;
   private String clientToken;
   private String serverToken;
   private List<String> compatibleOperations;
@@ -39,7 +38,7 @@ public class Session {
     clientToken = "";
     serverToken = "";
 
-    environment = new Environment(this);
+    environment = new Environment();
   }
 
   /**
@@ -47,9 +46,8 @@ public class Session {
    * @param session The session to copy.
    * @param data The json data.
    */
-  public Session(JoinableSession session, JSONObject data) {
-    id = session.getId();
-    type = session.getType();
+  public Session(int sessionId, JSONObject data) {
+    id = sessionId;
 
     clientToken = data.getJSONObject("client").getString("clientToken");
     serverToken = data.getString("serverToken");
@@ -64,7 +62,7 @@ public class Session {
       compatibleOperations.add(jsonArray.get(i).toString());
     }
 
-    environment = new Environment(this);
+    environment = new Environment();
   }
 
   /**
@@ -124,19 +122,6 @@ public class Session {
    */
   public String getName() {
     return this.name;
-  }
-
-  public String getType() {
-    return type;
-  }
-
-  /**
-   * Set a new session type.
-   *
-   * @param newType The new session type.
-   */
-  public void setType(String newType) {
-    this.type = newType;
   }
 
   /**

@@ -10,7 +10,6 @@ public class JoinableSession {
   private static final Logger logger = LoggerFactory.getLogger(JoinableSession.class);
 
   private String name;
-  private String type;
   private int id;
 
   public JoinableSession() {
@@ -23,7 +22,6 @@ public class JoinableSession {
    */
   public JoinableSession(JSONObject data) {
     name = data.getString("name");
-    type = data.getString("sessionType");
     id = data.getInt("id");
   }
 
@@ -37,14 +35,14 @@ public class JoinableSession {
 
     JSONObject data = HttpConnection.getInstance().execute("services/event/IOServicesEventType/JOIN_SESSION/",
             CallType.POST, new JsonObjectResultHandler(), joinSessionRequest);
-    Session session = new Session(this, data);
+    Session session = new Session(this.id, data);
 
     // Set server token and session id in connection
     HttpConnectionData httpdata = new HttpConnectionData();
     httpdata.setServerToken(session.getServerToken());
     httpdata.setClientToken(session.getClientToken());
     httpdata.setSessionId(session.getId());
-    HttpConnection.getInstance().setData(httpdata);
+    HttpConnection.setData(httpdata);
     
     session.getEnvironment().start();
     return session;
@@ -80,19 +78,6 @@ public class JoinableSession {
    */
   public String getName() {
     return this.name;
-  }
-
-  public String getType() {
-    return type;
-  }
-
-  /**
-   * Set a new session type.
-   *
-   * @param newType The new session type.
-   */
-  public void setType(String newType) {
-    this.type = newType;
   }
 
   /**

@@ -19,15 +19,12 @@ import java.util.Set;
 public class StakeholderListLoader extends Loader<StakeholderList> {
   private static final Logger logger = LoggerFactory.getLogger(StakeholderListLoader.class);
 
-  public StakeholderListLoader(Session session) {
-    super(session);
-  }
 
   @Override
   public StakeholderList load() {
     logger.debug("Loading stakeholders");
     StakeholderList stakeholders = HttpConnection.getInstance().execute("lists/"
-            + "stakeholders/", CallType.GET, new StakeholderListResultHandler(), session);
+            + "stakeholders/", CallType.GET, new StakeholderListResultHandler(), true);
     setActions(stakeholders);
     return stakeholders;
   }
@@ -36,7 +33,7 @@ public class StakeholderListLoader extends Loader<StakeholderList> {
    * Load actions and assign their functions to stakeholders.
    */
   private void setActions(StakeholderList stakeholderList) {
-    ActionList actionList = new ActionListLoader(session).get();
+    ActionList actionList = new ActionListLoader().get();
     for (Action action : actionList) {
       Map<Integer, Boolean> activeForStakeholder = action.getActiveForStakeholder();
       Set<Integer> stakeholders = activeForStakeholder.keySet();

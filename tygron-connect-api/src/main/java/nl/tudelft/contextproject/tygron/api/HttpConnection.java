@@ -23,7 +23,7 @@ public class HttpConnection {
   protected HttpClient client;
   protected BasicResponseHandler handler;
 
-  private HttpConnectionData data;
+ 
 
   private static final String API_URL_BASE = "https://server2.tygron.com:3022/api/";
   private static final String API_JSON_SUFFIX = "?f=JSON";
@@ -41,15 +41,20 @@ public class HttpConnection {
 
   private static HttpConnection instance;
   private static Settings settings;
-
+  private static HttpConnectionData data;
+  
   public static void setSettings(Settings settings) {
     HttpConnection.settings = settings;
   }
   
-  public void setData(HttpConnectionData data) {
-    this.data = data;
+  public static void setData(HttpConnectionData newData) {
+    data = newData;
   }  
 
+  public static HttpConnectionData getData() {
+    return data;
+  }  
+  
   /**
    * Return the HttpConnection instance.
    * @return the http connection instance
@@ -76,33 +81,16 @@ public class HttpConnection {
     return execute(eventName, type, resultHandler, isSession, null);
   }
   
-  public <T> T execute(String eventName, CallType type, ResultHandler<T> resultHandler, Session session) {
-    return execute(eventName, type, resultHandler, session, null);
-  }
-  
   /**
    * Calls a method on Tygron's servers.
    * @param <T> A type
    * @param eventName The event name, a part of the URL
    * @param type GET or POST event
    * @param resultHandler The handler used to parse Tygron's result.
-   * @param session The session this call should use, can be null
+   * @param isSession If this is a call to the session or regular API.
    * @param parameters The parameters this request should use, can be null
    * @return a result handled by this request
    */
-  public <T> T execute(String eventName, CallType type, 
-      ResultHandler<T> resultHandler, Session session, JSONArray parameters) {
-    try {
-      HttpRequestBase requester = type.asRequest(parameters);
-      String url = getApiUrl(eventName, session);
-      requester.setURI(new URI(url));
-      String resultString = execute(requester);
-      return resultHandler.handleResult(resultString);
-    } catch (URISyntaxException e) {
-      throw new RuntimeException(e);
-    }
-  }
-  
   public <T> T execute(String eventName, CallType type, ResultHandler<T> resultHandler, boolean isSession, JSONArray parameters) {
     try {
       HttpRequestBase requester = type.asRequest(parameters);
@@ -131,33 +119,19 @@ public class HttpConnection {
   /**
    * Calls the update method on Tygron's servers.
    * @param resultHandler The handler used to parse Tygron's result.
-   * @param session The session this call should use
+   * @param isSession If this is a call to the session or regular API.
    * @param parameters The parameters this request should use
    * @return new updates of the data types requested
    */
-  public JSONObject getUpdate(ResultHandler<JSONObject> resultHandler, Session session, JSONObject parameters) {
+  public JSONObject getUpdate(ResultHandler<JSONObject> resultHandler, boolean isSession, JSONObject parameters) {
     try {
       HttpRequestBase requester = CallType.POST.asRequest(parameters);
-      String url = getApiUrl("update/", session);
+      String url = getApiUrl("update/", isSession);
       requester.setURI(new URI(url));
       String resultString = execute(requester);
       return resultHandler.handleResult(resultString);
     } catch (URISyntaxException e) {
       throw new RuntimeException(e);
-    }
-  }
-
-  /**
-   * Returns Tygron's API url endpoint for a given event name and session.
-   * @param eventName the event that should be called
-   * @param session a session, may be null
-   * @return Tygron's response
-   */
-  protected String getApiUrl(String eventName, Session session) {
-    if (session == null) {
-      return API_URL_BASE + eventName + API_JSON_SUFFIX;
-    } else {
-      return API_URL_BASE + API_SLOTS + session.getId() + API_DELIMITER + eventName + API_JSON_SUFFIX;
     }
   }
 

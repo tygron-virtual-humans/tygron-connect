@@ -11,15 +11,11 @@ import org.slf4j.LoggerFactory;
 public class ServerWordsLoader extends Loader<ServerWords> {
   private static final Logger logger = LoggerFactory.getLogger(ServerWordsLoader.class);
 
-  public ServerWordsLoader(Session session) {
-    super(session);
-  }
-
   @Override
   protected ServerWords load() {
     logger.debug("Loading ServerWords");
     return HttpConnection.getInstance().execute("lists/serverwords/",
-            CallType.GET, new ServerWordsResultHandler(), session);
+            CallType.GET, new ServerWordsResultHandler(), true);
   }
 
   @Override

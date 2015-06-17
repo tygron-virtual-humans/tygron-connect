@@ -11,15 +11,11 @@ import org.slf4j.LoggerFactory;
 public class LandMapLoader extends Loader<LandMap> {
   private static final Logger logger = LoggerFactory.getLogger(LandMapLoader.class);
 
-  public LandMapLoader(Session session) {
-    super(session);
-  }
-
   @Override
   protected LandMap load() {
     logger.debug("Loading lands");
     return HttpConnection.getInstance().execute("lists/lands",
-            CallType.GET, new LandMapResultHandler(), session);
+            CallType.GET, new LandMapResultHandler(), true);
   }
 
   @Override
