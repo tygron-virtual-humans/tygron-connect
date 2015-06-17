@@ -1,21 +1,21 @@
 package nl.tudelft.contextproject.tygron.eis;
 
 public class Configuration {
-  private int stakeholders;
+  private int stakeholder;
   private String map;
   private int slot;
 
   public Configuration() {
     slot = -1;
-    stakeholders = -1;
+    stakeholder = -1;
   }
 
   public void setStakeholder(int stakeholderParametersList) {
-    stakeholders = stakeholderParametersList;
+    stakeholder = stakeholderParametersList;
   }
 
   public int getStakeholder() {
-    return stakeholders;
+    return stakeholder;
   }
 
   public void setMap(String map) {
