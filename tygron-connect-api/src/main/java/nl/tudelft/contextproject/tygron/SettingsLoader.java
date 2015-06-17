@@ -20,7 +20,6 @@ public class SettingsLoader {
    * loading or reading of the cfg file fails.
    * 
    * @param path the path of the config file
-   * 
    * @throws Exception when fails
    */
   public SettingsLoader(String path) throws Exception {

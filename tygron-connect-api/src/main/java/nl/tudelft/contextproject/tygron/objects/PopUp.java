@@ -1,7 +1,5 @@
 package nl.tudelft.contextproject.tygron.objects;
 
-import com.esri.core.geometry.Polygon;
-
 import nl.tudelft.contextproject.tygron.objects.PopUpHandler.EventValue;
 import nl.tudelft.contextproject.util.PolygonUtil;
 
@@ -23,7 +21,6 @@ public class PopUp {
   private String title;
   private String text;
   private int linkId;
-  private Polygon polygon;
   private String linkType;
   private String point;
 
@@ -96,10 +93,6 @@ public class PopUp {
 
   public int getLinkId() {
     return linkId;
-  }
-
-  public Polygon getPolygon() {
-    return polygon;
   }
 
   public String getLinkType() {

@@ -13,8 +13,7 @@ public class EconomyList extends ArrayList<Economy> {
 
   /**
    * Constructs a economy list from a tygron response.
-   * @param input
-   * input response
+   * @param input input response
    */
   public EconomyList(JSONArray input) {
     for (int i = 0; i < input.length(); i++) {
