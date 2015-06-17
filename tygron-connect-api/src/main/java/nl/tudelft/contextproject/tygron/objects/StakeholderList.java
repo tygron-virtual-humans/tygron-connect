@@ -11,6 +11,9 @@ public class StakeholderList extends ArrayList<Stakeholder> {
    */
   private static final long serialVersionUID = 1L;
 
+  public StakeholderList() {
+  }
+
   /**
    * Constructs a TygronStakeholderList from a tygron response.
    * @param input input response
