@@ -1,8 +1,11 @@
 package nl.tudelft.contextproject.util;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
+
+import java.util.ArrayList;
 
 import com.esri.core.geometry.Polygon;
 
@@ -112,6 +115,122 @@ public class PolygonUtilTest {
       Polygon comparePolygon = PolygonUtil.createPolygonFromWkt("MULTIPOLYGON (((0 0, 16 0"
           + ", 16 16, 0 16, 0 0), (1 1, 1 15, 15 15, 15 1, 1 1)))");
       assertTrue(PolygonUtil.polygonEquals(difference, comparePolygon));
+    } catch (Exception e) {
+      fail();
+      e.printStackTrace();
+    }
+  }
+  
+  /**
+   * Tests the intersect function.
+   */
+  @Test
+  public void intersectTest() {
+    try {
+      Polygon polygon1 = PolygonUtil.createPolygonFromWkt("MULTIPOLYGON (((0 0, 0 16"
+          + ", 16 16, 16 0, 0 0)))");
+      Polygon polygon2 = PolygonUtil.createPolygonFromWkt("MULTIPOLYGON (((1 1, 1 17"
+          + ", 17 17, 17 1, 1 1)))");
+      assertTrue(PolygonUtil.polygonIntersects(polygon1, polygon2));
+    } catch (Exception e) {
+      fail();
+      e.printStackTrace();
+    }
+  }
+  
+  /**
+   * Tests the intersection function.
+   */
+  @Test
+  public void intersectionTest() {
+    try {
+      Polygon polygon1 = PolygonUtil.createPolygonFromWkt("MULTIPOLYGON (((0 0, 0 16"
+          + ", 16 16, 16 0, 0 0)))");
+      Polygon polygon2 = PolygonUtil.createPolygonFromWkt("MULTIPOLYGON (((1 1, 1 17"
+          + ", 17 17, 17 1, 1 1)))");
+      Polygon intersection = PolygonUtil.polygonIntersection(polygon1, polygon2);
+      Polygon compare = PolygonUtil.createPolygonFromWkt("MULTIPOLYGON (((1 1, 1 16, 16 16, 16 1, 1 1)))");
+      assertTrue(PolygonUtil.polygonEquals(intersection, compare));
+    } catch (Exception e) {
+      fail();
+      e.printStackTrace();
+    }
+  }
+  
+  /**
+   * Tests the union function.
+   */
+  @Test
+  public void unionTest() {
+    try {
+      Polygon polygon1 = PolygonUtil.createPolygonFromWkt("MULTIPOLYGON (((0 0, 0 16"
+          + ", 16 16, 16 0, 0 0)))");
+      Polygon polygon2 = PolygonUtil.createPolygonFromWkt("MULTIPOLYGON (((1 1, 1 17"
+          + ", 17 17, 17 1, 1 1)))");
+      Polygon union = PolygonUtil.polygonUnion(polygon1, polygon2);
+      Polygon compare = PolygonUtil.createPolygonFromWkt("MULTIPOLYGON (((0 0, 16 0, 16 1, 17 1, 17 17, 1 17, 1 16, 0 16, 0 0)))");
+      assertTrue(PolygonUtil.polygonEquals(union, compare));
+    } catch (Exception e) {
+      fail();
+      e.printStackTrace();
+    }
+  }
+  
+  /**
+   * Tests the unionList function.
+   */
+  @Test
+  public void unionListTest() {
+    try {
+      Polygon polygon1 = PolygonUtil.createPolygonFromWkt("MULTIPOLYGON (((0 0, 0 16"
+          + ", 16 16, 16 0, 0 0)))");
+      Polygon polygon2 = PolygonUtil.createPolygonFromWkt("MULTIPOLYGON (((1 1, 1 17"
+          + ", 17 17, 17 1, 1 1)))");
+      Polygon polygon3 = PolygonUtil.createPolygonFromWkt("MULTIPOLYGON (((1 1, 1 17"
+          + ", 18 18, 17 1, 1 1)))");
+      ArrayList<Polygon> unionlist = new ArrayList<Polygon>();
+      unionlist.add(polygon1);
+      unionlist.add(polygon2);
+      unionlist.add(polygon3);
+      
+      Polygon union = PolygonUtil.polygonUnion(unionlist);
+
+      Polygon compare = PolygonUtil.createPolygonFromWkt("MULTIPOLYGON (((0 0, 16 0"
+          + ", 16 1, 17 1, 18 18, 1 17, 1 16, 0 16, 0 0)))");
+      assertTrue(PolygonUtil.polygonEquals(union, compare));
+    } catch (Exception e) {
+      fail();
+      e.printStackTrace();
+    }
+  }
+  /**
+   * Tests the makeRectangle function.
+   */
+  @Test
+  public void makeRectangleTest() {
+    try {
+      Polygon polygon1 = PolygonUtil.makeRectangle(0, 0, 16, 16);
+      
+      Polygon compare = PolygonUtil.createPolygonFromWkt("MULTIPOLYGON (((0 0, 0 16"
+          + ", 16 16, 16 0, 0 0)))");
+      assertTrue(PolygonUtil.polygonEquals(polygon1, compare));
+    } catch (Exception e) {
+      fail();
+      e.printStackTrace();
+    }
+  }
+  /**
+   * Tests the toString function.
+   */
+  @Test
+  public void toStringTest() {
+    try {
+      Polygon polygon1 = PolygonUtil.makeRectangle(0, 0, 16, 16);
+      
+      String compare = "MULTIPOLYGON (((0 0, 16 0"
+          + ", 16 16, 0 16, 0 0)))";
+      
+      assertEquals(PolygonUtil.toString(polygon1), compare);
     } catch (Exception e) {
       fail();
       e.printStackTrace();
