@@ -27,7 +27,7 @@
 
 \chapter*{Summary}
 
-In this document you can find the list of actions and percepts that are implemented in the Tygron environment. The environment can be downloaded from our Jenkins server located at: \url{http://jenkins.buildwise.eu/job/tygron-connect/lastBuild/}
+In this document you can find the list of actions and percepts that are implemented in the Tygron environment. The environment can be downloaded from our Jenkins server located at: \url{http://jenkins.buildwise.eu/job/tygron-connect/lastBuild/}. You will need a configuration file to log in on the server, for this configuration file, ask us on github at \url{https://github.com/tygron-virtual-humans/tygron-connect}.
 
 
 %%%----------------------------------------------------------
@@ -48,6 +48,16 @@ This section will list all the percepts that are usable in the Tygron environmen
  Parameters &   <ID>: Unique number of the stakeholder.\\
             &   <Name>: The name of the stakeholder (eg. Housing Corporation).\\
             &   <ShortName>: The short name of the stakeholder (eg. DUWO).
+\end{tabularx}\\
+\\
+\\
+\textbf{Stakeholder Self percept}\\
+\\
+\begin{tabularx}{\textwidth}{lX}
+ Desription & The ID of the current stakeholder. \\
+ Type & Send once \\
+ Syntax & stakeholderSelf(<ID>) \\
+ Parameters &   <ID>: Unique number of the stakeholder.
 \end{tabularx}\\
 \\
 \\
@@ -90,7 +100,53 @@ This section will list all the percepts that are usable in the Tygron environmen
  Parameters &   <ID>: Unique number of the economy.\\
             &   <Category>: The category of the economy.\\
             &   <State>: The state of the economy.
+\end{tabularx}\\
+\\
+\\
+\textbf{Building percept}\\
+\\
+\begin{tabularx}{\textwidth}{lX}
+ Desription & Information about the buildings present in the map. \\
+ Type & Send on change \\
+ Syntax & building(<ID>, <Name>) \\
+ Parameters &   <ID>: Unique number for the building.\\
+            &   <Name>: The name of the building.
 \end{tabularx}
+\textbf{Permit percept}\\
+\\
+\begin{tabularx}{\textwidth}{lX}
+ Desription & Information about all the permits requested by the current stakeholder. \\
+ Type & Send on change \\
+ Syntax & permits(<Amount>) \\
+ Parameters &   <Amount>: Amount of permits.
+\end{tabularx}\\
+\\
+\\
+\\
+\textbf{Caution}\\
+The following percepts take a lot of time to complete, the bot will respond slower the more you call these percepts. Do not use these percepts if your bot needs to be fast and responsive. Only call the percept when really needed. Cycles will last longer when using this.
+\\
+\\
+\textbf{Available land percept}\\
+\\
+\begin{tabularx}{\textwidth}{lX}
+ Desription & Information about the available land of the current stakeholder in the map. \\
+ Type & Send on change \\
+ Syntax & availableLand(<Amount>) \\
+ Parameters &   <Amount>: Amount of land.
+\end{tabularx}\\
+\\
+\\
+\textbf{All land percept}\\
+\\
+\begin{tabularx}{\textwidth}{lX}
+ Desription & Information about all the land of the current stakeholder in the map. \\
+ Type & Send on change \\
+ Syntax & allLand(<Amount>) \\
+ Parameters &   <Amount>: Amount of land.
+\end{tabularx}\\
+\\
+\\
 
 
 %%%----------------------------------------------------------
@@ -109,8 +165,8 @@ In this section, You will find all the actions present in the latest stable Tygr
  Syntax & build(<Surface>, <Type>) \\
  Parameters & <Surface>: The size of the surface to build on.\\
             & <Type>: The type of building to be built, this is a natural number with: \\
-            &      0 = building, 1 = park and 2 = parking lot.\\
- Effects &  Builds a park, building or parking lot on an available piece of land.
+            &      0 = building, 1 = park, 2 = parking lot and 3 = office.\\
+ Effects &  Builds a park, building, office or parking lot on an available piece of land.
 \end{tabularx}\\
 \\
 \\
@@ -122,6 +178,28 @@ In this section, You will find all the actions present in the latest stable Tygr
  Parameters & <Surface>: The size of the surface to buy.\\
             & <Cost>: The cost of the land per $m^2$.\\
  Effects &  Buys land from another stakeholder.
+\end{tabularx}\\
+\\
+\\
+\textbf{Ask money action}\\
+\\
+\begin{tabularx}{\textwidth}{lX}
+ Desription & Ask money from another stakeholder. \\
+ Syntax & buyLand(<Stakeholder>, <Amount>) \\
+ Parameters & <Stakeholder>: The stakeholder to ask money from.\\
+            & <Amount>: The amount of money.\\
+ Effects &  Asks money from another stakeholder.
+\end{tabularx}\\
+\\
+\\
+\textbf{Give money action}\\
+\\
+\begin{tabularx}{\textwidth}{lX}
+ Desription & Give money to another stakeholder. \\
+ Syntax & buyLand(<Stakeholder>, <Amount>) \\
+ Parameters & <Stakeholder>: The stakeholder to give money to.\\
+            & <Amount>: The amount of money.\\
+ Effects &  Gives money to another stakeholder.
 \end{tabularx}
 
 %%%----------------------------------------------------------
@@ -129,5 +207,5 @@ In this section, You will find all the actions present in the latest stable Tygr
 %%%----------------------------------------------------------
 
 \section*{3.1 Build action}
-For this release of the environment we decided to have three sorts of buildings that the agent can build: parking spaces, parks and buildings. We decided to do this because we have limited time; the Virtual Human will only play in a map where the only goals that can be accomplished involves building these buildings.
+For this release of the environment we decided to have four sorts of buildings that the agent can build: parking spaces, offices, parks and buildings. We decided to do this because we have limited time; the Virtual Human will only play in a map where the only goals that can be accomplished involves building these buildings.
 \end{document}
