@@ -1,16 +1,8 @@
 package nl.tudelft.contextproject.tygron.api.loaders;
 
-import nl.tudelft.contextproject.tygron.api.Session;
-
 public abstract class Loader<T> {
   private T cached;
 
-  Session session;
-
-  public Loader(Session session) {
-    this.session = session;
-  }
-  
   public Loader() {
   }  
 
@@ -21,6 +13,10 @@ public abstract class Loader<T> {
     return cached;
   }
 
+  /**
+   * Return cached Loader.
+   * @return cached loader.
+   */
   public T get() {
     if (cached == null) {
       cached = load();

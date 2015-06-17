@@ -55,7 +55,7 @@ public class DemolishAction {
     return true;
   }
   
-  class DemolishRequest extends JSONArray {
+  static class DemolishRequest extends JSONArray {
     public DemolishRequest(Stakeholder buyer, Polygon polygon) {
       this.put(buyer.getId());
       this.put(PolygonUtil.toString(polygon));

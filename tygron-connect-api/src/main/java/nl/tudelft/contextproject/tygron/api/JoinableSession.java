@@ -48,7 +48,7 @@ public class JoinableSession {
     return session;
   }
 
-  class JoinSessionRequest extends JSONArray {
+  static class JoinSessionRequest extends JSONArray {
     public JoinSessionRequest(int slotId, String type, String address, String computerName, String rejoinToken) {
       this.put(slotId);
       this.put(type);

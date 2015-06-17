@@ -12,7 +12,7 @@ public class BuildingEntity {
   
   /**
    * Creates an buildings Entity.
-   * @param economyList the list with buildings
+   * @param buildingList the list with buildings
    */
   public BuildingEntity(BuildingList buildingList) {
     this.buildingList = buildingList;
