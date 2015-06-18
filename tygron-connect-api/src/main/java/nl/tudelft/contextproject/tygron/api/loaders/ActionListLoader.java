@@ -8,11 +8,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class ActionListLoader extends Loader<ActionList> {
-  private static final Logger logger = LoggerFactory.getLogger(BuildingListLoader.class);
+  private static final Logger logger = LoggerFactory.getLogger(ActionListLoader.class);
 
   @Override
   protected ActionList load() {
-    logger.debug("Loading buildings");
+    logger.debug("Loading actions");
     return HttpConnection.getInstance().execute("lists/actionmenus",
             CallType.GET, new ActionListResultHandler(), true);
   }
