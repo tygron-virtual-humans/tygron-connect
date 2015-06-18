@@ -11,15 +11,15 @@ import org.slf4j.LoggerFactory;
 
 
 public class GiveMoneyAction {
-  
+
   private static final Logger logger = LoggerFactory.getLogger(GiveMoneyAction.class);
-  
+
   private Environment environment;
-  
+
   public GiveMoneyAction(Environment environment) {
     this.environment = environment;
   }
-  
+
   /**
    * Give money to the given stakeholder.
    * @param receiverId The id of the stakeholder to give money to.
@@ -35,7 +35,7 @@ public class GiveMoneyAction {
       logger.debug("Selected stakeholder has less money than given");
     }
   }
-  
+
   static class GiveMoneyRequest extends JSONArray {
     public GiveMoneyRequest(int giverId, int receiverId, double amount) {
       this.put(giverId);

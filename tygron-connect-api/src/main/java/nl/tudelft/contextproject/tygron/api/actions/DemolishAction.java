@@ -73,6 +73,8 @@ public class DemolishAction {
     for (Integer landId : stakeholder.getOwnedLands()) {
       owned = PolygonUtil.polygonUnion(owned, environment.get(LandMap.class).get(landId).getPolygon());
     }
+
+    logger.debug("Owned land: {}", PolygonUtil.toString(owned));
     
     Polygon occupied = new Polygon();
     for (Building building : environment.get(BuildingList.class)) {
@@ -80,7 +82,11 @@ public class DemolishAction {
         occupied = PolygonUtil.polygonUnion(occupied, building.getPolygon());
       }
     }
-    
-    return PolygonUtil.polygonIntersection(owned, occupied);
+
+    logger.debug("Occupied land: {}", PolygonUtil.toString(occupied));
+
+    Polygon intersection = PolygonUtil.polygonIntersection(owned, occupied);
+    logger.debug("Intersection land: {}", PolygonUtil.toString(intersection));
+    return intersection;
   }
 }
