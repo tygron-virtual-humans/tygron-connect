@@ -11,6 +11,10 @@ public class BuildingList extends ArrayList<Building> {
    */
   private static final long serialVersionUID = 1L;
 
+  public BuildingList() {
+
+  }
+
   /**
    * Constructs a building list from a tygron response.
    * @param input input response
