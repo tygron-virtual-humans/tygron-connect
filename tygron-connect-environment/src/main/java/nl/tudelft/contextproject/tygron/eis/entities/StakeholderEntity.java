@@ -42,7 +42,7 @@ public class StakeholderEntity {
   public List<TygronPercept> initIndicator() {
     List<TygronPercept> result = new ArrayList<>();
 
-    for (Object stakeholder : stakeholders) {
+    for (Stakeholder stakeholder : stakeholders) {
       Map<Integer, Double> weightMap = stakeholder.getIndicatorWeights();
       for (Entry<Integer, Double> entry : weightMap.entrySet()) {
         if (entry.getValue() > 0.0) {
