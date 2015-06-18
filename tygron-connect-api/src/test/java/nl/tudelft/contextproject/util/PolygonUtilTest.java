@@ -188,7 +188,7 @@ public class PolygonUtilTest {
           + ", 17 17, 17 1, 1 1)))");
       Polygon polygon3 = PolygonUtil.createPolygonFromWkt("MULTIPOLYGON (((1 1, 1 17"
           + ", 18 18, 17 1, 1 1)))");
-      ArrayList<Polygon> unionlist = new ArrayList<Polygon>();
+      ArrayList<Polygon> unionlist = new ArrayList<>();
       unionlist.add(polygon1);
       unionlist.add(polygon2);
       unionlist.add(polygon3);

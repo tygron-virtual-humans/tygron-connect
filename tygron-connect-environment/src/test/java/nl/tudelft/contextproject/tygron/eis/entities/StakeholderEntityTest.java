@@ -40,7 +40,7 @@ public class StakeholderEntityTest {
     doReturn("shortname").when(stakeholder).getShortName();
     doReturn("name").when(stakeholder).getName();
     
-    weights = new HashMap<Integer,Double>();
+    weights = new HashMap<>();
     weights.put(1, 1.3);
     weights.put(2, 0.0);
     weights.put(3, 4.1);

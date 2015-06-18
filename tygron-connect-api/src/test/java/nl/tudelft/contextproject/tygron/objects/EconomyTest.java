@@ -82,7 +82,7 @@ public class EconomyTest {
 
     @Test
     public void detailVersionsTest() {
-      ArrayList<Integer> ar = new ArrayList<Integer>();
+      ArrayList<Integer> ar = new ArrayList<>();
       ar.add(4);
       ar.add(4);
       assertTrue(zoneList.get(0).getDetailVersions().equals(ar));

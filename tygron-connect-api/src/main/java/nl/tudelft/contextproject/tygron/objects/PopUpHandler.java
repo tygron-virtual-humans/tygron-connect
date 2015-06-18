@@ -119,7 +119,7 @@ public class PopUpHandler {
       if (items.has("POPUPS")) {
         updateList(items.getJSONObject("POPUPS"));
       } else {
-        list = new ArrayList<PopUp>();
+        list = new ArrayList<>();
       }
     }
   }

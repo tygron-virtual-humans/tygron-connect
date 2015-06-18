@@ -45,7 +45,7 @@ public class IndicatorHousing {
    * @return a list of indicators
    */
   public Collection<SubIndicatorHousing> extractIndicators() {
-    List<SubIndicatorHousing> indicators = new ArrayList<SubIndicatorHousing>();
+    List<SubIndicatorHousing> indicators = new ArrayList<>();
     for (int i = 0; i < start.length; i++) {
       if (desired[i] > 0) {
         indicators.add(new SubIndicatorHousing(jsonInput, 

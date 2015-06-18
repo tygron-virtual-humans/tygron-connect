@@ -55,7 +55,7 @@ public class TygronInterfaceImplTest {
   public void start() {
     impl = spy(new TygronInterfaceImpl());
     
-    parameters = new HashMap<String, Parameter>();
+    parameters = new HashMap<>();
     
     Parameter par = new Numeral(1);
     
@@ -108,7 +108,7 @@ public class TygronInterfaceImplTest {
   @Test
   public void test_build_support() {
     Action action = new Action("build");
-    LinkedList<Parameter> params = new LinkedList<Parameter>();
+    LinkedList<Parameter> params = new LinkedList<>();
     params.add(new Numeral(5));
     params.add(new Numeral(500));
     
@@ -119,7 +119,7 @@ public class TygronInterfaceImplTest {
   @Test
   public void test_build_wrong_size_support() {
     Action action = new Action("build");
-    LinkedList<Parameter> params = new LinkedList<Parameter>();
+    LinkedList<Parameter> params = new LinkedList<>();
     params.add(new Numeral(5));
     
     action.setParameters(params);
@@ -129,7 +129,7 @@ public class TygronInterfaceImplTest {
   @Test
   public void test_buyLand_support() {
     Action action = new Action("buyLand");
-    LinkedList<Parameter> params = new LinkedList<Parameter>();
+    LinkedList<Parameter> params = new LinkedList<>();
     params.add(new Numeral(5));
     params.add(new Numeral(5));
     
@@ -140,7 +140,7 @@ public class TygronInterfaceImplTest {
   @Test
   public void test_buyLand_wrong_size_support() {
     Action action = new Action("buyLand");
-    LinkedList<Parameter> params = new LinkedList<Parameter>();
+    LinkedList<Parameter> params = new LinkedList<>();
     params.add(new Numeral(5));
     
     action.setParameters(params);
@@ -150,7 +150,7 @@ public class TygronInterfaceImplTest {
   @Test
   public void test_askMoney_wrong_size_support() {
     Action action = new Action("askMoney");
-    LinkedList<Parameter> params = new LinkedList<Parameter>();
+    LinkedList<Parameter> params = new LinkedList<>();
     params.add(new Numeral(5));
     
     action.setParameters(params);
@@ -160,7 +160,7 @@ public class TygronInterfaceImplTest {
   @Test
   public void test_askMoney_support() {
     Action action = new Action("askMoney");
-    LinkedList<Parameter> params = new LinkedList<Parameter>();
+    LinkedList<Parameter> params = new LinkedList<>();
     params.add(new Numeral(5));
     params.add(new Numeral(5));
     
@@ -171,7 +171,7 @@ public class TygronInterfaceImplTest {
   @Test
   public void test_giveMoney_wrong_size_support() {
     Action action = new Action("giveMoney");
-    LinkedList<Parameter> params = new LinkedList<Parameter>();
+    LinkedList<Parameter> params = new LinkedList<>();
     params.add(new Numeral(5));
     
     action.setParameters(params);
@@ -181,7 +181,7 @@ public class TygronInterfaceImplTest {
   @Test
   public void test_giveMoney_support() {
     Action action = new Action("giveMoney");
-    LinkedList<Parameter> params = new LinkedList<Parameter>();
+    LinkedList<Parameter> params = new LinkedList<>();
     params.add(new Numeral(5));
     params.add(new Numeral(5));
     
@@ -192,7 +192,7 @@ public class TygronInterfaceImplTest {
   @Test
   public void test_no_support() {
     Action action = new Action("notSupported");
-    LinkedList<Parameter> params = new LinkedList<Parameter>();
+    LinkedList<Parameter> params = new LinkedList<>();
     params.add(new Numeral(5));
     
     action.setParameters(params);

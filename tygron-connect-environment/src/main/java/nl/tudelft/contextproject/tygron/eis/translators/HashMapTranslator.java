@@ -26,7 +26,7 @@ public class HashMapTranslator implements Parameter2Java<HashMap> {
   }
 
   private HashMap translateEntries(ParameterList parameter) throws TranslationException {
-    HashMap<Identifier, Parameter> map = new HashMap<Identifier, Parameter>();
+    HashMap<Identifier, Parameter> map = new HashMap<>();
     
     for (Parameter entry : parameter) {
       if (!(entry instanceof ParameterList)) {

@@ -57,7 +57,7 @@ public class StakeholderTest {
   
   @Test
   public void allowedFunctionTest() {
-    List<Integer> allowedFunctions = new ArrayList<Integer>();
+    List<Integer> allowedFunctions = new ArrayList<>();
     allowedFunctions.add(2);
     Stakeholder stakeholder = stakeholderList.get(0);
     stakeholder.addAllowedFunctions(allowedFunctions);
