@@ -89,21 +89,7 @@
 				<artifactId>build-helper-maven-plugin</artifactId>
 				<version>1.3</version>
 				<executions>
-				    <!-- this is an eclipse warning, please ignore -->
-					<execution>
-						<id>add-test-resource</id>
-						<phase>generate-test-sources</phase>
-						<goals>
-							<goal>add-test-resource</goal>
-						</goals>
-						<configuration>
-							<resources>
-								<resource>
-									<directory>../tygron-connect-api/src/test/resources</directory>
-								</resource>
-							</resources>
-						</configuration>
-					</execution> 
+				   
 				</executions>
 			</plugin>
 			

@@ -148,6 +148,48 @@ public class TygronInterfaceImplTest {
   }
   
   @Test
+  public void test_askMoney_wrong_size_support() {
+    Action action = new Action("askMoney");
+    LinkedList<Parameter> params = new LinkedList<Parameter>();
+    params.add(new Numeral(5));
+    
+    action.setParameters(params);
+    assertFalse(impl.isSupportedByType(action, "type"));
+  }
+  
+  @Test
+  public void test_askMoney_support() {
+    Action action = new Action("askMoney");
+    LinkedList<Parameter> params = new LinkedList<Parameter>();
+    params.add(new Numeral(5));
+    params.add(new Numeral(5));
+    
+    action.setParameters(params);
+    assertTrue(impl.isSupportedByType(action, "type"));
+  }
+  
+  @Test
+  public void test_giveMoney_wrong_size_support() {
+    Action action = new Action("giveMoney");
+    LinkedList<Parameter> params = new LinkedList<Parameter>();
+    params.add(new Numeral(5));
+    
+    action.setParameters(params);
+    assertFalse(impl.isSupportedByType(action, "type"));
+  }
+  
+  @Test
+  public void test_giveMoney_support() {
+    Action action = new Action("giveMoney");
+    LinkedList<Parameter> params = new LinkedList<Parameter>();
+    params.add(new Numeral(5));
+    params.add(new Numeral(5));
+    
+    action.setParameters(params);
+    assertTrue(impl.isSupportedByType(action, "type"));
+  }
+  
+  @Test
   public void test_no_support() {
     Action action = new Action("notSupported");
     LinkedList<Parameter> params = new LinkedList<Parameter>();

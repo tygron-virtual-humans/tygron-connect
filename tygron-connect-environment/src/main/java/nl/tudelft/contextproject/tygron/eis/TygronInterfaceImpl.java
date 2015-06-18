@@ -49,8 +49,10 @@ public class TygronInterfaceImpl extends AbstractEnvironment {
    */
   @Override
   protected boolean isSupportedByEnvironment(Action action) {
-    return (action.getName().equals("build") && action.getParameters().size() == 2)
-        || (action.getName().equals("buyLand") && action.getParameters().size() == 2);
+    return action.getParameters().size() == 2 && ("build".equals(action.getName())
+        || "buyLand".equals(action.getName())
+        || "askMoney".equals(action.getName())
+        || "giveMoney".equals(action.getName()));
   }
 
   /* (non-Javadoc)
