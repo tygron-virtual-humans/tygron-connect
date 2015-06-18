@@ -51,6 +51,6 @@ public class ActionTest {
   
   @Test
   public void activeForStakeholderFalseTest() {
-    assertFalse(actions.get(1).getActiveForStakeholder().get(2));
+    assertFalse(actions.get(1).getActiveForStakeholder().get(0));
   }
 }
