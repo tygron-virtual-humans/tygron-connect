@@ -5,6 +5,10 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+/**
+ * List with Tygron Stakeholders.
+ *
+ */
 public class StakeholderList extends ArrayList<Stakeholder> {
   /**
    * Serial ID.

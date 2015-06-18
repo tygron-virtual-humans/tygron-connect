@@ -5,6 +5,10 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+/**
+ * General List for indicators.
+ *
+ */
 public class IndicatorList extends ArrayList<Indicator> {
 
   /**

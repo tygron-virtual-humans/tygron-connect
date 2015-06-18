@@ -5,6 +5,10 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+/**
+ * List with Zones.
+ *
+ */
 public class ZoneList extends ArrayList<Zone> {
   /**
    * Serial ID.
