@@ -7,6 +7,11 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 public class CachedFileReader {
+  
+  private CachedFileReader(){
+    // Static class
+  }
+  
   /**
    * Reads a file and returns it's contents.
    * @param filePath the file that should be read

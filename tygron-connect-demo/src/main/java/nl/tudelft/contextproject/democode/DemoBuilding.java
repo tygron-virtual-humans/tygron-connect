@@ -17,6 +17,10 @@ public class DemoBuilding {
 
   private static final Logger logger = LoggerFactory.getLogger(DemoBuilding.class);
   
+  private DemoBuilding(){
+	// Static class
+  }
+  
   /**
    * Main method illustrated how to build.
    * @param args Not used.
@@ -41,7 +45,7 @@ public class DemoBuilding {
     try {
       Thread.sleep(5000);
     } catch (InterruptedException e) {
-      e.printStackTrace();
+      throw new RuntimeException(e);
     } 
     
     environment.allowGameInteraction(true);
