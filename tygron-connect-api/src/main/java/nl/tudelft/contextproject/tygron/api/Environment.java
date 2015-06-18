@@ -131,7 +131,7 @@ public class Environment {
    * Select a stakeholder to play, can only be done once.
    * @param stakeholderId the stakeholder id to select.
    */
-  public boolean setStakeholder(int stakeholderId) {
+  public void setStakeholder(int stakeholderId) {
     this.stakeholderId = stakeholderId;
     boolean retValue = HttpConnection.getInstance().execute("event/PlayerEventType/STAKEHOLDER_SELECT/",
             CallType.POST, new BooleanResultHandler(), true,
@@ -143,8 +143,6 @@ public class Environment {
     } else {
       popUpHandler = new PopUpHandler(this, stakeholderId);
     }
-    
-    return retValue;
   }
   
   static class StakeholderSelectRequest extends JSONArray {

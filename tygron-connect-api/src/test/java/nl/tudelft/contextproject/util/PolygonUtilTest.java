@@ -219,21 +219,4 @@ public class PolygonUtilTest {
       e.printStackTrace();
     }
   }
-  /**
-   * Tests the toString function.
-   */
-  @Test
-  public void toStringTest() {
-    try {
-      Polygon polygon1 = PolygonUtil.makeRectangle(0, 0, 16, 16);
-      
-      String compare = "MULTIPOLYGON (((0 0, 16 0"
-          + ", 16 16, 0 16, 0 0)))";
-      
-      assertEquals(PolygonUtil.toString(polygon1), compare);
-    } catch (Exception e) {
-      fail();
-      e.printStackTrace();
-    }
-  }
 }
