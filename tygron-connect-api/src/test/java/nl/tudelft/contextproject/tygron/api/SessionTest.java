@@ -7,18 +7,23 @@ import static org.mockito.Mockito.when;
 
 import nl.tudelft.contextproject.tygron.CachedFileReader;
 import nl.tudelft.contextproject.tygron.handlers.BooleanResultHandler;
+
 import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.BDDMockito;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.powermock.api.mockito.PowerMockito;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.PowerMockRunner;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-@RunWith(value = MockitoJUnitRunner.class)
+@RunWith(PowerMockRunner.class)
+@PrepareForTest(HttpConnection.class)
 public class SessionTest {
   Session session;
 
@@ -26,6 +31,7 @@ public class SessionTest {
   HttpConnection connection;
 
   String closeSessionEvent = "services/event/IOServicesEventType/CLOSE_SESSION/";
+  String killSessionEvent = "services/event/IOServicesEventType/KILL_SESSION/";
 
   /**
    * Test the create session.
@@ -33,6 +39,9 @@ public class SessionTest {
   @Before
   public void createSession() {
 
+    PowerMockito.mockStatic(HttpConnection.class);
+    BDDMockito.given(HttpConnection.getInstance()).willReturn(connection);
+    
     String file = "/serverResponses/login.json";
     String loginContents = CachedFileReader.getFileContents(file);
     JSONObject loginResult = new JSONObject(loginContents);
@@ -40,8 +49,29 @@ public class SessionTest {
 
     when(connection.execute(eq(closeSessionEvent), eq(CallType.POST), 
         any(BooleanResultHandler.class), any(Session.CloseSessionRequest.class))).thenReturn(true);
+    
+    when(connection.execute(eq(killSessionEvent), eq(CallType.POST), 
+        any(BooleanResultHandler.class), any(Session.KillSessionRequest.class))).thenReturn(true);
+  }
+  
+  @Test
+  public void closeSessionTest() {
+    assertEquals(true,session.closeSession(false));
+  }
+  
+  @Test
+  public void killSessionTest() {
+    assertEquals(true,session.killSession(0));
   }
 
+  @Test
+  public void creationTest() {
+    Session sess = new Session();
+    assertEquals("",sess.getName());
+    assertEquals("",sess.getClientToken());
+    assertEquals("",sess.getServerToken());
+  }
+  
   @Test
   public void nameTest() {
     assertEquals("testmap", session.getName());
