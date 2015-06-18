@@ -7,6 +7,9 @@ import nl.tudelft.contextproject.tygron.objects.BuildingList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * Loads BuildingList.
+ */
 public class BuildingListLoader extends Loader<BuildingList> {
   private static final Logger logger = LoggerFactory.getLogger(BuildingListLoader.class);
 

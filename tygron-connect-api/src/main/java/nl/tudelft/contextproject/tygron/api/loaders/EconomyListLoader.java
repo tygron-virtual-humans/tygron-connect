@@ -7,6 +7,9 @@ import nl.tudelft.contextproject.tygron.objects.EconomyList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * Loads EconomyList.
+ */
 public class EconomyListLoader extends Loader<EconomyList> {
   private static final Logger logger = LoggerFactory.getLogger(EconomyListLoader.class);
 

@@ -5,6 +5,9 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 
+/**
+ * A LandMap maps Land IDs to Lands.
+ */
 public class LandMap extends HashMap<Integer, Land> {
   
   /**

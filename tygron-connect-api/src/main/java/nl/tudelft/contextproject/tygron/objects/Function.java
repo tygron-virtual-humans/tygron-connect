@@ -6,6 +6,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * A Function is a type of object that can be placed in the game.
+ */
 public class Function {
   
   public enum CategoryType {
@@ -56,11 +59,11 @@ public class Function {
     return version;
   }
 
-  public int getMax_floors() {
+  public int getMaxFloors() {
     return maxFloors;
   }
 
-  public int getMin_floors() {
+  public int getMinFloors() {
     return minFloors;
   }
 
@@ -93,7 +96,7 @@ public class Function {
         categoryList = officeType;
         break;
       default:
-        categoryList = new ArrayList<Function.CategoryType>();
+        categoryList = new ArrayList<>();
         break;
     }
     return categoryList.contains(this.categoryValue);

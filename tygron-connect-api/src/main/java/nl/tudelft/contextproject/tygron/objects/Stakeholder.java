@@ -8,6 +8,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * A Stakeholder is a Tygron object which symbolizes a player.
+ */
 public class Stakeholder {
   private int id;
   private String name;

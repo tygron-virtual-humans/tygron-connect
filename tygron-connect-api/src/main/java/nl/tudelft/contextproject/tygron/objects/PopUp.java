@@ -9,6 +9,9 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * A PopUp is a Tygron Object that can be answered.
+ */
 public class PopUp {
 
   public enum TypeValue {
@@ -39,7 +42,7 @@ public class PopUp {
     id = popUp.getInt("id");
     version = popUp.getInt("version");
 
-    visibleForActorIds = new ArrayList<Integer>();
+    visibleForActorIds = new ArrayList<>();
     JSONArray array = popUp.getJSONArray("visibleForActorIDs");
     for (int i = 0; i < array.length(); i++) {
       visibleForActorIds.add(array.getInt(i));

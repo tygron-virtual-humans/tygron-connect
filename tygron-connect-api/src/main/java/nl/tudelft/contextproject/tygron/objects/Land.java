@@ -8,8 +8,10 @@ import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * A Land is an object that has an owner and a surface.
+ */
 public class Land {
-  
   private static final Logger logger = LoggerFactory.getLogger(Land.class);
   
   private int id;

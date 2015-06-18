@@ -3,6 +3,9 @@ package nl.tudelft.contextproject.tygron;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * Contains a user's username and Password.
+ */
 public class Settings {
   private static final Logger logger = LoggerFactory.getLogger(Settings.class);
   private String username;

@@ -16,6 +16,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * A Popuphandler answers Popups.
+ */
 public class PopUpHandler {
   
   private int requestsOpen;
@@ -49,8 +52,8 @@ public class PopUpHandler {
     this.stakeholderId = stakeholderId;
     this.version = 0;
     this.requestsOpen = 0;
-    this.wordsMap = new HashMap<EventValue, String>();
-    this.list = new ArrayList<PopUp>();
+    this.wordsMap = new HashMap<>();
+    this.list = new ArrayList<>();
     loadServerWords();
   }
   
@@ -134,11 +137,11 @@ public class PopUpHandler {
    * @param object The JSONObject containing new popups
    */
   private void updateList(JSONObject object) {
-    list = new ArrayList<PopUp>();
+    list = new ArrayList<>();
     JSONArray popUpArray = object.getJSONArray("[Lnl.tytech.core.data.item.Item;");
     for (int i = 0; i < popUpArray.length(); i++) {
       PopUp popUp = new PopUp(popUpArray.getJSONObject(i));
-      this.version = max(this.version, popUp.getVersion());
+      this.version = Math.max(this.version, popUp.getVersion());
       if (popUp.getVisibleForActorIds().contains(this.stakeholderId)) {
         setEvent(popUp);
         list.add(popUp);
@@ -255,17 +258,17 @@ public class PopUpHandler {
   }
   
   private void landRequestSent() {
-    incr();
+    incrementRequestsOpen();
   }
 
   private void landTransactionApproved(PopUp popUp) {
-    decr();
+    decrementRequestsOpen();
     answer(popUp, 0);
     // TODO Send info to stakeholder
   }
   
   private void landTransactionRefused(PopUp popUp) {
-    decr();
+    decrementRequestsOpen();
     answer(popUp, 0);
     // TODO Send info to stakeholder
   }
@@ -290,7 +293,7 @@ public class PopUpHandler {
   
   private void permitRequestAsk(PopUp popUp) {
     answer(popUp, 0);
-    incr();
+    incrementRequestsOpen();
   }
   
   private void permitRequestReceived(PopUp popUp) {
@@ -304,13 +307,13 @@ public class PopUpHandler {
   }
 
   private void permitRequestRefused(PopUp popUp) {
-    decr();
+    decrementRequestsOpen();
     answer(popUp, 0);
     // TODO Send info to stakeholder
   }
 
   private void permitRequestApproved(PopUp popUp) {
-    decr();
+    decrementRequestsOpen();
     answer(popUp, 0);
     // TODO Send info to stakeholder
   }
@@ -321,10 +324,7 @@ public class PopUpHandler {
   }
   
   private void answer(PopUp popUp, int answer) {
-    JSONArray parameters = new JSONArray();
-    parameters.put(stakeholderId);
-    parameters.put(popUp.getId());
-    parameters.put(answer);
+    AnswerPopupRequest parameters = new AnswerPopupRequest(stakeholderId, popUp.getId(), answer);
     if (popUp.getType() == TypeValue.INTERACTION_WITH_DATE) {
       parameters.put(0);
       HttpConnection.getInstance().execute("event/PlayerEventType/POPUP_ANSWER_WITH_DATE/",
@@ -332,6 +332,14 @@ public class PopUpHandler {
     } else {
       HttpConnection.getInstance().execute("event/PlayerEventType/POPUP_ANSWER/", 
           CallType.POST, new JsonObjectResultHandler(), true, parameters);
+    }
+  }
+
+  class AnswerPopupRequest extends JSONArray {
+    public AnswerPopupRequest(int stakeholderId, int popupId, int answer) {
+      put(stakeholderId);
+      put(popupId);
+      put(answer);
     }
   }
   
@@ -346,21 +354,34 @@ public class PopUpHandler {
     for (Zone zone : environment.get(ZoneList.class)) {
       if (PolygonUtil.polygonIntersects(zone.getPolygon(), building.getPolygon())) {
         // Add function category to zone.
-        JSONArray parameters = new JSONArray();
-        parameters.put(stakeholderId);
-        parameters.put(zone.getId());
-        parameters.put(function.getCategoryValue().toString());
+        ZoneAddFunctionCategoryRequest zoneadd =
+                new ZoneAddFunctionCategoryRequest(stakeholderId, zone.getId(), function.getCategoryValue().toString());
         HttpConnection.getInstance().execute("event/PlayerEventType/ZONE_ADD_FUNCTION_CATEGORY/", CallType.POST,
-                new JsonObjectResultHandler(), true, parameters);
+                new JsonObjectResultHandler(), true, zoneadd);
         
         // Change max floors allowed in zone
-        parameters = new JSONArray();
-        parameters.put(stakeholderId);
-        parameters.put(zone.getId());
-        parameters.put(max(zone.getAllowedFloors(), building.getFloors()));
+        int floors = Math.max(zone.getAllowedFloors(), building.getFloors());
+        ZoneSetMaxFloorsRequest parameters =
+                new ZoneSetMaxFloorsRequest(stakeholderId, zone.getId(), floors);
         HttpConnection.getInstance().execute("event/PlayerEventType/ZONE_SET_MAX_FLOORS/", CallType.POST,
                 new JsonObjectResultHandler(), true, parameters);
       }
+    }
+  }
+
+  class ZoneAddFunctionCategoryRequest extends JSONArray {
+    public ZoneAddFunctionCategoryRequest(int stakeholderId, int zoneId, String functionCategoryValue) {
+      put(stakeholderId);
+      put(zoneId);
+      put(functionCategoryValue);
+    }
+  }
+
+  class ZoneSetMaxFloorsRequest extends JSONArray {
+    public ZoneSetMaxFloorsRequest(int stakeholderId, int zoneId, int floors) {
+      put(stakeholderId);
+      put(zoneId);
+      put(floors);
     }
   }
   
@@ -372,20 +393,13 @@ public class PopUpHandler {
     return list;
   }
   
-  private void incr() {
+  private void incrementRequestsOpen() {
     requestsOpen++;
   }
   
-  private void decr() {
+  private void decrementRequestsOpen() {
     if (requestsOpen > 0) {
       requestsOpen--;
     }
-  }
-  
-  private int max(int i1, int i2) {
-    if (i1 > i2) {
-      return i1;
-    }
-    return i2;
   }
 }

@@ -5,6 +5,9 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+/**
+ * Holds multiple Economies. Is reponsible for parsing it's result frmo
+ */
 public class EconomyList extends ArrayList<Economy> {
   /**
    * Serial ID.

@@ -1,7 +1,9 @@
 package nl.tudelft.contextproject.tygron.api;
 
+/**
+ * Encapsulates Session data.
+ */
 public class HttpConnectionData {
-
   private String clientToken;
   private String serverToken;
   private int sessionId;

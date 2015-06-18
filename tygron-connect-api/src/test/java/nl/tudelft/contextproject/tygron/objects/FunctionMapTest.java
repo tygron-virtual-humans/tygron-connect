@@ -36,12 +36,12 @@ public class FunctionMapTest {
   
   @Test
   public void getMax_floors() {
-    assertEquals(1,functionMap.get(826).getMax_floors());
+    assertEquals(1,functionMap.get(826).getMaxFloors());
   }
   
   @Test
   public void getMin_floors() {
-    assertEquals(1,functionMap.get(826).getMin_floors());
+    assertEquals(1,functionMap.get(826).getMinFloors());
   }
   
   @Test

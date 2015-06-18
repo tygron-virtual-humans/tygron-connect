@@ -17,6 +17,9 @@ import org.json.JSONArray;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * An Action for demolishing land.
+ */
 public class DemolishAction {
   
   private static final Logger logger = LoggerFactory.getLogger(DemolishAction.class);

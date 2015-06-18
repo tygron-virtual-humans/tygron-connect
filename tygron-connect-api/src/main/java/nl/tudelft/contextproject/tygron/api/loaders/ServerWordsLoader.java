@@ -7,6 +7,9 @@ import nl.tudelft.contextproject.tygron.objects.ServerWords;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * Loads ServerWords.
+ */
 public class ServerWordsLoader extends Loader<ServerWords> {
   private static final Logger logger = LoggerFactory.getLogger(ServerWordsLoader.class);
 

@@ -18,6 +18,9 @@ import org.slf4j.LoggerFactory;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * A BuyLandAction buys a piece of land.
+ */
 public class BuyLandAction {
   
   private static final Logger logger = LoggerFactory.getLogger(BuyLandAction.class);

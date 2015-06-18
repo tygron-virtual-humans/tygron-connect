@@ -7,6 +7,9 @@ import nl.tudelft.contextproject.tygron.objects.ZoneList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * Loads ZoneList.
+ */
 public class ZoneListLoader extends Loader<ZoneList> {
   private static final Logger logger = LoggerFactory.getLogger(ZoneListLoader.class);
 

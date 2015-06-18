@@ -5,7 +5,6 @@ import org.json.JSONArray;
 import java.util.ArrayList;
 
 public class ServerWords extends ArrayList<String> {
-  
   /**
    * Serial ID.
    */

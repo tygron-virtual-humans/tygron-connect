@@ -11,6 +11,9 @@ import org.slf4j.LoggerFactory;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * SessionManager is responsible for listing sessions that are joinable.
+ */
 public class SessionManager {
   private static final Logger logger = LoggerFactory.getLogger(SessionManager.class);
 

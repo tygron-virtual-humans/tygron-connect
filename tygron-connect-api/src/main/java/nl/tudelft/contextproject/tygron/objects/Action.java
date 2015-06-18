@@ -8,8 +8,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * An ACtion holds information about an Action from the Menu.
+ */
 public class Action {
-
   private int id;
   private List<Integer> functionTypes;
   private List<String> specialOptions;

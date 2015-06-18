@@ -11,9 +11,6 @@ import org.apache.http.entity.StringEntity;
 import org.json.JSONObject;
 import org.junit.Test;
 
-/**
- * Created by Dereck on 5/29/2015.
- */
 public class CallTypeTest {
   @Test
   public void postAsRequestTestWithEntity() {

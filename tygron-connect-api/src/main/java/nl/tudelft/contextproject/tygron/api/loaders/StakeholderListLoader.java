@@ -15,6 +15,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * Loads StakeholderList.
+ */
 public class StakeholderListLoader extends Loader<StakeholderList> {
   private static final Logger logger = LoggerFactory.getLogger(StakeholderListLoader.class);
 

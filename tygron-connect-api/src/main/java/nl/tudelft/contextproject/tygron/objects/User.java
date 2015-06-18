@@ -2,8 +2,10 @@ package nl.tudelft.contextproject.tygron.objects;
 
 import org.json.JSONObject;
 
+/**
+ * A User holds information about a logged-in user.
+ */
 public class User {
-
   private boolean active;
   private String domain;
   private String userName;
@@ -16,7 +18,7 @@ public class User {
   private String maxOption;
 
   /**
-   * User Object.
+   * Creates a User
    * @param userObj JSONData containing the user object
    */
   public User(JSONObject userObj) {

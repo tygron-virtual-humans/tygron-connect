@@ -35,7 +35,7 @@ import java.util.Map;
 import java.util.Random;
 
 /**
- * Contains all data relative to the session.
+ * Contains all data that the Tygron Game can provide.
  */
 public class Environment {
 
@@ -105,7 +105,7 @@ public class Environment {
   }
   
   /**
-   * Reloads all data.
+   * Reloads all loaders.
    */
   public void reload() {
     for (Map.Entry<Class<?>, Loader<?>> loaderEntry : loaderMap.entrySet()) {
@@ -119,10 +119,22 @@ public class Environment {
     }
   }
 
+  /**
+   * Reloads a certain loader.
+   * @param dataClass the key the Loader is mapped to
+   * @param <T> the generic type this function should return
+   * @return the object
+   */
   public <T> T reload(Class<T> dataClass) {
     return getLoader(dataClass).reload();
   }
-  
+
+  /**
+   * Returns the cache of a certain loader.
+   * @param dataClass the key the Loader is mapped to
+   * @param <T> the generic type this function should return
+   * @return the object
+   */
   public <T> T get(Class<T> dataClass) {
     return getLoader(dataClass).get();
   }
@@ -144,7 +156,10 @@ public class Environment {
       popUpHandler = new PopUpHandler(this, stakeholderId);
     }
   }
-  
+
+  /**
+   * Wraps a JSONArray to select a stakeholder.
+   */
   static class StakeholderSelectRequest extends JSONArray {
     public StakeholderSelectRequest(int stakeholderId, String sessionToken) {
       this.put(stakeholderId);
@@ -266,14 +281,23 @@ public class Environment {
     return intersection.calculateArea2D() != 0 ? intersection :
       getSuitableLand(availableLand, surface);
   }
-  
+
+  /**
+   * Asks how wide this map is.
+   */
   private void loadMapWidth() {
     if (mapWidth == 0) {
       mapWidth = HttpConnection.getInstance().execute("lists/settings/31/",
               CallType.GET, new JsonObjectResultHandler(), true).getInt("value");
     }
   }
-  
+
+  /**
+   * Calculates if a polygon is within a certain surface size.
+   * @param selectedLand the polygon to check
+   * @param surface the surface the polygon should be smaller than
+   * @return if a polygon is within a certain surface size
+   */
   public boolean withinMargin(Polygon selectedLand, double surface) {
     return selectedLand.calculateArea2D() < surface * (1 + errorMargin) 
         && selectedLand.calculateArea2D() > surface * (1 - errorMargin);
@@ -332,6 +356,9 @@ public class Environment {
     return popUpHandler.requestsOpen();
   }
 
+  /**
+   * A poller provides the updates to an Environment.
+   */
   class Poller implements Runnable {
     /**
      * Main update run for the environment.

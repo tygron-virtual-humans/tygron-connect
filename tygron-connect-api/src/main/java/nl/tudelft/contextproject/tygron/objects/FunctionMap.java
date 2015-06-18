@@ -5,6 +5,9 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 
+/**
+ * A FunctionMap is a map with function ids as keys and functions as values.
+ */
 public class FunctionMap extends HashMap<Integer, Function> {
   
   /**
