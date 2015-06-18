@@ -23,8 +23,6 @@ public class Session {
   // Session oriented
   private Environment environment;
   private String name;
-  private String platform;
-  private String state;
   private String clientToken;
   private String serverToken;
   private List<String> compatibleOperations;
@@ -52,8 +50,6 @@ public class Session {
     clientToken = data.getJSONObject("client").getString("clientToken");
     serverToken = data.getString("serverToken");
     name = data.getString("project");
-    platform = data.getString("platform");
-    state = data.getJSONObject("client").getString("connectionState");
 
     compatibleOperations = new ArrayList<>();
     JSONArray jsonArray = data.getJSONArray("lists");
@@ -187,24 +183,6 @@ public class Session {
    */
   public Environment getEnvironment() {
     return this.environment;
-  }
-  
-  /**
-   * Get the platform.
-   *
-   * @return The platform.
-   */
-  public String getPlatform() {
-    return this.platform;
-  }
-  
-  /**
-   * Get the state.
-   *
-   * @return The state.
-   */
-  public String getState() {
-    return this.state;
   }
   
   /**
