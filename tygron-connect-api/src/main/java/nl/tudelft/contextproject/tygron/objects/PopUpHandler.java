@@ -50,6 +50,7 @@ public class PopUpHandler {
     this.version = 0;
     this.requestsOpen = 0;
     this.wordsMap = new HashMap<EventValue, String>();
+    this.list = new ArrayList<PopUp>();
     loadServerWords();
   }
   
@@ -254,17 +255,17 @@ public class PopUpHandler {
   }
   
   private void landRequestSent() {
-    requestsOpen++;
+    incr();
   }
 
   private void landTransactionApproved(PopUp popUp) {
-    requestsOpen--;
+    decr();
     answer(popUp, 0);
     // TODO Send info to stakeholder
   }
   
   private void landTransactionRefused(PopUp popUp) {
-    requestsOpen--;
+    decr();
     answer(popUp, 0);
     // TODO Send info to stakeholder
   }
@@ -289,8 +290,7 @@ public class PopUpHandler {
   
   private void permitRequestAsk(PopUp popUp) {
     answer(popUp, 0);
-    requestsOpen++;
-    loadPopUps();
+    incr();
   }
   
   private void permitRequestReceived(PopUp popUp) {
@@ -301,17 +301,16 @@ public class PopUpHandler {
   private void zoneDiverged(PopUp popUp) {
     changeZones(popUp.getLinkId());
     // TODO Send info to stakeholder
-    loadPopUps();
   }
 
   private void permitRequestRefused(PopUp popUp) {
-    requestsOpen--;
+    decr();
     answer(popUp, 0);
     // TODO Send info to stakeholder
   }
 
   private void permitRequestApproved(PopUp popUp) {
-    requestsOpen--;
+    decr();
     answer(popUp, 0);
     // TODO Send info to stakeholder
   }
@@ -319,7 +318,6 @@ public class PopUpHandler {
   private void planPerformAsk(PopUp popUp) {
     answer(popUp, 0);
     // TODO Send info to stakeholder
-    loadPopUps();
   }
   
   private void answer(PopUp popUp, int answer) {
@@ -372,6 +370,16 @@ public class PopUpHandler {
   
   public List<PopUp> getList() {
     return list;
+  }
+  
+  private void incr() {
+    requestsOpen++;
+  }
+  
+  private void decr() {
+    if (requestsOpen > 0) {
+      requestsOpen--;
+    }
   }
   
   private int max(int i1, int i2) {

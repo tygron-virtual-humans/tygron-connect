@@ -29,10 +29,9 @@ public class Zone {
 
   /**
    * Extract zone settings from zone.
-   * @param object the json object with data
+   * @param zone the json object with data
    */
-  public Zone(JSONObject object) {
-    JSONObject zone = object.getJSONObject("Zone");
+  public Zone(JSONObject zone) {
     allowedFloors = zone.getInt("allowedFloors");
 
     allowedFunctions = new ArrayList<Object>();
