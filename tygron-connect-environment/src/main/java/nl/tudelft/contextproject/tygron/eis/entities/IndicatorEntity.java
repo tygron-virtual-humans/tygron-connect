@@ -30,12 +30,11 @@ public class IndicatorEntity {
    */
   public List<TygronPercept> progressIndicator() {  
     List<TygronPercept> result = new ArrayList<>();
-    
-    for (int i = 0; i < indicatorList.size(); i++) {
-      Indicator ind = indicatorList.get(i);
-      result.add(new TygronPercept(ind.getId(), ind.getType().toLowerCase(),
-          ind.getName().toLowerCase(), ind.getProgress(),
-          ind.getCurrent(), ind.getTarget()));
+
+    for (Indicator indicator : indicatorList) {
+      result.add(new TygronPercept(indicator.getId(), indicator.getType().toLowerCase(),
+              indicator.getName().toLowerCase(), indicator.getProgress(),
+              indicator.getCurrent(), indicator.getTarget()));
     }
     
     return result;

@@ -26,11 +26,10 @@ public class StakeholderEntity {
    */
   public List<TygronPercept> stakeholder() {
     List<TygronPercept> result = new ArrayList<>();
-    
-    for (int i = 0; i < stakeholders.size(); i++) {
-      Stakeholder stakeholder = stakeholders.get(i);
+
+    for (Stakeholder stakeholder : stakeholders) {
       result.add(new TygronPercept(stakeholder.getId(),
-          stakeholder.getName(),stakeholder.getShortName()));
+              stakeholder.getName(), stakeholder.getShortName()));
     }
     
     return result;
@@ -42,14 +41,13 @@ public class StakeholderEntity {
    */
   public List<TygronPercept> initIndicator() {
     List<TygronPercept> result = new ArrayList<>();
-    
-    for (int i = 0; i < stakeholders.size(); i++) {
-      Stakeholder stakeholder = stakeholders.get(i);
+
+    for (Object stakeholder : stakeholders) {
       Map<Integer, Double> weightMap = stakeholder.getIndicatorWeights();
       for (Entry<Integer, Double> entry : weightMap.entrySet()) {
         if (entry.getValue() > 0.0) {
           result.add(new TygronPercept(stakeholder.getId(),
-              entry.getKey(),entry.getValue()));
+                  entry.getKey(), entry.getValue()));
         }
       }
     }

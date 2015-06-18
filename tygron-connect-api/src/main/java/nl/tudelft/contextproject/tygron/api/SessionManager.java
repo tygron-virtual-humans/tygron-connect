@@ -57,18 +57,18 @@ public class SessionManager {
     List<JoinableSession> availableList = getJoinableSessions();
     
     // Try to find the specified slot
-    for (int i = 0; i < availableList.size(); i++) {
-      if (preferedSlot == availableList.get(i).getId()) {
-        session = availableList.get(i);
+    for (JoinableSession joinableSession : availableList) {
+      if (preferedSlot == joinableSession.getId()) {
+        session = joinableSession;
         break;
       }
     }
     
     // The slot cannot be found, let's try on to find a session on the mapname.
     if (session == null) {
-      for (int i = 0; i < availableList.size(); i++) {
-        if (mapName.equals(availableList.get(i).getName())) {
-          session = availableList.get(i);
+      for (JoinableSession availableJoinableSession : availableList) {
+        if (mapName.equals(availableJoinableSession.getName())) {
+          session = availableJoinableSession;
           break;
         }
       }
