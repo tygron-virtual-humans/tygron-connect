@@ -94,12 +94,14 @@ public class Environment {
    * Allows or disables game interaction.
    * @param set Whether to allow game interaction.
    */
-  public void allowGameInteraction(boolean set) {
+  public boolean allowGameInteraction(boolean set) {
     String allowInteraction = "event/LogicEventType/SETTINGS_ALLOW_GAME_INTERACTION/";
     JSONArray param = new JSONArray();
     param.put(set);
     HttpConnection.getInstance().execute(allowInteraction, CallType.POST,
-            new JsonObjectResultHandler(), true, param);
+            new BooleanResultHandler(), true, param);
+    
+    return true;
   }
   
   /**
@@ -129,9 +131,9 @@ public class Environment {
    * Select a stakeholder to play, can only be done once.
    * @param stakeholderId the stakeholder id to select.
    */
-  public void setStakeholder(int stakeholderId) {
+  public boolean setStakeholder(int stakeholderId) {
     this.stakeholderId = stakeholderId;
-    boolean retValue = HttpConnection.getInstance().execute("event/PlayerEventType/STAKEHOLDER_SELECT",
+    boolean retValue = HttpConnection.getInstance().execute("event/PlayerEventType/STAKEHOLDER_SELECT/",
             CallType.POST, new BooleanResultHandler(), true,
             new StakeholderSelectRequest(stakeholderId, HttpConnection.getData().getClientToken()));
     logger.info("Setting stakeholder to #" + stakeholderId + ". Operation " 
@@ -141,6 +143,8 @@ public class Environment {
     } else {
       popUpHandler = new PopUpHandler(this, stakeholderId);
     }
+    
+    return retValue;
   }
   
   static class StakeholderSelectRequest extends JSONArray {
@@ -157,13 +161,15 @@ public class Environment {
   /**
    * Releases the stakeholder that is currently selected.
    */
-  public void releaseStakeholder() {
+  public boolean releaseStakeholder() {
     logger.info("Releasing stakeholder #" + stakeholderId);
     HttpConnection.getInstance().execute("event/LogicEventType/STAKEHOLDER_RELEASE/",
             CallType.POST, new BooleanResultHandler(), true,
             new StakeholderReleaseRequest(stakeholderId));
     stakeholderId = -1;
     popUpHandler = null;
+    
+    return true;
   }
   
   static class StakeholderReleaseRequest extends JSONArray {
