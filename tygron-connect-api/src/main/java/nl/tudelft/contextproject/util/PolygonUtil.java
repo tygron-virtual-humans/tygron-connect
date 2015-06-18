@@ -15,6 +15,11 @@ import com.esri.core.geometry.WktImportFlags;
 
 import java.util.List;
 
+/**
+ * The Polygon Util class makes sure we can easily do some calculations/processing on incoming/outgoing polygons.
+ * @author Paul
+ *
+ */
 public class PolygonUtil {
 
   public PolygonUtil() {

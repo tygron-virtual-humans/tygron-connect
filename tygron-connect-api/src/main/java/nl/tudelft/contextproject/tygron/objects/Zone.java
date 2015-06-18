@@ -10,6 +10,12 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Zones are sections in a Tygron World. They contain several properties, 
+ * like which items/stakeholders can build on the zones, and which area they cover.
+ * @author Paul
+ *
+ */
 public class Zone {
 
   private int allowedFloors;

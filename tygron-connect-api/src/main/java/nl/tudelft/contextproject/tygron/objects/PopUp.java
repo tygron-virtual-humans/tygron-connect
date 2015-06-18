@@ -10,8 +10,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * A PopUp is a Tygron Object that can be answered.
- */
+ * A PopUp is a Tygron Object that can be answered. Popups are user-actions
+ * ingame that can (usually) be accepted or rejected. They approve or disapprove
+ * the game actions from another users perspective.
+ *  */
 public class PopUp {
 
   public enum TypeValue {

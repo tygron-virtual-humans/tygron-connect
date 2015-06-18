@@ -4,6 +4,11 @@ import org.json.JSONArray;
 
 import java.util.ArrayList;
 
+/**
+ * Server Words are references from "keys" to "values" for translations. 
+ * Messages are passed on as integers, and with the server words we can translate them to regular languages.
+ *
+ */
 public class ServerWords extends ArrayList<String> {
   /**
    * Serial ID.

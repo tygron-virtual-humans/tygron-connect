@@ -18,7 +18,7 @@ public class User {
   private String maxOption;
 
   /**
-   * Creates a User
+   * Creates a User.
    * @param userObj JSONData containing the user object
    */
   public User(JSONObject userObj) {

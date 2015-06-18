@@ -18,7 +18,7 @@ public abstract class Loader<T> {
   protected abstract T load();
 
   /**
-   * Reload caches the result of load and returns the object
+   * Reload caches the result of load and returns the object.
    * @return the result of load
    */
   public T reload() {

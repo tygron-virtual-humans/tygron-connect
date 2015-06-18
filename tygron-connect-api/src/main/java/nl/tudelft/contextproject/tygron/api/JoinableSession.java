@@ -6,6 +6,11 @@ import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * A Joinable session can be joined to convert it into a real session. These
+ * objects are not full sessions so they can easily be used to find sessions you
+ * actually want to join.
+ */
 public class JoinableSession {
   private static final Logger logger = LoggerFactory.getLogger(JoinableSession.class);
 

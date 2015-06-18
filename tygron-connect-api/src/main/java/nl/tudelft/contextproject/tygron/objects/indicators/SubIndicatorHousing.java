@@ -2,6 +2,10 @@ package nl.tudelft.contextproject.tygron.objects.indicators;
 
 import org.json.JSONObject;
 
+/**
+ * More specific indicator for Housing.
+ *
+ */
 public class SubIndicatorHousing extends Indicator {
 
   private double desired;

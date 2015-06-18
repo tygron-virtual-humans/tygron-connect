@@ -7,6 +7,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+/**
+ * Indicator for the Housing.
+ *
+ */
 public class IndicatorHousing {
   double[] start;
   double[] current;

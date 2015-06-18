@@ -8,6 +8,10 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.Properties;
 
+/**
+ * Loads the user/password for the Tygron API from the configuration file.
+ * 
+ */
 public class SettingsLoader {
   private static final Logger logger = LoggerFactory.getLogger(SettingsLoader.class);
   Properties config;
