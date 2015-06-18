@@ -24,10 +24,9 @@ public class BuildingEntity {
    */
   public List<TygronPercept> buildings() {  
     List<TygronPercept> result = new ArrayList<>();
-    
-    for (int i = 0; i < buildingList.size(); i++) {
-      Building build = buildingList.get(i);
-      result.add(new TygronPercept(build.getId(), build.getName()));
+
+    for (Building building : buildingList) {
+      result.add(new TygronPercept(building.getId(), building.getName()));
     }
     
     return result;

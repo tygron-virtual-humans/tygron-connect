@@ -6,6 +6,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+/**
+ * Reads a file and returns it's contents. Useful for testing cached Tygron responses.
+ */
 public class CachedFileReader {
   
   private CachedFileReader(){

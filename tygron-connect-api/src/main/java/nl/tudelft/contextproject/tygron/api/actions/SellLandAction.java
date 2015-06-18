@@ -19,6 +19,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+/**
+ * An action that sells land.
+ */
 public class SellLandAction {
   
   private static final Logger logger = LoggerFactory.getLogger(SellLandAction.class);

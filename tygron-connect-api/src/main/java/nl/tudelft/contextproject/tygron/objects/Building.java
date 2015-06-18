@@ -8,8 +8,10 @@ import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * A building is an object in the game that is situated on some surface, and has a certain amount of floors.
+ */
 public class Building {
-  
   private static final Logger logger = LoggerFactory.getLogger(Building.class);
   
   private int id;

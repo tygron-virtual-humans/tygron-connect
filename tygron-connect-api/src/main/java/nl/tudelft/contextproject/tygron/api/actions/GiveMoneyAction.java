@@ -9,7 +9,9 @@ import org.json.JSONArray;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-
+/**
+ * An action that gives money to a certain stakeholder.
+ */
 public class GiveMoneyAction {
 
   private static final Logger logger = LoggerFactory.getLogger(GiveMoneyAction.class);

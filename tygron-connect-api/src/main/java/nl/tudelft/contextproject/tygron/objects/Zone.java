@@ -34,7 +34,7 @@ public class Zone {
   public Zone(JSONObject zone) {
     allowedFloors = zone.getInt("allowedFloors");
 
-    allowedFunctions = new ArrayList<Object>();
+    allowedFunctions = new ArrayList<>();
     JSONArray array = zone.getJSONArray("allowedFunctions");
     for (int i = 0; i < array.length(); i++) {
       allowedFunctions.add(array.get(i));
@@ -44,16 +44,16 @@ public class Zone {
     color = zone.getJSONObject("color").getInt("rgba");
     description = zone.getString("description");
 
-    detailVersions = new ArrayList<Integer>();
+    detailVersions = new ArrayList<>();
     array = zone.getJSONArray("detailVersions");
     for (int i = 0; i < array.length(); i++) {
       detailVersions.add(array.getInt(i));
     }
 
-    details = new ArrayList<List<Double>>();
+    details = new ArrayList<>();
     array = zone.getJSONArray("details");
     for (int i = 0; i < array.length(); i++) {
-      List<Double> innerList = new ArrayList<Double>();
+      List<Double> innerList = new ArrayList<>();
       JSONArray array2 = array.getJSONArray(i);
       for (int j = 0; j < array2.length(); j++) {
         innerList.add(array2.getDouble(j));

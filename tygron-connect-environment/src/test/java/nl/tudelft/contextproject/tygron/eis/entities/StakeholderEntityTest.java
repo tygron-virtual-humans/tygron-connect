@@ -24,8 +24,7 @@ public class StakeholderEntityTest {
   
   @Mock
   private Stakeholder stakeholder;
-  
-  @Mock
+
   private StakeholderList stakeholderList;
   
   Map<Integer,Double> weights;
@@ -35,18 +34,18 @@ public class StakeholderEntityTest {
    */
   @Before
   public void start() {
-    doReturn(1).when(stakeholderList).size();
     doReturn(1).when(stakeholder).getId();
     doReturn("shortname").when(stakeholder).getShortName();
     doReturn("name").when(stakeholder).getName();
     
-    weights = new HashMap<Integer,Double>();
+    weights = new HashMap<>();
     weights.put(1, 1.3);
     weights.put(2, 0.0);
     weights.put(3, 4.1);
     doReturn(weights).when(stakeholder).getIndicatorWeights();
     
-    doReturn(stakeholder).when(stakeholderList).get(0);
+    stakeholderList = new StakeholderList();
+    stakeholderList.add(stakeholder);
     
     stakeholderEntity = new StakeholderEntity(stakeholderList);
   }

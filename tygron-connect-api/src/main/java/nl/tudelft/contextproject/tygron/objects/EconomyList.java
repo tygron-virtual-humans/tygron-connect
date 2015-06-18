@@ -5,12 +5,16 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+/**
+ * Holds multiple Economies. Is reponsible for parsing it's result frmo
+ */
 public class EconomyList extends ArrayList<Economy> {
   /**
    * Serial ID.
    */
   private static final long serialVersionUID = 1L;
 
+  public EconomyList() {}
   /**
    * Constructs a economy list from a tygron response.
    * @param input input response

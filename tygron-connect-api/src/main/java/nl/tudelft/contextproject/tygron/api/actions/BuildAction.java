@@ -21,6 +21,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+/**
+ * A Action which builds a project on a piece of land with a certain type with a certain surface.
+ */
 public class BuildAction {
   
   private static final Logger logger = LoggerFactory.getLogger(BuildAction.class);
@@ -58,9 +61,9 @@ public class BuildAction {
     
     // Select a random amount of floors
     int neededFloors = minFloors;
-    if (minFloors != function.getMax_floors()) {
+    if (minFloors != function.getMaxFloors()) {
       Random random = new Random();
-      neededFloors = random.nextInt(function.getMax_floors() - minFloors) + minFloors;
+      neededFloors = random.nextInt(function.getMaxFloors() - minFloors) + minFloors;
     }
     double neededSurface = surface / neededFloors;
     
@@ -119,7 +122,7 @@ public class BuildAction {
     for (int functionId : functions) {
       Function function = environment.get(FunctionMap.class).get(functionId);
       if (function.isRightType(type)) {
-        int maxFloors = function.getMax_floors();
+        int maxFloors = function.getMaxFloors();
         result = Math.max(maxFloors, result);
       }
     }

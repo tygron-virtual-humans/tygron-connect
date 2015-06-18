@@ -7,6 +7,9 @@ import nl.tudelft.contextproject.tygron.objects.FunctionMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * Loads FunctionMap.
+ */
 public class FunctionMapLoader extends Loader<FunctionMap> {
   private static final Logger logger = LoggerFactory.getLogger(FunctionMapLoader.class);
 

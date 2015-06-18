@@ -7,6 +7,9 @@ import nl.tudelft.contextproject.tygron.objects.LandMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * Loads LandMap.
+ */
 public class LandMapLoader extends Loader<LandMap> {
   private static final Logger logger = LoggerFactory.getLogger(LandMapLoader.class);
 

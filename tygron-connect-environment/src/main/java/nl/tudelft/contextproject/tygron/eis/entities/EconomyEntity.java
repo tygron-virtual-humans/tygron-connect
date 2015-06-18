@@ -24,10 +24,9 @@ public class EconomyEntity {
    */
   public List<TygronPercept> economies() {  
     List<TygronPercept> result = new ArrayList<>();
-    
-    for (int i = 0; i < economyList.size(); i++) {
-      Economy ec = economyList.get(i);
-      result.add(new TygronPercept(ec.getId(),ec.getCategory(),ec.getState()));
+
+    for (Economy economy : economyList) {
+      result.add(new TygronPercept(economy.getId(), economy.getCategory(), economy.getState()));
     }
     
     return result;

@@ -7,6 +7,9 @@ import nl.tudelft.contextproject.tygron.objects.ActionList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * Loads ActionList.
+ */
 public class ActionListLoader extends Loader<ActionList> {
   private static final Logger logger = LoggerFactory.getLogger(ActionListLoader.class);
 

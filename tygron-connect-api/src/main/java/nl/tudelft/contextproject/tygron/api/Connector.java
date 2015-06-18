@@ -75,7 +75,7 @@ public class Connector {
   }
 
   /**
-   * Cleanup function, should be called to reset or shut down.
+   * Causes a clean close of the API connection.
    */
   public void cleanup() {
     if (session != null) {

@@ -8,6 +8,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * A Stakeholder is a Tygron object which symbolizes a player.
+ */
 public class Stakeholder {
   private int id;
   private String name;
@@ -32,20 +35,20 @@ public class Stakeholder {
     description = input.getString("description");
     type = input.getString("type");
     
-    indicatorWeights = new HashMap<Integer, Double>();
+    indicatorWeights = new HashMap<>();
     JSONArray currentIndicatorWeights = input.getJSONArray("currentIndicatorWeights");
     for (int i = 0; i < currentIndicatorWeights.length(); i++) {
       JSONObject indicator = currentIndicatorWeights.getJSONObject(i);
       indicatorWeights.put(indicator.getInt("indicatorID"), indicator.getDouble("weight"));
     }
     
-    ownedLands = new ArrayList<Integer>();
+    ownedLands = new ArrayList<>();
     JSONArray lands = input.getJSONArray("ownedLands");
     for (int i = 0; i < lands.length(); i++) {
       ownedLands.add(lands.getInt(i));
     }
     
-    allowedFunctions = new ArrayList<Integer>();
+    allowedFunctions = new ArrayList<>();
   }
   
   /**

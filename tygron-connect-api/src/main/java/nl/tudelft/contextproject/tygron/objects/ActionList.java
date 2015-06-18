@@ -5,6 +5,9 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+/**
+ * Contains Actions.
+ */
 public class ActionList extends ArrayList<Action> {
   
   /**

@@ -3,8 +3,7 @@ package nl.tudelft.contextproject.tygron.objects;
 import org.json.JSONObject;
 
 /**
- * State of economies.
- *
+ * State of an Economy.
  */
 public class Economy {
   

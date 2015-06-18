@@ -5,6 +5,9 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+/**
+ * Holds buildings.
+ */
 public class BuildingList extends ArrayList<Building> {
   /**
    * Serial ID.

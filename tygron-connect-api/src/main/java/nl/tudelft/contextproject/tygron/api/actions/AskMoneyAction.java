@@ -9,6 +9,9 @@ import org.json.JSONArray;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * An Action that requests money from a given stakeholder.
+ */
 public class AskMoneyAction {
   
   private static final Logger logger = LoggerFactory.getLogger(AskMoneyAction.class);

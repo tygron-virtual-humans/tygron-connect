@@ -52,7 +52,7 @@ public class BuildActionTest {
 
     when(environment.get(eq(StakeholderList.class))).thenReturn(stakeholderList);
     Polygon polygon = PolygonUtil.createPolygonFromWkt("MULTIPOLYGON (((0 0, 0 16"
-            + ", 16 16, 16 0, 0 0)))");;
+            + ", 16 16, 16 0, 0 0)))");
     when(environment.getAvailableLand(eq(stakeholder))).thenReturn(polygon);
 
     when(connection.execute(anyString(), eq(CallType.GET),

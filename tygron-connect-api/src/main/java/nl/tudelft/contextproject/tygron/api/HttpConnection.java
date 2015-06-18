@@ -18,12 +18,13 @@ import org.slf4j.LoggerFactory;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+/**
+ * A HttpConnection is the low-level interface with the Tygron API.
+ */
 public class HttpConnection {
   private static final Logger logger = LoggerFactory.getLogger(HttpConnection.class);
   protected HttpClient client;
   protected BasicResponseHandler handler;
-
- 
 
   private static final String API_URL_BASE = "https://server2.tygron.com:3022/api/";
   private static final String API_JSON_SUFFIX = "?f=JSON";
@@ -31,8 +32,7 @@ public class HttpConnection {
   private static final String API_SLOTS = "slots/";
 
   /**
-   * Creates a Tygron connection using some settings.
-   * @param settings the settings
+   * Creates a Tygron connection.
    */
   private HttpConnection() {
     this.client = HttpClients.custom().build();

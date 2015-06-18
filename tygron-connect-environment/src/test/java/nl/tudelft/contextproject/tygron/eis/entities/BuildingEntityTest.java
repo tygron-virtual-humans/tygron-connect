@@ -22,8 +22,7 @@ public class BuildingEntityTest {
   
   @Mock
   private Building building;
-  
-  @Mock
+
   private BuildingList buildinglist;
   
   /**
@@ -31,10 +30,11 @@ public class BuildingEntityTest {
    */
   @Before
   public void start() {
-    doReturn(1).when(buildinglist).size();
     doReturn(1).when(building).getId();
     doReturn("Building1").when(building).getName();
-    doReturn(building).when(buildinglist).get(0);
+
+    buildinglist = new BuildingList();
+    buildinglist.add(building);
     
     buildingEntity = new BuildingEntity(buildinglist);
   }
@@ -47,6 +47,4 @@ public class BuildingEntityTest {
     assertEquals(1,list.get(0).get(0));
     assertEquals("Building1",list.get(0).get(1));
   }
-  
-  
 }

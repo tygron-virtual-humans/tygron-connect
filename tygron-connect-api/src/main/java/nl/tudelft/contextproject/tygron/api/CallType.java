@@ -7,6 +7,9 @@ import org.apache.http.entity.StringEntity;
 
 import java.io.UnsupportedEncodingException;
 
+/**
+ * A CallType is an abstraction over Tygron's HTTP call types.
+ */
 public enum CallType {
   GET, POST;
   /**
@@ -42,6 +45,11 @@ public enum CallType {
     }
   }
 
+  /**
+   * Creates an HttpPost with a given entity.
+   * @param entity the content of the request
+   * @return an HttpPost that can be executed.
+   */
   private HttpRequestBase postRequest(String entity) {
     try {
       HttpPost ret = new HttpPost();

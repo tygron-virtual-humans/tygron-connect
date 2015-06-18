@@ -7,6 +7,9 @@ import nl.tudelft.contextproject.tygron.objects.indicators.IndicatorList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * Loads IndicatorList.
+ */
 public class IndicatorListLoader extends Loader<IndicatorList> {
   private static final Logger logger = LoggerFactory.getLogger(IndicatorListLoader.class);
 
