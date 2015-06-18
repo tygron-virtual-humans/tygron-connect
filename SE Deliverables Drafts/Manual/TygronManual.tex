@@ -1,7 +1,7 @@
 %% Manual for the environment made by the group Tygron connect.
 %%% https://github.com/tygron-virtual-humans/tygron-connect
 
-\documentclass[english,11pt]{report}		
+\documentclass[english,11pt]{report}        
 %\documentclass[ngerman,11pt]{report}
 
 \usepackage{hgb}
@@ -64,7 +64,7 @@ This section will list all the percepts that are usable in the Tygron environmen
 \textbf{InitIndicator percept}\\
 \\
 \begin{tabularx}{\textwidth}{lX}
- Desription & Weights of the indicators in the map. \\
+ Desription & Weights of the indicators in the map, this percept can also be used to connect stakeholders to indicators. \\
  Type & Send once \\
  Syntax & initIndicator(<SID>, <IID>, <Weight>) \\
  Parameters &   <SID>: ID of the stakeholder for which this percept has this weight.\\
@@ -79,11 +79,11 @@ This section will list all the percepts that are usable in the Tygron environmen
 \textbf{Indicator percept}\\
 \\
 \begin{tabularx}{\textwidth}{lX}
- Desription & Information about the indicators present in the map. \\
+ Desription & Information about the indicators present in the map, the finance indicator correlates to the budget of a stakeholder. \\
  Type & Send on change \\
  Syntax & indicator(<ID>, <Type>, <Name>, <Progress>, <Current>, <Target>) \\
  Parameters &   <ID>: Unique number of the indicator.\\
-            &   <Type>: The type of indicator (eg. finance).\\
+            &   <Type>: The type of indicator (eg. finance, parking, housing and green).\\
             &   <Name>: The name of the indicator.\\
             &   <Progress>: the progress of the indicator (current / target).\\
             &   <Current>: The current value of the indicator.\\
@@ -112,6 +112,7 @@ This section will list all the percepts that are usable in the Tygron environmen
  Parameters &   <ID>: Unique number for the building.\\
             &   <Name>: The name of the building.
 \end{tabularx}
+\newpage
 \textbf{Permit percept}\\
 \\
 \begin{tabularx}{\textwidth}{lX}
