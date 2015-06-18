@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<diagram program="umlet" version="13.0">
+<diagram program="umlet" version="13.2">
   <help_text>
 
 
@@ -28,14 +28,14 @@
 
 
 // This text will be stored with each diagram;  use it for notes.</help_text>
-  <zoom_level>10</zoom_level>
+  <zoom_level>5</zoom_level>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>400</x>
-      <y>360</y>
-      <w>380</w>
-      <h>220</h>
+      <x>810</x>
+      <y>320</y>
+      <w>190</w>
+      <h>110</h>
     </coordinates>
     <panel_attributes>Session
 --
@@ -58,10 +58,10 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1280</x>
-      <y>1190</y>
-      <w>320</w>
-      <h>340</h>
+      <x>1255</x>
+      <y>825</y>
+      <w>160</w>
+      <h>170</h>
     </coordinates>
     <panel_attributes>Zone
 --
@@ -91,10 +91,10 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1890</x>
-      <y>150</y>
-      <w>560</w>
-      <h>240</h>
+      <x>1555</x>
+      <y>215</y>
+      <w>280</w>
+      <h>120</h>
     </coordinates>
     <panel_attributes>HttpConnection
 --
@@ -110,6 +110,9 @@
 --
 +execute(String eventName, CallType type, 
       ResultHandler&lt;T&gt; handler, Session session, JSONArray parameters): T
++getUpdate(ResultHandler&lt;T&gt; handler, Boolean isSession,
+      JSONObject parameters): JSONObject
+	
 --
 </panel_attributes>
     <additional_attributes/>
@@ -117,10 +120,10 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>2510</x>
-      <y>160</y>
-      <w>240</w>
-      <h>220</h>
+      <x>1865</x>
+      <y>220</y>
+      <w>120</w>
+      <h>110</h>
     </coordinates>
     <panel_attributes>User
 --
@@ -142,10 +145,10 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>680</x>
-      <y>1190</y>
-      <w>270</w>
-      <h>200</h>
+      <x>955</x>
+      <y>825</y>
+      <w>135</w>
+      <h>100</h>
     </coordinates>
     <panel_attributes>/Indicator/
 --
@@ -165,10 +168,10 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>340</x>
-      <y>1190</y>
-      <w>310</w>
-      <h>170</h>
+      <x>785</x>
+      <y>825</y>
+      <w>155</w>
+      <h>85</h>
     </coordinates>
     <panel_attributes>Stakeholder
 --
@@ -185,10 +188,10 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>980</x>
-      <y>1190</y>
-      <w>280</w>
-      <h>140</h>
+      <x>1105</x>
+      <y>825</y>
+      <w>140</w>
+      <h>70</h>
     </coordinates>
     <panel_attributes>Building
 --
@@ -203,10 +206,10 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1420</x>
-      <y>150</y>
-      <w>400</w>
-      <h>130</h>
+      <x>1320</x>
+      <y>215</y>
+      <w>200</w>
+      <h>65</h>
     </coordinates>
     <panel_attributes>Connector
 --
@@ -220,28 +223,10 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>2090</x>
-      <y>1660</y>
-      <w>300</w>
-      <h>140</h>
-    </coordinates>
-    <panel_attributes>Controller
---
-+stakeholder(): List&lt;TygronPercept&gt;
-+progressIndicator(): List&lt;TygronPercept&gt;
-+initIndicator(): List&lt;TygronPercept&gt;
-+economies(): List&lt;TygronPercept&gt;
---
-</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <id>UMLClass</id>
-    <coordinates>
-      <x>2410</x>
-      <y>1420</y>
-      <w>370</w>
-      <h>190</h>
+      <x>1815</x>
+      <y>850</y>
+      <w>185</w>
+      <h>95</h>
     </coordinates>
     <panel_attributes>TygronInterfaceImpl
 --
@@ -260,10 +245,10 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>30</x>
-      <y>1190</y>
-      <w>270</w>
-      <h>110</h>
+      <x>630</x>
+      <y>825</y>
+      <w>135</w>
+      <h>55</h>
     </coordinates>
     <panel_attributes>Economy
 --
@@ -277,29 +262,26 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>910</x>
-      <y>270</y>
-      <w>440</w>
-      <h>190</h>
+      <x>1310</x>
+      <y>325</y>
+      <w>220</w>
+      <h>50</h>
     </coordinates>
     <panel_attributes>SessionManager
 --
-+getJoinableSessions(): List&lt;Session&gt;
-+joinSession(Session session, int slotId): boolean
++getJoinableSessions(): List&lt;JoinableSession&gt;
 +createOrFindSessionAndJoin(String mapName): Session
 +createSession(String mapName): int
-+killSession(int slotId): boolean
---
-</panel_attributes>
++killSession(int slotId): boolean</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>2040</x>
-      <y>550</y>
-      <w>260</w>
-      <h>120</h>
+      <x>1630</x>
+      <y>415</y>
+      <w>130</w>
+      <h>60</h>
     </coordinates>
     <panel_attributes>SettingsLoader
 --
@@ -314,10 +296,10 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>930</x>
-      <y>1510</y>
-      <w>170</w>
-      <h>100</h>
+      <x>1080</x>
+      <y>985</y>
+      <w>85</w>
+      <h>50</h>
     </coordinates>
     <panel_attributes>IndicatorFinance
 --
@@ -330,10 +312,10 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>650</x>
-      <y>1680</y>
-      <w>340</w>
-      <h>160</h>
+      <x>940</x>
+      <y>1070</y>
+      <w>170</w>
+      <h>80</h>
     </coordinates>
     <panel_attributes>IndicatorHousing
 --
@@ -350,10 +332,10 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>540</x>
-      <y>1510</y>
-      <w>210</w>
-      <h>100</h>
+      <x>885</x>
+      <y>985</y>
+      <w>105</w>
+      <h>50</h>
     </coordinates>
     <panel_attributes>IndicatorParking
 --
@@ -365,10 +347,10 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>760</x>
-      <y>1510</y>
-      <w>150</w>
-      <h>100</h>
+      <x>995</x>
+      <y>985</y>
+      <w>75</w>
+      <h>50</h>
     </coordinates>
     <panel_attributes>SubIndicatorHousing
 --
@@ -381,10 +363,10 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>2040</x>
-      <y>440</y>
-      <w>260</w>
-      <h>80</h>
+      <x>1630</x>
+      <y>360</y>
+      <w>130</w>
+      <h>40</h>
     </coordinates>
     <panel_attributes>Settings
 --
@@ -397,10 +379,10 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>2420</x>
-      <y>1800</y>
-      <w>350</w>
-      <h>70</h>
+      <x>1820</x>
+      <y>1040</y>
+      <w>175</w>
+      <h>35</h>
     </coordinates>
     <panel_attributes>Configuration
 --
@@ -412,10 +394,10 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>2830</x>
-      <y>1390</y>
-      <w>380</w>
-      <h>110</h>
+      <x>2025</x>
+      <y>835</y>
+      <w>190</w>
+      <h>55</h>
     </coordinates>
     <panel_attributes>HashMapTranslator
 --
@@ -430,10 +412,10 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>2420</x>
-      <y>1660</y>
-      <w>350</w>
-      <h>90</h>
+      <x>1820</x>
+      <y>970</y>
+      <w>175</w>
+      <h>45</h>
     </coordinates>
     <panel_attributes>ConfigurationTranslator
 --
@@ -447,10 +429,10 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>2830</x>
-      <y>1530</y>
-      <w>400</w>
-      <h>90</h>
+      <x>2025</x>
+      <y>905</y>
+      <w>200</w>
+      <h>45</h>
     </coordinates>
     <panel_attributes>ParamEnumTranslator
 --
@@ -464,24 +446,24 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>2080</x>
-      <y>1890</y>
-      <w>330</w>
-      <h>90</h>
+      <x>1660</x>
+      <y>1085</y>
+      <w>165</w>
+      <h>25</h>
     </coordinates>
     <panel_attributes>TygronPercept
 --
-+TygronPtercept(arguments : Object): ctor
++TygronPercept(arguments : Object): ctor
 </panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>980</x>
-      <y>1030</y>
-      <w>280</w>
-      <h>90</h>
+      <x>1105</x>
+      <y>745</y>
+      <w>140</w>
+      <h>45</h>
     </coordinates>
     <panel_attributes>BuildingList
 --
@@ -492,10 +474,10 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>20</x>
-      <y>1030</y>
-      <w>290</w>
-      <h>90</h>
+      <x>625</x>
+      <y>745</y>
+      <w>145</w>
+      <h>45</h>
     </coordinates>
     <panel_attributes>EconomyList
 --
@@ -505,10 +487,10 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>670</x>
-      <y>1030</y>
-      <w>290</w>
-      <h>90</h>
+      <x>950</x>
+      <y>745</y>
+      <w>145</w>
+      <h>45</h>
     </coordinates>
     <panel_attributes>IndicatorList
 --
@@ -518,10 +500,10 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>340</x>
-      <y>1030</y>
-      <w>310</w>
-      <h>90</h>
+      <x>785</x>
+      <y>745</y>
+      <w>155</w>
+      <h>45</h>
     </coordinates>
     <panel_attributes>StakeholderList
 --
@@ -531,10 +513,10 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1290</x>
-      <y>1030</y>
-      <w>270</w>
-      <h>90</h>
+      <x>1260</x>
+      <y>745</y>
+      <w>135</w>
+      <h>45</h>
     </coordinates>
     <panel_attributes>ZoneList
 --
@@ -544,10 +526,10 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>610</x>
-      <y>710</y>
-      <w>320</w>
-      <h>240</h>
+      <x>915</x>
+      <y>495</y>
+      <w>160</w>
+      <h>120</h>
     </coordinates>
     <panel_attributes>Environment
 --
@@ -567,10 +549,10 @@
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1100</x>
-      <y>1110</y>
-      <w>30</w>
-      <h>100</h>
+      <x>1165</x>
+      <y>785</y>
+      <w>15</w>
+      <h>50</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;-
 m1= 1
@@ -580,10 +562,10 @@ m2= *</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>810</x>
-      <y>1110</y>
-      <w>30</w>
-      <h>100</h>
+      <x>1020</x>
+      <y>785</y>
+      <w>15</w>
+      <h>50</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;-
 m1= 1
@@ -593,10 +575,10 @@ m2= *</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>150</x>
-      <y>1110</y>
-      <w>30</w>
-      <h>100</h>
+      <x>690</x>
+      <y>785</y>
+      <w>15</w>
+      <h>50</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;-
 m1= 1
@@ -606,10 +588,10 @@ m2= *</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>490</x>
-      <y>1110</y>
-      <w>30</w>
-      <h>100</h>
+      <x>860</x>
+      <y>785</y>
+      <w>15</w>
+      <h>50</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;-
 m1= 1
@@ -619,10 +601,10 @@ m2= *</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1420</x>
-      <y>1110</y>
-      <w>30</w>
-      <h>100</h>
+      <x>1325</x>
+      <y>785</y>
+      <w>15</w>
+      <h>50</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;-
 m1= 1
@@ -632,10 +614,10 @@ m2= *</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>820</x>
-      <y>1380</y>
-      <w>30</w>
-      <h>150</h>
+      <x>1025</x>
+      <y>920</y>
+      <w>15</w>
+      <h>75</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
     <additional_attributes>10.0;10.0;10.0;130.0</additional_attributes>
@@ -643,288 +625,223 @@ m2= *</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>630</x>
-      <y>1380</y>
-      <w>80</w>
-      <h>150</h>
+      <x>930</x>
+      <y>920</y>
+      <w>40</w>
+      <h>75</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
     <additional_attributes>60.0;10.0;60.0;80.0;10.0;80.0;10.0;130.0</additional_attributes>
   </element>
   <element>
-    <type>com.umlet.element.Relation</type>
+    <type>com.baselet.element.old.element.Relation</type>
     <coordinates>
-      <x>900</x>
-      <y>760</y>
-      <w>420</w>
-      <h>280</h>
-    </coordinates>
-    <panel_attributes>lt=-&gt;&gt;&gt;
-m1=1
-m2=1</panel_attributes>
-    <additional_attributes>410;270;410;30;30;30</additional_attributes>
-  </element>
-  <element>
-    <type>com.umlet.element.Relation</type>
-    <coordinates>
-      <x>780</x>
-      <y>920</y>
-      <w>40</w>
-      <h>120</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;&lt;&lt;-
-m1=1
-m2=1</panel_attributes>
-    <additional_attributes>30;30;30;110</additional_attributes>
-  </element>
-  <element>
-    <type>com.umlet.element.Relation</type>
-    <coordinates>
-      <x>470</x>
-      <y>900</y>
-      <w>150</w>
-      <h>140</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;&lt;&lt;-
-m1= 1
-m2= 1</panel_attributes>
-    <additional_attributes>140;30;30;30;30;130</additional_attributes>
-  </element>
-  <element>
-    <type>com.umlet.element.Relation</type>
-    <coordinates>
-      <x>130</x>
-      <y>880</y>
-      <w>490</w>
-      <h>160</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;&lt;&lt;-
-m1= 1
-m2= 1 </panel_attributes>
-    <additional_attributes>480;30;30;30;30;150</additional_attributes>
-  </element>
-  <element>
-    <type>com.umlet.element.Relation</type>
-    <coordinates>
-      <x>1790</x>
-      <y>190</y>
-      <w>110</w>
-      <h>40</h>
+      <x>1505</x>
+      <y>235</y>
+      <w>59</w>
+      <h>24</h>
     </coordinates>
     <panel_attributes>lt=&lt;.</panel_attributes>
-    <additional_attributes>100;30;30;30</additional_attributes>
+    <additional_attributes>50;15;15;15</additional_attributes>
   </element>
   <element>
-    <type>com.umlet.element.Relation</type>
+    <type>com.baselet.element.old.element.Relation</type>
     <coordinates>
-      <x>1320</x>
-      <y>340</y>
-      <w>590</w>
-      <h>50</h>
+      <x>1515</x>
+      <y>310</y>
+      <w>49</w>
+      <h>64</h>
     </coordinates>
     <panel_attributes>lt=&lt;.</panel_attributes>
-    <additional_attributes>570;30;370;30;30;30</additional_attributes>
+    <additional_attributes>40;15;40;55;15;55</additional_attributes>
   </element>
   <element>
-    <type>com.umlet.element.Relation</type>
+    <type>com.baselet.element.old.element.Relation</type>
     <coordinates>
-      <x>750</x>
-      <y>360</y>
-      <w>1230</w>
-      <h>180</h>
+      <x>985</x>
+      <y>320</y>
+      <w>614</w>
+      <h>89</h>
     </coordinates>
     <panel_attributes>lt=&lt;.</panel_attributes>
-    <additional_attributes>1210;30;1210;160;30;160</additional_attributes>
+    <additional_attributes>605;15;605;80;15;80</additional_attributes>
   </element>
   <element>
-    <type>com.umlet.element.Relation</type>
+    <type>com.baselet.element.old.element.Relation</type>
     <coordinates>
-      <x>750</x>
-      <y>380</y>
-      <w>180</w>
-      <h>50</h>
+      <x>1250</x>
+      <y>335</y>
+      <w>69</w>
+      <h>24</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;-
 m1=1
 m2=*</panel_attributes>
-    <additional_attributes>160;30;30;30</additional_attributes>
+    <additional_attributes>60;15;15;15</additional_attributes>
   </element>
   <element>
-    <type>com.umlet.element.Relation</type>
+    <type>com.baselet.element.old.element.Relation</type>
     <coordinates>
-      <x>2420</x>
-      <y>240</y>
-      <w>100</w>
-      <h>40</h>
+      <x>1820</x>
+      <y>260</y>
+      <w>50</w>
+      <h>20</h>
     </coordinates>
     <panel_attributes>lt=&lt;.</panel_attributes>
-    <additional_attributes>30;30;90;30</additional_attributes>
+    <additional_attributes>15;15;45;15</additional_attributes>
   </element>
   <element>
-    <type>com.umlet.element.Relation</type>
+    <type>com.baselet.element.old.element.Relation</type>
     <coordinates>
-      <x>2140</x>
-      <y>490</y>
-      <w>40</w>
-      <h>70</h>
+      <x>1680</x>
+      <y>385</y>
+      <w>20</w>
+      <h>35</h>
     </coordinates>
     <panel_attributes>lt=&lt;.</panel_attributes>
-    <additional_attributes>30;60;30;30</additional_attributes>
+    <additional_attributes>15;30;15;15</additional_attributes>
   </element>
   <element>
-    <type>com.umlet.element.Relation</type>
+    <type>com.baselet.element.old.element.Relation</type>
     <coordinates>
-      <x>2140</x>
-      <y>360</y>
-      <w>40</w>
-      <h>90</h>
+      <x>1680</x>
+      <y>320</y>
+      <w>20</w>
+      <h>45</h>
     </coordinates>
     <panel_attributes>lt=&lt;.</panel_attributes>
-    <additional_attributes>30;80;30;30</additional_attributes>
+    <additional_attributes>15;40;15;15</additional_attributes>
   </element>
   <element>
-    <type>com.umlet.element.Relation</type>
+    <type>com.baselet.element.old.element.Relation</type>
     <coordinates>
-      <x>760</x>
-      <y>1580</y>
-      <w>120</w>
-      <h>110</h>
+      <x>995</x>
+      <y>1020</y>
+      <w>62</w>
+      <h>59</h>
     </coordinates>
     <panel_attributes>lt=&lt;.
 Created by</panel_attributes>
-    <additional_attributes>70;100;70;30</additional_attributes>
+    <additional_attributes>35;50;35;15</additional_attributes>
   </element>
   <element>
-    <type>com.umlet.element.Relation</type>
+    <type>com.baselet.element.old.element.Relation</type>
     <coordinates>
-      <x>2200</x>
-      <y>1480</y>
-      <w>220</w>
-      <h>190</h>
+      <x>1710</x>
+      <y>845</y>
+      <w>110</w>
+      <h>40</h>
     </coordinates>
     <panel_attributes>lt=&lt;.</panel_attributes>
-    <additional_attributes>30;180;30;30;210;30</additional_attributes>
+    <additional_attributes>15;35;15;15;105;15</additional_attributes>
   </element>
   <element>
-    <type>com.umlet.element.Relation</type>
+    <type>com.baselet.element.old.element.Relation</type>
     <coordinates>
-      <x>2210</x>
-      <y>1770</y>
-      <w>40</w>
-      <h>130</h>
+      <x>1715</x>
+      <y>1025</y>
+      <w>20</w>
+      <h>65</h>
     </coordinates>
     <panel_attributes>lt=&lt;.</panel_attributes>
-    <additional_attributes>30;120;30;30</additional_attributes>
+    <additional_attributes>15;60;15;15</additional_attributes>
   </element>
   <element>
-    <type>com.umlet.element.Relation</type>
+    <type>com.baselet.element.old.element.Relation</type>
     <coordinates>
-      <x>900</x>
-      <y>880</y>
-      <w>170</w>
-      <h>160</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;&lt;&lt;-
-m1=1
-m2=1</panel_attributes>
-    <additional_attributes>30;30;160;30;160;150</additional_attributes>
-  </element>
-  <element>
-    <type>com.umlet.element.Relation</type>
-    <coordinates>
-      <x>750</x>
-      <y>530</y>
-      <w>1360</w>
-      <h>1260</h>
+      <x>985</x>
+      <y>405</y>
+      <w>679</w>
+      <h>529</h>
     </coordinates>
     <panel_attributes>lt=.&gt;</panel_attributes>
-    <additional_attributes>1340;1240;990;1240;990;30;30;30</additional_attributes>
+    <additional_attributes>670;520;495;520;495;15;15;15</additional_attributes>
   </element>
   <element>
-    <type>com.umlet.element.Relation</type>
+    <type>com.baselet.element.old.element.Relation</type>
     <coordinates>
-      <x>2510</x>
-      <y>1720</y>
-      <w>130</w>
-      <h>90</h>
+      <x>1870</x>
+      <y>1000</y>
+      <w>55</w>
+      <h>45</h>
     </coordinates>
     <panel_attributes>lt=&lt;-
 q2=Translates to</panel_attributes>
-    <additional_attributes>70;80;70;30</additional_attributes>
+    <additional_attributes>30;40;30;15</additional_attributes>
   </element>
   <element>
-    <type>com.umlet.element.Relation</type>
+    <type>com.baselet.element.old.element.Relation</type>
     <coordinates>
-      <x>2550</x>
-      <y>1580</y>
-      <w>40</w>
-      <h>90</h>
+      <x>1885</x>
+      <y>930</y>
+      <w>20</w>
+      <h>45</h>
     </coordinates>
     <panel_attributes>lt=&lt;.</panel_attributes>
-    <additional_attributes>30;80;30;30</additional_attributes>
+    <additional_attributes>15;40;15;15</additional_attributes>
   </element>
   <element>
-    <type>com.umlet.element.Relation</type>
+    <type>com.baselet.element.old.element.Relation</type>
     <coordinates>
-      <x>2750</x>
-      <y>1430</y>
-      <w>90</w>
-      <h>40</h>
+      <x>1985</x>
+      <y>855</y>
+      <w>45</w>
+      <h>20</h>
     </coordinates>
     <panel_attributes>lt=&lt;.</panel_attributes>
-    <additional_attributes>80;30;30;30</additional_attributes>
+    <additional_attributes>40;15;15;15</additional_attributes>
   </element>
   <element>
-    <type>com.umlet.element.Relation</type>
+    <type>com.baselet.element.old.element.Relation</type>
     <coordinates>
-      <x>2750</x>
-      <y>1540</y>
-      <w>90</w>
-      <h>40</h>
+      <x>1985</x>
+      <y>910</y>
+      <w>45</w>
+      <h>20</h>
     </coordinates>
     <panel_attributes>lt=&lt;.</panel_attributes>
-    <additional_attributes>80;30;30;30</additional_attributes>
+    <additional_attributes>40;15;15;15</additional_attributes>
   </element>
   <element>
-    <type>com.umlet.element.Relation</type>
+    <type>com.baselet.element.old.element.Relation</type>
     <coordinates>
-      <x>690</x>
-      <y>550</y>
-      <w>50</w>
-      <h>180</h>
+      <x>955</x>
+      <y>415</y>
+      <w>24</w>
+      <h>89</h>
     </coordinates>
     <panel_attributes>lt=&lt;.</panel_attributes>
-    <additional_attributes>30;160;30;30</additional_attributes>
+    <additional_attributes>15;80;15;15</additional_attributes>
   </element>
   <element>
-    <type>com.umlet.element.Relation</type>
+    <type>com.baselet.element.old.element.Relation</type>
     <coordinates>
-      <x>1270</x>
-      <y>170</y>
-      <w>170</w>
-      <h>120</h>
+      <x>1405</x>
+      <y>265</y>
+      <w>24</w>
+      <h>69</h>
     </coordinates>
     <panel_attributes>lt=&lt;.</panel_attributes>
-    <additional_attributes>30;100;30;30;150;30</additional_attributes>
+    <additional_attributes>15;60;15;15</additional_attributes>
   </element>
   <element>
-    <type>com.umlet.element.Relation</type>
+    <type>com.baselet.element.old.element.Relation</type>
     <coordinates>
-      <x>710</x>
-      <y>150</y>
-      <w>730</w>
-      <h>230</h>
+      <x>965</x>
+      <y>215</y>
+      <w>364</w>
+      <h>114</h>
     </coordinates>
     <panel_attributes>lt=&lt;.</panel_attributes>
-    <additional_attributes>30;210;30;30;710;30</additional_attributes>
+    <additional_attributes>15;105;15;15;355;15</additional_attributes>
   </element>
   <element>
     <id>UMLPackage</id>
     <coordinates>
-      <x>2010</x>
-      <y>1350</y>
-      <w>1380</w>
-      <h>910</h>
+      <x>1615</x>
+      <y>815</y>
+      <w>690</w>
+      <h>385</h>
     </coordinates>
     <panel_attributes>tygron-connect-environment
 --
@@ -935,12 +852,12 @@ layer=-1</panel_attributes>
   <element>
     <id>UMLPackage</id>
     <coordinates>
-      <x>0</x>
-      <y>970</y>
-      <w>1640</w>
-      <h>930</h>
+      <x>535</x>
+      <y>315</y>
+      <w>245</w>
+      <h>400</h>
     </coordinates>
-    <panel_attributes>tygron-connect-api objects
+    <panel_attributes>tygron-connect-api loaders
 --
 bg=orange</panel_attributes>
     <additional_attributes/>
@@ -948,12 +865,1063 @@ bg=orange</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>910</x>
-      <y>1380</y>
-      <w>130</w>
-      <h>150</h>
+      <x>1070</x>
+      <y>920</y>
+      <w>65</w>
+      <h>75</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
     <additional_attributes>10.0;10.0;10.0;70.0;110.0;70.0;110.0;130.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>555</x>
+      <y>440</y>
+      <w>75</w>
+      <h>45</h>
+    </coordinates>
+    <panel_attributes>/Loader/
+--
+-cached: T
+--
+#load(): T
++reload(): T
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>685</x>
+      <y>345</y>
+      <w>75</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>ActionListLoader
+--
+#load(): ActionList
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>685</x>
+      <y>435</y>
+      <w>75</w>
+      <h>25</h>
+    </coordinates>
+    <panel_attributes>IndicatorListLoader
+--
++load(): IndicatorList</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>685</x>
+      <y>375</y>
+      <w>75</w>
+      <h>25</h>
+    </coordinates>
+    <panel_attributes>EconomyListLoader
+--
++load(): EconomyList
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>685</x>
+      <y>405</y>
+      <w>75</w>
+      <h>25</h>
+    </coordinates>
+    <panel_attributes>FunctionMapLoader
+--
+#load(): FunctionMap
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>685</x>
+      <y>465</y>
+      <w>75</w>
+      <h>25</h>
+    </coordinates>
+    <panel_attributes>BuildingListLoader
+--
+#load(): BuildingList
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>685</x>
+      <y>525</y>
+      <w>75</w>
+      <h>25</h>
+    </coordinates>
+    <panel_attributes>LandMapLoader
+--
+#load(): LandMap
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>685</x>
+      <y>495</y>
+      <w>75</w>
+      <h>25</h>
+    </coordinates>
+    <panel_attributes>ServerWordsLoader
+--
+#load(): ServerWords
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>685</x>
+      <y>555</y>
+      <w>75</w>
+      <h>25</h>
+    </coordinates>
+    <panel_attributes>ZoneListLoader
+--
++load(): ZoneList
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.baselet.element.old.element.Relation</type>
+    <coordinates>
+      <x>745</x>
+      <y>340</y>
+      <w>179</w>
+      <h>169</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;&gt;&gt;
+m1= 1
+m2= 1 </panel_attributes>
+    <additional_attributes>15;15;60;15;60;160;170;160</additional_attributes>
+  </element>
+  <element>
+    <type>com.baselet.element.old.element.Relation</type>
+    <coordinates>
+      <x>745</x>
+      <y>375</y>
+      <w>179</w>
+      <h>144</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;&gt;&gt;
+m1= 1
+m2= 1 </panel_attributes>
+    <additional_attributes>15;15;55;15;55;135;170;135</additional_attributes>
+  </element>
+  <element>
+    <type>com.baselet.element.old.element.Relation</type>
+    <coordinates>
+      <x>745</x>
+      <y>405</y>
+      <w>179</w>
+      <h>124</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;&gt;&gt;
+m1= 1
+m2= 1 </panel_attributes>
+    <additional_attributes>15;15;50;15;50;115;170;115</additional_attributes>
+  </element>
+  <element>
+    <type>com.baselet.element.old.element.Relation</type>
+    <coordinates>
+      <x>745</x>
+      <y>435</y>
+      <w>179</w>
+      <h>104</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;&gt;&gt;
+m1= 1
+m2= 1 </panel_attributes>
+    <additional_attributes>15;15;45;15;45;95;170;95</additional_attributes>
+  </element>
+  <element>
+    <type>com.baselet.element.old.element.Relation</type>
+    <coordinates>
+      <x>745</x>
+      <y>465</y>
+      <w>179</w>
+      <h>84</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;&gt;&gt;
+m1= 1
+m2= 1 </panel_attributes>
+    <additional_attributes>15;15;40;15;40;75;170;75</additional_attributes>
+  </element>
+  <element>
+    <type>com.baselet.element.old.element.Relation</type>
+    <coordinates>
+      <x>745</x>
+      <y>495</y>
+      <w>179</w>
+      <h>64</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;&gt;&gt;
+m1= 1
+m2= 1 </panel_attributes>
+    <additional_attributes>15;15;35;15;35;55;170;55</additional_attributes>
+  </element>
+  <element>
+    <type>com.baselet.element.old.element.Relation</type>
+    <coordinates>
+      <x>745</x>
+      <y>520</y>
+      <w>179</w>
+      <h>49</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;&gt;&gt;
+m1= 1
+m2= 1 </panel_attributes>
+    <additional_attributes>15;15;30;15;30;40;170;40</additional_attributes>
+  </element>
+  <element>
+    <type>com.baselet.element.old.element.Relation</type>
+    <coordinates>
+      <x>745</x>
+      <y>555</y>
+      <w>179</w>
+      <h>24</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;&gt;&gt;
+m1= 1
+m2= 1 </panel_attributes>
+    <additional_attributes>15;15;170;15</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>585</x>
+      <y>480</y>
+      <w>110</w>
+      <h>95</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;170.0;200.0;170.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>560</x>
+      <y>480</y>
+      <w>15</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;220.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>610</x>
+      <y>480</y>
+      <w>85</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;60.0;150.0;60.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>625</x>
+      <y>475</y>
+      <w>70</w>
+      <h>15</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;120.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>585</x>
+      <y>360</y>
+      <w>110</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;160.0;10.0;10.0;200.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>595</x>
+      <y>385</y>
+      <w>100</w>
+      <h>65</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;110.0;10.0;10.0;180.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>605</x>
+      <y>415</y>
+      <w>90</w>
+      <h>35</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;50.0;10.0;10.0;160.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1045</x>
+      <y>315</y>
+      <w>220</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>JoinableSession
+--
+-name: String
+-id: int
+--
++JoinableSession(): ctor
++JoinableSession(JSONObject data): ctor
++join(): Session
++createSession(JSONObject data): Session
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.baselet.element.old.element.Relation</type>
+    <coordinates>
+      <x>985</x>
+      <y>340</y>
+      <w>69</w>
+      <h>24</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;-
+m1=1
+m2=1</panel_attributes>
+    <additional_attributes>60;15;15;15</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1530</x>
+      <y>680</y>
+      <w>220</w>
+      <h>45</h>
+    </coordinates>
+    <panel_attributes>AskMoneyAction
+--
+-environment: Environment
+--
++AskMoneyAction(Environment environment): ctor
++askMoney(int giverId, double amount): void
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1755</x>
+      <y>680</y>
+      <w>220</w>
+      <h>45</h>
+    </coordinates>
+    <panel_attributes>GiveMoneyAction
+--
+-environment: Environment
+--
++GiveMoneyAction(Environment environment): ctor
++giveMoney(int receiverId, double amount): void
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.baselet.element.old.element.Relation</type>
+    <coordinates>
+      <x>1565</x>
+      <y>710</y>
+      <w>95</w>
+      <h>210</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;.</panel_attributes>
+    <additional_attributes>15;15;15;205;90;205</additional_attributes>
+  </element>
+  <element>
+    <type>com.baselet.element.old.element.Relation</type>
+    <coordinates>
+      <x>1575</x>
+      <y>710</y>
+      <w>260</w>
+      <h>200</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;.</panel_attributes>
+    <additional_attributes>255;15;255;65;15;65;15;195;80;195</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1980</x>
+      <y>680</y>
+      <w>220</w>
+      <h>45</h>
+    </coordinates>
+    <panel_attributes>BuyLandAction
+--
+-environment: Environment
+--
++BuyLandAction(Environment environment): ctor
++buyLand(int receiverId, double amount): void
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.baselet.element.old.element.Relation</type>
+    <coordinates>
+      <x>1585</x>
+      <y>710</y>
+      <w>515</w>
+      <h>190</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;.</panel_attributes>
+    <additional_attributes>510;15;510;80;15;80;15;185;70;185</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>2110</x>
+      <y>775</y>
+      <w>195</w>
+      <h>45</h>
+    </coordinates>
+    <panel_attributes>BuildAction
+--
+-environment: Environment
+--
++BuildAction(Environment environment): ctor
++build(int receiverId, double amount): void
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.baselet.element.old.element.Relation</type>
+    <coordinates>
+      <x>1595</x>
+      <y>790</y>
+      <w>520</w>
+      <h>100</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;.</panel_attributes>
+    <additional_attributes>515;15;15;15;15;95;60;95</additional_attributes>
+  </element>
+  <element>
+    <id>UMLPackage</id>
+    <coordinates>
+      <x>625</x>
+      <y>725</y>
+      <w>820</w>
+      <h>465</h>
+    </coordinates>
+    <panel_attributes>tygron-connect-api objects
+--
+bg=orange</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1750</x>
+      <y>540</y>
+      <w>235</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>PolygonUtil
+--
++createPolygonFromWkt(String wktString): Polygon
++polygonContains(Polygon polygon1, Polygon polygon2): boolean
++polygonIntersects(Polygon polygon1, Polygon polygon2): boolean
++polygonDifference(Polygon polygon1, Polygon polygon2): Polygon
++polygonIntersection(Polygon polygon1, Polygon polygon2): Polygon
++polygonUnion(Polygon polygon1, Polygon polygon2): Polygon
++polygonUnion(List&lt;Polygon&gt; polygonList): Polygon
++polygonEquals(Polygon polygon1, Polygon polygon2): boolean
++makeRectangle(double x1, double y1, double x2, double y2): Polygon
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.baselet.element.old.element.Relation</type>
+    <coordinates>
+      <x>1970</x>
+      <y>595</y>
+      <w>130</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;.</panel_attributes>
+    <additional_attributes>15;15;125;15;125;85</additional_attributes>
+  </element>
+  <element>
+    <type>com.baselet.element.old.element.Relation</type>
+    <coordinates>
+      <x>1970</x>
+      <y>560</y>
+      <w>265</w>
+      <h>220</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;.</panel_attributes>
+    <additional_attributes>15;15;260;15;260;215</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1655</x>
+      <y>880</y>
+      <w>155</w>
+      <h>160</h>
+    </coordinates>
+    <panel_attributes>Controller
+--
+-indicators: IndicatorEntity
+-stakeholders: StakeholderEntity
+-economies: EconomyEntity
+-buildings: BuildingEntity
+-env: Environment
+--
++stakeholder(): List&lt;TygronPercept&gt;
++progressIndicator(): List&lt;TygronPercept&gt;
++initIndicator(): List&lt;TygronPercept&gt;
++stakeholderSelf(): int
++economies(): List&lt;TygronPercept&gt;
++buildings(): List&lt;TygronPercept&gt;
++availableLand(): double
++allLand(): double
++permits(): int
++build(int surface, int type): void
++buyLand(int surface, int cost): void
++ask(int stakeholder, int amount): void
++give(int stakeholder, int amount): void
+--
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.baselet.element.old.element.Class</type>
+    <coordinates>
+      <x>1655</x>
+      <y>1125</y>
+      <w>115</w>
+      <h>35</h>
+    </coordinates>
+    <panel_attributes>BuildingEntity
+--
+-buildingList: BuildingList
+--
++buildings(): List&lt;TygronPercept&gt;</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.baselet.element.old.element.Class</type>
+    <coordinates>
+      <x>1775</x>
+      <y>1125</y>
+      <w>115</w>
+      <h>35</h>
+    </coordinates>
+    <panel_attributes>EconomyEntity
+--
+-economyList: EconomyList
+--
++economies(): List&lt;TygronPercept&gt;</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.baselet.element.old.element.Class</type>
+    <coordinates>
+      <x>1895</x>
+      <y>1125</y>
+      <w>140</w>
+      <h>35</h>
+    </coordinates>
+    <panel_attributes>IndicatorEntity
+--
+-indicatorList: IndicatorList
+--
++progressIndicator(): List&lt;TygronPercept&gt;</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.baselet.element.old.element.Class</type>
+    <coordinates>
+      <x>2040</x>
+      <y>1125</y>
+      <w>125</w>
+      <h>45</h>
+    </coordinates>
+    <panel_attributes>StakeholderEntity
+--
+-stakeholders: StakeholderList
+--
++stakeholder(): List&lt;TygronPercept&gt;
++initIndicator(): List&lt;TygronPercept&gt;</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.baselet.element.old.element.Relation</type>
+    <coordinates>
+      <x>1610</x>
+      <y>920</y>
+      <w>500</w>
+      <h>275</h>
+    </coordinates>
+    <panel_attributes>lt=.&gt;</panel_attributes>
+    <additional_attributes>45;15;15;15;15;270;495;270;495;250</additional_attributes>
+  </element>
+  <element>
+    <type>com.baselet.element.old.element.Relation</type>
+    <coordinates>
+      <x>1615</x>
+      <y>930</y>
+      <w>345</w>
+      <h>260</h>
+    </coordinates>
+    <panel_attributes>lt=.&gt;</panel_attributes>
+    <additional_attributes>40;15;15;15;15;255;340;255;340;230</additional_attributes>
+  </element>
+  <element>
+    <type>com.baselet.element.old.element.Relation</type>
+    <coordinates>
+      <x>1625</x>
+      <y>940</y>
+      <w>225</w>
+      <h>245</h>
+    </coordinates>
+    <panel_attributes>lt=.&gt;</panel_attributes>
+    <additional_attributes>30;15;15;15;15;240;220;240;220;220</additional_attributes>
+  </element>
+  <element>
+    <type>com.baselet.element.old.element.Relation</type>
+    <coordinates>
+      <x>1635</x>
+      <y>950</y>
+      <w>85</w>
+      <h>230</h>
+    </coordinates>
+    <panel_attributes>lt=.&gt;</panel_attributes>
+    <additional_attributes>20;15;15;15;15;225;80;225;80;210</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1070</x>
+      <y>20</y>
+      <w>140</w>
+      <h>25</h>
+    </coordinates>
+    <panel_attributes>BooleanResultHandler
+--
++handleResult(String input): Boolean</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>925</x>
+      <y>20</y>
+      <w>140</w>
+      <h>25</h>
+    </coordinates>
+    <panel_attributes>IntegerResultHandler
+--
++handleResult(String input): Integer
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1215</x>
+      <y>20</y>
+      <w>140</w>
+      <h>25</h>
+    </coordinates>
+    <panel_attributes>JsonArrayResultHandler
+--
++handleResult(String input): JSONArray</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1360</x>
+      <y>20</y>
+      <w>140</w>
+      <h>25</h>
+    </coordinates>
+    <panel_attributes>JsonObjectResultHandler
+--
++handleResult(String input): JSONObject</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1225</x>
+      <y>80</y>
+      <w>115</w>
+      <h>25</h>
+    </coordinates>
+    <panel_attributes>/ResultHandler/
+--
++handleResult(String input): T</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1505</x>
+      <y>20</y>
+      <w>140</w>
+      <h>25</h>
+    </coordinates>
+    <panel_attributes>StringResultHandler
+--
++handleResult(String input): String</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1815</x>
+      <y>165</y>
+      <w>145</w>
+      <h>25</h>
+    </coordinates>
+    <panel_attributes>ActionListResultHandler
+--
++handleResult(String input): ActionList
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1365</x>
+      <y>165</y>
+      <w>145</w>
+      <h>25</h>
+    </coordinates>
+    <panel_attributes>BuildingListResultHandler
+--
++handleResult(String input): BuildingList
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1065</x>
+      <y>165</y>
+      <w>145</w>
+      <h>25</h>
+    </coordinates>
+    <panel_attributes>EconomyListResultHandler
+--
++handleResult(String input): EconomyList
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1515</x>
+      <y>165</y>
+      <w>145</w>
+      <h>25</h>
+    </coordinates>
+    <panel_attributes>FunctionMapResultHandler
+--
++handleResult(String input): FunctionMap
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>915</x>
+      <y>165</y>
+      <w>145</w>
+      <h>25</h>
+    </coordinates>
+    <panel_attributes>IndicatorListResultHandler
+--
++handleResult(String input): IndicatorList</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1665</x>
+      <y>165</y>
+      <w>145</w>
+      <h>25</h>
+    </coordinates>
+    <panel_attributes>LandMapResultHandler
+--
++handleResult(String input): LandMap
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>765</x>
+      <y>165</y>
+      <w>145</w>
+      <h>25</h>
+    </coordinates>
+    <panel_attributes>ServerWordsResultHandler
+--
++handleResult(String input): ServerWords
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1215</x>
+      <y>165</y>
+      <w>145</w>
+      <h>25</h>
+    </coordinates>
+    <panel_attributes>StakeholderListResultHandler
+--
++handleResult(String input): StakeholderList
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>615</x>
+      <y>165</y>
+      <w>145</w>
+      <h>25</h>
+    </coordinates>
+    <panel_attributes>ZoneListResultHandler
+--
++handleResult(String input): ZoneList
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.baselet.element.old.element.Package</type>
+    <coordinates>
+      <x>915</x>
+      <y>0</y>
+      <w>760</w>
+      <h>115</h>
+    </coordinates>
+    <panel_attributes>tygron-connect-handlers 
+--
+bg=orange</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.baselet.element.old.element.Package</type>
+    <coordinates>
+      <x>605</x>
+      <y>150</y>
+      <w>1365</w>
+      <h>45</h>
+    </coordinates>
+    <panel_attributes>tygron-connect-handlers-objects
+--
+bg=orange
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.baselet.element.old.element.Relation</type>
+    <coordinates>
+      <x>1220</x>
+      <y>90</y>
+      <w>118</w>
+      <h>79</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-
+q2=Everything in package inherits</panel_attributes>
+    <additional_attributes>60;15;60;70</additional_attributes>
+  </element>
+  <element>
+    <type>com.baselet.element.old.element.Relation</type>
+    <coordinates>
+      <x>1325</x>
+      <y>30</y>
+      <w>259</w>
+      <h>69</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>15;60;250;60;250;15</additional_attributes>
+  </element>
+  <element>
+    <type>com.baselet.element.old.element.Relation</type>
+    <coordinates>
+      <x>1310</x>
+      <y>30</y>
+      <w>144</w>
+      <h>59</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>15;50;15;25;135;25;135;15</additional_attributes>
+  </element>
+  <element>
+    <type>com.baselet.element.old.element.Relation</type>
+    <coordinates>
+      <x>1265</x>
+      <y>30</y>
+      <w>24</w>
+      <h>59</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>15;50;15;15</additional_attributes>
+  </element>
+  <element>
+    <type>com.baselet.element.old.element.Relation</type>
+    <coordinates>
+      <x>975</x>
+      <y>30</y>
+      <w>259</w>
+      <h>69</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>250;60;15;60;15;15</additional_attributes>
+  </element>
+  <element>
+    <type>com.baselet.element.old.element.Relation</type>
+    <coordinates>
+      <x>1125</x>
+      <y>30</y>
+      <w>129</w>
+      <h>59</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>120;50;120;25;15;25;15;15</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>625</x>
+      <y>450</y>
+      <w>70</w>
+      <h>15</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;120.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <type>com.baselet.element.old.element.Relation</type>
+    <coordinates>
+      <x>495</x>
+      <y>365</y>
+      <w>199</w>
+      <h>414</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;.</panel_attributes>
+    <additional_attributes>190;15;20;15;15;405;130;405</additional_attributes>
+  </element>
+  <element>
+    <type>com.baselet.element.old.element.Relation</type>
+    <coordinates>
+      <x>645</x>
+      <y>470</y>
+      <w>529</w>
+      <h>284</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;.</panel_attributes>
+    <additional_attributes>40;15;15;15;15;175;520;175;520;275</additional_attributes>
+  </element>
+  <element>
+    <type>com.baselet.element.old.element.Relation</type>
+    <coordinates>
+      <x>685</x>
+      <y>565</y>
+      <w>654</w>
+      <h>189</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;.</panel_attributes>
+    <additional_attributes>15;15;15;70;645;70;645;180</additional_attributes>
+  </element>
+  <element>
+    <type>com.baselet.element.old.element.Relation</type>
+    <coordinates>
+      <x>635</x>
+      <y>435</y>
+      <w>399</w>
+      <h>319</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;.</panel_attributes>
+    <additional_attributes>50;15;15;15;15;220;390;220;390;310</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>550</x>
+      <y>590</y>
+      <w>85</w>
+      <h>25</h>
+    </coordinates>
+    <panel_attributes>StakeholderListLoader
+--
+#load(): StakeholderList
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.baselet.element.old.element.Relation</type>
+    <coordinates>
+      <x>575</x>
+      <y>600</y>
+      <w>289</w>
+      <h>154</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;.</panel_attributes>
+    <additional_attributes>15;15;15;90;280;90;280;145</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>595</x>
+      <y>480</y>
+      <w>100</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;120.0;180.0;120.0</additional_attributes>
+  </element>
+  <element>
+    <type>com.baselet.element.old.element.Relation</type>
+    <coordinates>
+      <x>620</x>
+      <y>590</y>
+      <w>304</w>
+      <h>24</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;&gt;&gt;
+m1= 1
+m2= 1 </panel_attributes>
+    <additional_attributes>15;15;295;15</additional_attributes>
   </element>
 </diagram>
