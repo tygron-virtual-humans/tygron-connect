@@ -90,6 +90,6 @@ public class Building {
    * @return Whether the building is demolished.
    */
   public boolean demolished() {
-    return this.state.matches("(.*)DEMOLISH(.*)") || this.state.equals("NOTHING");
+    return this.state.equals("NOTHING") || this.state.matches("(.*)DEMOLISH(.*)");
   }
 }

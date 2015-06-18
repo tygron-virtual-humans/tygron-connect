@@ -34,7 +34,6 @@ public class Connector {
   public void loadUserData() {
     JSONObject userObj = HttpConnection.getInstance().execute("services/myuser", 
         CallType.GET, new JsonObjectResultHandler());
-    System.out.println(userObj);
     user = new User(userObj);
     
     
