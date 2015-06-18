@@ -22,8 +22,7 @@ public class IndicatorEntityTest {
   
   @Mock
   private Indicator indicator;
-  
-  @Mock
+
   private IndicatorList indicatorList;
   
   /**
@@ -31,14 +30,15 @@ public class IndicatorEntityTest {
    */
   @Before
   public void start() {
-    doReturn(1).when(indicatorList).size();
     doReturn(1).when(indicator).getId();
     doReturn("Type").when(indicator).getType();
     doReturn("Name").when(indicator).getName();
     doReturn(2.0).when(indicator).getProgress();
     doReturn(3.0).when(indicator).getCurrent();
     doReturn(4.0).when(indicator).getTarget();
-    doReturn(indicator).when(indicatorList).get(0);
+
+    indicatorList = new IndicatorList();
+    indicatorList.add(indicator);
     
     indicatorEntity = new IndicatorEntity(indicatorList);
   }

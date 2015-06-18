@@ -22,8 +22,6 @@ public class EconomyEntityTest {
   
   @Mock
   private Economy economy;
-  
-  @Mock
   private EconomyList economyList;
   
   /**
@@ -31,11 +29,12 @@ public class EconomyEntityTest {
    */
   @Before
   public void start() {
-    doReturn(1).when(economyList).size();
     doReturn(1).when(economy).getId();
     doReturn("Category").when(economy).getCategory();
     doReturn("State").when(economy).getState();
-    doReturn(economy).when(economyList).get(0);
+
+    economyList = new EconomyList();
+    economyList.add(economy);
     
     economyEntity = new EconomyEntity(economyList);
   }

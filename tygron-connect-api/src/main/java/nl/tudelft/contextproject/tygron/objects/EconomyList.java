@@ -14,6 +14,7 @@ public class EconomyList extends ArrayList<Economy> {
    */
   private static final long serialVersionUID = 1L;
 
+  public EconomyList() {}
   /**
    * Constructs a economy list from a tygron response.
    * @param input input response

@@ -12,6 +12,8 @@ public class IndicatorList extends ArrayList<Indicator> {
    */
   private static final long serialVersionUID = 1L;
 
+  public IndicatorList() {}
+
   /**
    * Constructs a TygronIndicatorList from a server response.
    * @param input The server response

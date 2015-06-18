@@ -24,17 +24,13 @@ public class ControllerTest {
   
   @Mock
   private Session session;
-  
-  @Mock
+
   private IndicatorList indicatorList;
-  
-  @Mock
+
   private EconomyList economyList;
-  
-  @Mock
+
   private BuildingList buildingList; 
-  
-  @Mock
+
   private StakeholderList stakeholderList;
   
   @Mock
@@ -45,24 +41,23 @@ public class ControllerTest {
    */
   @Before
   public void start() {
+    buildingList = new BuildingList();
+    stakeholderList = new StakeholderList();
+    economyList = new EconomyList();
+    indicatorList = new IndicatorList();
 
-    doReturn(0).when(buildingList).size();
-    doReturn(0).when(stakeholderList).size();
-    doReturn(0).when(economyList).size();
-    doReturn(0).when(indicatorList).size();
-
-    doReturn(0).when(env).getStakeholderId();
-    doReturn(500.0).when(env).getAvailableSurface();
-    doReturn(5000.0).when(env).getAllSurface();
-    doReturn(1).when(env).requestsOpen();
+    when(env.getStakeholderId()).thenReturn(0);
+    when(env.getAvailableSurface()).thenReturn(500.0);
+    when(env.getAllSurface()).thenReturn(5000.0);
+    when(env.requestsOpen()).thenReturn(1);
     
     when(env.reload(BuildingList.class)).thenReturn(buildingList);
     when(env.reload(StakeholderList.class)).thenReturn(stakeholderList);
     when(env.reload(EconomyList.class)).thenReturn(economyList);
     when(env.reload(IndicatorList.class)).thenReturn(indicatorList);
-    doReturn(env).when(session).getEnvironment();
+    when(session.getEnvironment()).thenReturn(env);
     
-    controller =  new Controller(session);
+    controller = new Controller(session);
   }
   
   @Test
