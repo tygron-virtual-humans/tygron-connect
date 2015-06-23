@@ -1,9 +1,5 @@
 package nl.tudelft.contextproject.tygron.eis.entities;
 
-import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.when;
-
 import nl.tudelft.contextproject.tygron.api.Environment;
 import nl.tudelft.contextproject.tygron.api.Session;
 import nl.tudelft.contextproject.tygron.eis.TygronPercept;
@@ -11,12 +7,14 @@ import nl.tudelft.contextproject.tygron.objects.BuildingList;
 import nl.tudelft.contextproject.tygron.objects.EconomyList;
 import nl.tudelft.contextproject.tygron.objects.StakeholderList;
 import nl.tudelft.contextproject.tygron.objects.indicators.IndicatorList;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
+
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.when;
 
 @RunWith(value = MockitoJUnitRunner.class)
 public class ControllerTest {
@@ -51,10 +49,10 @@ public class ControllerTest {
     when(env.getAllSurface()).thenReturn(5000.0);
     when(env.requestsOpen()).thenReturn(1);
     
-    when(env.reload(BuildingList.class)).thenReturn(buildingList);
-    when(env.reload(StakeholderList.class)).thenReturn(stakeholderList);
-    when(env.reload(EconomyList.class)).thenReturn(economyList);
-    when(env.reload(IndicatorList.class)).thenReturn(indicatorList);
+    when(env.get(BuildingList.class)).thenReturn(buildingList);
+    when(env.get(StakeholderList.class)).thenReturn(stakeholderList);
+    when(env.get(EconomyList.class)).thenReturn(economyList);
+    when(env.get(IndicatorList.class)).thenReturn(indicatorList);
     when(session.getEnvironment()).thenReturn(env);
     
     controller = new Controller(session);

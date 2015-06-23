@@ -1,5 +1,8 @@
 package nl.tudelft.contextproject.tygron.eis.entities;
 
+import eis.eis2java.annotation.AsAction;
+import eis.eis2java.annotation.AsPercept;
+import eis.eis2java.translation.Filter;
 import nl.tudelft.contextproject.tygron.api.Environment;
 import nl.tudelft.contextproject.tygron.api.Session;
 import nl.tudelft.contextproject.tygron.api.actions.AskMoneyAction;
@@ -7,14 +10,6 @@ import nl.tudelft.contextproject.tygron.api.actions.BuildAction;
 import nl.tudelft.contextproject.tygron.api.actions.BuyLandAction;
 import nl.tudelft.contextproject.tygron.api.actions.GiveMoneyAction;
 import nl.tudelft.contextproject.tygron.eis.TygronPercept;
-import nl.tudelft.contextproject.tygron.objects.BuildingList;
-import nl.tudelft.contextproject.tygron.objects.EconomyList;
-import nl.tudelft.contextproject.tygron.objects.StakeholderList;
-import nl.tudelft.contextproject.tygron.objects.indicators.IndicatorList;
-
-import eis.eis2java.annotation.AsAction;
-import eis.eis2java.annotation.AsPercept;
-import eis.eis2java.translation.Filter;
 
 import java.util.List;
 
@@ -33,10 +28,10 @@ public class Controller {
    */
   public Controller(Session controller) {
     env = controller.getEnvironment();
-    indicators = new IndicatorEntity(env.reload(IndicatorList.class));
-    stakeholders = new StakeholderEntity(env.reload(StakeholderList.class));
-    economies = new EconomyEntity(env.reload(EconomyList.class));
-    buildings = new BuildingEntity(env.reload(BuildingList.class));
+    indicators = new IndicatorEntity(env);
+    stakeholders = new StakeholderEntity(env);
+    economies = new EconomyEntity(env);
+    buildings = new BuildingEntity(env);
   }
 
   /**

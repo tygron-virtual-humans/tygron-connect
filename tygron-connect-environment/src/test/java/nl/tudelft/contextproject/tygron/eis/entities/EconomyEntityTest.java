@@ -1,12 +1,9 @@
 package nl.tudelft.contextproject.tygron.eis.entities;
 
-import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.doReturn;
-
+import nl.tudelft.contextproject.tygron.api.Environment;
 import nl.tudelft.contextproject.tygron.eis.TygronPercept;
 import nl.tudelft.contextproject.tygron.objects.Economy;
 import nl.tudelft.contextproject.tygron.objects.EconomyList;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -15,10 +12,17 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import java.util.List;
 
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.doReturn;
+
 @RunWith(value = MockitoJUnitRunner.class)
 public class EconomyEntityTest {
 
   private EconomyEntity economyEntity;
+
+  @Mock
+  private Environment environment;
   
   @Mock
   private Economy economy;
@@ -35,8 +39,10 @@ public class EconomyEntityTest {
 
     economyList = new EconomyList();
     economyList.add(economy);
+
+    doReturn(economyList).when(environment).get(eq(EconomyList.class));
     
-    economyEntity = new EconomyEntity(economyList);
+    economyEntity = new EconomyEntity(environment);
   }
   
   @Test
