@@ -1,12 +1,9 @@
 package nl.tudelft.contextproject.tygron.eis.entities;
 
-import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.doReturn;
-
+import nl.tudelft.contextproject.tygron.api.Environment;
 import nl.tudelft.contextproject.tygron.eis.TygronPercept;
 import nl.tudelft.contextproject.tygron.objects.Stakeholder;
 import nl.tudelft.contextproject.tygron.objects.StakeholderList;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -16,6 +13,10 @@ import org.mockito.runners.MockitoJUnitRunner;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.doReturn;
 
 @RunWith(value = MockitoJUnitRunner.class)
 public class StakeholderEntityTest {
@@ -28,6 +29,9 @@ public class StakeholderEntityTest {
   private StakeholderList stakeholderList;
   
   Map<Integer,Double> weights;
+
+  @Mock
+  private Environment environment;
   
   /**
    * Initialize the test, set up mocks.
@@ -46,8 +50,10 @@ public class StakeholderEntityTest {
     
     stakeholderList = new StakeholderList();
     stakeholderList.add(stakeholder);
+
+    doReturn(stakeholderList).when(environment).get(eq(StakeholderList.class));
     
-    stakeholderEntity = new StakeholderEntity(stakeholderList);
+    stakeholderEntity = new StakeholderEntity(environment);
   }
   
   @Test
