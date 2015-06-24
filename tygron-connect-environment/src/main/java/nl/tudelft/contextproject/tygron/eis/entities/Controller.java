@@ -1,15 +1,18 @@
 package nl.tudelft.contextproject.tygron.eis.entities;
 
-import eis.eis2java.annotation.AsAction;
-import eis.eis2java.annotation.AsPercept;
-import eis.eis2java.translation.Filter;
 import nl.tudelft.contextproject.tygron.api.Environment;
 import nl.tudelft.contextproject.tygron.api.Session;
 import nl.tudelft.contextproject.tygron.api.actions.AskMoneyAction;
 import nl.tudelft.contextproject.tygron.api.actions.BuildAction;
 import nl.tudelft.contextproject.tygron.api.actions.BuyLandAction;
+import nl.tudelft.contextproject.tygron.api.actions.DemolishAction;
 import nl.tudelft.contextproject.tygron.api.actions.GiveMoneyAction;
+import nl.tudelft.contextproject.tygron.api.actions.SellLandAction;
 import nl.tudelft.contextproject.tygron.eis.TygronPercept;
+
+import eis.eis2java.annotation.AsAction;
+import eis.eis2java.annotation.AsPercept;
+import eis.eis2java.translation.Filter;
 
 import java.util.List;
 
@@ -162,6 +165,25 @@ public class Controller {
   @AsAction(name = "giveMoney")
   public void give(int stakeholder, int amount) {
     new GiveMoneyAction(env).giveMoney(stakeholder, amount);
+  }
+  
+  /**
+   * Sell land action.
+   * @param surface the amount of land to buy.
+   * @param price the amount of money you want to recieve per square meter
+   */
+  @AsAction(name = "sellLand")
+  public void sell(double surface, double price) {
+    new SellLandAction(env).sellLand(surface, price);
+  }
+  
+  /**
+   * Sell land action.
+   * @param demolish the amount of land to free.
+   */
+  @AsAction(name = "demolish")
+  public void demolish(double surface) {
+    new DemolishAction(env).demolish(surface);
   }
 
 }

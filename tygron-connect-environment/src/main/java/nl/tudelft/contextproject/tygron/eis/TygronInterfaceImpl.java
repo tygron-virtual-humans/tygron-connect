@@ -52,7 +52,9 @@ public class TygronInterfaceImpl extends AbstractEnvironment {
     return action.getParameters().size() == 2 && ("build".equals(action.getName())
         || "buyLand".equals(action.getName())
         || "askMoney".equals(action.getName())
-        || "giveMoney".equals(action.getName()));
+        || "giveMoney".equals(action.getName())
+        || "sellLand".equals(action.getName())
+        || "demolish".equals(action.getName()));
   }
 
   /* (non-Javadoc)
