@@ -20,8 +20,8 @@ public class IndicatorParking extends Indicator {
 
     JSONArray maquetteDeltaScores = input.getJSONArray("maquetteDeltaScores");
     assert maquetteDeltaScores.length() % 2 == 0;
-    int targetParkingIndex = maquetteDeltaScores.length() / 2 - 1;
-    int currentParkingIndex = maquetteDeltaScores.length() - 1;
+    int currentParkingIndex = maquetteDeltaScores.length() / 2 - 1;
+    int targetParkingIndex = maquetteDeltaScores.length() - 1;
     
     targetParking = maquetteDeltaScores.getDouble(targetParkingIndex);
     currentParking = maquetteDeltaScores.getDouble(currentParkingIndex);
