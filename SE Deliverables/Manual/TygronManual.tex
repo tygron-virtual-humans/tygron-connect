@@ -1,0 +1,227 @@
+%% Manual for the environment made by the group Tygron connect.
+%%% https://github.com/tygron-virtual-humans/tygron-connect
+
+\documentclass[english,11pt]{report}		
+%\documentclass[ngerman,11pt]{report}
+
+\usepackage{hgb}
+\usepackage{hgbbib}
+\usepackage{hgbheadings}
+\usepackage{hyperref}
+\usepackage{caption}
+\usepackage{tabularx}
+
+\graphicspath{{images/}}   
+\bibliography{literatur} 
+
+\title{Tygron Environment \\ Guide}
+\author{Tygron Connect \\ VH group 1}
+\date{June 2015}
+
+%%%----------------------------------------------------------
+\begin{document}
+%%%----------------------------------------------------------
+\maketitle
+\tableofcontents
+%%%----------------------------------------------------------
+
+\chapter*{Summary}
+
+In this document you can find the list of actions and percepts that are implemented in the Tygron environment. The environment can be downloaded from our Jenkins server located at: \url{http://jenkins.buildwise.eu/job/tygron-connect/lastBuild/}. You will need a configuration file to log in on the server, for this configuration file, ask us on github at \url{https://github.com/tygron-virtual-humans/tygron-connect}.
+
+
+%%%----------------------------------------------------------
+\chapter{Percepts}
+%%%----------------------------------------------------------
+
+This section will list all the percepts that are usable in the Tygron environment, there are currently two types of percepts: \textbf{Send once} and \textbf{Send on change}. For the implementation of these percepts in your GOAL code, please refer to the GOAL manual.
+
+\newpage
+\section*{1.1 Send once percepts}
+
+\textbf{Stakeholder percept}\\
+\\
+\begin{tabularx}{\textwidth}{lX}
+ Desription & Information about the stakeholders present in the map. \\
+ Type & Send once \\
+ Syntax & stakeholder(<ID>, <Name>, <ShortName>) \\
+ Parameters &   <ID>: Unique ID of the stakeholder.\\
+            &   <Name>: The name of the stakeholder (eg. Housing Corporation).\\
+            &   <ShortName>: The short name of the stakeholder (eg. DUWO).
+\end{tabularx}\\
+\\
+\\
+\textbf{Stakeholder Self percept}\\
+\\
+\begin{tabularx}{\textwidth}{lX}
+ Desription & The ID of the current stakeholder that the bot is playing. \\
+ Type & Send once \\
+ Syntax & stakeholderSelf(<ID>) \\
+ Parameters &   <ID>: Unique ID of the stakeholder, can be used to match with ID in the stakeholder percept.
+\end{tabularx}\\
+\\
+\\
+\textbf{InitIndicator percept}\\
+\\
+\begin{tabularx}{\textwidth}{lX}
+ Desription & Weights of the indicators in the map, this percept can also be used to connect stakeholders to indicators. For more info about indicators, please refer to the indicator percept in section 1.2. \\
+ Type & Send once \\
+ Syntax & initIndicator(<SID>, <IID>, <Weight>) \\
+ Parameters &   <SID>: ID of the stakeholder for which this percept has this weight.\\
+            &   <IID>: The ID of the indicator.\\
+            &   <ShortName>: The weight of the indicator.
+\end{tabularx}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
+\section*{1.2 On change percepts}
+
+\textbf{Indicator percept}\\
+\\
+\begin{tabularx}{\textwidth}{lX}
+ Desription & Information about the indicators present in the map, the finance indicator correlates to the budget of a stakeholder. Indicators indicate what the current state of the game is. The indicators all have a current value and a target value, if that target is reached that indicator is fulfilled. Stakeholders all want to fulfill their own indicators. \\
+ Type & Send on change \\
+ Syntax & indicator(<ID>, <Type>, <Name>, <Progress>, <Current>, <Target>) \\
+ Parameters &   <ID>: Unique ID of the indicator.\\
+            &   <Type>: The type of indicator (eg. finance, parking, housing and green).\\
+            &   <Name>: The name of the indicator.\\
+            &   <Progress>: the progress of the indicator (current / target).\\
+            &   <Current>: The current value of the indicator.\\
+            &   <Target>: The target value of the indicator.
+\end{tabularx}\\
+\\
+\\
+\textbf{Economy percept}\\
+\\
+\begin{tabularx}{\textwidth}{lX}
+ Desription & Information about the economies present in the map. \\
+ Type & Send on change \\
+ Syntax & economy(<ID>, <Category>, <State>) \\
+ Parameters &   <ID>: Unique ID of the economy.\\
+            &   <Category>: The category of the economy.\\
+            &   <State>: The state of the economy.
+\end{tabularx}\\
+\\
+\\
+\textbf{Building percept}\\
+\\
+\begin{tabularx}{\textwidth}{lX}
+ Desription & Information about the buildings present in the map. \\
+ Type & Send on change \\
+ Syntax & building(<ID>, <Name>) \\
+ Parameters &   <ID>: Unique ID for the building.\\
+            &   <Name>: The name of the building.
+\end{tabularx}
+\newpage
+\textbf{Permit percept}\\
+\\
+\begin{tabularx}{\textwidth}{lX}
+ Desription & Number of permits opened by the current stakeholder and not closed yet, this number will be the amount of permits requested by the current stakeholder that are currently open. \\
+ Type & Send on change \\
+ Syntax & permits(<Amount>) \\
+ Parameters &   <Amount>: Amount of permits.
+\end{tabularx}\\
+\\
+\\
+\\
+\textbf{Caution}\\
+The following percepts take a lot of time to complete, the bot will respond slower the more you call these percepts. Do not use these percepts if your bot needs to be fast and responsive. Only call the percept when really needed. Cycles will last longer when using this.
+\\
+\\
+\textbf{Available land percept}\\
+\\
+\begin{tabularx}{\textwidth}{lX}
+ Desription & Information about the available land of the current stakeholder in the map. \\
+ Type & Send on change \\
+ Syntax & availableLand(<Amount>) \\
+ Parameters &   <Amount>: Amount of land in $m^2$.
+\end{tabularx}\\
+\\
+\\
+\textbf{All land percept}\\
+\\
+\begin{tabularx}{\textwidth}{lX}
+ Desription & Information about all the land of the current stakeholder in the map. \\
+ Type & Send on change \\
+ Syntax & allLand(<Amount>) \\
+ Parameters &   <Amount>: Amount of land in $m^2$.
+\end{tabularx}\\
+\\
+\\
+
+
+%%%----------------------------------------------------------
+\chapter{Actions}
+%%%----------------------------------------------------------
+
+In this section, You will find all the actions present in the latest stable Tygron environment, these actions can all be performed by the GOAL agent. The actions should be implemented with an actionspec.
+
+\newpage
+\section*{2.1 General actions}
+
+\textbf{Build action}\\
+\\
+\begin{tabularx}{\textwidth}{lX}
+ Desription & Build. \\
+ Syntax & build(<Surface>, <Type>) \\
+ Parameters & <Surface>: The size of the surface to build on in $m^2$.\\
+            & <Type>: The type of building to be built, this is a natural number with: \\
+            &      0 = building, 1 = park, 2 = parking lot and 3 = office.\\
+ Effects &  Builds a park, building, office or parking lot on an available piece of land.
+\end{tabularx}\\
+\\
+\\
+\textbf{Buy land action}\\
+\\
+\begin{tabularx}{\textwidth}{lX}
+ Desription & Buy land. \\
+ Syntax & buyLand(<Surface>, <Cost>) \\
+ Parameters & <Surface>: The size of the surface to buy.\\
+            & <Cost>: The cost of the land per $m^2$.\\
+ Effects &  Buys land from another stakeholder.
+\end{tabularx}\\
+\\
+\\
+\textbf{Ask money action}\\
+\\
+\begin{tabularx}{\textwidth}{lX}
+ Desription & Ask money from another stakeholder. \\
+ Syntax & askMoney(<Stakeholder>, <Amount>) \\
+ Parameters & <Stakeholder>: The stakeholder to ask money from.\\
+            & <Amount>: The amount of money.\\
+ Effects &  Asks money from another stakeholder.
+\end{tabularx}\\
+\\
+\\
+\textbf{Give money action}\\
+\\
+\begin{tabularx}{\textwidth}{lX}
+ Desription & Give money to another stakeholder. \\
+ Syntax & giveMoney(<Stakeholder>, <Amount>) \\
+ Parameters & <Stakeholder>: The stakeholder to give money to.\\
+            & <Amount>: The amount of money.\\
+ Effects &  Gives money to another stakeholder.
+\end{tabularx}\\
+\\
+\\
+\textbf{Sell land action}\\
+\\
+\begin{tabularx}{\textwidth}{lX}
+ Desription & Sell land. \\
+ Syntax & sellLand(<Surface>, <Price>) \\
+ Parameters & <Surface>: The amount of land to sell.\\
+            & <Amount>: The amount of money.\\
+ Effects &  Sells land.
+\end{tabularx}\\
+\\
+\\
+\textbf{Demolish action}\\
+\\
+\begin{tabularx}{\textwidth}{lX}
+ Desription & Demolish buildings. \\
+ Syntax & demolish(<Surface>) \\
+ Parameters & <Surface>: The amount of land to free up.\\
+ Effects &  Demolishes buildings.
+\end{tabularx}
+
+\end{document}
